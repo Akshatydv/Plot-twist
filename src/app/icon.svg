@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!--
+    Favicon: the flight-path ring with a plane breaking through it, on the
+    sunset field. The wordmark is unreadable at 16px, so the ring carries the
+    identity instead.
+  -->
+  <defs>
+    <radialGradient id="sky" cx="42%" cy="70%" r="85%">
+      <stop offset="0%" stop-color="#FFD45E" />
+      <stop offset="30%" stop-color="#FF7A3D" />
+      <stop offset="62%" stop-color="#FF4F87" />
+      <stop offset="100%" stop-color="#3D1030" />
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#sky)" />
+  <path
+    d="M40 13c11 2 17 9 16 17-1 9-11 15-24 15S9 39 9 31c0-8 8-14 19-15"
+    fill="none" stroke="#FFF1DC" stroke-width="4.5" stroke-linecap="round"
+  />
+  <g transform="translate(33 6) rotate(24)" fill="#FFF1DC">
+    <path d="M1.5 9 L19 3.5 L22 6 L10.5 12.5 L12 19 L8.5 20.5 L5.5 13.5 L1 15 L0 11.5 Z" />
+  </g>
+</svg>

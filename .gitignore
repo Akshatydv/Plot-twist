@@ -1,0 +1,23 @@
+node_modules
+.next
+out
+.env*
+!.env.example
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# local application submissions (no database provisioned yet)
+.data
+
+# supabase local/CLI state (never commit)
+supabase/.temp
+supabase/.branches
+
+# deploy platform caches
+.netlify
+.vercel
+
+# OS/editor cruft
+Thumbs.db
+*.log
