@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Caveat, DM_Sans, Instrument_Serif, Permanent_Marker } from "next/font/google";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const dm = DM_Sans({ subsets: ["latin"], variable: "--font-dm", display: "swap" });
@@ -54,6 +55,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${dm.variable} ${anton.variable} ${marker.variable} ${caveat.variable} ${instrument.variable}`}>
+      <head>
+        {/* One instance, root layout only — every route (/, /journey/*, /admin/*, /privacy, /terms) mounts this exactly once. */}
+        <GoogleAnalytics />
+      </head>
       <body>{children}</body>
     </html>
   );

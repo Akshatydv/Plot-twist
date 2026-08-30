@@ -158,7 +158,15 @@ function deliver(item: Queued) {
     delivered = true;
   }
   if (typeof w.gtag === "function") {
-    w.gtag("event", item.event, props);
+    // GoogleAnalytics.tsx's RouteChangeTracker is the sole source of GA
+    // page_view events — it fires once per URL, first load included, with
+    // send_page_view disabled at config time specifically so nothing else
+    // ever sends one. Forwarding this app's own "page_view" plot-event
+    // (PlotProvider's per-mount signal, not a GA-shaped pageview) here too
+    // would double-count every visit to / and /journey/*.
+    if (item.event !== PLOT_EVENTS.pageView) {
+      w.gtag("event", item.event, props);
+    }
     delivered = true;
   }
   if (Array.isArray(w.dataLayer)) {
