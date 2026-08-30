@@ -26,6 +26,8 @@ export const PLOT_EVENTS = {
 
   // funnel: the mystery
   startPlot: "start_plot",
+  /** The CTA that jumps to the clue-hunt section — engagement, not application intent. */
+  viewClues: "view_clues",
   clueDiscovered: "clue_discovered",
   guessStarted: "guess_started",
   guessResult: "guess_result",

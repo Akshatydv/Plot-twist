@@ -3,6 +3,7 @@
 import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
+import { DEFAULT_JOURNEY, journeyBySlug } from "@/content/journeys";
 
 declare global {
   interface Window {
@@ -64,6 +65,21 @@ export function GoogleAnalytics() {
   );
 }
 
+/**
+ * Which journey a URL belongs to, by path shape alone — never by reading
+ * JourneyProvider's context. GoogleAnalytics mounts in the root layout's
+ * <head>, outside the tree JourneyProvider wraps, so deriving this from the
+ * pathname is not a workaround, it's the only thing that works. Routes with
+ * no journey (/admin/*, /privacy, /terms) resolve to undefined — the param
+ * is simply omitted for those, rather than carrying a stale value.
+ */
+function journeyIdForPath(pathname: string): string | undefined {
+  if (pathname === "/") return DEFAULT_JOURNEY.id;
+  const match = pathname.match(/^\/journey\/([^/]+)/);
+  if (!match) return undefined;
+  return journeyBySlug(match[1])?.id ?? undefined;
+}
+
 function RouteChangeTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -72,6 +88,7 @@ function RouteChangeTracker() {
     if (typeof window.gtag !== "function") return;
     const query = searchParams.toString();
     const url = query ? `${pathname}?${query}` : pathname;
+    const journeyId = journeyIdForPath(pathname);
 
     let sent = false;
     const send = () => {
@@ -81,6 +98,8 @@ function RouteChangeTracker() {
         page_path: url,
         page_location: window.location.href,
         page_title: document.title,
+        // Which journey, never which destination — see the note in lib/analytics.ts.
+        ...(journeyId ? { journey_id: journeyId } : {}),
       });
     };
 

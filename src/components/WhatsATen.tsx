@@ -588,7 +588,7 @@ export function WhatsATen() {
             {casting.outro.annotation}
           </Note>
           <Reveal delay={0.1} className="mt-6 flex justify-center">
-            <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow="#FF4F87" event={PLOT_EVENTS.makeYourCase}>
+            <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow="#FF4F87" event={PLOT_EVENTS.viewClues}>
               {casting.cta.label}
             </PlotButton>
           </Reveal>
