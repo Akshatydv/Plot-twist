@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { brand, hero } from "@/content/site";
+import { useJourney } from "./mystery/JourneyProvider";
 import { Logo } from "./Logo";
 import { SunsetBackdrop } from "./SunsetBackdrop";
 import { Note, PlotButton } from "./Bits";
@@ -12,6 +13,7 @@ import { HiddenClue } from "./mystery/HiddenClue";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
+  const journey = useJourney();
   const reduce = useReducedMotion();
   const inFrom = (d: number) =>
     reduce
@@ -51,13 +53,13 @@ export function Hero() {
             className="block text-[clamp(1.5rem,5.6vw,2.5rem)] leading-[0.98] text-sand [text-shadow:0_2px_16px_rgba(10,2,10,0.6)]"
             rotate={-2}
           >
-            {hero.sideNote.big[0]}
+            {journey.hero.sideNote.big[0]}
           </Note>
           <Note
             className="relative mt-0.5 block text-[clamp(1.5rem,5.6vw,2.5rem)] leading-[0.98] text-sand [text-shadow:0_2px_16px_rgba(10,2,10,0.6)]"
             rotate={2}
           >
-            {hero.sideNote.big[1]}
+            {journey.hero.sideNote.big[1]}
             <MarkerUnderline color="#FF4F87" className="absolute -bottom-1.5 right-0 h-3 w-[85%]" />
           </Note>
 
@@ -65,14 +67,14 @@ export function Hero() {
             className="relative mt-4 block text-[clamp(1.15rem,3.8vw,1.55rem)] leading-[1.05] text-sand [text-shadow:0_2px_12px_rgba(10,2,10,0.55)]"
             rotate={3}
           >
-            {hero.sideNote.invite}
+            {journey.hero.sideNote.invite}
           </Note>
         </div>
 
         {/* headline block */}
         <div className="mt-auto max-w-[22rem] pt-16 sm:max-w-[32rem] sm:pt-20 lg:max-w-[48rem]">
           <motion.p className="mb-4 text-[9px] tracked text-sand/70 sm:text-[11px]" {...inFrom(0.3)}>
-            {hero.eyebrow}
+            {journey.hero.eyebrow}
           </motion.p>
 
           <h1 className="relative">

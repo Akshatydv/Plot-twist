@@ -6,6 +6,14 @@ import { AdminHeader } from "@/components/admin/AdminHeader";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * "JOURNEY 00" → "00". The column header already says Journey; repeating the
+ * word in every row would cost the width the table doesn't have.
+ */
+function journeyShort(journey: string) {
+  return journey.replace(/^JOURNEYs+/i, "");
+}
+
 type SearchParams = {
   status?: string;
   journey?: string;
@@ -138,6 +146,9 @@ export default async function ApplicationsPage({
             <thead>
               <tr className="border-b border-sand/15 text-xs tracked text-sand/50">
                 <th className="py-2 pr-4 font-normal">Name</th>
+                {/* Second column on purpose: with more than one journey live, this
+                    is the field that stops two applicants being confused. */}
+                <th className="py-2 pr-4 font-normal">Journey</th>
                 <th className="py-2 pr-4 font-normal">Instagram</th>
                 <th className="py-2 pr-4 font-normal">Age</th>
                 <th className="py-2 pr-4 font-normal">City</th>
@@ -153,6 +164,11 @@ export default async function ApplicationsPage({
                       {r.name}
                     </Link>
                   </td>
+                  <td className="py-2.5 pr-4">
+                    <span className="border border-sand/20 px-1.5 py-0.5 text-xs tabular-nums text-sand/70">
+                      {journeyShort(r.journey)}
+                    </span>
+                  </td>
                   <td className="py-2.5 pr-4 text-sand/80">{r.instagram}</td>
                   <td className="py-2.5 pr-4 text-sand/80">{r.age}</td>
                   <td className="py-2.5 pr-4 text-sand/80">{r.city}</td>
@@ -164,7 +180,7 @@ export default async function ApplicationsPage({
               ))}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={6} className="py-10 text-center text-sand/40">
+                  <td colSpan={7} className="py-10 text-center text-sand/40">
                     No applications match.
                   </td>
                 </tr>

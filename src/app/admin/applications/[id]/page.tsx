@@ -4,6 +4,7 @@ import { getApplication } from "@/lib/adminApplications";
 import { APPLICATION_STATUSES, type ApplicationStatus } from "@/lib/applications";
 import { application as applicationCopy } from "@/content/site";
 import { rewardById } from "@/content/rewards";
+import { journeyById } from "@/content/journeys";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { setNotesAction, setStatusAction } from "./actions";
 
@@ -50,7 +51,10 @@ export default async function ApplicationDetailPage({
               <Row label="CLUE PROGRESS" value={`${app.clue_progress} / 5`} />
               <Row label="DESTINATION GUESS" value={app.destination_guess ?? "—"} />
               {/* Resolved to its title so the pool id isn't the only thing on screen. */}
-              <Row label="PLOT TWIST REWARD" value={rewardById(app.reward_id)?.title ?? "—"} />
+              <Row
+                label="PLOT TWIST REWARD"
+                value={rewardById(app.reward_id, journeyById(app.journey)?.rewards.pool)?.title ?? "—"}
+              />
             </dl>
 
             {/* Where they came from. Anonymous campaign labels, never a fingerprint. */}

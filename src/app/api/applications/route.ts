@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { toStoredApplication, validateApplication, type ApplicationInput } from "@/lib/applications";
+import { isKnownJourney, toStoredApplication, validateApplication, type ApplicationInput } from "@/lib/applications";
 import {
   DuplicateApplicationError,
   StorageNotConfiguredError,
@@ -49,6 +49,12 @@ export async function POST(request: Request) {
   // telling a bot it was caught only teaches it to stop filling that field.
   if (typeof body._hp === "string" && body._hp.trim().length > 0) {
     return NextResponse.json({ ok: true, id: crypto.randomUUID() }, { status: 201 });
+  }
+
+  // Not a field the visitor can see or fix, so this is a flat rejection
+  // rather than a field error. Only a hand-crafted request can trip it.
+  if (!isKnownJourney(body.journey)) {
+    return NextResponse.json({ ok: false, error: "Unknown journey." }, { status: 422 });
   }
 
   // Re-validated server-side: the client's checks are UX, not a guarantee.

@@ -8,14 +8,30 @@
  */
 
 import { rewardById } from "@/content/rewards";
-
-export const JOURNEY = "JOURNEY 01";
+import { DEFAULT_JOURNEY, JOURNEYS as JOURNEY_CONFIGS, journeyById } from "@/content/journeys";
 
 /**
- * All journeys that exist, for the admin filter dropdown. Add a row here
- * when a new one launches — nothing else needs to change to support it.
+ * Which journey a submission belongs to when it doesn't say. Only reachable
+ * from a hand-crafted request — the form always sends one — and defaulting
+ * beats discarding an otherwise valid application.
  */
-export const JOURNEYS = [{ id: "JOURNEY 01", label: "Journey 01" }] as const;
+export const DEFAULT_JOURNEY_ID = DEFAULT_JOURNEY.id;
+
+/**
+ * The admin filter dropdown, derived from the journey registry so it can
+ * never drift out of sync with the journeys that actually exist.
+ */
+export const JOURNEYS = JOURNEY_CONFIGS.map((j) => ({ id: j.id, label: j.displayName }));
+
+/**
+ * An absent journey is fine — it defaults. A journey that was *sent* but
+ * isn't one we run is not: silently filing it under Journey 01 would put a
+ * real applicant in the wrong casting list, which is exactly the confusion
+ * the journey column exists to prevent. The route rejects those instead.
+ */
+export function isKnownJourney(value: unknown): boolean {
+  return value === undefined || value === null || value === "" || journeyById(String(value)) !== null;
+}
 
 export const AGE_MIN = 18;
 export const AGE_MAX = 30;
@@ -47,6 +63,12 @@ export type ApplicationInput = {
   destination_guess?: string | null;
   /** Which Plot Twist reward they were assigned on solving. Null if never solved. */
   reward_id?: string | null;
+  /**
+   * Which journey this application is for. Sent by the form from the journey
+   * the page was rendered with — never inferred from a URL or a referrer,
+   * both of which a visitor controls.
+   */
+  journey?: string | null;
   /**
    * Anonymous first-touch acquisition. Four short strings — no IP, no user
    * agent, no fingerprint. Answers "which Reel produced this applicant".
@@ -175,8 +197,18 @@ export function validateApplication(input: Partial<ApplicationInput>): FieldErro
   return { ...validateBasics(input), ...validateAnswers(input) };
 }
 
-/** Normalised, trusted record — built server-side from raw input. */
+/**
+ * Normalised, trusted record — built server-side from raw input.
+ *
+ * The journey is resolved FIRST, because two other fields depend on it: the
+ * stored `journey`, and the reward, which is validated against that
+ * journey's own pool. That is what makes a Journey 00 reward impossible to
+ * attach to a Journey 01 application — the pools are the authority, not the
+ * client.
+ */
 export function toStoredApplication(input: ApplicationInput): StoredApplication {
+  const journey = journeyById(input.journey) ?? DEFAULT_JOURNEY;
+
   return {
     id: crypto.randomUUID(),
     name: input.name.trim(),
@@ -187,11 +219,12 @@ export function toStoredApplication(input: ApplicationInput): StoredApplication 
     answer_1: input.answer_1.trim(),
     answer_2: input.answer_2.trim(),
     answer_3: input.answer_3.trim(),
-    journey: JOURNEY,
+    journey: journey.id,
     clue_progress: Number(input.clue_progress ?? 0),
     destination_guess: input.destination_guess?.trim() || null,
-    // Validated against the pool, so a hand-crafted request cannot invent a reward.
-    reward_id: rewardById(input.reward_id)?.id ?? null,
+    // Validated against THIS JOURNEY's pool, so a hand-crafted request can
+    // neither invent a reward nor borrow one from another journey.
+    reward_id: rewardById(input.reward_id, journey.rewards.pool)?.id ?? null,
     // Length-capped: these are campaign labels, not free text.
     source: attributionField(input.source),
     medium: attributionField(input.medium),

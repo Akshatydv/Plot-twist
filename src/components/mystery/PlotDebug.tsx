@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { JOURNEY } from "@/lib/applications";
+import { useJourney } from "./JourneyProvider";
 import { readStoredAttribution } from "@/lib/attribution";
 import { trackedEvents } from "@/lib/analytics";
 import { usePlot } from "./PlotProvider";
@@ -17,6 +17,7 @@ import { usePlot } from "./PlotProvider";
  * re-test a "brand new visitor from reel02" journey.
  */
 export function PlotDebug() {
+  const journey = useJourney();
   const { count, total, guessState, reward, rewardRevealed } = usePlot();
   const [open, setOpen] = useState(false);
   const [attr, setAttr] = useState<ReturnType<typeof readStoredAttribution>>(null);
@@ -62,7 +63,7 @@ export function PlotDebug() {
         </button>
       </div>
 
-      <Line k="journey" v={JOURNEY} />
+      <Line k="journey" v={journey.id} />
       <Line k="clues" v={`${count}/${total}`} />
       <Line k="guess" v={guessState} />
       <Line k="reward" v={reward ? `${reward.id}${rewardRevealed ? " (opened)" : " (sealed)"}` : "—"} />

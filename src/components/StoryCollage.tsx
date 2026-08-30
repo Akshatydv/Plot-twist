@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { Frame } from "@/content/site";
 import { story } from "@/content/site";
+import { useJourney } from "./mystery/JourneyProvider";
 import { Note, SectionLabel } from "./Bits";
 import { Reveal } from "./motion";
 import { Arrow, Squiggle, Star } from "./Brush";
@@ -51,6 +52,8 @@ function Photo({ frame }: { frame: Frame }) {
 
 export function StoryCollage() {
   const reduce = useReducedMotion();
+  // The five frames are the journey's; the wall they're pinned to is not.
+  const frames = useJourney().story.frames;
 
   return (
     <section id="story" className="paper relative overflow-hidden px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
@@ -73,7 +76,7 @@ export function StoryCollage() {
 
       {/* MOBILE / TABLET — swipeable stack of pinned photos */}
       <div className="no-scrollbar snap-x-strip -mx-5 mt-8 flex gap-5 overflow-x-auto px-5 pb-4 sm:-mx-8 sm:px-8 lg:hidden">
-        {story.frames.map((f, i) => (
+        {frames.map((f, i) => (
           <motion.div
             key={f.key}
             className="w-[62vw] shrink-0 sm:w-[42vw]"
@@ -100,7 +103,7 @@ export function StoryCollage() {
 
       {/* DESKTOP — pinned wall */}
       <div className="relative mx-auto mt-8 hidden h-[820px] w-full max-w-[1180px] lg:block">
-        {story.frames.map((f, i) => {
+        {frames.map((f, i) => {
           const p = layout[f.key];
           return (
             <motion.div

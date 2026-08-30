@@ -14,6 +14,7 @@ import {
 } from "@/lib/applications";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { attributionForApplication } from "@/lib/attribution";
+import { useJourney } from "./mystery/JourneyProvider";
 import { Note, SectionLabel } from "./Bits";
 import { Reveal } from "./motion";
 import { CircleScribble, MarkerUnderline } from "./Brush";
@@ -66,6 +67,7 @@ function FieldError({ message }: { message?: string }) {
  */
 export function ApplicationForm() {
   const reduce = useReducedMotion();
+  const journey = useJourney();
   const { count, solvedGuess, reward } = usePlot();
 
   const [step, setStep] = useState(0);
@@ -130,6 +132,7 @@ export function ApplicationForm() {
         answer_1: values.answer_1,
         answer_2: values.answer_2,
         answer_3: values.answer_3,
+        journey: journey.id,
         clue_progress: count,
         destination_guess: solvedGuess,
         reward_id: reward?.id ?? null,

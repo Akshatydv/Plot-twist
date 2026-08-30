@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { hero } from "@/content/site";
+import { useJourney } from "./mystery/JourneyProvider";
 
 /**
  * Real photography, colour-graded into the Plot Twist palette rather than
@@ -10,6 +10,7 @@ import { hero } from "@/content/site";
  * image optimizer's fetch timeout.
  */
 export function SunsetBackdrop() {
+  const journey = useJourney();
   return (
     <div className="absolute inset-0 overflow-hidden bg-[#1a0d18]">
       {/*
@@ -27,12 +28,13 @@ export function SunsetBackdrop() {
         aria-hidden
       />
       <Image
-        src={hero.photo.src}
+        src={journey.hero.photo.src}
         alt=""
         fill
         priority
         sizes="100vw"
-        className="object-cover object-[60%_58%]"
+        style={{ objectPosition: journey.hero.photo.objectPosition ?? "60% 58%" }}
+        className="object-cover"
       />
 
       {/* pulls a real photo into the brand's pink/orange without faking the sky */}

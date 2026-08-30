@@ -10,7 +10,9 @@
  * 1. NO PII, EVER. Names, handles, mobile numbers, cities, ages and answers
  *    never pass through here. Call sites send ordinals, counts, outcomes and
  *    configured ids. `Props` is typed narrowly and every call site is
- *    reviewed against it.
+ *    reviewed against it. Destination names are not sent either — a journey
+ *    is identified by `journey_id` ("JOURNEY 00"), never by where it goes,
+ *    so no analytics vendor ever learns the answer to the mystery.
  *
  * 2. NOTHING BLOCKS FIRST PAINT. No provider script is loaded by this module;
  *    events queue until a provider appears. If none ever does, the queue is
@@ -105,14 +107,32 @@ const queue: Queued[] = [];
 let sent = 0;
 
 /**
+ * Which journey the current page is. Set once by PlotProvider on mount, then
+ * attached to every event, so Journey 00 and Journey 01 funnels can be
+ * compared without a join and without either page carrying a bespoke event
+ * vocabulary.
+ *
+ * Module-level rather than passed per call: every call site is inside one
+ * journey's tree, so threading it through forty `track()` calls would add
+ * noise and a way to forget.
+ */
+let journeyId: string | null = null;
+
+export function setAnalyticsJourney(id: string) {
+  journeyId = id;
+}
+
+/**
  * Campaign context, attached to every event so funnel steps can be broken
  * down by Reel without a join. Read lazily — attribution is captured on mount
  * and this module may be imported earlier than that.
  */
 function campaignProps(): Props {
   const a = readStoredAttribution();
-  if (!a) return {};
+  const journey: Props = journeyId ? { journey_id: journeyId } : {};
+  if (!a) return journey;
   return {
+    ...journey,
     source: a.source ?? undefined,
     medium: a.medium ?? undefined,
     campaign: a.campaign ?? undefined,

@@ -6,18 +6,23 @@
 export const brand = {
   name: "PLOT TWIST",
   instagram: "@plottwist.social",
-  instagramUrl: "https://instagram.com/plottwist.social",
+  instagramUrl: "https://www.instagram.com/plottwist.social/",
   tagline: "20 people. One trip. 10/10s only.",
   signature: "DO IT FOR THE PLOT.",
   metaNav: ["TRAVEL", "PEOPLE", "PLOT TWISTS"],
 } as const;
 
 export const hero = {
-  eyebrow: "JOURNEY 01 — LOCATION CLASSIFIED",
+  eyebrow: "JOURNEY 01 — 20 SEATS, AGES 18–30",
   line1: "You've found",
   line2: "the plot.",
-  sub: "But do you know where it's going?",
-  support: brand.tagline,
+  /**
+   * The highest-attention line on the site. It used to ask a riddle; now it
+   * answers "what is this" and keeps the hook in the same breath, so a
+   * ten-second visitor leaves knowing the product rather than the puzzle.
+   */
+  sub: "20 people. One trip. You just don't know where yet.",
+  support: "Come alone. Leave with 19 others.",
   cta: { label: "START THE PLOT", href: "#setup" },
   annotation: "there are clues everywhere",
   scrollHint: "SCROLL — IF YOU'RE CURIOUS",
@@ -40,7 +45,12 @@ export const hero = {
 export const setup = {
   index: "01",
   label: "THE SETUP",
-  big: ["20 PEOPLE.", "ONE TRIP.", "10/10s ONLY."],
+  /**
+   * One idea. The third line used to be "10/10s ONLY.", which opened the
+   * casting metaphor here and left it unexplained until a later section.
+   * Casting now introduces itself where it's actually explained.
+   */
+  big: ["20 PEOPLE.", "ONE TRIP.", "NOBODY KNOWS WHERE."],
   body: [
     "We're taking 20 people somewhere.",
     "We've planned the experiences.",
@@ -55,7 +65,11 @@ export const setup = {
   badge: "20 spots. No fillers.",
   ageRange: "18–30 ONLY.",
   ageNote: "the casting range.",
-  cta: { label: "FIND THE CLUES", href: "#clues" },
+  /**
+   * Points at the trip, not the puzzle. Sending people to #clues from here
+   * skipped the two sections that explain why the trip is worth wanting.
+   */
+  cta: { label: "SEE WHAT YOU'RE IN FOR", href: "#story" },
 } as const;
 
 export type Trait = {
@@ -66,6 +80,8 @@ export type Trait = {
   /** The casting director's margin note — appears by the grade when picked. */
   verdict: string;
   accent: string;
+  /** Points toward the 10/10. All six MUST sum to exactly 10 — see the assertion below `traits`. */
+  weight: number;
 };
 
 /**
@@ -74,9 +90,15 @@ export type Trait = {
  * back off, so it stays a plaything rather than a quiz.
  */
 export const casting = {
-  index: "02",
+  index: "04",
   label: "THE CASTING",
   stamp: "CASTING — JOURNEY 01",
+  /**
+   * The bridge. Without it the trait board reads as a quiz about the visitor;
+   * with it, it reads as us showing our own casting criteria. Plain lines on
+   * purpose — the clever one is the headline directly beneath.
+   */
+  bridge: ["20 seats. A lot more than 20 people want one.", "So we cast it like a room we'd want to be in."],
   eyebrow: "WHAT'S A",
   headline: "10/10?",
   subhead: "NOT A CROWD. A CAST.",
@@ -84,12 +106,12 @@ export const casting = {
   annotation: "yes, we're judging.",
   hint: "tap a trait — watch it add up",
   traits: [
-    { id: "face", name: "FACE CARD", line: "Obviously.", verdict: "we noticed.", accent: "#FF7A3D" },
-    { id: "charm", name: "CHARM", line: "You know it when you see it.", verdict: "okay, we like this.", accent: "#FF4F87" },
-    { id: "energy", name: "ENERGY", line: "Good only.", verdict: "non-negotiable.", accent: "#00A9C7" },
-    { id: "personality", name: "PERSONALITY", line: "Please have one.", verdict: "thank god.", accent: "#36C96F" },
-    { id: "stories", name: "STORIES", line: "We want some.", verdict: "tell us at dinner.", accent: "#FF7A3D" },
-    { id: "baddies", name: "BADDIES", line: "You know who you are.", verdict: "iconic behaviour.", accent: "#FF4F87" },
+    { id: "face", name: "FACE CARD", line: "Obviously.", verdict: "we noticed.", accent: "#FF7A3D", weight: 2 },
+    { id: "charm", name: "CHARM", line: "You know it when you see it.", verdict: "okay, we like this.", accent: "#FF4F87", weight: 1 },
+    { id: "energy", name: "ENERGY", line: "Good only.", verdict: "non-negotiable.", accent: "#00A9C7", weight: 2 },
+    { id: "personality", name: "PERSONALITY", line: "Please have one.", verdict: "thank god.", accent: "#36C96F", weight: 2 },
+    { id: "stories", name: "STORIES", line: "We want some.", verdict: "tell us at dinner.", accent: "#FF7A3D", weight: 2 },
+    { id: "baddies", name: "BADDIES", line: "You know who you are.", verdict: "iconic behaviour.", accent: "#FF4F87", weight: 1 },
   ] satisfies Trait[],
   /** Red-pen marks by the grade. */
   marks: {
@@ -124,8 +146,29 @@ export const casting = {
     line: "THINK YOU MAKE THE CUT?",
     annotation: "be honest.",
   },
-  cta: { label: "MAKE YOUR CASE", href: "#apply" },
+  /**
+   * Casting now runs before the mystery, so sending people straight to the
+   * form here skipped the reveal — and repeated the application section's own
+   * MAKE YOUR CASE button. This hands forward instead: who we want, then where
+   * we're going, then your case.
+   */
+  cta: { label: "FIRST — WHERE ARE WE GOING?", href: "#clues" },
 } as const;
+
+/** The only 10 in this feature — everything else derives from it. */
+export const CASTING_MAX_SCORE = 10;
+
+// A trait's `weight` edited without the others adjusting is exactly how this
+// broke last time (every card showing the same flat number instead of six
+// numbers that mean something). This module runs during `next build`'s
+// static generation, so a mismatch throws there — the build fails loudly
+// instead of shipping a casting board that can't reach 10/10.
+const CASTING_WEIGHT_SUM = casting.traits.reduce((sum, t) => sum + t.weight, 0);
+if (CASTING_WEIGHT_SUM !== CASTING_MAX_SCORE) {
+  throw new Error(
+    `casting.traits weights sum to ${CASTING_WEIGHT_SUM}, not ${CASTING_MAX_SCORE}. Fix the weights in site.ts.`
+  );
+}
 
 export type Frame = {
   key: string;
@@ -143,7 +186,7 @@ export type Frame = {
  * Deliberately no recognisable landmark: the destination stays unrevealed.
  */
 export const story = {
-  index: "03",
+  index: "02",
   label: "THE VISUAL STORY",
   headline: ["Pinned to", "the wall."],
   annotation: "no landmarks. we checked.",
@@ -191,9 +234,13 @@ export const story = {
 } as const;
 
 export const statement = {
-  index: "04",
+  index: "03",
   label: "THE PHILOSOPHY",
-  big: ["THE TRIP IS PLANNED.", "THE REST IS NOT."],
+  /**
+   * "The rest" was abstract. Naming the people makes this the answer to
+   * "why would I go", and hands directly to the casting section below it.
+   */
+  big: ["WE PLANNED THE TRIP.", "NOT THE PEOPLE."],
   body: [
     "We plan the destination. We plan the parties.",
     "We can't plan who you're friends with by 2AM, or the story you'll tell after.",
@@ -228,6 +275,18 @@ export type TwistClue = ClueBase & {
   kind: "twist";
   reveal: string;
   href: string;
+  /** Copy for the evidence artifact — the moment the site admits it's out of clues. */
+  evidence: {
+    /** Tiny mono metadata along the top of the artifact. */
+    meta: string;
+    /** Rubber stamp across the artifact. */
+    stamp: string;
+    /** Handwritten note pointing at the handle. */
+    annotation: string;
+    /** One cheeky line. Exactly one — the joke is the concept, not the voice. */
+    micro: string;
+    cta: string;
+  };
 };
 
 export type Clue = FlightClue | PhotoClue | TwistClue;
@@ -235,56 +294,34 @@ export type Clue = FlightClue | PhotoClue | TwistClue;
 export const mystery = {
   index: "05",
   label: "THE MYSTERY",
-  headline: ["The clues", "are real."],
-  body: ["Three of them.", "One destination.", "Good luck."],
-  annotation: "yes, actually real",
-  clues: [
-    {
-      id: "clue-01",
-      index: "01",
-      eyebrow: "DEPARTURE",
-      title: "THE FLIGHT",
-      kind: "flight",
-      line: "You're going to need a passport.",
-      hint: "Somewhere warm. Worth flying for.",
-      from: "YOU",
-      to: "??? ???",
-      seat: "01 OF 20",
-    },
-    {
-      id: "clue-02",
-      index: "02",
-      eyebrow: "LOOK CLOSER",
-      title: "THE LANDSCAPE",
-      kind: "photo",
-      line: "Look closer.",
-      hint: "Almost everyone scrolls straight past it.",
-      photo: {
-        src: "/photos/escape.jpg",
-        alt: "Turquoise water breaking over a rocky coastline from above",
-      },
-      hotspot: { x: 64, y: 42 },
-    },
-    {
-      id: "clue-03",
-      index: "03",
-      eyebrow: "ONE MORE THING",
-      title: "THE LAST CLUE",
-      kind: "twist",
-      line: "This one isn't here.",
-      hint: "You'll have to leave the website.",
-      reveal: brand.instagram,
-      href: brand.instagramUrl,
-    },
-  ] satisfies Clue[],
+  /**
+   * Was "The clues are real. / Three of them." — which announced a system,
+   * and said three when there are five (the tracker renders x/05, so anyone
+   * counting concluded the site was broken). This points back at the page
+   * they've already scrolled instead: a discovery, not a level.
+   */
+  headline: ["It's hiding", "on this page."],
+  body: ["Five clues.", "Three is enough to guess.", "Nobody's making you find them."],
+  annotation: "has been the whole time",
+  /**
+   * The three clue CARDS are per-journey — see content/journeys/. They used
+   * to be duplicated here, which left one journey’s destination-specific alt
+   * text and hotspot sitting in the shared brand file where nothing rendered
+   * it and nothing would have caught it going stale.
+   */
 } as const;
 
 export const teaser = {
   index: "06",
   label: "THE SELECTION",
-  headline: ["Think you're", "a 10/10?"],
+  /**
+   * Casting already asked "think you're a 10/10?" and already stamped "yes,
+   * we're judging." Repeating both made this read as a loop. Casting says who
+   * we want; this says it's your turn.
+   */
+  headline: ["Now the", "hard part."],
   body: ["You don't need to be famous.", "You just need to be someone we'd actually want to travel with."],
-  stamp: "YES, WE'RE JUDGING.",
+  stamp: "20 OF YOU. THAT'S IT.",
   judging: ["Your profile.", "Your answers.", "Your vibe."],
   judgingNote: "in that order? no.",
   badge: "20 spots. No fillers.",
@@ -340,13 +377,17 @@ export const application = {
   scarcity: "20 spots. Not one more.",
   disclaimer: "No email required. Instagram and your phone are how we'll reach you.",
   ageNotice: "18–30 only. That part isn't flexible.",
-  /** The ending — a casting room, not a thank-you page. */
+  /**
+   * The ending — a casting room, not a thank-you page. Deliberately makes no
+   * promises this system can't keep: no guaranteed call, no invented reply
+   * window. "if you're making the next round" carries the maybe on purpose.
+   */
   success: {
-    kicker: "YOU'RE IN THE CASTING ROOM.",
-    title: "Your case has been submitted.",
-    body: "Now we decide whether you're one of the 20.",
-    note: "watch your phone.",
-    aside: "the next step might be a call.",
+    kicker: "APPLICATION RECEIVED.",
+    title: "We've got your case.",
+    body: "We'll be in touch if you're making the next round.",
+    note: "keep your phone nearby.",
+    aside: "that's the whole thing.",
     cta: { label: "BACK TO THE PLOT", href: "#top" },
   },
   error: "That didn't send. Try again.",
@@ -380,6 +421,47 @@ export const errors = {
 } as const;
 
 /**
+ * THE TRUST STRIP — a small casting-file artifact, not an About Us section.
+ *
+ * Sits right before the application, because that's the exact moment a
+ * visitor is deciding whether to hand over their number. Two short notes:
+ * who's actually reading this, and what we genuinely do (nothing invented —
+ * no background checks, no claims we can't back). No names, no photos —
+ * deliberately anonymous-but-human rather than corporate.
+ */
+export const trust = {
+  eyebrow: "BEFORE YOU APPLY",
+  who: {
+    title: "WHO'S ACTUALLY READING THIS",
+    body: "A small team, not a bot. Every application gets read by a real person — that's also why it isn't instant.",
+  },
+  safety: {
+    title: "THE BORING STUFF WE TAKE SERIOUSLY",
+    points: [
+      "A real human reads every application.",
+      "Shortlisted? You get an actual conversation before anything is final.",
+      "You'll have a direct contact for the whole trip, not just before it.",
+      "Trip details are shared clearly before anyone travels.",
+    ],
+  },
+} as const;
+
+/**
+ * THE DAMAGE — the price slot.
+ *
+ * `revealed: false` until a real number exists. A placeholder like "FROM
+ * ₹XX,XXX" shown to a live visitor reads as broken, not mysterious, so the
+ * component this feeds renders nothing while this stays false. Flip it and
+ * fill in `amount` once pricing is final — nothing else needs to change.
+ */
+export const pricing = {
+  revealed: false,
+  eyebrow: "THE DAMAGE",
+  amount: "",
+  note: "",
+} as const;
+
+/**
  * THE TEA CUP — the only contact surface on the page.
  *
  * The number lives in an env var rather than here because it is the one part
@@ -406,4 +488,9 @@ export const footer = {
   instagramUrl: brand.instagramUrl,
   signature: brand.signature,
   legal: `© ${new Date().getFullYear()} Plot Twist. Destination undisclosed.`,
+  /** Draft pages — see the DRAFT banner on each route. Real routes, not dead links. */
+  legalLinks: [
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
+  ],
 } as const;

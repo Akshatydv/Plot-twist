@@ -14,6 +14,7 @@ import "server-only";
 
 import { application as applicationCopy } from "@/content/site";
 import { rewardById } from "@/content/rewards";
+import { journeyById } from "@/content/journeys";
 import { TOTAL_CLUES } from "@/content/mystery";
 import type { StoredApplication } from "@/lib/applications";
 
@@ -67,7 +68,7 @@ type Field = { label: string; value: string };
  * and "₹2,500 OFF (₹2,500)" reads like a bug.
  */
 export function describeReward(app: StoredApplication): string {
-  const reward = rewardById(app.reward_id);
+  const reward = rewardById(app.reward_id, journeyById(app.journey)?.rewards.pool);
   if (!reward) return "Not assigned — applied without solving";
 
   if (reward.value == null) return reward.title;

@@ -6,10 +6,20 @@
  * else, so changing the pool, the copy or the odds never means touching a
  * component.
  *
- * WEIGHTS ARE PLACEHOLDERS. Every reward is currently equally likely (1),
- * which is deliberately wrong for real economics — the expensive ones should
- * be rarer. Set these from trip margin and supplier cost before launch; the
- * picker already handles uneven weights, so it's a one-line change per row.
+ * Each reward's own `weight` is the flat fallback used when no clue count is
+ * known (currently 1 across the board — an even draw). The real odds live in
+ * `DEFAULT_REWARD_WEIGHTS` below: three tiers, one per clue count a visitor
+ * can actually solve with (3, 4 or 5 — GUESS_THRESHOLD to TOTAL_CLUES).
+ * These are still launch-experiment numbers, not trip-margin economics —
+ * tune them here, in one place, once real numbers exist.
+ *
+ * JOURNEY-AWARE. Every journey draws from a pool and an odds table named by
+ * its own config (see content/journeys/). Today both journeys point at the
+ * two defaults below, which is the intent — one reward system, not two — but
+ * the indirection is what lets a later journey run different odds, or drop a
+ * reward that doesn't exist at its destination, without a second code path.
+ * It is also what makes cross-journey validation possible: a reward id is
+ * valid only for a journey whose pool actually contains it.
  */
 
 export type RewardType = "perk" | "upgrade" | "discount";
@@ -27,7 +37,7 @@ export type Reward = {
   weight: number;
 };
 
-export const JOURNEY_01_REWARDS: Reward[] = [
+export const REWARD_POOL: Reward[] = [
   {
     id: "first-round",
     title: "FIRST ROUND'S ON US",
@@ -94,25 +104,97 @@ export const JOURNEY_01_REWARDS: Reward[] = [
   },
 ];
 
-export function rewardById(id: string | null | undefined): Reward | null {
+/**
+ * Looks an id up in ONE journey's pool. `pool` defaults to the shared eight so
+ * a caller with no journey context can still resolve a title for display;
+ * pass the journey's own pool wherever the answer must be authoritative —
+ * validating a submission, or assigning a reward.
+ */
+export function rewardById(id: string | null | undefined, pool: Reward[] = REWARD_POOL): Reward | null {
   if (!id) return null;
-  return JOURNEY_01_REWARDS.find((r) => r.id === id) ?? null;
+  return pool.find((r) => r.id === id) ?? null;
 }
 
 /**
- * Weighted pick across the pool. Returns null only if the pool is empty or
- * every weight is zero — the caller treats that as an assignment failure
- * rather than silently handing out nothing.
+ * THE ODDS TABLE — the whole reward-progression mechanic lives in these three
+ * rows. Each is a per-reward-id weight, normalised the same way the flat pool
+ * is: relative numbers, not percentages, but all three rows deliberately sum
+ * to 100 so they read like percentages at a glance.
+ *
+ * Directionality is the requirement, not these exact figures:
+ *   - the three cash discounts strictly increase, tier over tier
+ *   - ₹5,000 stays rare everywhere (1% → 2% → 4%) — it must never feel common
+ *   - the five experience/perk rewards still carry the majority of the
+ *     weight even at 5 clues (64%), so finding everything improves the odds
+ *     without turning this into "grind for the jackpot"
+ *
+ * Solving with more than 5 or fewer than 3 primary clues isn't reachable
+ * (GUESS_THRESHOLD gates the guess box, TOTAL_CLUES caps the count), so three
+ * rows is the whole table — no interpolation needed.
  */
-export function pickReward(pool: Reward[] = JOURNEY_01_REWARDS): Reward | null {
-  const usable = pool.filter((r) => r.weight > 0);
+export const DEFAULT_REWARD_WEIGHTS: Record<number, Record<string, number>> = {
+  3: {
+    "first-round": 20,
+    surf: 18,
+    spa: 17,
+    "boat-day": 15,
+    "on-film": 15,
+    "off-1000": 10,
+    "off-2500": 4,
+    "off-5000": 1,
+  },
+  4: {
+    "first-round": 18,
+    surf: 16,
+    spa: 15,
+    "boat-day": 13,
+    "on-film": 14,
+    "off-1000": 15,
+    "off-2500": 7,
+    "off-5000": 2,
+  },
+  5: {
+    "first-round": 15,
+    surf: 14,
+    spa: 13,
+    "boat-day": 11,
+    "on-film": 11,
+    "off-1000": 20,
+    "off-2500": 12,
+    "off-5000": 4,
+  },
+};
+
+/**
+ * Weighted pick across the pool.
+ *
+ * `clueProgress` selects which row of the odds table to draw from — pass the
+ * primary-clue count at the moment of the first successful solve, never a
+ * later count, or a reroll becomes possible. Omit it (or pass a count outside
+ * 3–5) to fall back to each reward's own flat `weight` — every reward
+ * currently equally likely, which is also what the test suite and any future
+ * caller without clue context gets.
+ *
+ * Returns null only if the resulting pool is empty or every weight in it is
+ * zero — the caller treats that as an assignment failure rather than
+ * silently handing out nothing.
+ */
+export function pickReward(
+  clueProgress?: number,
+  pool: Reward[] = REWARD_POOL,
+  weights: Record<number, Record<string, number>> = DEFAULT_REWARD_WEIGHTS
+): Reward | null {
+  const tier = clueProgress !== undefined ? weights[clueProgress] : undefined;
+  const weightOf = (r: Reward) => tier?.[r.id] ?? r.weight;
+
+  const usable = pool.filter((r) => weightOf(r) > 0);
   if (usable.length === 0) return null;
 
-  const total = usable.reduce((sum, r) => sum + r.weight, 0);
+  const total = usable.reduce((sum, r) => sum + weightOf(r), 0);
   let roll = Math.random() * total;
 
   for (const reward of usable) {
-    roll -= reward.weight;
+    roll -= weightOf(reward);
     if (roll <= 0) return reward;
   }
   // Floating-point drift on the last step — the final entry is the answer.
@@ -133,7 +215,7 @@ export const rewardMoment = {
    */
   everyone: "Everyone gets a plot twist. Yours is…",
   sealStamp: "SEALED",
-  envelopeMark: "JOURNEY 01",
+  // The envelope mark is per-journey — see JourneyConfig.rewards.envelopeMark.
   openLabel: "OPEN IT",
   opening: "OPENING…",
   terms: "*T&Cs apply.",

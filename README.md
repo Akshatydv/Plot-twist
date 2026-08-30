@@ -575,3 +575,118 @@ node scripts/verify-notifications.mjs # end-to-end, against the real project
 ⚠️ **Supabase cannot reach `localhost`.** The trigger fires and is recorded
 locally, but the HTTP call only arrives once `NOTIFICATIONS_WEBHOOK_URL` points
 at a public origin. Re-run `setup-notifications.mjs` after deploying.
+
+### Photo credits — attribution required
+
+`public/photos/landscape-clue.jpg` (the LOOK CLOSER clue) is a crop of
+"Kuta Bali Indonesia Pura-Luhur-Uluwatu-03.jpg" by **CEphoto, Uwe Aranas**,
+via Wikimedia Commons, licensed **CC BY-SA 3.0**.
+
+⚠️ Unlike the Unsplash placeholders, this licence **legally requires visible
+attribution**. Before launch either add a credit line (footer or colophon) or
+replace it with an owned/licensed shot. Whatever replaces it must still hide a
+genuine, zoomable architectural detail — the clue depends on it, not on the
+scenery.
+
+---
+
+## Journey 00 — Goa, and the journey engine
+
+Journey 01 is the master design. Journey 00 reuses **every** component, layout,
+interaction, animation and token it has; only the destination, its evidence and
+its odds differ. The two pages were diffed after the build: identical section
+order, identical set of 292 distinct class strings, zero divergence.
+
+### Where a journey lives
+
+```
+src/content/journeys/
+  types.ts       the contract
+  journey01.ts   Bali   — extracted verbatim, unchanged
+  journey00.ts   Goa
+  index.ts       the registry + build-time invariants
+```
+
+A journey owns: destination and accepted answers, storage key, hero eyebrow and
+side note, hero photo, story frames, casting stamp and photo scraps, the three
+clue cards, the flight-board scramble, the five-rung ladder, the solved line,
+and its reward pool / odds / envelope mark.
+
+Everything else — the six casting traits, the 10/10, the philosophy, the tea
+cup, the application, the success state, the tickers, the footer, the legal
+pages — is brand-level and stays in `content/site.ts`. The test for which is
+which: *would this be wrong if we changed the destination?*
+
+### One page, every journey
+
+`components/JourneyPage.tsx` is the whole site. `/` renders it with the default
+journey; `/journey/[slug]` renders it with whichever the slug names.
+`/journey/01` redirects to `/` so the two never compete for one canonical.
+Unknown slugs 404.
+
+Components read destination content from `useJourney()` rather than importing
+it. There is **no `if (journey === …)` anywhere in the tree**.
+
+> **Adding Journey 02 is one file plus one line in `JOURNEYS`.** This was
+> verified, not assumed: a throwaway `journey02.ts` was added, the build
+> produced a working `/journey/02` with no component, route or sitemap change,
+> and the probe was removed.
+
+### Isolation between journeys
+
+Every journey has its own `storageKey`, and `index.ts` fails the build if two
+ever collide. That single mechanism is what stops Journey 01's clue progress
+from unlocking Journey 00's guess box, or a Journey 00 reward from appearing on
+the Journey 01 page. Verified in the browser: solving Goa left `/` at 00/05,
+unsolved, with no reward and no mention of the destination.
+
+Server-side, `journey` is sent by the form from the journey the page was
+rendered with — never inferred from a URL or referrer — and:
+
+- an application with an **unknown** journey is rejected with 422, not quietly
+  refiled under the default;
+- a **missing** journey falls back to the default;
+- a `reward_id` is validated against **that journey's** pool and dropped if it
+  isn't in it;
+- the `(lower(instagram), journey)` unique index means one handle may apply to
+  each journey once — a duplicate within a journey is still 409.
+
+### The Goa clue ladder
+
+Five rungs, handed out by discovery order. Rung three is the one that makes a
+real guess possible, which is why the gate sits at three. No rung names the
+destination — `index.ts` fails the build if one ever does.
+
+Every factual claim was verified before it was written:
+
+| rung | claim | source |
+| --- | --- | --- |
+| 01 | ~105 km of coastline | [Britannica](https://www.britannica.com/place/Goa) |
+| 02 | west-facing Arabian Sea coast; season follows the monsoon | [Britannica](https://www.britannica.com/place/Goa) |
+| 03 | Portuguese 1510–1961 (451 years) | [Britannica](https://www.britannica.com/place/Goa), [World History Encyclopedia](https://www.worldhistory.org/Portuguese_Goa/) |
+| 03 | houses glazed with windowpane-oyster shell (*carepa*/nacre), not glass | [Google Arts & Culture](https://artsandculture.google.com/story/goa%E2%80%99s-windows-a-heritage-of-shell-work-dastkari-haat-samiti/yQXxCoZOhtsRJw?hl=en), [Homegrown](https://homegrown.co.in/homegrown-explore/the-fading-light-of-goas-oyster-shell-windows) |
+| 04 | cashew feni holds a GI (2009 — the state's first, and India's first for a local liquor) | [Drishti IAS](https://www.drishtiias.com/daily-updates/daily-news-analysis/gi-tagged-feni-goa) |
+| 04 | licensed beach shacks run 1 Sep – 31 May, dismantled for the monsoon | [Goa Tourism shack policy](https://goatourism.gov.in/wp-content/uploads/2019/10/TOURISM-SHACK-POLICY-2019-22.pdf) |
+| 05 | smallest Indian state by area | [Britannica](https://www.britannica.com/place/Goa) |
+| 05 | *susegad*, from Portuguese *sossegado* | [Wikipedia](https://en.wikipedia.org/wiki/Susegad) |
+
+Journey 01's flight card says "You're going to need a passport." For Goa that
+is simply false, so Journey 00's says the opposite — and that inversion is the
+single strongest signal on the card.
+
+### Analytics
+
+Every event carries `journey_id` (`"JOURNEY 00"`), attached centrally in
+`lib/analytics.ts` rather than at forty call sites. Destination names are never
+sent, so no vendor learns the answer to the mystery. Verified with a stub
+provider: `clue_discovered { clue_number: 1, total: 5, journey_id: "JOURNEY 00" }`.
+
+### Verifying
+
+```bash
+node scripts/verify-journeys.mjs http://localhost:4321
+```
+
+19 assertions against the real Supabase project: journey-tagged submission,
+cross-journey reward rejection, the 422 guard, duplicate handling, the admin
+filter, and that Phase 4B notifications still fire per journey.

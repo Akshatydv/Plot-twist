@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { brand, footer } from "@/content/site";
 import { Logo } from "./Logo";
 import { InstagramLink } from "./InstagramLink";
@@ -30,7 +31,14 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-sand/15 pt-5 text-[10px] tracked text-sand/45">
-          <span>{footer.legal}</span>
+          <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span>{footer.legal}</span>
+            {footer.legalLinks.map((l) => (
+              <Link key={l.href} href={l.href} className="hover:text-sand/80">
+                {l.label}
+              </Link>
+            ))}
+          </span>
           <span>{brand.metaNav.join("  /  ")}</span>
         </div>
       </div>

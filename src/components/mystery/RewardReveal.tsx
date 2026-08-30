@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { rewardMoment } from "@/content/rewards";
+import { useJourney } from "./JourneyProvider";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton } from "../Bits";
 import { usePlot } from "./PlotProvider";
@@ -22,6 +23,7 @@ const R = rewardMoment;
  * what someone gets, which is why re-rendering it can't reroll anything.
  */
 export function RewardReveal() {
+  const journey = useJourney();
   const { reward, rewardRevealed, revealReward, rewardError, retryReward } = usePlot();
   const reduce = useReducedMotion();
   const [opening, setOpening] = useState(false);
@@ -158,7 +160,7 @@ export function RewardReveal() {
 
                   {/* stamped mark, bottom-left, like a franked envelope */}
                   <span className="absolute bottom-3 left-3 z-10 -rotate-[7deg] border border-ink/35 px-1.5 py-0.5 text-[7.5px] tracking-[0.16em] text-ink/55">
-                    {R.envelopeMark}
+                    {journey.rewards.envelopeMark}
                   </span>
 
                   {/* a strip of tape across the corner */}
@@ -198,7 +200,7 @@ export function RewardReveal() {
                 <span className="tape absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 rotate-[-5deg]" aria-hidden />
 
                 <span className="relative block -rotate-[6deg] text-[8px] tracking-[0.18em] text-ink/45">
-                  {R.envelopeMark}
+                  {journey.rewards.envelopeMark}
                 </span>
 
                 <motion.h3
@@ -221,7 +223,13 @@ export function RewardReveal() {
                   {reward.lines[1]}
                 </motion.p>
 
-                <span className="relative mt-5 block text-[8.5px] tracking-[0.12em] text-ink/35">{R.terms}</span>
+                {/* Real link now that /terms exists — this line used to promise terms that weren't there. */}
+                <a
+                  href="/terms"
+                  className="relative mt-5 block text-[8.5px] tracking-[0.12em] text-ink/35 underline-offset-2 hover:underline"
+                >
+                  {R.terms}
+                </a>
               </motion.div>
 
               <motion.div

@@ -2,7 +2,6 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
-  CLUE_LADDER,
   GUESS_THRESHOLD,
   PRIMARY_CLUE_IDS,
   TOTAL_CLUES,
@@ -10,13 +9,15 @@ import {
   plotHunt,
   type ClueId,
 } from "@/content/mystery";
+import type { LadderRung } from "@/content/journeys";
 import { pickReward, rewardById, type Reward } from "@/content/rewards";
-import { PLOT_EVENTS, track } from "@/lib/analytics";
+import { PLOT_EVENTS, setAnalyticsJourney, track } from "@/lib/analytics";
 import { captureAttribution } from "@/lib/attribution";
+import { useJourney } from "./JourneyProvider";
 
 type GuessState = "idle" | "wrong" | "solved";
 
-export type LadderRung = (typeof CLUE_LADDER)[number];
+export type { LadderRung };
 
 type PlotValue = {
   found: ClueId[];
@@ -62,6 +63,13 @@ export function usePlot() {
 }
 
 export function PlotProvider({ children }: { children: React.ReactNode }) {
+  /**
+   * Everything destination-shaped — the ladder, the accepted answers, the
+   * reward pool and odds, and above all the storage namespace — comes from
+   * the journey the route chose. This provider itself knows no destinations.
+   */
+  const journey = useJourney();
+
   const [found, setFound] = useState<ClueId[]>([]);
   const [guessState, setGuessState] = useState<GuessState>("idle");
   const [wrongIndex, setWrongIndex] = useState(0);
@@ -77,7 +85,7 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
   // a mismatch here would blow up hydration.
   useEffect(() => {
     try {
-      const raw = window.localStorage.getItem(plotHunt.storageKey);
+      const raw = window.localStorage.getItem(journey.storageKey);
       if (raw) {
         const saved = JSON.parse(raw) as {
           found?: string[];
@@ -96,7 +104,11 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
         // Recover the existing reward rather than rolling a new one. An id we
         // no longer recognise (pool edited between visits) falls through to
         // reassignment below rather than rendering a blank card.
-        if (typeof saved.rewardId === "string" && rewardById(saved.rewardId)) {
+        // Validated against THIS journey's pool: a reward saved under another
+        // journey could never reach this key, but if the pool is ever edited
+        // between visits the stale id falls through to reassignment below
+        // rather than rendering a blank card.
+        if (typeof saved.rewardId === "string" && rewardById(saved.rewardId, journey.rewards.pool)) {
           setRewardId(saved.rewardId);
           setRewardRevealed(Boolean(saved.rewardRevealed));
         }
@@ -105,14 +117,39 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
       // private mode, blocked storage — the hunt just starts fresh
     }
     setReady(true);
-    // Before the first event, so every event carries campaign context.
+    // Both before the first event, so every event carries campaign context
+    // AND the journey it belongs to.
+    setAnalyticsJourney(journey.id);
     captureAttribution();
     track(PLOT_EVENTS.pageView);
+    // journey is route-level configuration and never changes for a mounted
+    // tree; re-running this on it would replay the page view.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Bonus discoveries live in the same `found` list (so FoundMark/isFound
+  // still work for them) but only the five primary clues count toward the
+  // tracker, the guess gate, and — as of the reward-odds mechanic — which row
+  // of the reward table a solve draws from. Computed here, ahead of the
+  // reward-assignment effect below, so that effect closes over the count at
+  // the exact render where guessState flips to "solved".
+  const primaryFound = useMemo(
+    () => found.filter((id) => (PRIMARY_CLUE_IDS as string[]).includes(id)),
+    [found]
+  );
+  const primaryCount = primaryFound.length;
 
   /**
    * Assign once, and only once. Guarded on `rewardId` already existing, so
-   * solving → refreshing → returning can never produce a second roll.
+   * solving → refreshing → returning can never produce a second roll — and
+   * critically, so finding MORE clues after an already-assigned reward can
+   * never trigger a reroll either: this effect's deps don't include
+   * `primaryCount`, so a later change to it doesn't re-run the effect at all.
+   *
+   * `primaryCount` itself is read via closure, not as a dependency — the
+   * value this effect sees is whatever it was on the render that flipped
+   * `guessState` to "solved", which is exactly "clue count at the moment of
+   * the first successful solve" and nothing later.
    */
   useEffect(() => {
     if (!ready || guessState !== "solved" || rewardId) return;
@@ -120,19 +157,20 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
     // which changes the dep below and runs this again.
     if (rewardError) return;
 
-    const reward = pickReward();
+    const reward = pickReward(primaryCount, journey.rewards.pool, journey.rewards.weightsByClueProgress);
     if (!reward) {
       setRewardError(true);
       return;
     }
     setRewardId(reward.id);
-  }, [ready, guessState, rewardId, rewardError]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- primaryCount intentionally omitted, see comment above
+  }, [ready, guessState, rewardId, rewardError, journey]);
 
   useEffect(() => {
     if (!ready) return;
     try {
       window.localStorage.setItem(
-        plotHunt.storageKey,
+        journey.storageKey,
         JSON.stringify({
           found,
           solved: guessState === "solved",
@@ -144,7 +182,7 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
     } catch {
       // nothing to do — progress simply won't survive a refresh
     }
-  }, [found, guessState, solvedGuess, rewardId, rewardRevealed, ready]);
+  }, [found, guessState, solvedGuess, rewardId, rewardRevealed, ready, journey.storageKey]);
 
   /**
    * State updaters must stay pure: React re-invokes them (StrictMode in dev,
@@ -157,7 +195,7 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const submitGuess = useCallback((value: string) => {
-    const right = isCorrectGuess(value);
+    const right = isCorrectGuess(value, journey.destination.accepted);
     // The raw guess is never logged — only whether it landed.
     track(PLOT_EVENTS.guessResult, { result: right ? "correct" : "incorrect" });
     if (right) {
@@ -171,16 +209,7 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
       setWrongIndex((i) => (i + 1) % plotHunt.guess.wrong.length);
     }
     return right;
-  }, []);
-
-  // Bonus discoveries live in the same `found` list (so FoundMark/isFound still
-  // work for them) but only the five primary clues count toward the tracker
-  // and the guess gate.
-  const primaryFound = useMemo(
-    () => found.filter((id) => (PRIMARY_CLUE_IDS as string[]).includes(id)),
-    [found]
-  );
-  const primaryCount = primaryFound.length;
+  }, [journey.destination.accepted]);
 
   /**
    * The rung a clue handed over is fixed at the moment it was found: its
@@ -189,9 +218,9 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
   const rungFor = useCallback(
     (id: ClueId): LadderRung | null => {
       const i = primaryFound.indexOf(id);
-      return i === -1 ? null : (CLUE_LADDER[i] ?? null);
+      return i === -1 ? null : (journey.ladder[i] ?? null);
     },
-    [primaryFound]
+    [primaryFound, journey.ladder]
   );
 
   /**
@@ -211,7 +240,7 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
     });
   }, [primaryFound, ready]);
 
-  const reward = useMemo(() => rewardById(rewardId), [rewardId]);
+  const reward = useMemo(() => rewardById(rewardId, journey.rewards.pool), [rewardId, journey.rewards.pool]);
 
   const revealReward = useCallback(() => {
     // Guard and report outside the updater — see the note on `discover`.

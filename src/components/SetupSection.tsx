@@ -2,6 +2,7 @@
 
 import { setup } from "@/content/site";
 import { Note, PlotButton, SectionLabel, Stamp } from "./Bits";
+import { PricePreview } from "./PricePreview";
 import { Reveal, Stagger, StaggerItem } from "./motion";
 import { Arrow, BrushStroke, Squiggle } from "./Brush";
 import { HiddenClue } from "./mystery/HiddenClue";
@@ -58,6 +59,8 @@ export function SetupSection() {
             <Note className="block text-lg text-ink/50" rotate={-3}>
               {setup.ageNote}
             </Note>
+            {/* Renders nothing until pricing.revealed is true — see PricePreview. */}
+            <PricePreview />
           </Reveal>
         </div>
 

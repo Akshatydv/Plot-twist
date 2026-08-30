@@ -7,9 +7,11 @@ import { mystery, type Clue, type FlightClue, type PhotoClue, type TwistClue } f
 import { Note, SectionLabel } from "./Bits";
 import { Reveal } from "./motion";
 import { CircleScribble, MarkerUnderline } from "./Brush";
-import { plotHunt } from "@/content/mystery";
+import { PRIMARY_CLUE_IDS, plotHunt, type ClueId } from "@/content/mystery";
+import { useJourney } from "./mystery/JourneyProvider";
 import { usePlot, type LadderRung } from "./mystery/PlotProvider";
 import { HiddenClue } from "./mystery/HiddenClue";
+import { PLOT_EVENTS, track } from "@/lib/analytics";
 
 const accents = ["#FF7A3D", "#FF4F87", "#00A9C7"];
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -92,20 +94,30 @@ function LadderEarned({ rung }: { rung: LadderRung | null }) {
   );
 }
 
-/** A found clue gets stamped, so progress is legible at a glance. */
-function FoundMark({ found }: { found: boolean }) {
+/**
+ * Only the five primary clues move the tracker; everything else is a bonus
+ * find. Stamping both "FOUND" in the same green is what made people believe
+ * they were on 3/5 when the tracker said 1/5 — three stamps, one of which
+ * counted, and nothing on screen admitting the difference. A bonus still gets
+ * a stamp (it's the reward for looking), just not one that claims progress.
+ */
+function FoundMark({ found, id }: { found: boolean; id: ClueId }) {
   const reduce = useReducedMotion();
+  const counts = (PRIMARY_CLUE_IDS as string[]).includes(id);
+  const colour = counts ? "#36C96F" : "#FFD75E";
+
   return (
     <AnimatePresence>
       {found && (
         <motion.span
-          className="pointer-events-none absolute -right-2 -top-2.5 border-2 border-[#36C96F] bg-[#150711] px-1.5 py-0.5 font-display text-[9px] tracking-[0.14em] text-[#36C96F]"
+          className="pointer-events-none absolute -right-2 -top-2.5 border-2 bg-[#150711] px-1.5 py-0.5 font-display text-[9px] tracking-[0.14em]"
+          style={{ borderColor: colour, color: colour }}
           initial={reduce ? undefined : { opacity: 0, scale: 1.8, rotate: -26 }}
           animate={{ opacity: 1, scale: 1, rotate: -9 }}
           exit={reduce ? undefined : { opacity: 0 }}
           transition={{ type: "spring", stiffness: 240, damping: 15 }}
         >
-          FOUND
+          {counts ? "FOUND" : "BONUS"}
         </motion.span>
       )}
     </AnimatePresence>
@@ -123,6 +135,8 @@ function FlightClueCard({ clue, index }: { clue: FlightClue; index: number }) {
   const { isFound, discover } = usePlot();
   const found = isFound("flight");
   const R = plotHunt.reveals.flight;
+  // The scramble teases this destination's shape, so it comes from the journey.
+  const scramble = useJourney().flightScramble;
 
   const [display, setDisplay] = useState(clue.to);
   const [running, setRunning] = useState(false);
@@ -137,9 +151,9 @@ function FlightClueCard({ clue, index }: { clue: FlightClue; index: number }) {
     setRunning(true);
     let i = 0;
     const timer = setInterval(() => {
-      setDisplay(R.scramble[i % R.scramble.length]);
+      setDisplay(scramble[i % scramble.length]);
       i += 1;
-      if (i > R.scramble.length) {
+      if (i > scramble.length) {
         clearInterval(timer);
         setDisplay(R.settle);
         setRunning(false);
@@ -163,7 +177,7 @@ function FlightClueCard({ clue, index }: { clue: FlightClue; index: number }) {
       whileTap={reduce ? undefined : { scale: 0.985 }}
     >
       <AccentBar accent={accent} />
-      <FoundMark found={found} />
+      <FoundMark found={found} id="flight" />
       <ClueHeader eyebrow={clue.eyebrow} title={clue.title} accent={accent} />
 
       <div className="relative mx-auto mt-5 h-24 w-24 sm:h-28 sm:w-28">
@@ -238,7 +252,7 @@ function PhotoClueCard({ clue, index }: { clue: PhotoClue; index: number }) {
       whileHover={reduce ? undefined : { y: -6, rotate: 1.2 }}
     >
       <AccentBar accent={accent} />
-      <FoundMark found={found} />
+      <FoundMark found={found} id="landscape" />
       <ClueHeader eyebrow={clue.eyebrow} title={clue.title} accent={accent} />
 
       <button
@@ -267,13 +281,21 @@ function PhotoClueCard({ clue, index }: { clue: PhotoClue; index: number }) {
         />
 
         <motion.span
-          className="pointer-events-none absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
+          className="pointer-events-none absolute h-28 w-28 -translate-x-1/2 -translate-y-1/2 rounded-full border-4 shadow-[0_10px_30px_rgba(0,0,0,0.45)]"
           style={{
             left: `${clue.hotspot.x}%`,
             top: `${clue.hotspot.y}%`,
             borderColor: accent,
             backgroundImage: `url(${clue.photo.src})`,
-            backgroundSize: "420% 420%",
+            /**
+             * Percentages here resolve against the loupe, not the photo, so
+             * the old "420%" drew the image ~336px wide — narrower than the
+             * card already showed it. The glass magnified nothing. At 760% of
+             * a 112px loupe the photo renders ~850px wide, which is a real
+             * ~2x over the card and enough to read the roof. `auto` keeps the
+             * aspect ratio; the old paired percentages squashed it.
+             */
+            backgroundSize: "760% auto",
             backgroundPosition: `${clue.hotspot.x}% ${clue.hotspot.y}%`,
           }}
           initial={false}
@@ -330,6 +352,8 @@ function TwistClueCard({ clue, index }: { clue: TwistClue; index: number }) {
 
   const [display, setDisplay] = useState(() => maskOf(clue.reveal));
   const [decoded, setDecoded] = useState(false);
+  /** Pointer or keyboard — the artifact reacts to both, so the reveal isn't hover-only. */
+  const [hovered, setHovered] = useState(false);
   const started = useRef(false);
 
   const start = () => {
@@ -356,9 +380,19 @@ function TwistClueCard({ clue, index }: { clue: TwistClue; index: number }) {
       href={clue.href}
       target="_blank"
       rel="noreferrer"
-      onClick={() => discover("last")}
+      onClick={() => {
+        discover("last");
+        // The handoff out of the site. It never fired from here — only the
+        // footer link did — so the funnel lost every exit that happened at
+        // the actual moment of the fourth-wall break.
+        track(PLOT_EVENTS.openInstagram);
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
       data-clue-id={clue.id}
-      className="group relative block border border-sand/25 bg-white/[0.04] p-5 outline-none transition-colors duration-300 hover:border-sand/60 focus-visible:border-sand sm:p-6"
+      className="group relative flex flex-col border border-sand/25 bg-white/[0.04] p-5 outline-none transition-colors duration-300 hover:border-sand/60 focus-visible:border-sand sm:p-6"
       initial={reduce ? undefined : { opacity: 0, y: 28 }}
       whileInView={reduce ? undefined : { opacity: 1, y: 0 }}
       onViewportEnter={start}
@@ -368,29 +402,99 @@ function TwistClueCard({ clue, index }: { clue: TwistClue; index: number }) {
       whileTap={reduce ? undefined : { scale: 0.98 }}
     >
       <AccentBar accent={accent} />
-      <FoundMark found={found} />
+      <FoundMark found={found} id="last" />
       <ClueHeader eyebrow={clue.eyebrow} title={clue.title} accent={accent} />
 
-      <p className="mt-5 font-serif text-[clamp(1.15rem,3.2vw,1.5rem)] italic leading-[1.2] text-sand">{clue.line}</p>
-      <p className="mt-2 font-hand text-[clamp(1rem,2.8vw,1.2rem)] leading-[1.2] text-sand/70">{clue.hint}</p>
+      <p className="mt-4 font-serif text-[clamp(1.15rem,3.2vw,1.5rem)] italic leading-[1.15] text-sand">{clue.line}</p>
+      <p className="mt-1.5 font-hand text-[clamp(1rem,2.8vw,1.2rem)] leading-[1.2] text-sand/70">{clue.hint}</p>
 
-      <div className="mt-5 border border-sand/20 bg-black/25 px-4 py-3">
-        <div
-          className="font-mono text-[13px] tracking-[0.1em] transition-colors duration-300"
-          style={{ color: decoded ? accent : "rgba(255,241,220,0.55)" }}
+      {/*
+        THE ARTIFACT. Everything above is the website talking; this is the
+        thing it slides across the table. Cream paper on the plum card so it
+        reads as physically separate — the one element on the page that isn't
+        "of" the site, which is the whole fourth-wall gag.
+      */}
+      <div className="relative mt-5 grow" style={{ perspective: 700 }}>
+        <motion.div
+          className="paper relative h-full border border-ink/25 px-3.5 pb-3.5 pt-5 shadow-[0_18px_34px_-18px_rgba(0,0,0,0.85)]"
+          initial={{ rotate: -1.4, y: 0 }}
+          animate={{ rotate: hovered && !reduce ? -0.3 : -1.4, y: hovered && !reduce ? -3 : 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
         >
-          {display}
-        </div>
+          <span className="grain" aria-hidden />
+          <span className="tape absolute -top-2.5 left-1/2 h-5 w-16 -translate-x-1/2 -rotate-2" aria-hidden />
+
+          {/* evidence-log metadata, not UI chrome */}
+          <span className="block font-mono text-[7.5px] leading-none tracking-[0.14em] text-ink/45">
+            {clue.evidence.meta}
+          </span>
+
+          {/* the address they're being sent to */}
+          <div className="mt-3 border-2 border-dashed border-ink/30 bg-ink/[0.04] px-3 py-2.5">
+            <div
+              className="font-mono text-[clamp(11px,2.6vw,13px)] leading-none tracking-[0.06em] transition-colors duration-300"
+              style={{ color: decoded ? "#1a0d0a" : "rgba(26,13,10,0.45)" }}
+            >
+              {display}
+            </div>
+          </div>
+
+          {/* hand-drawn arrow running from the address toward the exit */}
+          <svg viewBox="0 0 200 14" className="mt-2 block w-full" aria-hidden>
+            <motion.path
+              d="M2,8 C60,3 130,11 186,6"
+              fill="none"
+              stroke="#1a0d0a"
+              strokeOpacity="0.45"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              initial={{ pathLength: 0.55 }}
+              animate={{ pathLength: reduce ? 0.55 : hovered ? 1 : 0.55 }}
+              transition={{ duration: 0.5, ease }}
+            />
+            <path d="M182,2 L192,6 L182,10" fill="none" stroke="#1a0d0a" strokeOpacity="0.45" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+
+          <span className="mt-1 block text-right font-hand text-[1.05rem] leading-none text-ink/70">
+            {clue.evidence.annotation}
+          </span>
+
+          {/* the stamp that says this file was never ours */}
+          <span
+            className="pointer-events-none absolute bottom-3 left-3 border-2 px-1.5 py-0.5 font-display text-[8px] leading-none tracking-[0.12em] opacity-70"
+            style={{ borderColor: accent, color: accent, rotate: "-7deg" }}
+          >
+            {clue.evidence.stamp}
+          </span>
+        </motion.div>
       </div>
 
+      <span className="mt-3 block font-hand text-[0.95rem] leading-none text-sand/45">{clue.evidence.micro}</span>
+
+      {/* the exit */}
       <span
-        className="mt-5 flex items-center gap-2 text-[10px] tracked transition-colors duration-300"
+        className="mt-3 flex items-center gap-2 text-[10px] tracked transition-colors duration-300"
         style={{ color: accent }}
       >
-        {decoded ? "OPEN INSTAGRAM" : "DECODING…"}
-        <span className="transition-transform duration-300 group-hover:translate-x-1.5" aria-hidden>
-          ↗
+        <span className="relative">
+          {decoded ? clue.evidence.cta : "DECODING…"}
+          {/* underline draws itself on approach rather than sitting there */}
+          <motion.span
+            className="absolute -bottom-1 left-0 block h-px w-full origin-left"
+            style={{ background: accent }}
+            initial={false}
+            animate={{ scaleX: hovered && decoded ? 1 : 0 }}
+            transition={reduce ? { duration: 0 } : { duration: 0.35, ease }}
+            aria-hidden
+          />
         </span>
+        <motion.span
+          animate={reduce ? undefined : { x: hovered ? 5 : 0 }}
+          transition={{ type: "spring", stiffness: 320, damping: 18 }}
+          aria-hidden
+        >
+          ↗
+        </motion.span>
       </span>
 
       <ClueEarned found={found} note={R.note} earned={R.earned} />
@@ -410,6 +514,8 @@ function ClueCard({ clue, index }: { clue: Clue; index: number }) {
 }
 
 export function MysteryPreview() {
+  const journey = useJourney();
+
   return (
     <section
       id="clues"
@@ -448,7 +554,7 @@ export function MysteryPreview() {
         </div>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {mystery.clues.map((c, i) => (
+          {journey.clues.map((c, i) => (
             <ClueCard key={c.id} clue={c} index={i} />
           ))}
         </div>

@@ -3,14 +3,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { casting, type Trait } from "@/content/site";
+import { casting, CASTING_MAX_SCORE, type Trait } from "@/content/site";
+import { useJourney } from "./mystery/JourneyProvider";
 import { Note, PlotButton, SectionLabel } from "./Bits";
 import { Reveal } from "./motion";
 import { PLOT_EVENTS } from "@/lib/analytics";
 import { Arrow, BrushStroke } from "./Brush";
 
 const ease = [0.22, 1, 0.36, 1] as const;
-const TOTAL = casting.traits.length;
 
 /* ------------------------------------------------------------------ */
 /* red-pen marks                                                       */
@@ -51,14 +51,18 @@ function GradeStar({ color, className = "" }: { color: string; className?: strin
 }
 
 /**
- * The grade itself: handwritten 10/10, circled harder the more the visitor
- * ticks off. The ring is one rough pen stroke whose length tracks the count,
- * so it reads as someone circling — not as a progress meter.
+ * The grade itself: handwritten score-out-of-10, circled harder the closer
+ * it gets. The ring is one rough pen stroke whose length tracks the score
+ * (not the tick count — a +2 trait should visibly move the needle further
+ * than a +1 one), so it reads as someone circling, not a progress meter.
+ *
+ * `score` is the sum of picked traits' weights, always 0–10 by construction
+ * (see CASTING_MAX_SCORE and the weight-sum assertion in content/site.ts).
  */
-function Grade({ count, verdict }: { count: number; verdict: string | null }) {
+function Grade({ score, count, verdict }: { score: number; count: number; verdict: string | null }) {
   const reduce = useReducedMotion();
-  const full = count === TOTAL;
-  const progress = count === 0 ? 0 : 0.2 + (count / TOTAL) * 0.8;
+  const full = score === CASTING_MAX_SCORE;
+  const progress = score === 0 ? 0 : 0.2 + (score / CASTING_MAX_SCORE) * 0.8;
 
   return (
     <div className="relative flex flex-col items-center">
@@ -121,7 +125,12 @@ function Grade({ count, verdict }: { count: number; verdict: string | null }) {
           }
           transition={{ type: "spring", stiffness: 200, damping: 14 }}
         >
-          {casting.headline.replace("?", "")}
+          {/*
+            Was a static "10/10" regardless of what was picked — the central
+            mark and the cards were telling two different stories. Now it's
+            the one thing that actually reads the score.
+          */}
+          {score}/10
         </motion.div>
       </div>
 
@@ -317,7 +326,8 @@ function TraitCard({
             animate={reduce ? undefined : { scale: active ? [0.5, 1.3, 1] : 1 }}
             transition={{ duration: 0.4, ease }}
           >
-            {active ? "✓" : "+1"}
+            {/* Every card said "+1" regardless of what it was actually worth. */}
+            {active ? "✓" : `+${trait.weight}`}
           </motion.span>
         </span>
 
@@ -339,7 +349,7 @@ function PhotoScrap({
   style,
   tilt,
 }: {
-  photo: (typeof casting.photos)[number];
+  photo: { src: string; alt: string; note: string };
   className?: string;
   style?: React.CSSProperties;
   tilt: number;
@@ -393,6 +403,9 @@ const NOTES: { top: string; left: string; rotate: number; color: string }[] = [
 ];
 
 export function WhatsATen() {
+  // Only the stamp and the three photo scraps are per-journey — the six
+  // traits, the grading and the 10/10 are brand-level and shared.
+  const journey = useJourney();
   const [picked, setPicked] = useState<string[]>([]);
 
   const toggle = (id: string) =>
@@ -401,6 +414,12 @@ export function WhatsATen() {
   const count = picked.length;
   const last = picked[picked.length - 1];
   const verdict = last ? (casting.traits.find((t) => t.id === last)?.verdict ?? null) : null;
+  /**
+   * The actual grade: each picked trait's own weight, summed. Never the flat
+   * "+1 per card" the tally row implies — a card can be worth more than
+   * another, same as it would on a real casting sheet.
+   */
+  const score = picked.reduce((sum, id) => sum + (casting.traits.find((t) => t.id === id)?.weight ?? 0), 0);
 
   return (
     <section
@@ -416,8 +435,20 @@ export function WhatsATen() {
         {/* masthead */}
         <div className="flex flex-wrap items-center gap-4">
           <SectionLabel index={casting.index} label={casting.label} color="#FFF1DC" />
-          <span className="border border-sand/30 px-2 py-1 text-[9px] tracked text-sand/55">{casting.stamp}</span>
+          <span className="border border-sand/30 px-2 py-1 text-[9px] tracked text-sand/55">{journey.casting.stamp}</span>
         </div>
+
+        {/*
+          Says why this section exists before it starts grading anything.
+          Without it the trait board reads as a quiz about the visitor.
+        */}
+        <Reveal>
+          <p className="mt-5 max-w-[42ch] font-serif text-[clamp(1.05rem,2.7vw,1.35rem)] leading-[1.35] text-sand/75">
+            {casting.bridge[0]}
+            <br />
+            {casting.bridge[1]}
+          </p>
+        </Reveal>
 
         <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
           <Reveal>
@@ -442,9 +473,9 @@ export function WhatsATen() {
 
         {/* ---------------- DESKTOP BOARD ---------------- */}
         <div className="relative mx-auto mt-6 hidden aspect-[1.75/1] w-full max-w-[1120px] lg:block">
-          <PhotoScrap photo={casting.photos[0]} tilt={-8} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "16%", left: "8%" }} />
-          <PhotoScrap photo={casting.photos[1]} tilt={7} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "74%", left: "90%" }} />
-          <PhotoScrap photo={casting.photos[2]} tilt={-5} className="absolute w-[13%] -translate-x-1/2 -translate-y-1/2" style={{ top: "84%", left: "50%" }} />
+          <PhotoScrap photo={journey.casting.photos[0]} tilt={-8} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "16%", left: "8%" }} />
+          <PhotoScrap photo={journey.casting.photos[1]} tilt={7} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "74%", left: "90%" }} />
+          <PhotoScrap photo={journey.casting.photos[2]} tilt={-5} className="absolute w-[13%] -translate-x-1/2 -translate-y-1/2" style={{ top: "84%", left: "50%" }} />
 
           <span className="pointer-events-none absolute left-[86%] top-[18%] -translate-x-1/2 -translate-y-1/2 rotate-[7deg] font-hand text-2xl text-[#FFD75E]">
             {casting.asides[0]}
@@ -475,7 +506,7 @@ export function WhatsATen() {
           </span>
 
           <div className="absolute left-1/2 top-[48%] w-[30%] -translate-x-1/2 -translate-y-1/2">
-            <Grade count={count} verdict={verdict} />
+            <Grade score={score} count={count} verdict={verdict} />
           </div>
 
           {casting.traits.map((t) => {
@@ -497,19 +528,27 @@ export function WhatsATen() {
         {/* ---------------- MOBILE / TABLET BOARD ---------------- */}
         <div className="lg:hidden">
           <div className="relative mt-8 flex justify-center">
+            {/*
+              Below 640px the old max-w-[110px]/[104px] caps didn't shrink
+              with the viewport, so the polaroids stayed wide enough to run
+              under the grade's tally row and margin note — visible as text
+              overlapping a photo corner on narrow phones. sm: and up were
+              never affected (that cap doesn't bind once w-[20%]/[18%] take
+              over), so only the base sizes needed pulling in.
+            */}
             <PhotoScrap
-              photo={casting.photos[0]}
+              photo={journey.casting.photos[0]}
               tilt={-9}
-              className="absolute left-0 top-2 w-[26%] max-w-[110px] sm:w-[20%]"
+              className="absolute left-0 top-2 w-[15%] max-w-[58px] sm:w-[20%] sm:max-w-none"
             />
             <PhotoScrap
-              photo={casting.photos[1]}
+              photo={journey.casting.photos[1]}
               tilt={8}
-              className="absolute right-0 top-10 w-[24%] max-w-[104px] sm:w-[18%]"
+              className="absolute right-0 top-10 w-[14%] max-w-[58px] sm:w-[18%] sm:max-w-none"
             />
             {/* above the polaroids so the circled grade stays legible */}
             <div className="relative z-10 w-[54%] max-w-[260px] sm:w-[44%]">
-              <Grade count={count} verdict={verdict} />
+              <Grade score={score} count={count} verdict={verdict} />
             </div>
           </div>
 
@@ -529,7 +568,7 @@ export function WhatsATen() {
             <Note className="block text-lg text-[#FFD75E]" rotate={-4}>
               {casting.asides[0]}
             </Note>
-            <PhotoScrap photo={casting.photos[2]} tilt={6} className="w-[24%] max-w-[96px] shrink-0" />
+            <PhotoScrap photo={journey.casting.photos[2]} tilt={6} className="w-[24%] max-w-[96px] shrink-0" />
           </div>
         </div>
 

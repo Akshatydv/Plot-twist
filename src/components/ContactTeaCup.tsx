@@ -125,14 +125,13 @@ export function ContactTeaCup() {
           onFocus={() => setHinting(true)}
           onBlur={() => setHinting(false)}
           className="group relative block rounded-sm outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-pink"
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduce ? { opacity: 0, rotate: -3 } : { opacity: 0, y: 12, rotate: -3 }}
+          animate={{ opacity: 1, y: 0, rotate: -3 }}
           // Lands after the clue tracker; two things arriving at once reads as
           // a page wearing widgets.
           transition={{ duration: 0.7, delay: 1.7, ease }}
           whileHover={reduce ? undefined : { y: -4, rotate: 0, scale: 1.04 }}
           whileTap={reduce ? undefined : { scale: 0.97 }}
-          style={{ rotate: "-3deg" }}
         >
           {/*
             The supporting line — a taped slip, revealed on hover AND keyboard

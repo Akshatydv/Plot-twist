@@ -1,15 +1,15 @@
 /**
- * THE MYSTERY LAYER — every configurable piece of the hunt lives here.
+ * THE MYSTERY LAYER — the MECHANICS of the hunt. Journey-agnostic.
  *
- * To change the destination, change DESTINATION and ACCEPTED below. Nothing
- * else in the codebase knows the answer, and it never appears in rendered
- * copy, alt text or metadata until the visitor actually solves it.
+ * What lives here: how many clues there are, how many unlock a guess, how a
+ * guess is normalised, and the copy that is true of every Plot Twist hunt.
+ *
+ * What does NOT live here: the destination, the words on the ladder, the
+ * accepted answers, or the storage namespace. Those are per-journey and live
+ * in content/journeys/. This file must never learn a destination's name —
+ * that is what stopped Bali leaking into the bundle, and it is what keeps a
+ * second journey from being a second copy of the site.
  */
-
-const DESTINATION = "Bali";
-
-/** Normalised forms that count as correct. Keep lowercase, no punctuation. */
-const ACCEPTED = ["bali", "baliindonesia", "denpasar"];
 
 /** Strip case, accents, punctuation and spacing so near-misses still land. */
 export function normalise(value: string) {
@@ -21,14 +21,22 @@ export function normalise(value: string) {
     .trim();
 }
 
-export function isCorrectGuess(value: string) {
+/**
+ * Does this guess solve THIS journey?
+ *
+ * The accepted list is passed in rather than imported, so there is exactly
+ * one guess implementation and no component can be tempted to branch on
+ * which journey it is rendering.
+ */
+export function isCorrectGuess(value: string, accepted: readonly string[]) {
   const v = normalise(value);
-  return v.length > 0 && ACCEPTED.some((a) => normalise(a) === v);
+  return v.length > 0 && accepted.some((a) => normalise(a) === v);
 }
 
 /**
  * The five PRIMARY clues — findable through normal exploration, and the only
- * ones that count toward "THE PLOT x/5".
+ * ones that count toward "THE PLOT x/5". Same five slots in every journey;
+ * only what they say changes.
  */
 export type PrimaryClueId = "place" | "culture" | "landscape" | "nightlife" | "final";
 
@@ -47,68 +55,33 @@ export const CLUE_IDS: ClueId[] = [...PRIMARY_CLUE_IDS, "flight", "last", "hero-
 export const TOTAL_CLUES = PRIMARY_CLUE_IDS.length;
 
 /**
- * Guessing opens at three. By then the ladder below has handed over island +
- * region + the offerings detail — enough to have a real theory without
- * forcing a completionist sweep.
+ * Guessing opens at three. Every journey's ladder is written so that rung
+ * three is the one that makes a real theory possible — see the ladder
+ * contract in content/journeys/types.ts.
  */
 export const GUESS_THRESHOLD = 3;
 
 /**
- * THE LADDER — information is assigned by DISCOVERY ORDER, not by location.
+ * THE LADDER CONTRACT — information is assigned by DISCOVERY ORDER, not by
+ * location. Visitors explore in whatever order they like, so keying rungs to
+ * the page they happen to poke first would let someone open with the
+ * strongest clue and collapse the mystery. Indexing by "how many have you
+ * found" guarantees the intended arc every time: broad → direction → signal →
+ * confirmation → final nudge.
  *
- * Visitors explore in whatever order they like, so keying these to the page
- * they happen to poke first would let someone open with the strongest clue
- * and collapse the mystery. Indexing by "how many have you found" guarantees
- * the intended arc every time: broad → direction → signal → confirmation →
- * final nudge. Rung three is deliberately the one that makes a guess possible,
- * which is why the gate sits at three.
- *
- * None of these name the destination. They're deduction, not disclosure.
+ * The rungs themselves are per-journey. This is only their shape.
  */
-export const CLUE_LADDER = [
-  {
-    step: "01",
-    kicker: "SOMEWHERE WARM",
-    reveal: "Not a city. An island. You'll want a passport and almost no luggage.",
-    note: "could be anywhere.",
-  },
-  {
-    step: "02",
-    kicker: "NARROWING IT",
-    reveal: "Southeast Asia. Eight degrees south of the equator, so our winter is their dry season.",
-    note: "hmm. getting warmer.",
-  },
-  {
-    step: "03",
-    kicker: "THE TELL",
-    reveal:
-      "Every morning, little palm-leaf trays of flowers appear on the doorsteps. Not decoration — offerings. On an island that kept its own gods when the rest of the country changed.",
-    note: "okay, you have a theory.",
-  },
-  {
-    step: "04",
-    kicker: "CONFIRMATION",
-    reveal:
-      "Temples on the sea cliffs. Rice terraces stacked up the hills. A volcano watching the whole thing, and a monkey going through someone's bag.",
-    note: "this feels suspicious now.",
-  },
-  {
-    step: "05",
-    kicker: "LAST ONE",
-    reveal: "They call it the Island of the Gods. Sunset drinks, boat days, and nights with no real bedtime.",
-    note: "you definitely know.",
-  },
-] as const;
+export type { LadderRung } from "./journeys/types";
 
 export const plotHunt = {
-  /** Bumped: the ladder changed what a saved find means. */
-  storageKey: "plottwist.plot.v3",
-
   tracker: {
     label: "THE PLOT",
     /** Picked by how many have been found — handwritten, never a progress bar. */
     lines: [
-      { min: 0, text: "you have work to do." },
+      // Shown before a visitor has found anything — which is also their first
+      // second on the page. "you have work to do." assigned homework to
+      // someone who didn't yet know what this was.
+      { min: 0, text: "if you're curious." },
       { min: 1, text: "could be anywhere." },
       { min: 2, text: "hmm. getting warmer." },
       { min: 3, text: "okay, you have a theory." },
@@ -121,8 +94,9 @@ export const plotHunt = {
   /** Copy for the bonus MysteryPreview cards — atmosphere, not geography. */
   reveals: {
     flight: {
-      /** Cycles while the destination field "tries" to resolve. */
-      scramble: ["B _ _ _", "▮ ▮ ▮ ▮", "T R _ _", "▮▮▮▮▮", "N I C E", "T R Y"],
+      // The scramble sequence teases the destination's own shape (letter
+      // count, a first initial), so it is per-journey — see
+      // JourneyConfig.flightScramble.
       settle: "CLASSIFIED",
       note: "not giving you that easily.",
       earned: "Nice try. The board isn't telling you either.",
@@ -157,10 +131,9 @@ export const plotHunt = {
     correct: {
       kicker: "YOU GOT IT.",
       title: "That was supposed to take longer.",
-      destination: DESTINATION,
-      body: "Journey 01. Now you know where. You still don't know who with.",
+      // `destination` and `body` are per-journey — see JourneyConfig.
       note: "okay, detective.",
-      ctaLead: "Now let's see if you're a 10/10.",
+      ctaLead: "Solving it doesn't get you a seat. This might.",
       cta: { label: "MAKE YOUR CASE", href: "#apply" },
     },
   },

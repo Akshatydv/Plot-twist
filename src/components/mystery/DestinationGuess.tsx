@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { plotHunt } from "@/content/mystery";
+import { useJourney } from "./JourneyProvider";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note } from "../Bits";
 import { CircleScribble, MarkerUnderline } from "../Brush";
@@ -13,6 +14,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const G = plotHunt.guess;
 
 export function DestinationGuess() {
+  const journey = useJourney();
   const { canGuess, guessState, wrongIndex, submitGuess, count, total, ready } = usePlot();
   const reduce = useReducedMotion();
   const [value, setValue] = useState("");
@@ -174,7 +176,7 @@ export function DestinationGuess() {
                   className="pointer-events-none absolute -inset-x-4 -inset-y-3 h-[calc(100%+1.5rem)] w-[calc(100%+2rem)]"
                 />
                 <span className="relative font-brush text-[clamp(3rem,13vw,6.5rem)] leading-[0.9] text-[#FFE9A8]">
-                  {G.correct.destination}
+                  {journey.destination.name}
                 </span>
               </motion.div>
 
@@ -184,7 +186,7 @@ export function DestinationGuess() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.75, duration: 0.5 }}
               >
-                {G.correct.body}
+                {journey.solvedBody}
               </motion.p>
 
               <motion.div
