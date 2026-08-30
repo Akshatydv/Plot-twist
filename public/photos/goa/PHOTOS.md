@@ -25,13 +25,31 @@ they should be.
 | `hero.jpg` | `6XsT6TUdLZc` | Shravan Yelburgi | A rocky, palm-crowded headland rising from calm water under flat coastal haze | Hero |
 | `escape.jpg` | `tHgATU9wbtQ` | Chirayu Sharma | A small cove seen from a clifftop, rocky headlands into a hazy sea | THE ESCAPE |
 | `experience.jpg` | `rqlZNkjYafA` | vinay kumar | A bamboo footbridge over a still creek, leading to fields fringed with coconut palms | THE EXPERIENCE |
-| `people.jpg` | `WQSRc4QZ5jU` | Aakash Goel | People walking a wide beach in warm hazy light, slightly motion-blurred | THE PEOPLE |
+| `people.jpg` | user-supplied | — | User-submitted group photo (poolside night, large friend group) — replaces the originally sourced Unsplash beach photo | THE PEOPLE |
 | `plot.jpg` | `u4BF1kV2ZSo` | Yash Parashar | A beach after dark, lantern-lit tables on the sand below shacks strung with lights | THE PLOT (nightlife) |
 | `unexpected.jpg` | `KNg2AyOXa-Q` | Parth Tendulkar | A surfboard propped against a whitewashed beach cafe, golden hour | THE UNEXPECTED |
 | `landscape-clue.jpg` | `6O6CoqqYWkA` | Jaideep Arora | A dusk beach, figures at the waterline — **and the hidden clue** | Clue 02 (zoom) |
 
-`people.jpg`, `plot.jpg` and `unexpected.jpg` are reused as the three casting
-photo scraps, exactly as Journey 01 reuses its own.
+`plot.jpg` and `unexpected.jpg` are reused as two of the three casting photo
+scraps, exactly as Journey 01 reuses its own. `people.jpg` is also reused as
+the third.
+
+### people.jpg — provenance note
+
+Unlike the other six files, `people.jpg` was supplied directly by the site
+owner (2026-08-30) rather than sourced from Unsplash, and the SAME file is
+used on **both** Journey 00 and Journey 01 — it is the one deliberate
+exception to “no frame in common between journeys,” made because the brief
+was explicitly to update THE PEOPLE section identically on both pages.
+
+It is 629×550 (a WhatsApp-compressed export, ~78KB) — noticeably lower
+resolution than the other curated photos, which run 1400–2400px wide. It will
+read softer at large sizes. Licence/rights were not independently verified
+— the file contains identifiable faces and a repeated third-party apparel
+logo (flat merch photography does not raise the same third-party-branding
+concern as visible signage in a location shot, but the faces do carry consent
+considerations); it is used here on the site owner’s instruction and at their
+risk, not vetted the way the Unsplash set above was.
 
 ### Why these, and what was rejected
 

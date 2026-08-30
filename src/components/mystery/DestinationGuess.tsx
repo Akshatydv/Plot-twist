@@ -15,7 +15,7 @@ const G = plotHunt.guess;
 
 export function DestinationGuess() {
   const journey = useJourney();
-  const { canGuess, guessState, wrongIndex, submitGuess, count, total, ready } = usePlot();
+  const { guessState, wrongIndex, submitGuess, count, ready } = usePlot();
   const reduce = useReducedMotion();
   const [value, setValue] = useState("");
   const startedRef = useRef(false);
@@ -46,34 +46,13 @@ export function DestinationGuess() {
 
       <div className="relative mx-auto max-w-[720px] text-center">
         <AnimatePresence mode="wait">
-          {/* ---- still hunting ---- */}
-          {ready && !canGuess && (
-            <motion.div
-              key="locked"
-              initial={reduce ? undefined : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? undefined : { opacity: 0, y: -16 }}
-              transition={{ duration: 0.45, ease }}
-            >
-              <h2 className="font-display text-[clamp(2rem,7vw,3.6rem)] uppercase leading-[0.92] text-sand/70">
-                {G.lockedTitle}
-              </h2>
-              <p className="mx-auto mt-3 max-w-[34ch] text-[clamp(1rem,2.4vw,1.15rem)] leading-[1.5] text-sand/55">
-                {G.lockedBody}
-              </p>
-              <div className="mt-5 flex items-center justify-center gap-3">
-                <span className="font-display text-[15px] text-pink">{String(count).padStart(2, "0")}</span>
-                <span className="h-px w-16 bg-sand/25" />
-                <span className="font-display text-[15px] text-sand/40">{String(total).padStart(2, "0")}</span>
-              </div>
-              <Note className="mt-4 inline-block text-[1.2rem] text-sand/45" rotate={-3}>
-                {G.lockedNote}
-              </Note>
-            </motion.div>
-          )}
-
           {/* ---- guessing ---- */}
-          {ready && canGuess && !solved && (
+          {/*
+            No longer gated on clue count — canGuess is always true (see
+            PlotProvider). Anyone can try a guess from zero clues on; the
+            clue count still decides the reward-odds tier on a correct one.
+          */}
+          {ready && !solved && (
             <motion.div
               key="open"
               initial={reduce ? undefined : { opacity: 0, y: 16 }}

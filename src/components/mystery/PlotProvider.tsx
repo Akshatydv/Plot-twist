@@ -2,7 +2,6 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
-  GUESS_THRESHOLD,
   PRIMARY_CLUE_IDS,
   TOTAL_CLUES,
   isCorrectGuess,
@@ -261,7 +260,12 @@ export function PlotProvider({ children }: { children: React.ReactNode }) {
       isFound: (id: ClueId) => found.includes(id),
       discover,
       rungFor,
-      canGuess: primaryCount >= GUESS_THRESHOLD || guessState === "solved",
+      // The guess box is intentionally never gated by clue count — anyone can
+      // try a guess from zero clues on. GUESS_THRESHOLD still does real work:
+      // it's the ordinal that decides which reward-odds tier a solve draws
+      // from (see rewards.ts) and it's baked into the "rung 3 makes a theory
+      // possible" ladder design. It just no longer locks the input.
+      canGuess: true,
       guessState,
       wrongIndex,
       submitGuess,

@@ -60,7 +60,7 @@ export const JOURNEY_01: JourneyConfig = {
         title: "THE PEOPLE",
         caption: "20 strangers, briefly",
         src: "/photos/people.jpg",
-        alt: "Five young people together outdoors",
+        alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
         note: "10/10s only",
       },
       {
@@ -85,7 +85,11 @@ export const JOURNEY_01: JourneyConfig = {
   casting: {
     stamp: "CASTING — JOURNEY 01",
     photos: [
-      { src: "/photos/people.jpg", alt: "Young people together outdoors", note: "the group chat, irl" },
+      {
+        src: "/photos/people.jpg",
+        alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
+        note: "the group chat, irl",
+      },
       { src: "/photos/plot.jpg", alt: "A crowd silhouetted against a tropical sunset", note: "02:00" },
       { src: "/photos/unexpected.jpg", alt: "A scooter on a palm-lined coastal road at sunset", note: "no filter" },
     ],

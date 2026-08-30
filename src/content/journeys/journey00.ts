@@ -105,7 +105,7 @@ export const JOURNEY_00: JourneyConfig = {
         title: "THE PEOPLE",
         caption: "20 strangers, briefly",
         src: "/photos/goa/people.jpg",
-        alt: "People walking along a wide beach in warm hazy light at the end of the day",
+        alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
         note: "10/10s only",
       },
       {
@@ -132,7 +132,7 @@ export const JOURNEY_00: JourneyConfig = {
     photos: [
       {
         src: "/photos/goa/people.jpg",
-        alt: "People walking along a beach in warm hazy light",
+        alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
         note: "the group chat, irl",
       },
       { src: "/photos/goa/plot.jpg", alt: "Lantern-lit tables on a beach after dark", note: "02:00" },
