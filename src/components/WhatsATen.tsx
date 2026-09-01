@@ -425,9 +425,17 @@ const NOTES: { top: string; left: string; rotate: number; color: string }[] = [
 export function WhatsATen({
   compact = false,
   composition,
+  index,
 }: {
   compact?: boolean;
   composition?: { title: string; body: string; disclaimer: string };
+  /**
+   * Section number beside the label. Defaults to `casting.index`, which is
+   * this section's position in JOURNEY 01's running order — correct there and
+   * wrong anywhere the sections come in a different order, so the reveal page
+   * passes its own. See GOA_SECTION_ORDER in content/goa.ts.
+   */
+  index?: string;
 } = {}) {
   // Only the stamp and the three photo scraps are per-journey — the six
   // traits, the grading and the 10/10 are brand-level and shared.
@@ -462,7 +470,7 @@ export function WhatsATen({
       <div className="relative">
         {/* masthead */}
         <div className="flex flex-wrap items-center gap-4">
-          <SectionLabel index={casting.index} label={casting.label} color="#FFF1DC" />
+          <SectionLabel index={index ?? casting.index} label={casting.label} color="#FFF1DC" />
           <span className="border border-sand/30 px-2 py-1 text-[9px] tracked text-sand/55">{journey.casting.stamp}</span>
         </div>
 

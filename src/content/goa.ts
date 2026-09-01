@@ -20,6 +20,46 @@
  */
 
 /* ------------------------------------------------------------------ */
+/* section numbering                                                   */
+/* ------------------------------------------------------------------ */
+
+/**
+ * THE RUNNING ORDER — the single source of the little 01/02/03 beside each
+ * section label.
+ *
+ * It exists because hardcoding those numbers on each section is how they broke
+ * in the first place: two sections both showed 03 and two both showed 04,
+ * because THE CASTING and THE APPLICATION take their index from
+ * content/site.ts — where the numbers are correct for JOURNEY 01's running
+ * order (setup, story, philosophy, casting, mystery, selection, application)
+ * and wrong for this page's.
+ *
+ * Anything numbered on the reveal page must appear in this array, in the order
+ * it appears on screen. Insert or move an entry and every number after it
+ * follows automatically.
+ *
+ * The four chapters are deliberately NOT in here — they run their own
+ * CHAPTER 01–04 track in the scene slates, which is a separate sequence and
+ * should not consume section numbers.
+ */
+export const GOA_SECTION_ORDER = [
+  "premise",
+  "cast",
+  "homeBase",
+  "plotTwists",
+  "difference",
+  "facts",
+  "application",
+] as const;
+
+export type GoaSectionKey = (typeof GOA_SECTION_ORDER)[number];
+
+/** Zero-padded position of a section in the running order — "01", "02", … */
+export function goaIndex(key: GoaSectionKey): string {
+  return String(GOA_SECTION_ORDER.indexOf(key) + 1).padStart(2, "0");
+}
+
+/* ------------------------------------------------------------------ */
 /* the facts everything else is built on                               */
 /* ------------------------------------------------------------------ */
 
@@ -37,7 +77,7 @@ export const GOA = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 01 — hero                                                           */
+/* hero                                                                */
 /* ------------------------------------------------------------------ */
 
 export const goaHero = {
@@ -55,11 +95,11 @@ export const goaHero = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 02 — the premise                                                    */
+/* the premise                                                         */
 /* ------------------------------------------------------------------ */
 
 export const premise = {
-  index: "01",
+  index: goaIndex("premise"),
   label: "THE PREMISE",
   big: ["YOU COULD", "JUST GO TO GOA.", "OR YOU COULD DO THIS."],
   body: [
@@ -74,7 +114,7 @@ export const premise = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 03 — the cast                                                       */
+/* the cast                                                            */
 /* ------------------------------------------------------------------ */
 
 /**
@@ -103,7 +143,7 @@ export const cast = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 04–07 — the four chapters                                           */
+/* the four chapters                                                   */
 /* ------------------------------------------------------------------ */
 
 /**
@@ -269,11 +309,109 @@ export const roleCall = {
 export const route = ["THE ROAD", "THE WATERFALL", "THE BEACH", "THE SHACK", "THE SUNSET"] as const;
 
 /* ------------------------------------------------------------------ */
-/* 08 — the plot twists                                                */
+/* the home base                                                       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * THE HOME BASE — where the cast sleeps between the chapters.
+ *
+ * ─── WHAT THIS SECTION IS NOT ───────────────────────────────────────────────
+ * It is NOT a property reveal. The accommodation is chosen from several
+ * handpicked Goa properties depending on availability, so nothing here may
+ * imply that a specific building is guaranteed. The photographs are a
+ * STANDARD, not a booking — which is why `disclaimer` is mandatory copy and
+ * renders directly under the collage rather than in a footnote.
+ *
+ * ─── THE ANNOTATIONS ────────────────────────────────────────────────────────
+ * Deliberately about taste and standard, never about amenities. With
+ * properties still being selected there is no amenity that can honestly be
+ * promised "across" them, so the notes are Plot Twist commentary — the same
+ * red-pen voice as the casting board — and not a facilities list.
+ *
+ * ─── THE SLOTS ──────────────────────────────────────────────────────────────
+ * Four slots, each with a fixed compositional role. The section renders only
+ * the ones with a `src` and re-composes itself around however many exist, so
+ * adding a photo is a one-line change and never breaks the layout. See
+ * public/photos/goa/homebase/PHOTOS.md for what is still missing.
+ */
+export type HomeBaseShot = {
+  id: string;
+  /** null = slot declared, photo not supplied yet. Renders nothing. */
+  src: string | null;
+  alt: string;
+  /** Handwritten scrap on the print. */
+  note: string;
+  /**
+   * The print's own crop. Per-shot rather than fixed, because a portrait
+   * frame forced into a landscape print loses its subject — and because a
+   * board of identically-shaped prints stops reading as a pile of
+   * photographs and starts reading as a grid of cards.
+   */
+  aspect: string;
+};
+
+export const homeBase = {
+  index: goaIndex("homeBase"),
+  label: "THE HOME BASE",
+  headline: ["THE", "HOME BASE"],
+  sub: "Because even main characters need somewhere to wake up.",
+  /** The one strong statement under the collage. */
+  statement: "WHEREVER WE STAY, IT HAS TO PASS THE VIBE CHECK.",
+  /** Mandatory. Understated, never hidden. */
+  disclaimer:
+    "Properties shown are representative. Your stay will be at one of our handpicked Goa properties, subject to availability.",
+  stamp: "HANDPICKED · SUBJECT TO AVAILABILITY",
+  /** Commentary, not a facilities list — see the note above. */
+  annotations: [
+    "vibe check? passed.",
+    "if we wouldn't stay, neither are you.",
+    "the 4am conversations happen here.",
+  ],
+  /**
+   * Four properties, four different kinds of space and four different times of
+   * day — chosen as a set so the board reads as a STANDARD across places
+   * rather than as one hotel shot from four angles. Two aerials, one exterior
+   * and one from inside a room; one of them portrait, so the prints don't all
+   * come out the same shape.
+   */
+  shots: [
+    {
+      id: "one",
+      src: "/photos/goa/homebase/property-01.jpg",
+      alt: "A property seen from directly above at night, lit pathways winding between red-tiled roofs, palms and a floodlit pool",
+      note: "somewhere to come back to.",
+      aspect: "1039 / 748",
+    },
+    {
+      id: "two",
+      src: "/photos/goa/homebase/property-02.jpg",
+      alt: "An open wooden door onto a balcony, palms and the sea beyond, the beach below",
+      note: "the view, most mornings.",
+      aspect: "816 / 1020",
+    },
+    {
+      id: "three",
+      src: "/photos/goa/homebase/property-03.jpg",
+      alt: "A terraced beachfront guesthouse among palms, seen from the sand with parasols and loungers in front",
+      note: "straight onto the sand.",
+      aspect: "1360 / 1020",
+    },
+    {
+      id: "four",
+      src: "/photos/goa/homebase/property-04.jpg",
+      alt: "An aerial view of a headland settlement above a beach, huts along the slope and surf breaking on the rocks",
+      note: "the whole neighbourhood.",
+      aspect: "1027 / 753",
+    },
+  ] as HomeBaseShot[],
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* the plot twists                                                     */
 /* ------------------------------------------------------------------ */
 
 export const plotTwists = {
-  index: "03",
+  index: goaIndex("plotTwists"),
   label: "THE PLOT TWISTS",
   headline: ["SOME THINGS ARE ON THE ITINERARY.", "SOME THINGS ARE BETTER LEFT OFF IT."],
   /** Everything confirmed, listed plainly. Transparency is the point. */
@@ -298,11 +436,11 @@ export const plotTwists = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 09 — the difference                                                 */
+/* the difference                                                      */
 /* ------------------------------------------------------------------ */
 
 export const difference = {
-  index: "04",
+  index: goaIndex("difference"),
   label: "THE DIFFERENCE",
   /** The best line on the site. Unchanged, and now the thesis rather than an aside. */
   big: ["WE PLANNED THE TRIP.", "NOT THE PEOPLE."],
@@ -313,7 +451,7 @@ export const difference = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 10 — the facts                                                      */
+/* the facts                                                           */
 /* ------------------------------------------------------------------ */
 
 /**
@@ -354,7 +492,7 @@ export const inclusions = {
 } as const;
 
 export const facts = {
-  index: "05",
+  index: goaIndex("facts"),
   label: "THE CALL SHEET",
   headline: ["THE BORING PAGE", "OF THE SCRIPT."],
   annotation: "every page needs one.",
@@ -373,7 +511,7 @@ export const facts = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 11 — the final beat                                                 */
+/* the final beat                                                      */
 /* ------------------------------------------------------------------ */
 
 export const finalBeat = {

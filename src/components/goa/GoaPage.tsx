@@ -4,13 +4,14 @@ import { ApplicationForm } from "@/components/ApplicationForm";
 import { Footer } from "@/components/Footer";
 import { ContactTeaCup } from "@/components/ContactTeaCup";
 import { WhatsATen } from "@/components/WhatsATen";
-import { cast } from "@/content/goa";
+import { cast, goaIndex } from "@/content/goa";
 import { GoaHero } from "./GoaHero";
 import { ThePremise } from "./ThePremise";
 import { ChapterBollywood } from "./ChapterBollywood";
 import { ChapterFlamingo } from "./ChapterFlamingo";
 import { ChapterLostInGoa } from "./ChapterLostInGoa";
 import { ChapterHangoverClub } from "./ChapterHangoverClub";
+import { TheHomeBase } from "./TheHomeBase";
 import { ThePlotTwists } from "./ThePlotTwists";
 import { TheDifference } from "./TheDifference";
 import { TheFacts } from "./TheFacts";
@@ -71,7 +72,7 @@ export function GoaPage() {
           the premise and the four chapters — see the note on WhatsATen. The
           hierarchy this protects is EXPERIENCE → PEOPLE → EXPERIENCE.
         */}
-        <WhatsATen compact composition={cast.split} />
+        <WhatsATen compact composition={cast.split} index={goaIndex("cast")} />
 
         {/* the four days — anchor target for the hero's scroll cue */}
         <div id="chapters">
@@ -80,6 +81,15 @@ export function GoaPage() {
           <ChapterLostInGoa />
           <ChapterHangoverClub />
         </div>
+
+        {/*
+          THE HOME BASE sits directly after the four chapters, not between
+          them: you've done the boat, the road and the last morning — this is
+          where you were coming back to the whole time. Putting it inside the
+          chapter run would break the one sequence the page most needs to keep
+          intact.
+        */}
+        <TheHomeBase />
 
         <ThePlotTwists />
 
@@ -99,7 +109,7 @@ export function GoaPage() {
         <TrustStrip />
 
         <FinalBeat />
-        <ApplicationForm />
+        <ApplicationForm index={goaIndex("application")} />
         <Footer />
       </main>
 

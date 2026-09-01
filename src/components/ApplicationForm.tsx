@@ -65,7 +65,16 @@ function FieldError({ message }: { message?: string }) {
  * once. Validation runs per step (the same rules the route handler re-checks),
  * and submission posts to /api/applications.
  */
-export function ApplicationForm() {
+export function ApplicationForm({
+  index,
+}: {
+  /**
+   * Section number beside the label. Defaults to `application.index` —
+   * this section's position in JOURNEY 01's running order. The reveal page
+   * has a different order and passes its own; see GOA_SECTION_ORDER.
+   */
+  index?: string;
+} = {}) {
   const reduce = useReducedMotion();
   const journey = useJourney();
   const { count, solvedGuess, reward } = usePlot();
@@ -300,7 +309,7 @@ export function ApplicationForm() {
   /* ---------------------------------------------------------------- */
   return (
     <section id="apply" className="relative overflow-hidden bg-sand px-5 py-14 sm:px-8 sm:py-20 lg:px-14">
-      <SectionLabel index={application.index} label={application.label} />
+      <SectionLabel index={index ?? application.index} label={application.label} />
 
       <div className="mt-6 max-w-[1100px]">
         <div ref={headingRef} className="grid scroll-mt-6 gap-6 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-14">
