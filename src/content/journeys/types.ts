@@ -28,6 +28,26 @@ export type LadderRung = {
   note: string;
 };
 
+/**
+ * WHICH PAGE A JOURNEY RENDERS.
+ *
+ * "mystery" is the original: the destination is withheld, five clues are
+ * hidden down the page, and a correct guess unlocks the reveal and a reward.
+ *
+ * "reveal" is the opposite posture — the destination is stated in the hero and
+ * the four days are the story. It exists because the clue hunt is a retention
+ * mechanic: it rewards people who already care, which is the wrong bet while
+ * we're buying cold traffic. Journey 00 runs it; Journey 01 keeps the hunt.
+ *
+ * This is a deliberate exception to the rule in JourneyPage.tsx that a journey
+ * needing different sections is a redesign rather than a destination. It is
+ * one — so it's named, typed and switched on explicitly here, rather than
+ * quietly forked inside a component. NOTHING about the mystery path is
+ * removed by it: every clue, rung, hotspot and reward stays in the repo and
+ * stays live on Journey 01.
+ */
+export type JourneyPageVariant = "mystery" | "reveal";
+
 export type JourneyConfig = {
   /** The stored id. Written to every application row and every analytics event. */
   id: JourneyId;
@@ -35,6 +55,8 @@ export type JourneyConfig = {
   slug: string;
   /** Human label for the admin filter. */
   displayName: string;
+  /** Which page composition this journey renders. Defaults to "mystery". */
+  pageVariant?: JourneyPageVariant;
   /**
    * The campaign parameter this journey's ads should use. Not forced onto
    * visitors — UTMs still win — but it documents the intended value in one

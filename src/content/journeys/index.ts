@@ -10,7 +10,7 @@ import { JOURNEY_00 } from "./journey00";
 import { JOURNEY_01 } from "./journey01";
 import type { JourneyConfig, JourneyId } from "./types";
 
-export type { JourneyConfig, JourneyId, LadderRung } from "./types";
+export type { JourneyConfig, JourneyId, JourneyPageVariant, LadderRung } from "./types";
 
 /** Newest first — the order the admin dropdown shows. */
 export const JOURNEYS: JourneyConfig[] = [JOURNEY_01, JOURNEY_00];

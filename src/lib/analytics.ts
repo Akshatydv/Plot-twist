@@ -41,6 +41,14 @@ export const PLOT_EVENTS = {
 
   // funnel: the application
   makeYourCase: "make_your_case",
+  /**
+   * The reveal page's apply-intent CTA. Separate from `makeYourCase` on
+   * purpose: the two pages ask in different words at different points, and
+   * collapsing them would make the Goa funnel unreadable against Journey 01's.
+   */
+  requestInvite: "request_invite",
+  /** One per chapter, first time it scrolls into view — where the story loses people. */
+  chapterViewed: "chapter_viewed",
   applicationStarted: "application_started",
   applicationStep: "application_step_completed",
   applicationSubmitted: "application_submitted",

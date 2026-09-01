@@ -15,21 +15,47 @@ import { PlotProvider } from "@/components/mystery/PlotProvider";
 import { ClueTracker } from "@/components/mystery/ClueTracker";
 import { PlotDebug } from "@/components/mystery/PlotDebug";
 import { DestinationGuess } from "@/components/mystery/DestinationGuess";
+import { GoaPage } from "@/components/goa/GoaPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
- * ONE PAGE, EVERY JOURNEY.
+ * ONE PAGE PER VARIANT, EVERY JOURNEY.
  *
- * This is the whole site. `/` renders it with the default journey and
- * `/journey/[slug]` renders it with whichever journey the slug names — same
- * components, same order, same animations, same everything. There is no
- * per-journey layout, and there must never be one: if a journey needs a
- * different section here, that is a redesign of Plot Twist, not a new
- * destination.
+ * A journey renders one of two compositions, chosen by `pageVariant`:
  *
- * Everything destination-shaped reaches the tree through JourneyProvider.
+ *   "mystery" (below) — the original. Destination withheld, five clues hidden
+ *                       down the page, a guess box, a reward. Journey 01.
+ *   "reveal"          — destination stated, the four days are the story.
+ *                       Journey 00 / Goa. See components/goa/GoaPage.tsx.
+ *
+ * This used to say that a journey needing different sections is a redesign
+ * rather than a destination, and that is still true — which is exactly why the
+ * split is a named, typed variant rather than a quiet fork inside a component.
+ * Everything below is unchanged, and every journey on the mystery path still
+ * gets the identical tree it always did.
+ *
+ * Everything destination-shaped reaches the tree through JourneyProvider,
+ * which wraps BOTH variants — the application form, the tea cup and the
+ * analytics journey id work the same on either page.
  */
 export function JourneyPage({ journey }: { journey: JourneyConfig }) {
+  if (journey.pageVariant === "reveal") {
+    return (
+      <JourneyProvider journey={journey}>
+        {/*
+          PlotProvider still wraps the reveal page even though nothing on it
+          hunts clues: it owns the journey's analytics id, campaign attribution
+          capture and the page_view signal, and ApplicationForm reads its
+          `count`/`reward` context. Dropping it would silently break
+          attribution on the only page taking cold traffic.
+        */}
+        <PlotProvider>
+          <GoaPage />
+        </PlotProvider>
+      </JourneyProvider>
+    );
+  }
+
   return (
     <JourneyProvider journey={journey}>
       <PlotProvider>

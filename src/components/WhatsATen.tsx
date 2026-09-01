@@ -402,7 +402,33 @@ const NOTES: { top: string; left: string; rotate: number; color: string }[] = [
   { top: "93%", left: "14%", rotate: 4, color: "rgba(255,241,220,0.5)" },
 ];
 
-export function WhatsATen() {
+/**
+ * THE CASTING BOARD — the master Cast section, shared across every journey.
+ *
+ * `compact` is the reveal-page mode (Journey 00 / Goa). It changes nothing
+ * about the concept, the board, the six traits, the grading, the photo scraps
+ * or the interaction — only the vertical footprint:
+ *
+ *   - drops the closing "THE CUT" block, which is both the tallest single
+ *     piece of the section AND a CTA pointing at `#clues`, an anchor that
+ *     does not exist on the reveal page. Reusing it verbatim there would have
+ *     shipped a dead link.
+ *   - flattens the desktop board (1.75:1 → 2.3:1), which is what actually
+ *     costs the height: the board is sized by aspect ratio, so making it wider
+ *     makes it shorter without shrinking a single card.
+ *   - tightens the section padding and the gaps around the board.
+ *
+ * `composition` is the 10-and-10 line. Optional and journey-supplied so this
+ * component stays journey-agnostic — Journey 01 passes nothing and renders
+ * exactly what it always did.
+ */
+export function WhatsATen({
+  compact = false,
+  composition,
+}: {
+  compact?: boolean;
+  composition?: { title: string; body: string; disclaimer: string };
+} = {}) {
   // Only the stamp and the three photo scraps are per-journey — the six
   // traits, the grading and the 10/10 are brand-level and shared.
   const journey = useJourney();
@@ -424,7 +450,9 @@ export function WhatsATen() {
   return (
     <section
       id="casting"
-      className="relative overflow-hidden px-5 py-12 text-sand sm:px-8 sm:py-16 lg:px-14"
+      className={`relative overflow-hidden px-5 text-sand sm:px-8 lg:px-14 ${
+        compact ? "py-10 sm:py-12" : "py-12 sm:py-16"
+      }`}
       style={{ background: "radial-gradient(120% 90% at 20% 0%, #6b1a45 0%, #3d1030 42%, #24081f 100%)" }}
     >
       <div className="grain pointer-events-none absolute inset-0" />
@@ -443,18 +471,32 @@ export function WhatsATen() {
           Without it the trait board reads as a quiz about the visitor.
         */}
         <Reveal>
-          <p className="mt-5 max-w-[42ch] font-serif text-[clamp(1.05rem,2.7vw,1.35rem)] leading-[1.35] text-sand/75">
+          <p
+            className={`max-w-[42ch] font-serif text-[clamp(1.05rem,2.7vw,1.35rem)] leading-[1.35] text-sand/75 ${
+              compact ? "mt-3.5" : "mt-5"
+            }`}
+          >
             {casting.bridge[0]}
             <br />
             {casting.bridge[1]}
           </p>
         </Reveal>
 
-        <div className="mt-5 flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+        <div
+          className={`flex flex-wrap items-end justify-between gap-x-8 gap-y-3 ${compact ? "mt-3.5" : "mt-5"}`}
+        >
           <Reveal>
             <h2 className="font-display uppercase leading-[0.82] tracking-[-0.01em]">
               <span className="block text-[clamp(1.3rem,4.4vw,2rem)] text-sand/70">{casting.eyebrow}</span>
-              <span className="block text-[clamp(3.6rem,15vw,8rem)] text-pink">{casting.headline}</span>
+              {/* The single tallest element in the section. Still the dominant
+                  mark in compact mode, just not 128px of it. */}
+              <span
+                className={`block text-pink ${
+                  compact ? "text-[clamp(3rem,11vw,5.4rem)]" : "text-[clamp(3.6rem,15vw,8rem)]"
+                }`}
+              >
+                {casting.headline}
+              </span>
             </h2>
             <p className="mt-2 font-display text-[clamp(1.25rem,4vw,2rem)] uppercase leading-[1.05] tracking-[-0.01em] text-sand">
               {casting.subhead}
@@ -472,7 +514,14 @@ export function WhatsATen() {
         </div>
 
         {/* ---------------- DESKTOP BOARD ---------------- */}
-        <div className="relative mx-auto mt-6 hidden aspect-[1.75/1] w-full max-w-[1120px] lg:block">
+        {/* The board is sized by ASPECT RATIO, so widening it is what shortens
+            it — every card, photo and margin note keeps its size and relative
+            position, the canvas just gets less tall. */}
+        <div
+          className={`relative mx-auto hidden w-full max-w-[1120px] lg:block ${
+            compact ? "mt-2 aspect-[2.9/1]" : "mt-6 aspect-[1.75/1]"
+          }`}
+        >
           <PhotoScrap photo={journey.casting.photos[0]} tilt={-8} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "16%", left: "8%" }} />
           <PhotoScrap photo={journey.casting.photos[1]} tilt={7} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "74%", left: "90%" }} />
           <PhotoScrap photo={journey.casting.photos[2]} tilt={-5} className="absolute w-[13%] -translate-x-1/2 -translate-y-1/2" style={{ top: "84%", left: "50%" }} />
@@ -527,7 +576,7 @@ export function WhatsATen() {
 
         {/* ---------------- MOBILE / TABLET BOARD ---------------- */}
         <div className="lg:hidden">
-          <div className="relative mt-8 flex justify-center">
+          <div className={`relative flex justify-center ${compact ? "mt-5" : "mt-8"}`}>
             {/*
               Below 640px the old max-w-[110px]/[104px] caps didn't shrink
               with the viewport, so the polaroids stayed wide enough to run
@@ -547,12 +596,16 @@ export function WhatsATen() {
               className="absolute right-0 top-10 w-[14%] max-w-[58px] sm:w-[18%] sm:max-w-none"
             />
             {/* above the polaroids so the circled grade stays legible */}
-            <div className="relative z-10 w-[54%] max-w-[260px] sm:w-[44%]">
+            <div
+              className={`relative z-10 sm:w-[44%] ${
+                compact ? "w-[46%] max-w-[212px]" : "w-[54%] max-w-[260px]"
+              }`}
+            >
               <Grade score={score} count={count} verdict={verdict} />
             </div>
           </div>
 
-          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-4">
+          <div className={`grid grid-cols-2 gap-x-3 ${compact ? "mt-4 gap-y-3" : "mt-8 gap-y-4"}`}>
             {casting.traits.map((t, i) => (
               <TraitCard
                 key={t.id}
@@ -564,35 +617,65 @@ export function WhatsATen() {
             ))}
           </div>
 
-          <div className="mt-4 flex items-start justify-between gap-4">
+          <div className={`flex items-start justify-between gap-4 ${compact ? "mt-3" : "mt-4"}`}>
             <Note className="block text-lg text-[#FFD75E]" rotate={-4}>
               {casting.asides[0]}
             </Note>
-            <PhotoScrap photo={journey.casting.photos[2]} tilt={6} className="w-[24%] max-w-[96px] shrink-0" />
+            <PhotoScrap
+              photo={journey.casting.photos[2]}
+              tilt={6}
+              className={compact ? "w-[20%] max-w-[78px] shrink-0" : "w-[24%] max-w-[96px] shrink-0"}
+            />
           </div>
         </div>
 
-        <p className="mt-6 text-center text-[10px] tracked text-sand/40">{casting.hint}</p>
+        <p className={`text-center text-[10px] tracked text-sand/40 ${compact ? "mt-4" : "mt-6"}`}>
+          {casting.hint}
+        </p>
 
-        {/* ---------------- THE CUT ---------------- */}
-        <div className="relative mt-10 text-center sm:mt-12">
-          <Note className="mb-3 block text-[clamp(1.15rem,3.6vw,1.6rem)] text-sand/55" rotate={-2}>
-            {casting.asides[1]}
-          </Note>
-          <Reveal>
-            <h3 className="font-display text-[clamp(2.1rem,7.6vw,4.2rem)] uppercase leading-[0.9] text-sand">
-              {casting.outro.line}
-            </h3>
+        {/* ----------- COMPOSITION (compact mode) -----------
+            One line, and the reason the section can end here: it states who
+            the twenty are, and closes the dating-show read in a single dry
+            aside rather than a paragraph defending against it. */}
+        {compact && composition && (
+          <Reveal delay={0.05}>
+            <div className="mt-6 flex flex-col gap-2 border-t-2 border-sand/20 pt-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-10">
+              <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                <h3 className="font-display text-[clamp(1.6rem,5.6vw,2.6rem)] uppercase leading-none text-[#FFE9A8]">
+                  {composition.title}
+                </h3>
+                <p className="text-[clamp(0.95rem,2.4vw,1.15rem)] leading-tight text-sand/80">{composition.body}</p>
+              </div>
+              <p className="shrink-0 font-hand text-[clamp(1.15rem,3.6vw,1.5rem)] leading-none text-sand/50">
+                {composition.disclaimer}
+              </p>
+            </div>
           </Reveal>
-          <Note className="mt-2 inline-block text-[clamp(1.15rem,3.4vw,1.5rem)] text-pink" rotate={3}>
-            {casting.outro.annotation}
-          </Note>
-          <Reveal delay={0.1} className="mt-6 flex justify-center">
-            <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow="#FF4F87" event={PLOT_EVENTS.viewClues}>
-              {casting.cta.label}
-            </PlotButton>
-          </Reveal>
-        </div>
+        )}
+
+        {/* ---------------- THE CUT ----------------
+            Hidden in compact mode: it is the tallest block in the section, and
+            its CTA points at #clues — an anchor the reveal page doesn't have. */}
+        {!compact && (
+          <div className="relative mt-10 text-center sm:mt-12">
+            <Note className="mb-3 block text-[clamp(1.15rem,3.6vw,1.6rem)] text-sand/55" rotate={-2}>
+              {casting.asides[1]}
+            </Note>
+            <Reveal>
+              <h3 className="font-display text-[clamp(2.1rem,7.6vw,4.2rem)] uppercase leading-[0.9] text-sand">
+                {casting.outro.line}
+              </h3>
+            </Reveal>
+            <Note className="mt-2 inline-block text-[clamp(1.15rem,3.4vw,1.5rem)] text-pink" rotate={3}>
+              {casting.outro.annotation}
+            </Note>
+            <Reveal delay={0.1} className="mt-6 flex justify-center">
+              <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow="#FF4F87" event={PLOT_EVENTS.viewClues}>
+                {casting.cta.label}
+              </PlotButton>
+            </Reveal>
+          </div>
+        )}
       </div>
     </section>
   );

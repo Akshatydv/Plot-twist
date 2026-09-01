@@ -43,6 +43,16 @@ export const JOURNEY_00: JourneyConfig = {
   slug: "00",
   displayName: "Journey 00",
   campaignId: "journey00_launch",
+  /**
+   * Goa is stated outright — see content/goa.ts for the page this renders.
+   *
+   * Everything below this line (the clue ladder, the three cards, the flight
+   * scramble, the reward odds) is deliberately LEFT INTACT and unused. It is
+   * parked, not deleted: flip this back to "mystery" and the whole hunt
+   * returns exactly as it was. The header comment above documents the ladder's
+   * verified research, which is the expensive part to recreate.
+   */
+  pageVariant: "reveal",
   /** Its own namespace. This is what keeps the two hunts from bleeding into each other. */
   storageKey: "plottwist.plot.j00.v1",
 
