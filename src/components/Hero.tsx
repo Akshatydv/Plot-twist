@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { brand, hero } from "@/content/site";
+import { INTERNATIONAL_JOURNEY } from "@/content/journeys";
 import { useJourney } from "./mystery/JourneyProvider";
 import { Logo } from "./Logo";
 import { SunsetBackdrop } from "./SunsetBackdrop";
@@ -44,6 +46,15 @@ export function Hero() {
               ))}
             </div>
             <div className="mt-2 font-hand text-lg leading-none text-sand/70 sm:text-xl">{brand.instagram}</div>
+            {/* Hidden on the international journey itself — nobody needs a link to where they already are. */}
+            {journey.id !== INTERNATIONAL_JOURNEY.id && (
+              <Link
+                href={`/journey/${INTERNATIONAL_JOURNEY.slug}`}
+                className="mt-2 inline-block whitespace-nowrap text-[10px] font-semibold tracked text-pink underline decoration-pink/40 underline-offset-4 transition-colors hover:text-sand sm:text-[11px]"
+              >
+                GO INTERNATIONAL →
+              </Link>
+            )}
           </motion.div>
         </header>
 

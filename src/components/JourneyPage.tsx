@@ -20,7 +20,7 @@ import type { JourneyConfig } from "@/content/journeys";
 /**
  * ONE PAGE, EVERY JOURNEY.
  *
- * This is the whole site. `/` renders it with Journey 01 and
+ * This is the whole site. `/` renders it with the default journey and
  * `/journey/[slug]` renders it with whichever journey the slug names — same
  * components, same order, same animations, same everything. There is no
  * per-journey layout, and there must never be one: if a journey needs a

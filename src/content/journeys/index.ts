@@ -17,10 +17,18 @@ export const JOURNEYS: JourneyConfig[] = [JOURNEY_01, JOURNEY_00];
 
 /**
  * What `/` renders, and what a submission with no journey falls back to.
- * Journey 01 keeps the root URL it launched on; every other journey lives at
- * /journey/<slug>.
+ * The default journey owns the root URL; every other journey lives at
+ * /journey/<slug>, including this one's own previous default (redirect logic
+ * lives in the [journey] route, keyed off this constant, not a hardcoded slug).
  */
-export const DEFAULT_JOURNEY = JOURNEY_01;
+export const DEFAULT_JOURNEY = JOURNEY_00;
+
+/**
+ * The header's "GO INTERNATIONAL" link always points here — one named
+ * constant rather than a hardcoded slug, so it keeps pointing at the right
+ * journey if the roster or the default ever changes again.
+ */
+export const INTERNATIONAL_JOURNEY = JOURNEY_01;
 
 export function journeyById(id: string | null | undefined): JourneyConfig | null {
   if (!id) return null;
