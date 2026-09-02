@@ -9,7 +9,7 @@ const marker = Permanent_Marker({ subsets: ["latin"], weight: "400", variable: "
 const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat", display: "swap" });
 const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", variable: "--font-instrument", display: "swap" });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://plottwist.social";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://plotwist.in";
 
 const TITLE = "Plot Twist — 20 People. One Trip. 10/10s Only.";
 const DESCRIPTION = "You've found the plot. But do you know where it's going?";
