@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plot Twist — You're Invited</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&family=Permanent+Marker&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PLOT TWIST — THE INVITE.  One tall page, one recipient.
+
+   WHY THIS IS A STATIC PAGE AND NOT THE /invite ROUTE
+   The original was a Next.js route captured as a screenshot and hand-wrapped
+   in a PDF. That was a sound call for THAT page: its reveals start at
+   opacity 0 and only play on scroll, so printing produced empty sections, and
+   printing after scrolling made Chrome drop the gradient scrims over the
+   chapter photographs. The workaround cost the invite all of its live text.
+
+   This rebuild removes the cause instead of working around it. There is no
+   JavaScript, nothing animates in, and every scrim is a plain CSS gradient of
+   the kind the dossier already prints correctly across seven pages. So it
+   prints straight to a real vector PDF: selectable text, sharp type at any
+   zoom, live links, and a fraction of the weight.
+
+   THE ONE RULE THIS FILE MUST KEEP
+   No blurred shadows anywhere — no blur radius on text-shadow or box-shadow,
+   no filter:blur. Chrome cannot express a Gaussian blur as vector art, so each
+   one is rasterised into an opaque tile and composited as a dark block. That
+   bug cost two rounds of debugging on the dossier. Hard 0-blur offsets only.
+
+   PERSONALISATION
+   {{NAME}} is substituted by make-invite.js. It appears twice: the cover
+   greeting and the pass. Everything else is identical for every guest.
+   ========================================================================== */
+:root{
+  --sunset:#ff7a3d; --pink:#ff4f87; --ocean:#00a9c7; --tropic:#36c96f;
+  --sand:#fff1dc; --ink:#1a0d0a; --gold:#FFE9A8;
+  --display:'Anton',Arial Narrow,sans-serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --brush:'Permanent Marker',cursive;
+  --hand:'Caveat',cursive;
+  --serif:'Instrument Serif',Georgia,serif;
+  --W:114mm;          /* the phone frame, in print units */
+  --pad:9mm;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:114mm {{PAGEH}}mm;margin:0}
+html,body{width:var(--W)}
+body{font-family:var(--sans);color:var(--sand);background:#0b0508;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+main{width:var(--W);position:relative;overflow:hidden}
+
+.sec{position:relative;overflow:hidden;padding:0 var(--pad)}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='3' height='3' fill='%23000' opacity='.5'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23000' opacity='.5'/%3E%3C/svg%3E");
+  background-size:3px 3px}
+.slab{font-size:5.4pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.hand{font-family:var(--hand)}
+.serif{font-family:var(--serif);font-style:italic}
+
+/* ---------------- 00 · THE COVER ---------------- */
+.cover{height:252mm;background:#120510}
+.cover .bg{position:absolute;inset:0;background:url('invite-assets/cover.jpg') center 38%/cover}
+.cover .scrim{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,4,10,.74) 0%,rgba(10,4,10,.30) 22%,
+    rgba(12,5,12,.42) 46%,rgba(9,3,9,.80) 76%,rgba(6,2,6,.97) 100%)}
+.cover .in{position:relative;height:100%;padding:12mm 0 11mm;display:flex;flex-direction:column;
+  align-items:center;text-align:center}
+.cover .logo{height:13mm;width:auto}
+.cover .jrny{margin-top:3mm;font-size:5.6pt;letter-spacing:.42em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.72)}
+.cover .greet{margin-top:auto;font-family:var(--hand);font-size:20pt;color:var(--gold);line-height:1}
+.cover h1{margin-top:1mm;font-family:var(--display);font-size:37pt;line-height:.92;
+  text-transform:uppercase;letter-spacing:-.005em;color:var(--sand)}
+.cover .found{margin-top:.5mm;font-family:var(--brush);font-size:31pt;line-height:1;color:var(--pink)}
+.cover .isnt{margin-top:7mm;font-family:var(--display);font-size:10.5pt;line-height:1.28;
+  text-transform:uppercase;letter-spacing:.01em;color:var(--sand)}
+.cover .belong{margin-top:4mm;font-family:var(--hand);font-size:13pt;color:var(--gold)}
+.cover .facts{margin-top:auto;font-family:var(--display);font-size:11pt;letter-spacing:.02em;
+  color:var(--gold)}
+.cover .open{margin-top:7mm;font-size:5.6pt;letter-spacing:.38em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.6)}
+.cover .tick{margin:4mm auto 0;width:1px;height:11mm;background:rgba(255,241,220,.45)}
+
+/* ---------------- 01 · THE PASS ---------------- */
+.pass{background:var(--sand);color:var(--ink);padding-top:12mm;padding-bottom:14mm}
+.lbl{display:flex;align-items:center;gap:4mm;font-size:5.4pt;letter-spacing:.3em;
+  font-weight:700;text-transform:uppercase;color:rgba(26,13,10,.55)}
+.lbl i{display:block;height:1px;width:9mm;background:rgba(26,13,10,.32)}
+.lbl b{font-family:var(--display);font-size:8pt;letter-spacing:.1em;color:var(--ink);font-weight:400}
+
+/* the ticket. A notch and a perforation, no drop shadow that could rasterise. */
+.ticket{position:relative;margin-top:6mm;background:#fffdf7;color:var(--ink);
+  box-shadow:1.4mm 1.4mm 0 0 rgba(26,13,10,.14);display:grid;grid-template-columns:1fr 9mm}
+.ticket .body{padding:6mm 6mm 5.5mm}
+.ticket .stub{position:relative;border-left:1px dashed rgba(26,13,10,.4);
+  display:flex;align-items:center;justify-content:center}
+.ticket .stub span{font-size:4.6pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5);writing-mode:vertical-rl;transform:rotate(180deg)}
+.ticket .notch{position:absolute;width:3.4mm;height:3.4mm;border-radius:50%;background:var(--sand);
+  left:-1.7mm}
+.ticket .notch.t{top:-1.7mm} .ticket .notch.b{bottom:-1.7mm}
+.tkhead{display:flex;align-items:baseline;justify-content:space-between;
+  font-size:5pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase}
+.tkhead .r{color:rgba(26,13,10,.5)}
+.bars{margin-top:3.5mm;height:7mm;
+  background:repeating-linear-gradient(90deg,var(--ink) 0 .5mm,transparent .5mm 1mm,
+    var(--ink) 1mm 1.7mm,transparent 1.7mm 2.2mm,var(--ink) 2.2mm 2.5mm,transparent 2.5mm 3.4mm)}
+.tkdest{margin-top:5mm;font-size:4.8pt;letter-spacing:.28em;font-weight:700;
+  text-transform:uppercase;color:rgba(26,13,10,.5)}
+.tkgoa{font-family:var(--display);font-size:31pt;line-height:.9;text-transform:uppercase}
+.tkdate{margin-top:1mm;font-family:var(--display);font-size:11pt;color:var(--pink);letter-spacing:.02em}
+.tkrule{margin-top:4.5mm;border-top:1px solid rgba(26,13,10,.2);padding-top:4mm}
+.tkpax .k{font-size:4.8pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5)}
+.tkpax .v{font-family:var(--hand);font-size:20pt;line-height:1;margin-top:.5mm}
+.tkpax .blank{margin-top:6mm;border-bottom:1px solid rgba(26,13,10,.45);width:52mm}
+.tkpax .hint{margin-top:1.6mm;font-family:var(--hand);font-size:10pt;color:rgba(26,13,10,.45)}
+.tkgrid{margin-top:4.5mm;display:grid;grid-template-columns:1fr 1fr;gap:3.5mm 4mm}
+.tkgrid .k{font-size:4.6pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5)}
+.tkgrid .v{font-family:var(--display);font-size:8.5pt;letter-spacing:.02em;margin-top:.8mm}
+.tkfoot{margin-top:5mm;border-top:1px solid rgba(26,13,10,.2);padding-top:3.5mm;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:4mm}
+.tkfoot .k{font-size:4.6pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5)}
+.tkfoot .v{font-family:var(--display);font-size:8pt;letter-spacing:.06em;margin-top:.8mm}
+.tkfoot .no{font-family:var(--display);font-size:9pt;color:var(--pink)}
+
+/* the 10/10 */
+.tenten{margin-top:13mm;text-align:center}
+.tenten .o{font-family:var(--display);font-size:19pt;text-transform:uppercase;line-height:1}
+.tenten .ring{position:relative;display:inline-block;margin:1mm 0}
+.tenten .ring .n{position:relative;font-family:var(--hand);font-size:44pt;line-height:1;
+  color:var(--pink);padding:0 9mm;font-weight:700}
+.tenten .ring svg{position:absolute;inset:-3mm -1mm;width:calc(100% + 2mm);height:calc(100% + 6mm)}
+.tenten .e{font-family:var(--display);font-size:19pt;text-transform:uppercase;line-height:1}
+.tenten p{margin-top:4.5mm;font-size:8pt;line-height:1.5;color:rgba(26,13,10,.72);
+  max-width:78mm;margin-left:auto;margin-right:auto}
+.tenten .we{margin-top:3.5mm;font-family:var(--serif);font-size:11pt;color:var(--ink)}
+
+/* ---------------- 02 · THE GLIMPSE ---------------- */
+.glimpse{background:#180a14;padding-top:12mm;padding-bottom:12mm}
+.glimpse .lbl{color:rgba(255,241,220,.55)}
+.glimpse .lbl i{background:rgba(255,241,220,.3)}
+.glimpse .lbl b{color:var(--sand)}
+.glimpse h2{margin-top:5mm;font-family:var(--display);font-size:23pt;line-height:.94;
+  text-transform:uppercase;letter-spacing:-.005em}
+.glimpse h2 span{color:var(--gold)}
+.glimpse .sub{margin-top:3mm;font-family:var(--serif);font-size:10.5pt;line-height:1.28;
+  color:rgba(255,241,220,.82)}
+.chap{margin-top:6mm}
+.chap .shot{position:relative;height:34mm;background-size:cover;background-position:center}
+.chap .shot .sc{position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(10,4,10,.86) 0%,rgba(10,4,10,.52) 52%,rgba(10,4,10,.30) 100%)}
+.chap .shot .tx{position:absolute;left:5mm;bottom:4.5mm;right:5mm}
+.chap .day{font-size:5pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.75)}
+.chap .nm{margin-top:1.4mm;font-family:var(--display);font-size:15pt;line-height:.94;
+  text-transform:uppercase}
+.chap .no{position:absolute;right:5mm;bottom:3.5mm;font-family:var(--display);font-size:21pt;
+  line-height:1}
+.chap .beats{margin-top:2.6mm;font-size:5.6pt;letter-spacing:.16em;font-weight:500;
+  text-transform:uppercase;line-height:1.7;color:rgba(255,241,220,.72)}
+.glimpse .trailer{margin-top:9mm;font-family:var(--serif);font-size:10.5pt;line-height:1.3;
+  color:var(--gold)}
+
+/* ---------------- 03 · THE FINAL CALL ---------------- */
+.final{height:250mm;background:#0d0710}
+.final .bg{position:absolute;inset:0;background:url('invite-assets/shack.jpg') center 30%/cover}
+.final .scrim{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,5,10,.30) 0%,rgba(10,5,10,.72) 26%,
+    rgba(9,4,9,.92) 48%,rgba(7,3,7,.98) 100%)}
+.final .in{position:relative;height:100%;padding:12mm 0 11mm;display:flex;flex-direction:column}
+.final .lbl{color:rgba(255,241,220,.5)}
+.final .lbl i{background:rgba(255,241,220,.28)}
+.final .lbl b{color:var(--sand)}
+.final .book{margin-top:auto;font-family:var(--display);font-size:19pt;line-height:.98;
+  text-transform:uppercase;color:rgba(255,241,220,.42)}
+.final .say{margin-top:3mm;font-family:var(--display);font-size:19pt;line-height:.98;
+  text-transform:uppercase;color:var(--sand)}
+.final .yes{position:relative;display:inline-block;align-self:flex-start;margin-top:1mm}
+.final .yes b{font-family:var(--brush);font-size:44pt;line-height:1;color:var(--gold);font-weight:400}
+.final .yes svg{position:absolute;left:-1mm;right:-2mm;bottom:-1mm;width:calc(100% + 3mm);height:5mm}
+.final .when{margin-top:9mm;font-family:var(--display);font-size:9.5pt;letter-spacing:.03em;
+  color:var(--gold)}
+.final .idea{margin-top:2.5mm;font-family:var(--hand);font-size:12pt;color:rgba(255,241,220,.85)}
+.final .hr{margin-top:7mm;border-top:1px solid rgba(255,241,220,.22)}
+.final .rest{margin-top:6mm;font-family:var(--display);font-size:10pt;text-transform:uppercase;
+  letter-spacing:.01em}
+.final .want{margin-top:2.5mm;font-size:8pt;line-height:1.5;color:rgba(255,241,220,.75)}
+/* I'M IN — a painted mark. The rough edge is a clip-path polygon, which stays
+   vector; a blurred glow here would rasterise the whole button. */
+.imin{position:relative;display:inline-block;align-self:flex-start;margin-top:7mm;text-decoration:none}
+.imin .paint{position:absolute;inset:-2.6mm -4mm -3.2mm -4mm;background:var(--pink);
+  clip-path:polygon(1% 12%,14% 3%,33% 9%,52% 2%,71% 8%,88% 1%,99% 11%,100% 74%,
+    93% 92%,74% 97%,54% 90%,33% 98%,15% 93%,3% 99%,0% 66%)}
+.imin .t{position:relative;font-family:var(--display);font-size:17pt;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--sand);display:inline-flex;align-items:center;gap:3mm}
+.final .see{margin-top:8mm;font-family:var(--hand);font-size:13pt;color:var(--gold)}
+.final .foot{margin-top:auto;border-top:1px solid rgba(255,241,220,.2);padding-top:4mm;
+  display:flex;align-items:baseline;justify-content:space-between;gap:5mm}
+.final .foot .big{font-family:var(--display);font-size:9.5pt;letter-spacing:.04em;
+  text-transform:uppercase}
+.final .foot .h{font-size:5.2pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.55)}
+.final .foot a{color:inherit;text-decoration:none}
+.final .go{margin-top:3.5mm;font-family:var(--hand);font-size:11.5pt;
+  color:rgba(255,241,220,.5)}
+</style>
+</head>
+<body>
+<main>
+
+  <!-- ============ 00 · THE COVER ============ -->
+  <section class="sec cover grain">
+    <div class="bg"></div><div class="scrim"></div>
+    <div class="in">
+      <img class="logo" src="invite-assets/logo.png" alt="Plot Twist">
+      <div class="jrny">JOURNEY 00 &mdash; GOA</div>
+
+      <!--IF:NAMED--><div class="greet">for {{NAME}},</div><!--/IF:NAMED-->
+      <!--IF:OPEN--><div class="greet">if this reached you,</div><!--/IF:OPEN-->
+      <h1>THE PLOT</h1>
+      <div class="found">FOUND YOU.</div>
+
+      <div class="isnt">THIS ISN&rsquo;T A GROUP TRIP.<br>IT&rsquo;S A PLOT WE&rsquo;RE WRITING TOGETHER.</div>
+      <div class="belong">And we think you belong in it</div>
+
+      <div class="facts">20 PEOPLE &middot; 4 DAYS &middot; 17&ndash;20 OCT 2026</div>
+      <div class="open">OPEN IT &darr;</div>
+      <div class="tick"></div>
+    </div>
+  </section>
+
+  <!-- ============ 01 · THE PASS ============ -->
+  <section class="sec pass grain">
+    <div class="lbl"><b>01</b><i></i>THE PASS</div>
+
+    <div class="ticket">
+      <div class="body">
+        <div class="tkhead"><span>PLOT TWIST</span><span class="r">JOURNEY 00 &middot; GOA</span></div>
+        <div class="bars"></div>
+
+        <div class="tkdest">DESTINATION</div>
+        <div class="tkgoa">GOA</div>
+        <div class="tkdate">17&ndash;20 OCTOBER 2026</div>
+
+        <div class="tkrule tkpax">
+          <div class="k">PASSENGER</div>
+          <!--IF:NAMED--><div class="v">{{NAME}}</div><!--/IF:NAMED-->
+          <!--IF:OPEN--><div class="blank"></div><div class="hint">your name goes here.</div><!--/IF:OPEN-->
+        </div>
+
+        <div class="tkgrid">
+          <div><div class="k">DURATION</div><div class="v">4 DAYS &middot; 3 NIGHTS</div></div>
+          <div><div class="k">THE CAST</div><div class="v">20 PEOPLE</div></div>
+          <div><div class="k">THE SPLIT</div><div class="v">10 GIRLS &middot; 10 GUYS</div></div>
+          <div><div class="k">AGES</div><div class="v">18&ndash;30</div></div>
+        </div>
+
+        <div class="tkfoot">
+          <div><div class="k">SERIAL</div><div class="v">PT-00-GOA-2026</div></div>
+          <svg width="22mm" height="22mm" viewBox="0 0 60 60" aria-hidden="true">
+            <defs>
+              <path id="arcT" d="M30 30 m -19.5 0 a 19.5 19.5 0 1 1 39 0" fill="none"/>
+              <path id="arcB" d="M30 30 m 18.5 0 a 18.5 18.5 0 1 1 -37 0" fill="none"/>
+            </defs>
+            <circle cx="30" cy="30" r="25.5" fill="none" stroke="#00a9c7" stroke-width="1.1" opacity=".85"/>
+            <circle cx="30" cy="30" r="22.6" fill="none" stroke="#00a9c7" stroke-width=".5" opacity=".6"/>
+            <text font-family="Anton" font-size="7.2" fill="#00a9c7" letter-spacing="1.8">
+              <textPath href="#arcT" startOffset="50%" text-anchor="middle">PLOT TWIST</textPath></text>
+            <text font-family="Anton" font-size="6.6" fill="#00a9c7" letter-spacing="1.6">
+              <textPath href="#arcB" startOffset="50%" text-anchor="middle">JOURNEY 00</textPath></text>
+            <text x="30" y="29" font-family="Anton" font-size="12" fill="#00a9c7"
+                  text-anchor="middle" dominant-baseline="middle">GOA</text>
+            <text x="30" y="38.5" font-family="Anton" font-size="5" fill="#00a9c7"
+                  text-anchor="middle" letter-spacing=".8">OCT 2026</text>
+          </svg>
+          <div class="no">00</div>
+        </div>
+      </div>
+
+      <div class="stub">
+        <span class="notch t"></span>
+        <span>ADMIT ONE &middot; INVITATION ONLY</span>
+        <span class="notch b"></span>
+      </div>
+    </div>
+
+    <div class="tenten">
+      <div class="o">ONLY</div>
+      <div class="ring">
+        <svg viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M100 5 C 158 5, 196 22, 196 45 C 196 69, 156 86, 99 85
+                   C 43 84, 5 68, 5 45 C 5 22, 44 6, 100 5 Z"
+                fill="none" stroke="#ff4f87" stroke-width="3.2" stroke-linecap="round"/>
+        </svg>
+        <div class="n">10/10</div>
+      </div>
+      <div class="e">ENERGY.</div>
+      <p>Good stories. Big personalities. People who are always up for one more plan.</p>
+      <!--IF:NAMED--><div class="we">We think you&rsquo;re one of them.</div><!--/IF:NAMED-->
+      <!--IF:OPEN--><div class="we">Sound like you? Good.</div><!--/IF:OPEN-->
+    </div>
+  </section>
+
+  <!-- ============ 02 · THE GLIMPSE ============ -->
+  <section class="sec glimpse grain">
+    <div class="lbl"><b>02</b><i></i>THE GLIMPSE</div>
+    <h2>FOUR DAYS.<br><span>FOUR CHAPTERS.</span></h2>
+    <p class="sub">From first drinks to last coffee &mdash; every day has a plot.</p>
+
+    <div class="chap">
+      <div class="shot" style="background-image:url('invite-assets/bollywood.jpg')">
+        <div class="sc"></div>
+        <div class="tx"><div class="day">SATURDAY</div><div class="nm">BOLLYWOOD<br>AFTER DARK</div></div>
+        <div class="no" style="color:var(--pink)">01</div>
+      </div>
+      <div class="beats">CHECK-IN &middot; BEACH &middot; ADVENTURE SPORTS &middot; JET SKI &middot; DINNER &middot; GET READY &middot; BOLLYWOOD NIGHT</div>
+    </div>
+
+    <div class="chap">
+      <div class="shot" style="background-image:url('invite-assets/flamingo.jpg')">
+        <div class="sc"></div>
+        <div class="tx"><div class="day">SUNDAY</div><div class="nm">WHITE<br>FLAMINGO</div></div>
+        <div class="no" style="color:var(--gold)">02</div>
+      </div>
+      <div class="beats">BREAKFAST &middot; POOL &middot; CHAPORA &middot; CAF&Eacute;S &middot; GET READY &middot; SUNSET YACHT &middot; CLUB HOPPING</div>
+    </div>
+
+    <div class="chap">
+      <div class="shot" style="background-image:url('invite-assets/lost.jpg')">
+        <div class="sc"></div>
+        <div class="tx"><div class="day">MONDAY</div><div class="nm">LOST<br>IN GOA</div></div>
+        <div class="no" style="color:#6FE3A8">03</div>
+      </div>
+      <div class="beats">BREAKFAST &middot; OPEN JEEPS &middot; SOUTH GOA &middot; WATERFALL &middot; BEACHES &middot; SHACK &middot; SUNSET &middot; GROUP DECIDES</div>
+    </div>
+
+    <div class="chap">
+      <div class="shot" style="background-image:url('invite-assets/hangover.jpg')">
+        <div class="sc"></div>
+        <div class="tx"><div class="day">TUESDAY</div><div class="nm">THE HANGOVER<br>CLUB</div></div>
+        <div class="no" style="color:#e08a2b">04</div>
+      </div>
+      <div class="beats">COFFEE &middot; POOL &middot; BEACH &middot; BRUNCH &middot; ONE LAST SURPRISE &middot; ONE LAST HANG</div>
+    </div>
+
+    <p class="trailer">That&rsquo;s the trailer. The film only screens for twenty people.</p>
+  </section>
+
+  <!-- ============ 03 · THE FINAL CALL ============ -->
+  <section class="sec final grain">
+    <div class="bg"></div><div class="scrim"></div>
+    <div class="in">
+      <div class="lbl"><b>03</b><i></i>THE FINAL CALL</div>
+
+      <div class="book">SOME TRIPS<br>YOU BOOK.</div>
+      <div class="say">SOME TRIPS<br>YOU JUST SAY</div>
+      <div class="yes">
+        <b>YES.</b>
+        <svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M3 9 C 40 4, 84 12, 128 6 C 156 2, 178 8, 197 5"
+                fill="none" stroke="#ff4f87" stroke-width="5.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="when">GOA &middot; 17&ndash;20 OCTOBER 2026 &middot; 10/10 ENERGY</div>
+      <div class="idea">20 people. 4 days. One very bad idea.</div>
+
+      <div class="hr"></div>
+
+      <div class="rest">THE REST IS BETTER TOLD PERSONALLY.</div>
+      <div class="want">Want the full itinerary?<br>Say the word and we&rsquo;ll send you the rest of the plot.</div>
+
+      <a class="imin" href="{{WA}}">
+        <span class="paint"></span>
+        <span class="t">I&rsquo;M IN <span>&rarr;</span></span>
+      </a>
+
+      <div class="see">See you in Goa.</div>
+
+      <div class="foot">
+        <div class="big">DO IT FOR THE PLOT.</div>
+        <div class="h"><a href="https://www.instagram.com/plottwist.social/">@PLOTTWIST.SOCIAL</a>
+          &middot; <a href="https://plotwist.in/">PLOTWIST.IN</a></div>
+      </div>
+      <div class="go">Go on. You know you want to.</div>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

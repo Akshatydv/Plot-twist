@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plot Twist — Journey 00 · Goa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&family=Permanent+Marker&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PLOT TWIST — JOURNEY 00 · GOA · THE DOSSIER
+   A4 print source. Rendered with headless Chrome --print-to-pdf.
+
+   HONESTY RULE FOR ANYONE EDITING THIS FILE
+   Every claim below traces to src/content/goa.ts or to the confirmed
+   inclusions list. There is NO invented original price, no fake discount,
+   no fabricated review, no invented deadline. The scarcity used is real
+   scarcity: 20 seats, application only, one trip. See the block marked
+   [OPTIONAL LAUNCH OFFER] on page 7 — it is deliberately left switched off
+   until a real early-bird policy exists.
+
+   PERFORMANCE NOTE: no filter:blur(), no mix-blend-mode, no feTurbulence.
+   Each of those forces Chrome to rasterise the whole page and took this PDF
+   from 2.7MB to 29MB. Grain is a tiled 3px SVG; glows are radial-gradients.
+   ========================================================================== */
+:root{
+  --sunset:#ff7a3d; --pink:#ff4f87; --ocean:#00a9c7; --tropic:#36c96f;
+  --sand:#fff1dc; --ink:#1a0d0a; --dusk:#2b0f1c;
+  --display:'Anton',Arial Narrow,sans-serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --brush:'Permanent Marker',cursive;
+  --hand:'Caveat',cursive;
+  --serif:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4;margin:0}
+html,body{width:210mm}
+body{font-family:var(--sans);color:var(--ink);background:var(--sand);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+.page{position:relative;width:210mm;height:297mm;overflow:hidden;
+  page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto}
+
+/* ---------- textures ---------- */
+.grain::after{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='3' height='3' fill='%23000' opacity='.5'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23000' opacity='.5'/%3E%3C/svg%3E");
+  background-size:3px 3px}
+.paper{background-color:var(--sand);
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgba(255,122,61,.20), transparent 55%),
+    radial-gradient(ellipse at 96% 26%, rgba(255,79,135,.14), transparent 50%)}
+.tape{position:absolute;width:22mm;height:7mm;background:rgba(255,241,220,.78);
+
+  clip-path:polygon(2% 8%,98% 0%,100% 88%,4% 100%)}
+.tape.dark{background:rgba(26,13,10,.16)}
+
+/* ---------- type helpers ---------- */
+.slate{font-size:7pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase}
+.disp{font-family:var(--display);text-transform:uppercase;line-height:.86;letter-spacing:-.01em}
+.hand{font-family:var(--hand)}
+.serif{font-family:var(--serif);font-style:italic}
+.stamp{display:inline-block;border:2px solid currentColor;padding:2mm 3.5mm;
+  font-size:7.5pt;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  transform:rotate(-3deg)}
+.rulechain{font-size:8.5pt;letter-spacing:.1em;text-transform:uppercase;font-weight:500}
+
+/* ---------- dossier furniture: colour spine + running footer.
+     This is most of what makes the set read as ONE designed document
+     rather than seven unrelated posters. ---------- */
+.spine{position:absolute;left:0;top:0;bottom:0;width:3.2mm;background:var(--accent,var(--pink))}
+.pfoot{position:absolute;left:16mm;right:16mm;bottom:6mm;display:flex;
+  justify-content:space-between;align-items:baseline;
+  font-size:5.8pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.pfoot .no{font-family:var(--display);font-size:9pt;letter-spacing:.06em}
+
+/* ---------- THE TIMELINE — every chapter page carries one ---------- */
+.tl{--rule:rgba(26,13,10,.18);--dim:rgba(26,13,10,.5);--body:rgba(26,13,10,.72);
+  position:relative;padding-left:25mm;margin-top:4.5mm}
+.tl::before{content:"";position:absolute;left:19.6mm;top:2mm;bottom:3mm;width:1px;background:var(--rule)}
+.tl .e{position:relative;padding-bottom:3.6mm}
+.tl .e:last-child{padding-bottom:0}
+.tl .e .t{position:absolute;left:-25mm;top:.3mm;width:16.5mm;text-align:right;
+  font-size:6pt;letter-spacing:.13em;font-weight:700;text-transform:uppercase;color:var(--dim)}
+.tl .e::before{content:"";position:absolute;left:-5.7mm;top:1.3mm;
+  width:2.4mm;height:2.4mm;border-radius:50%;background:var(--accent)}
+.tl .e .h{font-family:var(--display);font-size:10.5pt;text-transform:uppercase;
+  letter-spacing:.02em;line-height:1}
+.tl .e .d{margin-top:1.1mm;font-size:8pt;line-height:1.4;color:var(--body)}
+.tl .e.star::before{width:3.4mm;height:3.4mm;left:-6.2mm;top:.8mm}
+.tl .e.star .h{color:var(--accent)}
+.tl.onDark{--rule:rgba(255,241,220,.24);--dim:rgba(255,241,220,.58);--body:rgba(255,241,220,.82)}
+.tlnote{margin-top:3mm;font-family:var(--hand);font-size:11.5pt;color:rgba(26,13,10,.5)}
+
+/* a taped index card, used as a brochure aside */
+.card3{position:relative;background:#fffaf2;color:var(--ink);padding:5mm 5.5mm;
+  box-shadow:1.6mm 1.6mm 0 0 rgba(43,15,28,.16)}
+.card3 .k{font-size:6.4pt;letter-spacing:.22em;font-weight:700;text-transform:uppercase}
+.card3 .t{font-family:var(--display);font-size:13pt;text-transform:uppercase;margin-top:1.6mm;line-height:.98}
+.card3 .d{margin-top:2mm;font-size:8pt;line-height:1.4;color:rgba(26,13,10,.7)}
+.card3 .h{margin-top:2.5mm;font-family:var(--hand);font-size:12pt;color:rgba(26,13,10,.58)}
+.kit{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:3mm}
+.kit span{border:1px solid rgba(26,13,10,.3);padding:1.3mm 2.4mm;
+  font-size:6.2pt;letter-spacing:.16em;font-weight:700;text-transform:uppercase}
+
+/* ============ P1 · COVER ============
+   An editorial dossier cover, not an itinerary front page.
+
+   THE COMPOSITION, AND WHY IT IS THIS ONE
+   The previous cover stacked eight things into the bottom third and left the
+   sky empty. This one uses the PHOTOGRAPH's own tonal structure as the grid:
+   escape.jpg runs pale at the top and near-black in the foliage at the bottom,
+   so the page splits into three naturally —
+
+     TOP     masthead, GOA, the dates            (darkened sky, sand type)
+     MIDDLE  the brand thought, then nothing     (the cove — the breath)
+     BOTTOM  chapters, the facts, price, CTA     (foliage, sand type)
+
+   The middle band is deliberately empty. It is the single change that makes
+   this read as a cover rather than a summary page.
+
+   No chips, no badges, no boxes: the only filled shape on the page is the CTA,
+   which is the one thing that has to be pressed. Everything else is type,
+   hairlines and one handwritten aside — the same editorial language the four
+   chapter pages use. */
+.cover{background:#0b0f12;color:var(--sand)}
+.cover .bg{position:absolute;inset:0;background-size:cover;background-position:50% 42%}
+/* two scrims, each doing one job: darken the sky enough for the masthead,
+   and deepen the foliage enough for the price row. The middle is left alone. */
+.cover .scrim{position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(12,8,14,.70) 0%, rgba(12,8,14,.44) 20%, rgba(12,8,14,.14) 36%,
+    rgba(10,8,12,.04) 54%, rgba(8,6,10,.58) 76%, rgba(6,4,8,.94) 100%)}
+.cover .grade{position:absolute;inset:0;
+  background:linear-gradient(200deg,rgba(255,122,61,.10) 0%,rgba(255,79,135,.07) 44%,rgba(43,15,61,.20) 100%)}
+/* GOA and the thought now sit on a lighter sky, so they carry their own
+   shadow rather than asking the scrim to do it for them */
+
+.cover .inner{position:relative;height:100%;padding:15mm 16mm 15mm;display:flex;flex-direction:column}
+
+/* ---- masthead ---- */
+.cover .top{display:flex;align-items:flex-start;justify-content:space-between;gap:8mm}
+.cover .logo{height:12mm;width:auto}
+.cover .imprint{text-align:right;font-size:6.2pt;letter-spacing:.3em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.62);line-height:1.9}
+
+/* ---- the destination ---- */
+.cover h1{font-family:var(--display);font-size:104pt;line-height:.8;text-transform:uppercase;
+  letter-spacing:-.015em;margin-top:9mm}
+.cover .dates{margin-top:5mm;display:flex;align-items:center;gap:5mm}
+.cover .dates .rule{height:1px;flex:1;background:rgba(255,241,220,.35)}
+.cover .dates .d{font-size:9pt;letter-spacing:.32em;font-weight:700;text-transform:uppercase;
+  color:var(--sand);white-space:nowrap}
+
+/* ---- the brand thought ---- */
+.cover .thought{margin-top:11mm;font-family:var(--display);font-size:25pt;line-height:.96;
+  text-transform:uppercase;letter-spacing:-.005em;max-width:132mm}
+.cover .thought span{color:var(--pink)}
+.cover .support{margin-top:5mm;font-family:var(--serif);font-size:16pt;color:#FFE9A8}
+
+/* ---- the handwritten aside, floating in the empty middle ---- */
+.cover .age{position:absolute;right:16mm;top:150mm;text-align:right;transform:rotate(-4deg)}
+.cover .age i{display:block;font-family:var(--hand);font-size:15pt;font-style:normal;
+  color:#FFF1DC;line-height:1.2}
+
+/* ---- the four chapters: one contents line, not four cards ---- */
+.cover .chapters{margin-top:auto;border-top:1px solid rgba(255,241,220,.30);padding-top:4.5mm;
+  display:flex;flex-wrap:wrap;gap:2mm 7mm}
+.cover .chapters .c{display:flex;align-items:baseline;gap:2mm}
+.cover .chapters .n{font-family:var(--display);font-size:10pt;color:var(--pink)}
+.cover .chapters .t{font-family:var(--display);font-size:12pt;text-transform:uppercase;
+  letter-spacing:.02em;color:rgba(255,241,220,.96)}
+
+/* ---- the facts: two quiet lines of type ---- */
+.cover .facts{margin-top:7mm;font-size:7.4pt;letter-spacing:.26em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.78);line-height:2.1}
+.cover .facts b{color:var(--sand);font-weight:700}
+
+/* ---- price + the one button on the page ---- */
+.cover .priceRow{margin-top:7mm;display:flex;align-items:flex-end;justify-content:space-between;gap:8mm}
+.cover .price{font-family:var(--display);font-size:30pt;line-height:.9;color:var(--sand)}
+.cover .price small{display:block;font-family:var(--sans);font-size:7pt;letter-spacing:.24em;
+  font-weight:700;color:rgba(255,241,220,.62);margin-top:2.5mm;text-transform:uppercase}
+.cover .cta{background:var(--sand);color:var(--ink);padding:4mm 7mm;font-size:9.5pt;
+  font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  box-shadow:2.6mm 2.6mm 0 0 var(--pink);white-space:nowrap}
+
+/* ============ P2 · PREMISE ============
+   An editorial page about an idea, not a USP grid.
+
+   WHAT WAS REMOVED AND WHY
+   The previous version carried a formula grid, a call sheet, a three-step
+   application process, a two-column qualifier, a Home Base block and a founder
+   panel — six sections, every one of them boxed. It read as a website landing
+   page printed onto paper. The application process and the call sheet belong to
+   the invitation, not here, so they are gone rather than restyled.
+
+   WHAT HOLDS IT TOGETHER
+   One hand-drawn thread runs the height of the page, behind everything, and
+   ties the four beats together: the idea -> the formula -> the people -> the
+   person who started it. Nothing on this page is a card. The only filled shape
+   is the founder's polaroid. */
+.p2{padding:14mm 16mm 18mm;display:flex;flex-direction:column;overflow:hidden}
+
+/* the thread — one imperfect route line, drawn behind the content */
+.p2 .thread{position:absolute;left:0;top:0;width:210mm;height:297mm;pointer-events:none}
+
+.p2 .head{position:relative;margin-top:4mm}
+.p2 h2{font-family:var(--display);font-size:29pt;line-height:.88;text-transform:uppercase;
+  letter-spacing:-.01em;max-width:150mm}
+.p2 h2 .hi{color:var(--pink)}
+.p2 .lede{margin-top:7mm;font-family:var(--serif);font-size:16pt;line-height:1.3;max-width:126mm;
+  color:rgba(26,13,10,.9)}
+.p2 .lede b{font-weight:400;color:var(--pink)}
+
+/* ---- THE FORMULA — four beats, deliberately unequal and off-grid ---- */
+.formula{position:relative;margin-top:11mm}
+.formula > .k{font-size:6.6pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.42)}
+.formula .grid{margin-top:6mm;display:grid;grid-template-columns:1fr 1fr;column-gap:12mm}
+.formula .f{position:relative}
+.formula .f .rule{width:14mm;height:2.5px;background:currentColor}
+.formula .f h4{margin-top:3mm;font-family:var(--display);font-size:13pt;text-transform:uppercase;
+  letter-spacing:.02em;color:var(--ink);line-height:1}
+.formula .f p{margin-top:2mm;font-size:8.6pt;line-height:1.5;color:rgba(26,13,10,.72)}
+/* the offsets are the composition: nothing lines up with its neighbour */
+.formula .f1{color:var(--pink);padding-left:4mm}
+.formula .f2{color:var(--ocean);margin-top:14mm;padding-left:10mm}
+.formula .f3{color:var(--sunset);margin-top:11mm;max-width:62mm}
+.formula .f4{color:var(--tropic);margin-top:6mm;padding-left:10mm;max-width:64mm}
+
+/* 10/10 gets the approval mark — the same gesture as a name ticked off a
+   casting list, which is exactly what it means here */
+/* "10/10 ENERGY" is ONE line — the number circled inside it, not stacked above
+   it, so it reads as the phrase rather than as a statistic with a caption */
+.formula .f1 h4{margin-top:4mm;font-size:23pt;display:flex;align-items:baseline;gap:6mm}
+.formula .f1 p{max-width:62mm;margin-top:4mm}
+.tenten{position:relative;display:inline-block;padding:0 3mm}
+.tenten .v{position:relative;font-family:var(--display);font-size:23pt;line-height:1;
+  color:var(--ink);letter-spacing:.01em}
+.tenten .ring{position:absolute;left:-1.5mm;top:-2.6mm;width:29mm;height:13mm;overflow:visible}
+
+/* ---- YOU'LL FIT RIGHT IN IF — a handwritten list, not a qualifier ---- */
+.fit{position:relative;margin-top:12mm}
+.fit h3{font-family:var(--display);font-size:19pt;text-transform:uppercase;letter-spacing:.01em;
+  line-height:1;color:var(--ink)}
+.fit ul{margin-top:5mm;list-style:none;max-width:150mm}
+.fit li{position:relative;padding-left:9mm;font-family:var(--hand);font-size:15.5pt;line-height:1.45;
+  color:rgba(26,13,10,.88);margin-bottom:1.5mm}
+.fit li .tick{position:absolute;left:0;top:.6mm;width:5.5mm;height:5.5mm;overflow:visible}
+.fit .flip{margin-top:7mm;padding-left:.5mm}
+.fit .flip .k{font-size:6.6pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.45)}
+.fit .flip .v{margin-top:1.5mm;font-family:var(--hand);font-size:16pt;color:var(--pink);
+  transform:rotate(-1.2deg);display:inline-block}
+
+/* ---- the note, scribbled onto the page ---- */
+.note2{position:relative;margin-top:auto;padding-top:9mm;display:flex;align-items:flex-start;gap:8mm}
+.note2 .pic{flex:0 0 28.5mm;position:relative;transform:rotate(-2.5deg)}
+.note2 .pic .pin{position:relative;background:#fffaf2;padding:1.6mm 1.6mm 1.6mm;
+  box-shadow:1.4mm 1.4mm 0 0 rgba(43,15,28,.22)}
+.note2 .pic img{width:100%;display:block}
+.note2 .txt{flex:1}
+.note2 .k{font-size:6.6pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.45)}
+.note2 .v{margin-top:3mm;font-family:var(--serif);font-size:12.5pt;line-height:1.34;
+  color:rgba(26,13,10,.86);max-width:132mm}
+.note2 .sig{margin-top:3.5mm;font-family:var(--hand);font-size:16pt;color:var(--pink);
+  transform:rotate(-2deg);display:inline-block}
+
+/* ============ CHAPTER SHARED ============ */
+.chapSlate{display:flex;align-items:center;gap:4mm;font-size:7pt;letter-spacing:.26em;
+  font-weight:700;text-transform:uppercase}
+.chapSlate .bar{height:1px;width:16mm;background:currentColor;opacity:.5}
+
+/* ---- P3 SAT 17 OCT · THE DAY DIAL ----------------------------------------
+   The day drawn as a 24-hour dial rather than listed as a timeline.
+
+   WHY A DIAL AND NOT A LIST
+   Chapter 01 is the day the group forms, and its shape IS the story: it starts
+   quiet, climbs all afternoon, and does not resolve until the small hours. A
+   stacked timeline flattens that into eight equal rows. A circle shows it —
+   you read the arc of the day before you read a single word of it.
+
+   WHAT KEEPS IT FROM BECOMING AN INFOGRAPHIC
+   No times, no numerals on the face, no radial grid, no equal pie segments.
+   The ring is a DASHED route line — the same hand-drawn language as the thread
+   on page 02 — and the pen overshoots past the top rather than closing
+   cleanly. Six stations, one direction arrow, and 24 uneven-weight ticks set
+   INSIDE the ring: outside, they merged with the dashes and the dial lost its
+   character entirely.
+
+   THE MASTHEAD STAYS
+   An earlier pass let the dial replace the chapter title outright. That broke
+   the set — every other chapter page opens with its own name — and left the
+   chapter unnamed except in the footer. Title, tagline and the handwritten
+   aside sit above the dial; the dial is the page's device, not its masthead.
+
+   The centre disc exists for contrast: this sits on the club photograph and
+   the date has to hold against it. ------------------------------------------ */
+.p3d{background:#0d0410;color:var(--sand);--accent:#FF6B96}
+.p3d .bg{position:absolute;inset:0;background-size:cover;background-position:50% 42%;opacity:.85}
+.p3d .scrim{position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 34% at 50% 45%, rgba(8,2,8,.84) 0%, rgba(8,2,8,.48) 58%, rgba(8,2,8,.26) 100%),
+             linear-gradient(180deg, rgba(10,2,10,.80) 0%, rgba(10,2,10,.52) 30%, rgba(10,2,10,.78) 62%, rgba(6,1,6,.97) 100%)}
+.p3d .glowA{position:absolute;left:-42mm;top:-38mm;width:150mm;height:150mm;
+  background:radial-gradient(circle,rgba(255,79,135,.36) 0%,rgba(255,79,135,0) 68%)}
+.p3d .glowB{position:absolute;right:-34mm;top:8mm;width:120mm;height:120mm;
+  background:radial-gradient(circle,rgba(255,122,61,.30) 0%,rgba(255,122,61,0) 68%)}
+
+/* ---- masthead ---- */
+.p3d .mast{position:absolute;left:16mm;right:16mm;top:14mm}
+.p3d .mast h2{margin-top:3mm;font-family:var(--display);font-size:37pt;line-height:.86;
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--sand)}
+.p3d .mast h2 span{color:#FF6B96}
+.p3d .mast .tag{margin-top:4mm;font-family:var(--serif);font-size:14pt;line-height:1.22;
+  max-width:104mm;color:#FFE9A8}
+.p3d .mast .scribble{position:absolute;right:0;top:12mm;width:50mm;text-align:right;
+  transform:rotate(-3.5deg);font-family:var(--hand);font-size:13pt;line-height:1.15;
+  color:rgba(255,233,168,.88)}
+
+/* the dial layer spans the whole page, so every coordinate below is page mm */
+.p3d .dial{position:absolute;inset:0}
+.p3d .face{position:absolute;inset:0;width:210mm;height:297mm}
+
+/* ---- the centre ---- */
+.p3d .core{position:absolute;left:105mm;top:134mm;transform:translate(-50%,-50%);
+  text-align:center;width:58mm}
+.p3d .core .date{font-family:var(--display);font-size:23pt;line-height:.92;
+  text-transform:uppercase;color:var(--sand)}
+.p3d .core .day{margin-top:2.2mm;font-size:7.4pt;letter-spacing:.34em;font-weight:700;
+  text-transform:uppercase;color:#FFE9A8}
+.p3d .core .ch{margin-top:3mm;padding-top:2.6mm;border-top:1px solid rgba(255,241,220,.28);
+  font-size:6.2pt;letter-spacing:.32em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.7)}
+
+/* ---- the six stations ---- */
+.p3d .st{position:absolute;width:48mm}
+.p3d .st .w{font-size:6pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:#FF6B96}
+.p3d .st .t{margin-top:1.5mm;font-family:var(--display);font-size:12pt;line-height:1;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--sand)}
+.p3d .st .d{margin-top:1.3mm;font-size:7.6pt;line-height:1.38;color:rgba(255,241,220,.74)}
+/* jet ski is not covered by the 14,999 — same disclosure treatment as the
+   open jeeps on chapter 03, so the mark means one thing across the document */
+.p3d .st .addon{margin-top:1.6mm;font-size:5.6pt;letter-spacing:.2em;font-weight:700;
+  text-transform:uppercase;color:#FFB25E}
+.p3d .st .d sup{font-size:.72em;color:#FFB25E;font-weight:700}
+.p3d .st.l{text-align:right}
+.p3d .st.c{width:62mm;text-align:center}
+
+/* ---- one handwritten aside on the dial itself ---- */
+.p3d .hn{position:absolute;font-family:var(--hand);font-size:12.5pt;line-height:1.15;
+  color:rgba(255,233,168,.72)}
+
+/* ---- the payoff ---- */
+.p3d .payoff{position:absolute;left:16mm;right:16mm;top:208mm}
+.p3d .payoff h2{font-family:var(--display);font-size:30pt;line-height:.92;
+  text-transform:uppercase;letter-spacing:-.005em;color:var(--sand)}
+.p3d .payoff h2 span{color:#FF6B96}
+.p3d .payoff p{margin-top:5mm;font-family:var(--serif);font-size:14pt;color:#FFE9A8}
+
+/* ---- the small print, kept small on purpose ---- */
+.p3d .look{position:absolute;left:16mm;bottom:19mm;max-width:66mm}
+.p3d .look .k{font-size:6pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.5)}
+.p3d .look .v{margin-top:1.6mm;font-family:var(--display);font-size:10pt;
+  text-transform:uppercase;letter-spacing:.02em;color:rgba(255,241,220,.92)}
+.p3d .look .n{margin-top:1.1mm;font-size:7.2pt;line-height:1.4;color:rgba(255,241,220,.6)}
+.p3d .tnote{position:absolute;right:16mm;bottom:19mm;max-width:62mm;text-align:right;
+  font-family:var(--hand);font-size:11pt;line-height:1.2;color:rgba(255,241,220,.5)}
+
+/* ---- P4 SUN 18 OCT · WHITE FLAMINGO · THE DECK PLAN ----------------------
+   Chapter 01 got the dial. This chapter gets the deck plan — its own object,
+   deliberately NOT another circle.
+
+   THE PHOTOGRAPH IS THE PAGE
+   The old version cropped this shot into a 92mm hero band and stacked an
+   eight-row timeline under it. It is now the whole page, re-cropped to A4
+   portrait, and the composition follows the picture's OWN tonal structure
+   rather than fighting it:
+
+     top     white deck structure, bright   -> INK type on a cream veil
+     middle  the sunset band                -> left almost untouched
+     lower    deep blue-violet sea          -> SAND type, and the chart
+
+   That inversion halfway down is why the page reads as going offshore. It is
+   also why this chapter sits opposite the near-black club page before it.
+
+   THE DECK PLAN
+   An elegant plan view, not a technical drawing and not nautical kitsch: a
+   fine hull outline, an inner rail, four deck lines, and TWENTY marks along
+   the rails — ten a side — which are the twenty people. No invented headings
+   or coordinates; the only notation is the scale, and the scale is a joke.
+   -------------------------------------------------------------------------- */
+.p4f{background:#0a0e24;color:var(--ink);--accent:var(--ocean)}
+.p4f .bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+/* one veil doing two opposite jobs: mute the bright deck enough for ink type
+   at the top, deepen the sea enough for sand type below. The sunset band in
+   the middle is deliberately left alone. */
+.p4f .veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(255,246,233,.60) 0%, rgba(255,246,233,.46) 20%, rgba(255,246,233,.24) 33%,
+    rgba(255,246,233,.06) 40%, rgba(18,16,52,.12) 47%,
+    rgba(14,14,48,.52) 60%, rgba(10,10,38,.72) 80%, rgba(8,8,30,.86) 100%)}
+.p4f .sun{position:absolute;right:-20mm;top:96mm;width:130mm;height:80mm;
+  background:radial-gradient(ellipse,rgba(255,150,90,.30) 0%,rgba(255,122,61,0) 70%)}
+
+/* ---- masthead, on the bright half ---- */
+.p4f .mast{position:absolute;left:16mm;right:16mm;top:14mm}
+.p4f .mast .chapSlate{color:rgba(26,13,10,.68)}
+.p4f .mast h2{margin-top:3mm;font-family:var(--display);font-size:44pt;line-height:.85;
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--ink)}
+.p4f .mast .tag{margin-top:5mm;font-family:var(--serif);font-size:15pt;line-height:1.22;
+  max-width:112mm;color:rgba(26,13,10,.86)}
+
+/* ---- the day, as five quiet beats on a translucent cream shelf ---- */
+.p4f .flow{position:absolute;left:16mm;right:16mm;top:76mm;
+  background:rgba(255,246,233,.62);
+  border-top:1px solid rgba(26,13,10,.28);border-bottom:1px solid rgba(26,13,10,.18);
+  padding:5mm 0 5.5mm;display:grid;grid-template-columns:repeat(5,1fr)}
+.p4f .flow .b{padding:0 4mm}
+.p4f .flow .b + .b{border-left:1px solid rgba(26,13,10,.18)}
+.p4f .flow .dot{width:1.7mm;height:1.7mm;border-radius:50%;background:var(--ocean)}
+.p4f .flow .t{margin-top:2.6mm;font-family:var(--display);font-size:9.5pt;line-height:1.02;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--ink)}
+.p4f .flow .d{margin-top:1.8mm;font-size:6.9pt;line-height:1.42;color:rgba(26,13,10,.68)}
+
+/* ---- the chart layer: page-mm coordinates ---- */
+.p4f .chart{position:absolute;inset:0;width:210mm;height:297mm}
+.p4f .plan{position:absolute;left:105mm;top:167mm;transform:translate(-50%,-50%);
+  width:50mm;text-align:center}
+.p4f .plan .v{font-family:var(--display);font-size:17pt;line-height:.98;
+  text-transform:uppercase;color:var(--sand)}
+.p4f .note{position:absolute;font-size:5.8pt;letter-spacing:.26em;font-weight:700;
+  text-transform:uppercase;color:var(--sand);background:rgba(10,14,40,.5);padding:1.2mm 1.8mm}
+.p4f .hn{position:absolute;font-family:var(--hand);line-height:1.16;color:#FFE9A8}
+
+/* ---- closing matter, on the deep water ---- */
+.p4f .support{position:absolute;left:16mm;right:16mm;top:206mm;text-align:center;
+  font-family:var(--serif);font-size:13.5pt;line-height:1.25;color:#FFE9A8}
+.p4f .look{position:absolute;left:16mm;top:232mm;max-width:74mm}
+.p4f .look .k{font-size:6pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.55)}
+.p4f .look .v{margin-top:2mm;font-family:var(--display);font-size:13pt;line-height:1.04;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--sand)}
+.p4f .wink{position:absolute;right:16mm;top:234mm;text-align:right}
+.p4f .wink .q{font-family:var(--serif);font-size:14pt;color:rgba(255,241,220,.8)}
+.p4f .wink .a{margin-top:1mm;font-family:var(--display);font-size:26pt;line-height:.95;
+  text-transform:uppercase;color:var(--pink)}
+.p4f .tnote{position:absolute;left:16mm;bottom:19mm;font-family:var(--hand);font-size:11pt;
+  line-height:1.2;color:rgba(255,241,220,.5)}
+
+/* ---- P5 MON 19 OCT · LOST IN GOA · THE LOST ROUTE ------------------------
+   Chapter 01 has the dial, Chapter 02 the deck plan. This one gets a route —
+   and the route IS the itinerary. There is no timeline anywhere on this page.
+
+   WHY IT IS DRAWN AND NOT PLOTTED
+   The spline through the seven stops has a deterministic wobble applied to
+   every control point (see _mkp5.js). It is seeded, so the line is identical
+   on every build, but it never sits true — which is the whole difference
+   between a field map somebody drew and a map application. Same reasoning as
+   the pen overshoot on the dial and the imperfect ring on page 02.
+
+   THE NIGHT IS THE POINT OF THE COMPOSITION
+   The line runs as ONE route for the whole day and then, after Sunset, breaks
+   into four. Three branches get a label. The fourth is finer, more broken, and
+   is left unlabelled and unterminated: that is "somewhere none of us planned",
+   and drawing it is more honest than writing it. The planned part of the day
+   visibly stops and the group takes over.
+   -------------------------------------------------------------------------- */
+.p5r{background:#07120f;color:var(--sand);--accent:#6FE3A8}
+.p5r .bg{position:absolute;inset:0;background-size:cover;background-position:50% 46%}
+.p5r .veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(6,20,16,.66) 0%, rgba(6,20,16,.46) 16%, rgba(7,18,18,.62) 40%,
+    rgba(6,14,16,.80) 66%, rgba(4,10,12,.94) 100%)}
+.p5r .amber{position:absolute;right:-26mm;top:150mm;width:150mm;height:120mm;
+  background:radial-gradient(ellipse,rgba(255,178,94,.26) 0%,rgba(255,178,94,0) 70%)}
+.p5r .tropic{position:absolute;left:-30mm;top:30mm;width:130mm;height:130mm;
+  background:radial-gradient(circle,rgba(54,201,111,.20) 0%,rgba(54,201,111,0) 70%)}
+
+/* ---- masthead ---- */
+.p5r .mast{position:absolute;left:16mm;right:16mm;top:14mm}
+.p5r .mast h2{margin-top:3mm;font-family:var(--display);font-size:46pt;line-height:.84;
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--sand)}
+.p5r .mast h2 span{color:#6FE3A8}
+.p5r .mast .tag{margin-top:4mm;font-family:var(--serif);font-size:14.5pt;line-height:1.2;
+  max-width:104mm;color:#DFF7E8}
+
+/* ---- the route layer: page-mm coordinates throughout ---- */
+.p5r .map{position:absolute;inset:0;width:210mm;height:297mm}
+
+/* ---- a stop ---- */
+.p5r .stop{position:absolute;width:46mm;background:rgba(6,18,15,.58);
+  padding:1.8mm 2.4mm 2mm;border-left:1.6px solid rgba(111,227,168,.55)}
+.p5r .stop.r{text-align:right;border-left:0;border-right:1.6px solid rgba(111,227,168,.55)}
+.p5r .stop .n{font-family:var(--display);font-size:11pt;line-height:1;text-transform:uppercase;
+  letter-spacing:.02em;color:var(--sand);
+  }
+.p5r .stop .d{margin-top:1.3mm;font-size:7.4pt;line-height:1.38;color:rgba(255,241,220,.78);
+  }
+
+/* ---- handwriting and field notation ---- */
+.p5r .hn{position:absolute;font-family:var(--hand);line-height:1.16;color:#FFE9A8;
+  background:rgba(6,18,15,.55);padding:1.4mm 2.2mm}
+/* the open-jeep experience is NOT covered by the 14,999, so the disclosure
+   sits on the stop itself rather than in a footnote nobody reads */
+.p5r .addon{margin-top:1.6mm;font-size:5.6pt;letter-spacing:.2em;font-weight:700;
+  text-transform:uppercase;color:#FFB25E;
+  }
+.p5r .sig .d sup{font-size:.72em;color:#FFB25E;font-weight:700}
+.p5r .youhere{position:absolute;font-size:5.8pt;letter-spacing:.28em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.8)}
+.p5r .theplot{position:absolute;font-family:var(--display);font-size:13pt;
+  text-transform:uppercase;letter-spacing:.03em;color:#FFB25E}
+
+/* ---- the signature moment ---- */
+.p5r .sig{position:absolute;left:16mm;top:114mm;width:92mm}
+.p5r .sig .v{font-family:var(--display);font-size:33pt;line-height:.9;text-transform:uppercase;
+  letter-spacing:-.01em;color:var(--sand)}
+.p5r .sig .v span{color:#6FE3A8}
+.p5r .sig .d{margin-top:3.5mm;font-size:7.4pt;letter-spacing:.24em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.66)}
+
+/* ---- polaroids pinned to the map ---- */
+.p5r .pol{position:absolute}
+.p5r .pol .pin{position:relative;background:#fffaf2;padding:1.6mm 1.6mm 5.6mm;
+  box-shadow:1.6mm 1.6mm 0 0 rgba(0,0,0,.45)}
+.p5r .pol img{width:100%;display:block}
+.p5r .pol .cap{position:absolute;left:0;right:0;bottom:1.4mm;text-align:center;
+  font-family:var(--hand);font-size:9.5pt;color:rgba(26,13,10,.62)}
+
+/* ---- the night ---- */
+.p5r .night{position:absolute;left:16mm;top:228mm;width:84mm}
+.p5r .night .k{font-size:6pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase;
+  color:#FFB25E}
+.p5r .night .v{margin-top:2mm;font-family:var(--display);font-size:27pt;line-height:.92;
+  text-transform:uppercase;color:var(--sand)}
+.p5r .night .o{margin-top:3.5mm;font-size:7.6pt;line-height:1.45;color:rgba(255,241,220,.72)}
+.p5r .night .c{margin-top:3mm;font-family:var(--hand);font-size:13pt;color:#FFE9A8}
+.p5r .tnote{position:absolute;right:16mm;bottom:19mm;text-align:right;font-family:var(--hand);
+  font-size:10.5pt;line-height:1.2;color:rgba(255,241,220,.46)}
+
+/* ---- P6 TUE 20 OCT · THE HANGOVER CLUB · THE END CREDITS -----------------
+   The dial, the deck plan and the route were all drawn objects. This one is
+   not an object at all — it is a FRAME. The last chapter is the end of a film,
+   so the page is built as the closing shot with the credits rolling over it.
+
+   WHY THE PHOTOGRAPH RUNS THE FULL PAGE
+   It used to be an 88mm band with the copy stacked underneath, which is the
+   one composition that cannot feel cinematic: a film's last shot does not stop
+   two-thirds up the frame. The image is now re-cropped to A4 portrait and runs
+   the entire page, and the layout is built around what is actually IN it —
+   dark palm canopy at the top (the masthead sits there), the sun breaking
+   through at the middle (left deliberately empty, the held beat), and the two
+   figures at the table two-thirds down, who are left as a soft silhouette
+   BEHIND the credits rather than covered by them.
+
+   THE CINEMA COMES FROM COMPOSITION, NOT PROPS
+   No reels, no clapperboards, no film icons. It is four things: letterbox bars
+   top and bottom, a vignette, a veil that fades the picture to black down the
+   page, and centred credit typography. The page literally cuts to black before
+   the bottom bar. ------------------------------------------------------------ */
+.p6c{background:#050303;color:var(--sand);--accent:#e08a2b}
+.p6c .bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+/* the fade to black: the picture is strongest at the top and is gone by the
+   time the last line lands */
+.p6c .veil{position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(14,10,6,.56) 0%, rgba(14,10,6,.34) 12%, rgba(14,10,6,.20) 26%,
+    rgba(16,10,6,.34) 40%, rgba(14,8,6,.66) 54%,
+    rgba(10,6,4,.78) 68%, rgba(6,4,3,.92) 82%, rgba(4,2,2,.985) 96%)}
+.p6c .vig{position:absolute;inset:0;
+  background:radial-gradient(ellipse 74% 56% at 50% 44%, rgba(0,0,0,0) 42%, rgba(0,0,0,.50) 100%)}
+.p6c .gold{position:absolute;left:24mm;top:106mm;width:130mm;height:90mm;
+  background:radial-gradient(ellipse,rgba(255,196,110,.30) 0%,rgba(255,196,110,0) 70%)}
+/* the frame */
+.p6c .barT,.p6c .barB{position:absolute;left:0;right:0;background:#050303}
+.p6c .barT{top:0;height:11mm}
+.p6c .barB{bottom:0;height:12mm}
+.p6c .edge{position:absolute;left:16mm;right:16mm;top:4mm;display:flex;
+  justify-content:space-between;font-size:5.6pt;letter-spacing:.34em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.42)}
+
+/* ---- masthead, on the dark canopy ---- */
+.p6c .mast{position:absolute;left:16mm;right:16mm;top:20mm}
+.p6c .mast h2{margin-top:3mm;font-family:var(--display);font-size:43pt;line-height:.85;
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--sand)}
+.p6c .mast h2 span{color:#F0A845}
+.p6c .mast .tag{margin-top:4mm;font-family:var(--serif);font-size:15pt;color:#FFE9A8}
+
+/* ---- four scenes, set like slug lines ---- */
+.p6c .scenes{position:absolute;left:16mm;right:16mm;top:78mm;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:0 6mm}
+.p6c .scenes .s{padding-top:3mm;border-top:1px solid rgba(255,241,220,.26)}
+.p6c .scenes .n{font-size:5.6pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;
+  color:#F0A845}
+.p6c .scenes .t{margin-top:2.2mm;font-family:var(--display);font-size:10pt;line-height:1.02;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--sand)}
+.p6c .scenes .d{margin-top:1.6mm;font-size:7.2pt;line-height:1.4;color:rgba(255,241,220,.72)}
+
+/* ---- the credits, rolling over the shot ---- */
+.p6c .credits{position:absolute;left:16mm;right:16mm;top:140mm;text-align:center;
+  }
+.p6c .credits .lbl{display:flex;align-items:center;justify-content:center;gap:5mm;
+  font-size:5.8pt;letter-spacing:.4em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.5)}
+.p6c .credits .lbl i{height:1px;width:22mm;background:rgba(255,241,220,.28);display:block}
+.p6c .credits .starring{margin-top:4mm;font-size:7.4pt;letter-spacing:.46em;font-weight:700;
+  text-transform:uppercase;color:#FFE9A8}
+.p6c .credits .c{margin-top:5mm}
+.p6c .credits .c .big{font-family:var(--display);font-size:17pt;line-height:1;
+  text-transform:uppercase;letter-spacing:.02em;color:var(--sand)}
+.p6c .credits .c .sub{margin-top:1.6mm;font-family:var(--serif);font-size:10.5pt;
+  line-height:1.2;color:rgba(255,233,168,.9)}
+
+/* ---- the final scene, after the picture has gone ---- */
+.p6c .final{position:absolute;left:16mm;right:16mm;top:226mm;text-align:center}
+.p6c .final .k{font-size:5.8pt;letter-spacing:.4em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.45)}
+.p6c .final .v{margin-top:3.5mm;font-family:var(--serif);font-size:15pt;line-height:1.28;
+  color:#FFE9A8}
+.p6c .close{position:absolute;left:16mm;right:16mm;top:250mm;text-align:center}
+.p6c .close .q{font-family:var(--display);font-size:23pt;line-height:.94;text-transform:uppercase;
+  color:var(--sand)}
+.p6c .close .a{margin-top:2.5mm;font-family:var(--display);font-size:27pt;line-height:.94;
+  text-transform:uppercase;color:var(--pink)}
+
+/* ---- P7 · THE DAMAGE · THE PAYOFF ----------------------------------------
+   The last page, and the only one that has to close.
+
+   WHAT CHANGED FROM THE FOLIO VERSION
+   The folio was legible but it read as a document — eight horizontal rules and
+   three equal columns, which is a spreadsheet's grammar. This version keeps
+   the same hierarchy and throws away the furniture:
+
+     - THREE rules on the whole page, not eight. Sections are separated by
+       whitespace and by shifts in type weight instead.
+     - The three value blocks are deliberately UNEQUAL. 01 and 02 share a row
+       at different widths and offsets; 03 THE GROUP runs full width beneath
+       them at display size, because the group is the actual product and it
+       was previously sitting in a third of a row looking like a demographic.
+     - The page ends in a different world: the cream stops two-thirds down and
+       a dark photographic finale takes over. The reader crosses a threshold
+       to reach the CTA rather than scrolling into another section.
+   -------------------------------------------------------------------------- */
+.p7d{background:var(--sand);color:var(--ink);--accent:var(--pink);overflow:hidden;
+  display:flex;flex-direction:column}
+.p7d .body{flex:1 1 auto;min-height:0;background-color:var(--sand);
+  background-image:
+    radial-gradient(ellipse at 10% 0%, rgba(255,122,61,.20), transparent 58%),
+    radial-gradient(ellipse at 96% 18%, rgba(255,79,135,.15), transparent 52%)}
+.p7d .bodyPad{padding:12mm 15mm 2mm}
+
+/* ---- 1 · the price ---- */
+.p7d .lbl{font-size:6.2pt;letter-spacing:.34em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5)}
+.p7d .head{display:flex;align-items:flex-end;justify-content:space-between;gap:10mm}
+.p7d .amt{margin-top:2mm;font-family:var(--display);font-size:46pt;line-height:.82;
+  letter-spacing:-.018em}
+.p7d .per{margin-top:2.5mm;font-size:6.4pt;letter-spacing:.32em;font-weight:700;
+  text-transform:uppercase;color:rgba(26,13,10,.55)}
+.p7d .where{text-align:right;flex:0 0 auto;font-size:7pt;letter-spacing:.24em;font-weight:700;
+  text-transform:uppercase;color:rgba(26,13,10,.62);line-height:2}
+.p7d .where b{color:var(--ink)}
+.p7d .tagline{margin-top:3mm;font-family:var(--serif);font-size:13pt;line-height:1.2;
+  color:rgba(26,13,10,.86)}
+
+/* ---- 2 · the value, deliberately unequal ---- */
+.p7d .value{margin-top:5mm}
+.p7d .num{font-family:var(--display);font-size:8.5pt;letter-spacing:.16em;color:var(--pink)}
+.p7d .vrow{display:grid;grid-template-columns:0.78fr 1fr;gap:11mm;align-items:start}
+.p7d .v h3{margin-top:1.4mm;font-family:var(--display);font-size:12.5pt;line-height:1;
+  text-transform:uppercase;letter-spacing:.02em}
+.p7d .v .m{margin-top:2mm;font-size:7.5pt;line-height:1.35;font-weight:700}
+.p7d .v .d{margin-top:1.2mm;font-size:7.5pt;line-height:1.45;color:rgba(26,13,10,.7)}
+.p7d .v.two{padding-top:6mm}                     /* the offset that breaks the row */
+/* 03 is the product, so it gets the display treatment */
+.p7d .group{margin-top:5mm;display:grid;grid-template-columns:1fr auto;gap:10mm;align-items:end}
+.p7d .group h3{margin-top:1.4mm;font-family:var(--display);font-size:17pt;line-height:.94;
+  text-transform:uppercase;letter-spacing:-.005em}
+.p7d .group h3 span{color:var(--pink)}
+.p7d .group .d{margin-top:2.2mm;font-family:var(--serif);font-size:11pt;line-height:1.25;
+  max-width:104mm;color:rgba(26,13,10,.82)}
+.p7d .group .m{text-align:right;font-size:7pt;letter-spacing:.22em;font-weight:700;
+  text-transform:uppercase;color:rgba(26,13,10,.6);line-height:1.9;white-space:nowrap}
+
+/* ---- 3 · in the plot ---- */
+.p7d .plot{margin-top:5mm;border-top:1px solid rgba(26,13,10,.22);padding-top:5mm}
+.p7d .plot .k{font-size:6pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;
+  color:var(--ocean)}
+.p7d .plot .k.b{color:rgba(26,13,10,.42)}
+.p7d .plot .l{margin-top:2.2mm;font-family:var(--display);font-size:10.5pt;line-height:1.34;
+  text-transform:uppercase;letter-spacing:.03em}
+.p7d .plot .l i{font-style:normal;color:var(--pink);padding:0 1.2mm}
+.p7d .plot .also{margin-top:4mm}
+.p7d .plot .also .l{font-size:9.5pt;color:rgba(26,13,10,.78)}
+
+/* ---- 4 · the reframe: the typographic moment ---- */
+.p7d .reframe{position:relative;margin-top:5mm}
+.p7d .reframe h2{font-family:var(--display);font-size:30pt;line-height:.85;
+  text-transform:uppercase;letter-spacing:-.018em;max-width:118mm}
+.p7d .reframe h2 span{color:var(--pink)}
+.p7d .reframe .list{position:absolute;right:0;bottom:0;text-align:right;
+  font-family:var(--serif);font-size:11.5pt;line-height:1.42;color:rgba(26,13,10,.8)}
+.p7d .reframe .list b{font-weight:400;color:var(--pink)}
+.p7d .reframe .hand{position:absolute;left:2mm;bottom:-8mm;font-family:var(--hand);
+  font-size:14pt;color:rgba(26,13,10,.55);transform:rotate(-2deg)}
+
+/* ---- 5 · the quiet band ---- */
+.p7d .small{margin-top:13mm;display:grid;grid-template-columns:1.12fr 1fr;gap:10mm}
+.p7d .small .k{font-size:5.8pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.42)}
+.p7d .small .t{margin-top:1.8mm;font-size:6.5pt;line-height:1.46;color:rgba(26,13,10,.6)}
+.p7d .small .t b{color:rgba(26,13,10,.78)}
+.p7d .small .h{margin-top:2.2mm;font-family:var(--hand);font-size:11.5pt;color:var(--pink)}
+.p7d .small .sig{margin-top:2.2mm;font-size:5.6pt;letter-spacing:.24em;font-weight:700;
+  text-transform:uppercase;color:rgba(26,13,10,.42)}
+
+/* ---- 6 · the finale: a different world entirely ---- */
+.p7d .finale{flex:0 0 70mm;position:relative;overflow:hidden;background:#0b0508;color:var(--sand)}
+.p7d .finale .fbg{position:absolute;inset:0;background-size:cover;background-position:50% 58%}
+.p7d .finale .fveil{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,241,220,.10) 0%,rgba(20,6,12,.72) 16%,
+    rgba(14,4,10,.86) 48%,rgba(9,3,7,.95) 100%)}
+.p7d .finale .fglow{position:absolute;left:-24mm;bottom:-40mm;width:130mm;height:130mm;
+  background:radial-gradient(circle,rgba(255,122,61,.30) 0%,rgba(255,122,61,0) 70%)}
+.p7d .finale .in{position:relative;height:100%;padding:8mm 15mm 6mm;display:flex;
+  flex-direction:column}
+.p7d .fmain{display:grid;grid-template-columns:1.06fr 1fr;gap:9mm;align-items:start}
+.p7d .so{font-family:var(--display);font-size:12pt;letter-spacing:.18em;color:#FFE9A8}
+.p7d .fmain h2{margin-top:1mm;font-family:var(--display);font-size:35pt;line-height:.86;
+  text-transform:uppercase;letter-spacing:-.015em}
+.p7d .know{margin-top:3.5mm;font-family:var(--serif);font-size:11.5pt;line-height:1.3;color:#FFE9A8}
+.p7d .fright{text-align:right}
+.p7d .fpp{font-family:var(--display);font-size:20pt;line-height:.95}
+.p7d .fpp small{display:block;font-family:var(--sans);font-size:6pt;letter-spacing:.28em;
+  font-weight:700;color:rgba(255,241,220,.6);margin-top:1.5mm}
+/* I'M IN — a torn invitation stamp, not a UI button: coral block, off-square,
+   punched corner notches, and a cream shadow so it reads as a physical object
+   sitting ON the page rather than a rectangle drawn into it */
+.p7d .imin{position:relative;display:inline-block;text-decoration:none;margin-top:4mm;padding:4mm 8mm 4.5mm;
+  background:var(--pink);color:var(--sand);font-family:var(--display);font-size:25pt;
+  line-height:1;letter-spacing:.05em;text-transform:uppercase;transform:rotate(-1.8deg);font-size:22pt;
+  box-shadow:2.6mm 2.6mm 0 0 rgba(255,241,220,.92)}
+.p7d .imin::before,.p7d .imin::after{content:"";position:absolute;width:3mm;height:3mm;
+  border-radius:50%;background:#160710}
+.p7d .imin::before{left:-1.5mm;top:50%;margin-top:-1.5mm}
+.p7d .imin::after{right:-1.5mm;top:50%;margin-top:-1.5mm}
+.p7d .fmsg{margin-top:3.5mm;font-family:var(--hand);font-size:12.5pt;color:rgba(255,241,220,.8)}
+/* ---- footer, quiet on purpose ---- */
+.p7d .ffoot{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;
+  gap:8mm;border-top:1px solid rgba(255,241,220,.2);padding-top:4mm}
+.p7d .ffoot .big{font-family:var(--display);font-size:12.5pt;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--sand)}
+.p7d .ffoot .sub{margin-top:1.4mm;font-size:6pt;letter-spacing:.26em;font-weight:700;
+  text-transform:uppercase;color:rgba(255,241,220,.55)}
+.p7d .ffoot .hand{font-family:var(--hand);font-size:12pt;color:rgba(255,233,168,.7);
+  text-align:right;transform:rotate(-1.5deg)}
+
+</style>
+</head>
+<body>
+
+<!-- ================= PAGE 1 · COVER ================= -->
+<section class="page cover grain">
+  <div class="bg" style="background-image:url('pdf-assets/cover.jpg')"></div>
+  <div class="grade"></div>
+  <div class="scrim"></div>
+
+  <!-- floats in the empty middle band, over the cove -->
+  <div class="age">
+    <i>old enough to know better<br>young enough to do it anyway</i>
+  </div>
+
+  <div class="inner">
+    <div class="top">
+      <img class="logo" src="pdf-assets/logo.png" alt="Plot Twist">
+      <div class="imprint">JOURNEY 00<br>THE DOSSIER</div>
+    </div>
+
+    <h1>GOA</h1>
+
+    <div class="dates">
+      <span class="d">17&ndash;20 OCTOBER 2026</span>
+      <span class="rule"></span>
+    </div>
+
+    <p class="thought">YOU COULD JUST GO TO GOA.<br><span>OR MAKE A PLOT OUT OF IT.</span></p>
+    <p class="support">Four days. Four chapters. One plot.</p>
+
+    <div class="chapters">
+      <span class="c"><span class="n">01</span><span class="t">Bollywood After Dark</span></span>
+      <span class="c"><span class="n">02</span><span class="t">White Flamingo</span></span>
+      <span class="c"><span class="n">03</span><span class="t">Lost In Goa</span></span>
+      <span class="c"><span class="n">04</span><span class="t">The Hangover Club</span></span>
+    </div>
+
+    <div class="facts">
+      <b>20 PEOPLE</b> &middot; 4 DAYS &middot; 3 NIGHTS<br>
+      10 GIRLS &middot; 10 GUYS &middot; 18&ndash;30
+    </div>
+
+    <div class="priceRow">
+      <div class="price">FROM &#8377;14,999<small>PER PERSON</small></div>
+      <div class="cta">REQUEST YOUR INVITE &rarr;</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAGE 2 · THE PREMISE ================= -->
+<section class="page paper grain p2" style="--accent:var(--sunset)">
+  <div class="spine"></div>
+
+  <!-- THE THREAD. One imperfect route line drawn down the page, passing the
+       formula, the checklist and the note. Hand-drawn rather than a ruled
+       divider: it is the only thing on the page connecting the four beats,
+       and it has to look like somebody drew it, not like a border. -->
+  <svg class="thread" viewBox="0 0 595 842" fill="none" preserveAspectRatio="none" aria-hidden="true">
+    <!-- routed to run through the page's EMPTY space, never across the
+         checklist: out past the formula, then down the left gutter -->
+    <path d="M104 252 C 176 258, 156 300, 258 306 C 356 312, 306 344, 402 356
+             C 458 364, 450 398, 386 418 C 316 440, 190 438, 132 458
+             C 88 474, 62 504, 54 552 C 46 606, 46 664, 56 706
+             C 62 734, 72 748, 88 758"
+          stroke="#FF7A3D" stroke-width="1.6" stroke-linecap="round"
+          stroke-dasharray="7 6" opacity=".34"/>
+    <circle cx="104" cy="252" r="3.4" fill="#FF4F87" opacity=".6"/>
+    <circle cx="88" cy="758" r="3.4" fill="#FF7A3D" opacity=".55"/>
+  </svg>
+
+  <div class="chapSlate" style="color:rgba(26,13,10,.55)"><span>01</span><span class="bar"></span><span>THE PREMISE</span></div>
+
+  <div class="head">
+    <h2>YOU COULD JUST GO TO GOA.<br><span class="hi">OR YOU COULD MAKE A PLOT OUT OF IT.</span></h2>
+
+    <p class="lede">Anyone can book Goa.<br>
+      The hard part is finding the right people to experience it with.<br>
+      <b>That's where Plot Twist comes in.</b></p>
+  </div>
+
+  <div class="formula">
+    <div class="k">THE PLOT TWIST FORMULA</div>
+    <div class="grid">
+
+      <div class="f f1">
+        <div class="rule"></div>
+        <!-- the approval mark: 10/10 circled the way a name gets circled on a
+             casting list, which is precisely what the number means -->
+        <h4>
+          <span class="tenten">
+            <svg class="ring" viewBox="0 0 136 60" fill="none" aria-hidden="true">
+              <path d="M70 5 C 108 4, 132 14, 131 30 C 130 46, 100 56, 64 56
+                       C 28 56, 5 46, 5 30 C 5 15, 26 6, 62 5 C 86 4.6, 106 7, 118 12"
+                    stroke="#FF4F87" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>
+            </svg>
+            <span class="v">10/10</span>
+          </span>
+          <span>ENERGY</span>
+        </h4>
+        <p>Good stories. Big personalities. Zero boring conversations.</p>
+      </div>
+
+      <div class="f f2">
+        <div class="rule"></div>
+        <h4>CURATED EXPERIENCES</h4>
+        <p>The kind of plans you say yes to before asking what time you're coming back.</p>
+      </div>
+
+      <div class="f f3">
+        <div class="rule"></div>
+        <h4>HANDPICKED STAYS</h4>
+        <p>Somewhere good enough to want to wake up. Comfortable enough to survive the night.</p>
+      </div>
+
+      <div class="f f4">
+        <div class="rule"></div>
+        <h4>20 PEOPLE</h4>
+        <p>Small enough to become a family. Big enough to never run out of stories.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="fit">
+    <h3>YOU'LL FIT RIGHT IN IF&hellip;</h3>
+    <ul>
+      <li><svg class="tick" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13 L9 20 L21 3" stroke="#36C96F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>You say yes before you know the plan.</li>
+      <li><svg class="tick" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13 L9 20 L21 3" stroke="#36C96F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>You'd rather chase a waterfall than spend the day in your room.</li>
+      <li><svg class="tick" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13 L9 20 L21 3" stroke="#36C96F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>You like meeting people who were strangers five minutes ago.</li>
+      <li><svg class="tick" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13 L9 20 L21 3" stroke="#36C96F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>You collect stories, not just places.</li>
+      <li><svg class="tick" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 13 L9 20 L21 3" stroke="#36C96F" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>You make plans better by being there.</li>
+    </ul>
+
+    <div class="flip">
+      <div class="k">IF YOU NEED EVERYTHING TO GO ACCORDING TO PLAN&hellip;</div>
+      <div class="v">you may have opened the wrong itinerary.</div>
+    </div>
+  </div>
+
+  <div class="note2">
+    <div class="pic">
+      <div class="pin"><img src="pdf-assets/akshat.jpg" alt=""></div>
+      <span class="tape dark" style="left:8mm;top:-2.5mm;transform:rotate(-5deg)"></span>
+    </div>
+    <div class="txt">
+      <div class="k">A NOTE FROM THE GUY WHO STARTED THIS</div>
+      <p class="v">I've travelled enough to realise the best part of a trip is almost never the place.
+        It's the people, the random plans and the stories you somehow end up telling for years.
+        Plot Twist is my attempt to get more of those trips into the world.</p>
+      <div class="sig">&mdash; Akshat</div>
+    </div>
+  </div>
+
+  <div class="pfoot" style="color:rgba(26,13,10,.42)">
+    <span>PLOT TWIST &middot; JOURNEY 00 &middot; GOA</span><span class="no">02</span></div>
+</section>
+
+<!-- ============= PAGE 3 · SATURDAY 17 · THE DAY DIAL ============= -->
+<section class="page p3d grain">
+  <div class="bg" style="background-image:url('pdf-assets/bollywood.jpg')"></div>
+  <div class="glowA"></div><div class="glowB"></div>
+  <div class="scrim"></div>
+  <div class="spine"></div>
+
+  <div class="mast">
+    <div class="chapSlate" style="color:rgba(255,241,220,.75)"><span>SAT 17 OCT</span><span class="bar"></span><span>CHAPTER 01</span></div>
+    <h2>BOLLYWOOD<br><span>AFTER DARK</span></h2>
+    <p class="tag">First day energy. By night, everyone’s got an alter ego.</p>
+    <div class="scribble">the entrance matters<br>more than the outfit.</div>
+  </div>
+
+  <div class="dial">
+    <svg class="face" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+      <!-- centre disc: contrast for the date, nothing more -->
+      <circle cx="105" cy="134" r="29.5" fill="#0a0210" opacity=".62"/>
+      <!-- the route: a dashed ring, not a drawn dial face -->
+      <circle cx="105" cy="134" r="38" fill="none" stroke="#FFF1DC" stroke-width="0.5"
+              stroke-dasharray="3.2 3" opacity=".5"/>
+      <circle cx="105" cy="134" r="32" fill="none" stroke="#FFF1DC" stroke-width="0.3" opacity=".16"/>
+      <line x1="105.00" y1="97.50" x2="105.00" y2="102.40" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="114.45" y1="98.74" x2="113.83" y2="101.06" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="123.25" y1="102.39" x2="122.05" y2="104.47" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="130.81" y1="108.19" x2="129.11" y2="109.89" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="136.61" y1="115.75" x2="132.37" y2="118.20" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="140.26" y1="124.55" x2="137.94" y2="125.17" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="141.50" y1="134.00" x2="139.10" y2="134.00" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="140.26" y1="143.45" x2="137.94" y2="142.83" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="136.61" y1="152.25" x2="132.37" y2="149.80" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="130.81" y1="159.81" x2="129.11" y2="158.11" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="123.25" y1="165.61" x2="122.05" y2="163.53" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="114.45" y1="169.26" x2="113.83" y2="166.94" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="105.00" y1="170.50" x2="105.00" y2="165.60" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="95.55" y1="169.26" x2="96.17" y2="166.94" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="86.75" y1="165.61" x2="87.95" y2="163.53" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="79.19" y1="159.81" x2="80.89" y2="158.11" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="73.39" y1="152.25" x2="77.63" y2="149.80" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="69.74" y1="143.45" x2="72.06" y2="142.83" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="68.50" y1="134.00" x2="70.90" y2="134.00" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="69.74" y1="124.55" x2="72.06" y2="125.17" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="73.39" y1="115.75" x2="77.63" y2="118.20" stroke="#FFE9A8" stroke-width="0.8" opacity="0.9" stroke-linecap="round"/>
+      <line x1="79.19" y1="108.19" x2="80.89" y2="109.89" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="86.75" y1="102.39" x2="87.95" y2="104.47" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <line x1="95.55" y1="98.74" x2="96.17" y2="101.06" stroke="#FFF1DC" stroke-width="0.4" opacity="0.55" stroke-linecap="round"/>
+      <path d="M77.01 105.01 A 40.3 40.3 0 0 1 99.39 94.09 A 40.9 40.9 0 0 1 121.84 96.18" fill="none" stroke="#FF6B96" stroke-width="0.8" opacity=".55" stroke-linecap="round"/>
+      <path d="M87.47 98.05 L92.63 98.07 L89.22 101.64" fill="none" stroke="#FF6B96" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="105.00" cy="96.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="105.00" cy="96.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="105.00" cy="96.00" r="1.1" fill="#FF6B96"/>
+      <circle cx="137.91" cy="115.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="137.91" cy="115.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="137.91" cy="115.00" r="1.1" fill="#FF6B96"/>
+      <circle cx="137.91" cy="153.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="137.91" cy="153.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="137.91" cy="153.00" r="1.1" fill="#FF6B96"/>
+      <circle cx="105.00" cy="172.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="105.00" cy="172.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="105.00" cy="172.00" r="1.1" fill="#FF6B96"/>
+      <circle cx="72.09" cy="153.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="72.09" cy="153.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="72.09" cy="153.00" r="1.1" fill="#FF6B96"/>
+      <circle cx="72.09" cy="115.00" r="2.7" fill="#0d0410" opacity=".85"/>
+      <circle cx="72.09" cy="115.00" r="2.7" fill="none" stroke="#FF6B96" stroke-width="0.8"/>
+      <circle cx="72.09" cy="115.00" r="1.1" fill="#FF6B96"/>
+    </svg>
+
+    <div class="st c" style="left:105mm;top:72.5mm;transform:translateX(-50%)">
+      <div class="w">ARRIVAL</div><div class="t">CHECK IN</div><div class="d">Drop the bags. Meet the cast.</div>
+    </div>
+    <div class="st r" style="left:144.0mm;top:103.5mm">
+      <div class="w">AFTERNOON</div><div class="t">BEACH + ADVENTURE</div><div class="d">Jet ski<sup>+</sup>, water, sand. Goa starts here.</div>
+      <div class="addon">+ JET SKI: OPTIONAL ADD-ON &middot; NOT INCLUDED</div>
+    </div>
+    <div class="st r" style="left:144.0mm;top:148.5mm">
+      <div class="w">GOLDEN HOUR</div><div class="t">FIRST SUNSET</div><div class="d">The one everyone photographs badly.</div>
+    </div>
+    <div class="st c" style="left:105mm;top:181.5mm;transform:translateX(-50%)">
+      <div class="w">EVENING</div><div class="t">GET READY</div><div class="d">Bollywood mode: on.</div>
+    </div>
+    <div class="st l" style="right:144.0mm;top:148.5mm">
+      <div class="w">NIGHT</div><div class="t">BOLLYWOOD AFTER DARK</div><div class="d">Make an entrance.</div>
+    </div>
+    <div class="st l" style="right:144.0mm;top:103.5mm">
+      <div class="w">LATE</div><div class="t">CLUB HOPPING</div><div class="d">For whoever’s still standing.</div>
+    </div>
+
+    <div class="core">
+      <div class="date">17 OCTOBER</div>
+      <div class="day">SATURDAY</div>
+      <div class="ch">CHAPTER 01</div>
+    </div>
+
+    <div class="hn" style="right:16mm;top:186mm;transform:rotate(3deg);text-align:right">starts slow.<br>does not end slow.</div>
+  </div>
+
+  <div class="payoff">
+    <h2>BY MIDNIGHT,<br>NOBODY’S STILL<br><span>INTRODUCING THEMSELVES.</span></h2>
+    <p>That’s the whole point of Saturday.</p>
+  </div>
+
+  <div class="look">
+    <div class="k">TONIGHT’S LOOK</div>
+    <div class="v">BOLLYWOOD / INDIAN GLAM</div>
+    <div class="n">Come ready to make an entrance.</div>
+  </div>
+  <div class="tnote">timings are indicative.<br>the plot moves at the group’s pace.</div>
+
+  <div class="pfoot" style="color:rgba(255,241,220,.45)">
+    <span>SATURDAY 17 OCT &middot; CHAPTER 01 &middot; BOLLYWOOD AFTER DARK</span><span class="no">03</span></div>
+</section>
+
+<!-- ========= PAGE 4 · SUNDAY 18 · WHITE FLAMINGO · THE DECK PLAN ========= -->
+<section class="page p4f grain">
+  <div class="bg" style="background-image:url('pdf-assets/flamingo.jpg')"></div>
+  <div class="veil"></div>
+  <div class="sun"></div>
+  <div class="spine"></div>
+
+  <div class="mast">
+    <div class="chapSlate"><span>SUN 18 OCT</span><span class="bar"></span><span>CHAPTER 02</span></div>
+    <h2>WHITE<br>FLAMINGO</h2>
+    <p class="tag">Slow morning. One iconic fort. A little caffeine. Then we take the party offshore.</p>
+  </div>
+
+  <div class="flow">
+      <div class="b"><div class="dot"></div><div class="t">SLOW START</div><div class="d">Breakfast &middot; pool &middot; recover</div></div>
+      <div class="b"><div class="dot"></div><div class="t">GOA, THE MOVIE VERSION</div><div class="d">Chapora Fort &middot; caf&eacute; hopping &middot; coastal roads</div></div>
+      <div class="b"><div class="dot"></div><div class="t">THE SWITCH</div><div class="d">Back to base &middot; showers &middot; all-white fit</div></div>
+      <div class="b"><div class="dot"></div><div class="t">OFFSHORE</div><div class="d">White Flamingo &middot; sunset &middot; music &middot; open water</div></div>
+      <div class="b"><div class="dot"></div><div class="t">AFTER DARK</div><div class="d">Thalassa &rarr; Purple Martini &rarr; wherever the night takes us</div></div>
+  </div>
+
+  <svg class="chart" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+    <!-- heading line off the bow: the boat is going somewhere -->
+    <line x1="105" y1="96" x2="105" y2="108" stroke="#FFE9A8" stroke-width="0.35"
+          stroke-dasharray="2 2.4" opacity=".55"/>
+    <path d="M103.2 98.6 L105 95.6 L106.8 98.6"
+          fill="none" stroke="#FFE9A8" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+
+    <!-- hull, then the inner rail -->
+    <path d="M105 111 C 119 121, 135 136, 135 148 L 135 186 C 135 195, 130 197, 124 197 L 86 197 C 80 197, 75 195, 75 186 L 75 148 C 75 136, 91 121, 105 111 Z" fill="none" stroke="rgba(8,10,34,.34)" stroke-width="7"/>
+    <path d="M105 111 C 119 121, 135 136, 135 148 L 135 186 C 135 195, 130 197, 124 197 L 86 197 C 80 197, 75 195, 75 186 L 75 148 C 75 136, 91 121, 105 111 Z" fill="rgba(8,10,34,.60)" stroke="#FFF1DC" stroke-width="0.55" opacity=".92"/>
+    <path d="M105 117 C 117 126, 130.5 140, 130.5 149 L 130.5 186 C 130.5 192, 126.5 193.5, 121.5 193.5 L 88.5 193.5 C 83.5 193.5, 79.5 192, 79.5 186 L 79.5 149 C 79.5 140, 93 126, 105 117 Z" fill="none" stroke="#FFF1DC" stroke-width="0.3" opacity=".38"/>
+    <line x1="105" y1="120" x2="105" y2="192" stroke="#FFF1DC" stroke-width="0.25"
+          stroke-dasharray="1.6 2.6" opacity=".28"/>
+      <line x1="81" y1="152" x2="129" y2="152" stroke="#FFF1DC" stroke-width="0.25" opacity=".22"/>
+      <line x1="81" y1="164" x2="129" y2="164" stroke="#FFF1DC" stroke-width="0.25" opacity=".22"/>
+      <line x1="81" y1="176" x2="129" y2="176" stroke="#FFF1DC" stroke-width="0.25" opacity=".22"/>
+      <line x1="81" y1="188" x2="129" y2="188" stroke="#FFF1DC" stroke-width="0.25" opacity=".22"/>
+      <circle cx="82.50" cy="141.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="141.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="141.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="141.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="146.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="146.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="146.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="146.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="151.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="151.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="151.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="151.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="157.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="157.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="157.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="157.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="162.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="162.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="162.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="162.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="167.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="167.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="167.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="167.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="173.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="173.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="173.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="173.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="178.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="178.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="178.33" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="178.33" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="183.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="183.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="183.67" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="183.67" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="82.50" cy="189.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="82.50" cy="189.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+      <circle cx="127.50" cy="189.00" r="1.15" fill="none" stroke="#FFE9A8" stroke-width="0.45" opacity=".9"/>
+      <circle cx="127.50" cy="189.00" r="0.42" fill="#FFE9A8" opacity=".95"/>
+
+    <!-- compass, top-left of the plan -->
+    <g opacity=".7">
+      <circle cx="44" cy="172" r="5.4" fill="none" stroke="#FFF1DC" stroke-width="0.35"/>
+      <path d="M44 166.4 L46 172 L44 170.6 L42 172 Z" fill="#FFE9A8"/>
+      <line x1="44" y1="172" x2="44" y2="177.4" stroke="#FFF1DC" stroke-width="0.3" opacity=".6"/>
+    </g>
+    <!-- scale bar, bottom-left of the plan -->
+    <g opacity=".55">
+      <line x1="142" y1="192" x2="160" y2="192" stroke="#FFF1DC" stroke-width="0.4"/>
+      <line x1="142" y1="190.2" x2="142" y2="193.8" stroke="#FFF1DC" stroke-width="0.4"/>
+      <line x1="151" y1="190.8" x2="151" y2="193.2" stroke="#FFF1DC" stroke-width="0.3"/>
+      <line x1="160" y1="190.2" x2="160" y2="193.8" stroke="#FFF1DC" stroke-width="0.4"/>
+    </g>
+  </svg>
+
+  <div class="plan"><div class="v">20 PEOPLE.<br>ONE BOAT.<br>ALL WHITE.</div></div>
+
+  <div class="note" style="left:42.5mm;top:163.2mm">N</div>
+  <div class="note" style="left:136mm;top:195mm">SCALE &middot; ONE GOLDEN HOUR</div>
+  <div class="note" style="right:16mm;top:116mm;text-align:right">WHITE FLAMINGO<br>SUNSET DEPARTURE</div>
+  <div class="note" style="left:16mm;top:186mm">20 ABOARD</div>
+
+  <div class="hn" style="right:16mm;top:160mm;width:48mm;text-align:right;font-size:12.5pt;transform:rotate(-3deg)">this is the hour<br>you’ll wish you<br>could bottle.</div>
+  <div class="hn" style="left:16mm;top:251mm;width:56mm;font-size:12pt;transform:rotate(-2deg);color:rgba(255,233,168,.85)">yes, the group photo<br>is mandatory.</div>
+
+  <p class="support">Sunset, music, open water &mdash; and Goa slowly disappearing behind us.</p>
+
+  <div class="look">
+    <div class="k">THE LOOK &middot; ALL WHITE</div>
+    <div class="v">ONE COLOUR. ONE BOAT.<br>VERY GOOD PHOTOS.</div>
+  </div>
+
+  <div class="wink">
+    <div class="q">Same time next year?</div>
+    <div class="a">Obviously.</div>
+  </div>
+
+  <div class="tnote">timings are indicative.<br>the plot moves at the group’s pace.</div>
+
+  <div class="pfoot" style="color:rgba(255,241,220,.45)">
+    <span>SUNDAY 18 OCT &middot; CHAPTER 02 &middot; WHITE FLAMINGO</span><span class="no">04</span></div>
+</section>
+
+<!-- ========= PAGE 5 · MONDAY 19 · LOST IN GOA · THE LOST ROUTE ========= -->
+<section class="page p5r grain">
+  <div class="bg" style="background-image:url('pdf-assets/lost.jpg')"></div>
+  <div class="veil"></div>
+  <div class="tropic"></div><div class="amber"></div>
+  <div class="spine"></div>
+
+  <div class="mast">
+    <div class="chapSlate" style="color:rgba(255,241,220,.75)"><span>MON 19 OCT</span><span class="bar"></span><span>CHAPTER 03</span></div>
+    <h2>LOST<br><span>IN GOA</span></h2>
+    <p class="tag">No dress code. No rush. Just follow the road.</p>
+  </div>
+
+  <svg class="map" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+    <!-- the day: one drawn line, seven stops -->
+    <path d="M32 82 C 43.22 86.08, 62.54 89.22, 86 94 C 109.38 97.54, 149.57 101.98, 158 112 C 165.86 120.58, 140.68 136.59, 124 146 C 107.39 153.36, 54.30 159.33, 48 166 C 46.08 175.55, 85.17 189.92, 98 196 C 112.48 205.94, 135.44 211.26, 140 214" fill="none" stroke="rgba(6,18,14,.5)" stroke-width="2.6" stroke-linecap="round"/>
+    <path d="M32 82 C 43.22 86.08, 62.54 89.22, 86 94 C 109.38 97.54, 149.57 101.98, 158 112 C 165.86 120.58, 140.68 136.59, 124 146 C 107.39 153.36, 54.30 159.33, 48 166 C 46.08 175.55, 85.17 189.92, 98 196 C 112.48 205.94, 135.44 211.26, 140 214" fill="none" stroke="#FFE9A8" stroke-width="0.75" stroke-linecap="round" opacity=".9"/>
+      <circle cx="32" cy="82" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="32" cy="82" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="32" cy="82" r="0.85" fill="#6FE3A8"/>
+      <circle cx="86" cy="94" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="86" cy="94" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="86" cy="94" r="0.85" fill="#6FE3A8"/>
+      <circle cx="158" cy="112" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="158" cy="112" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="158" cy="112" r="0.85" fill="#6FE3A8"/>
+      <circle cx="124" cy="146" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="124" cy="146" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="124" cy="146" r="0.85" fill="#6FE3A8"/>
+      <circle cx="48" cy="166" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="48" cy="166" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="48" cy="166" r="0.85" fill="#6FE3A8"/>
+      <circle cx="98" cy="196" r="2.4" fill="#0a1410" opacity=".7"/>
+      <circle cx="98" cy="196" r="2.4" fill="none" stroke="#6FE3A8" stroke-width="0.7"/>
+      <circle cx="98" cy="196" r="0.85" fill="#6FE3A8"/>
+      <circle cx="140" cy="214" r="3.2" fill="#0a1410" opacity=".7"/>
+      <circle cx="140" cy="214" r="3.2" fill="none" stroke="#FFB25E" stroke-width="0.7"/>
+      <circle cx="140" cy="214" r="0.85" fill="#FFB25E"/>
+
+    <!-- and then it stops being one line -->
+      <path d="M140 218 Q 115.9 231.4, 92 246" fill="none" stroke="#FFE9A8" stroke-width="0.6" stroke-dasharray="2.6 2.4" opacity="0.72" stroke-linecap="round"/>
+      <circle cx="92" cy="246" r="1.1" fill="#FFE9A8" opacity=".8"/>
+      <path d="M140 218 Q 130.0 242.5, 118 259" fill="none" stroke="#FFE9A8" stroke-width="0.6" stroke-dasharray="2.6 2.4" opacity="0.72" stroke-linecap="round"/>
+      <circle cx="118" cy="259" r="1.1" fill="#FFE9A8" opacity=".8"/>
+      <path d="M140 218 Q 141.0 236.4, 148 254" fill="none" stroke="#FFE9A8" stroke-width="0.6" stroke-dasharray="2.6 2.4" opacity="0.72" stroke-linecap="round"/>
+      <circle cx="148" cy="254" r="1.1" fill="#FFE9A8" opacity=".8"/>
+      <path d="M140 218 Q 169.2 232.0, 202 248" fill="none" stroke="#FFE9A8" stroke-width="0.45" stroke-dasharray="1.6 3.2" opacity="0.42" stroke-linecap="round"/>
+
+    <!-- the marker points at the route, not at a place -->
+    <path d="M133 181 C 143 184, 150 187, 156 191" fill="none" stroke="#FFB25E" stroke-width="0.55"
+          stroke-linecap="round" opacity=".85"/>
+    <path d="M153.6 188.6 L157 191.4 L152.8 192.3" fill="none" stroke="#FFB25E" stroke-width="0.55"
+          stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+    <circle cx="112" cy="178" r="1.5" fill="none" stroke="#FFB25E" stroke-width="0.5"/>
+    <circle cx="112" cy="178" r="0.5" fill="#FFB25E"/>
+  </svg>
+
+    <div class="stop" style="left:39mm;top:74mm">
+      <div class="n">BREAKFAST</div><div class="d">Start slow.</div>
+    </div>
+    <div class="stop" style="left:93mm;top:86mm">
+      <div class="n">OPEN JEEPS<sup style="font-size:.6em;color:#FFB25E">+</sup></div><div class="d">Windows down. South Goa ahead.</div>
+      <div class="addon">+ OPTIONAL ADD-ON &middot; NOT INCLUDED</div>
+    </div>
+    <div class="stop r" style="right:56mm;top:113mm;">
+      <div class="n">CABO DE RAMA</div><div class="d">Cliffs. Sea. One very good detour.</div>
+    </div>
+    <div class="stop" style="left:131mm;top:139mm">
+      <div class="n">WATERFALL</div><div class="d">Cool off. Carry on.</div>
+    </div>
+    <div class="stop" style="left:55mm;top:159mm">
+      <div class="n">COLA</div><div class="d">Stay a little longer.</div>
+    </div>
+    <div class="stop r" style="right:118mm;top:189mm;">
+      <div class="n">PALOLEM / AGONDA</div><div class="d">Beach. Shack. No rush.</div>
+    </div>
+    <div class="stop r" style="right:78mm;top:206mm;">
+      <div class="n">SUNSET</div><div class="d">Everyone gets quiet for a minute.</div>
+    </div>
+
+  <div class="sig">
+    <div class="v">NO PLAN.<br><span>JUST GO.</span></div>
+    <div class="d">SOUTH GOA &middot; OPEN JEEPS<sup>+</sup> &middot; WINDOWS DOWN</div>
+  </div>
+
+  <div class="youhere" style="left:116mm;top:175.5mm">YOU ARE HERE</div>
+  <div class="theplot" style="left:158mm;top:190mm">THE PLOT</div>
+
+  <div class="pol" style="right:16mm;top:64mm;width:33mm;transform:rotate(2.5deg)">
+    <div class="pin"><img src="pdf-assets/shack.jpg" alt=""><div class="cap">no map. no rush.</div></div>
+    <span class="tape" style="left:10mm;top:-2.5mm;transform:rotate(-5deg)"></span>
+  </div>
+  <div class="pol" style="right:16mm;top:206mm;width:34mm;transform:rotate(-2deg)">
+    <div class="pin"><img src="pdf-assets/dusk.jpg" alt=""><div class="cap">everyone goes quiet.</div></div>
+    <span class="tape" style="left:11mm;top:-2.5mm;transform:rotate(4deg)"></span>
+  </div>
+
+  <div class="hn" style="left:20mm;top:100mm;font-size:12.5pt;transform:rotate(-3deg)">take the long way.</div>
+  <div class="hn" style="left:16mm;top:148mm;width:38mm;font-size:12pt;transform:rotate(2deg)">no one’s checking<br>the time.</div>
+
+  <div class="night">
+    <div class="k">THE NIGHT</div>
+    <div class="v">YOUR CALL.</div>
+    <div class="o">Beach party? Another shack? Club hopping?<br>Somewhere none of us planned?</div>
+    <div class="c">The group decides.</div>
+  </div>
+
+  <div class="hn" style="left:82mm;top:248mm;font-size:11.5pt;transform:rotate(-2deg)">beach party?</div>
+  <div class="hn" style="left:110mm;top:261mm;font-size:11.5pt;transform:rotate(1.5deg)">another shack?</div>
+  <div class="hn" style="left:142mm;top:255mm;font-size:11.5pt;transform:rotate(-1deg)">club hopping?</div>
+
+  <div class="tnote">timings are indicative.<br>the plot moves at the group’s pace.</div>
+
+  <div class="pfoot" style="color:rgba(255,241,220,.45)">
+    <span>MONDAY 19 OCT &middot; CHAPTER 03 &middot; LOST IN GOA</span><span class="no">05</span></div>
+</section>
+
+<!-- ====== PAGE 6 · TUESDAY 20 · THE HANGOVER CLUB · THE END CREDITS ====== -->
+<section class="page p6c grain">
+  <div class="bg" style="background-image:url('pdf-assets/hangover.jpg')"></div>
+  <div class="gold"></div>
+  <div class="veil"></div>
+  <div class="vig"></div>
+  <div class="spine"></div>
+
+  <!-- the frame -->
+  <div class="barT"></div>
+  <div class="barB"></div>
+  <div class="edge"><span>PLOT TWIST &middot; JOURNEY 00</span><span>THE LAST DAY</span></div>
+
+  <div class="mast">
+    <div class="chapSlate" style="color:rgba(255,241,220,.72)"><span>TUE 20 OCT</span><span class="bar"></span><span>CHAPTER 04</span></div>
+    <h2>THE HANGOVER<br><span>CLUB</span></h2>
+    <p class="tag">Nobody’s ready to leave.</p>
+  </div>
+
+  <div class="scenes">
+      <div class="s"><div class="n">SC. 01</div><div class="t">COFFEE, EVENTUALLY</div><div class="d">Wake up when your body says so.</div></div>
+      <div class="s"><div class="n">SC. 02</div><div class="t">POOL &middot; BEACH &middot; SUNLIGHT</div><div class="d">Three days of doing the most deserve a slow one.</div></div>
+      <div class="s"><div class="n">SC. 03</div><div class="t">BRUNCH</div><div class="d">Compare stories. Deny nothing.</div></div>
+      <div class="s"><div class="n">SC. 04</div><div class="t">ONE LAST HANG</div><div class="d">Because ’one last’ is never actually one last.</div></div>
+  </div>
+
+  <!-- the picture is still there behind these; that is the point -->
+  <div class="credits">
+    <div class="lbl"><i></i>THE END CREDITS<i></i></div>
+    <div class="starring">STARRING</div>
+      <div class="c"><div class="big">20 PEOPLE</div><div class="sub">who started as a group.</div></div>
+      <div class="c"><div class="big">19 NEW STORIES</div><div class="sub">that probably won’t stay new for long.</div></div>
+      <div class="c"><div class="big">ONE CAMERA ROLL</div><div class="sub">that will be dangerous to open six months from now.</div></div>
+      <div class="c"><div class="big">ONE STORY</div><div class="sub">you’ll still be telling years later.</div></div>
+  </div>
+
+  <div class="final">
+    <div class="k">THE FINAL SCENE</div>
+    <div class="v">You came for the trip.<br>You leave with a story.</div>
+  </div>
+
+  <div class="close">
+    <div class="q">SAME PEOPLE<br>NEXT TIME?</div>
+    <div class="a">Obviously.</div>
+  </div>
+
+  <div class="pfoot" style="color:rgba(255,241,220,.45)">
+    <span>TUESDAY 20 OCT &middot; CHAPTER 04 &middot; THE HANGOVER CLUB</span><span class="no">06</span></div>
+</section>
+
+<!-- ============= PAGE 7 · THE DAMAGE · THE PAYOFF ============= -->
+<section class="page grain p7d">
+  <div class="spine"></div>
+
+  <div class="body"><div class="bodyPad">
+    <!-- 1 · the price -->
+    <div class="head">
+      <div>
+        <div class="lbl">THE DAMAGE</div>
+        <div class="amt">&#8377;14,999</div>
+        <div class="per">FROM &middot; PER PERSON</div>
+      </div>
+      <div class="where">GOA<br><b>17&ndash;20 OCTOBER 2026</b></div>
+    </div>
+
+    <p class="tagline">Four days. Three nights. Twenty people. Worth the camera roll.</p>
+
+    <!-- 2 · what it gets you -->
+    <div class="value">
+      <div class="vrow">
+        <div class="v">
+          <div class="num">01 &middot; STAY</div>
+          <h3>STAY</h3>
+          <div class="m">3 nights &middot; 4-star luxury properties</div>
+          <div class="d">Comfortable, social, vibe-checked.</div>
+        </div>
+        <div class="v two">
+          <div class="num">02 &middot; EXPERIENCES</div>
+          <h3>EXPERIENCES</h3>
+          <div class="m">Curated Goa, done properly.</div>
+          <div class="d">Sunsets, cruise parties, South Goa, adventure, beaches, caf&eacute;s and nights worth staying out for.</div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div>
+          <div class="num">03 &middot; THE GROUP</div>
+          <h3>THE PART YOU<br><span>CAN’T BOOK.</span></h3>
+          <div class="d">Small enough to become a family. Big enough to never run out of stories.</div>
+        </div>
+        <div class="m">20 PEOPLE<br>10 GIRLS &middot; 10 GUYS<br>18&ndash;30</div>
+      </div>
+    </div>
+
+    <!-- 3 · in the plot -->
+    <div class="plot">
+      <div class="k">IN THE PLOT</div>
+      <div class="l">BOLLYWOOD AFTER DARK <i>&middot;</i> WHITE FLAMINGO CRUISE PARTY <i>&middot;</i> CLUB HOPPING <i>&middot;</i> SOUTH GOA <i>&middot;</i> CHAPORA FORT <i>&middot;</i> WATERFALLS <i>&middot;</i> BEACH EXPERIENCES <i>&middot;</i> CAF&Eacute; HOPPING</div>
+      <div class="also">
+        <div class="k b">ALSO INCLUDED</div>
+        <div class="l">BREAKFAST EVERY DAY <i>&middot;</i> ONE HOSTED LUNCH <i>&middot;</i> LOCAL TRIP TRANSFERS</div>
+      </div>
+    </div>
+
+    <!-- 4 · the reframe -->
+    <div class="reframe">
+      <h2>YOU’RE NOT<br>JUST GETTING<br><span>A ROOM.</span></h2>
+      <div class="list">You’re getting the stay.<br>The yacht.<br>The adventures.<br>The nights.<br>The people.<br><b>The plot.</b></div>
+      <div class="hand">now read that again.</div>
+    </div>
+
+    <!-- 5 · the quiet band -->
+    <div class="small">
+      <div>
+        <div class="k">JUST SO WE’RE CLEAR</div>
+        <div class="t"><b>YOU SORT:</b> Flights &middot; alcohol &amp; personal drinks &middot; shopping &middot; personal expenses &middot; additional meals &middot; independent rentals &middot; optional add-ons &middot; unplanned activities &middot; travel insurance where desired or required. Exact property confirmed on booking, subject to availability.</div>
+        <div class="h">We handle the plot. You handle getting there.</div>
+      </div>
+      <div>
+        <div class="k">THE BORING BUT IMPORTANT BIT</div>
+        <div class="t">Follow host and activity-operator instructions, especially around water, boats, vehicles and nightlife. Respect local rules and venue guidelines, drink responsibly, keep belongings secure and tell the team anything we should know.</div>
+        <div class="sig">PLOT TWIST HOSTS &middot; THROUGHOUT THE TRIP</div>
+      </div>
+    </div>
+  </div></div>
+
+  <!-- 6 · the finale -->
+  <div class="finale">
+    <div class="fbg" style="background-image:url('pdf-assets/finale.jpg')"></div>
+    <div class="fveil"></div>
+    <div class="fglow"></div>
+
+    <div class="in">
+      <div class="fmain">
+        <div>
+          <div class="so">SO&hellip;</div>
+          <h2>YOU COMING?</h2>
+          <div class="know">You know the dates.<br>You know the plot.<br>You know you’re one of the 20.</div>
+        </div>
+        <div class="fright">
+          <div class="fpp">&#8377;14,999<small>PER PERSON</small></div>
+          <a class="imin" href="https://wa.me/919013806803?text=Hey%20Plot%20Twist%20%F0%9F%91%80%20I%27m%20in%20for%20Goa%20%E2%80%94%20Journey%2000.">I’M IN &rarr;</a>
+          <div class="fmsg">Message us. We’ll take it from here.</div>
+        </div>
+      </div>
+
+      <div class="ffoot">
+        <div>
+          <div class="big">DO IT FOR THE PLOT.</div>
+          <div class="sub">@PLOTTWIST.SOCIAL &middot; PLOTWIST.IN</div>
+        </div>
+        <div class="hand">Go on. You know you want to.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

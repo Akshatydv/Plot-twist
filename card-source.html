@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plot Twist — The Card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&family=Permanent+Marker&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PLOT TWIST — THE DM CARD.  1080x1350, one object, one recipient.
+
+   WHAT THIS IS FOR
+   The tall invite is undeliverable on Instagram and Snapchat, and cutting it
+   into a set destroyed the thing that made it work: an invitation is ONE
+   object. Five loose images is a photo dump. A public story is an ad.
+
+   So this is not the invite compressed — it is a purpose-built card whose only
+   job is to earn a reply. The dossier is what arrives AFTER they answer, which
+   is what the invite's own copy always said: "the rest is better told
+   personally."
+
+   TWO DECISIONS THAT COME FROM THE MEDIUM
+   1. The audience is WARM. They know the brand, so the card withholds. There
+      is no itinerary here, no price, no four chapters. Explaining would lower
+      the temperature, not raise it.
+   2. The conversation stays on INSTAGRAM. So the call to action is a REPLY,
+      not a link and not the WhatsApp button from the PDF — that button would
+      be a dead graphic in a JPEG. Asking for one word back is the lowest
+      friction action available inside a DM thread.
+
+   SHAPE
+   4:5 is the largest an image renders in a DM thread without being cropped in
+   preview. Type is deliberately generous throughout because Instagram
+   recompresses everything and fine lettering is the first casualty.
+
+   No blurred shadows — hard offsets only, matching the rest of the system.
+   ========================================================================== */
+:root{
+  --pink:#ff4f87; --ocean:#00a9c7; --sand:#fff1dc; --ink:#1a0d0a; --gold:#FFE9A8;
+  --display:'Anton',Arial Narrow,sans-serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --brush:'Permanent Marker',cursive;
+  --hand:'Caveat',cursive;
+  --serif:'Instrument Serif',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:540px;height:675px}
+body{font-family:var(--sans);background:#0b0508;-webkit-font-smoothing:antialiased}
+
+.card{position:relative;width:540px;height:675px;overflow:hidden;background:#120510;
+  display:flex;flex-direction:column}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='3' height='3' fill='%23000' opacity='.5'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23000' opacity='.5'/%3E%3C/svg%3E");
+  background-size:3px 3px}
+
+/* ---------------- the photograph half ---------------- */
+.top{position:relative;flex:0 0 384px;overflow:hidden}
+.top .bg{position:absolute;inset:0;background:url('invite-assets/cover.jpg') center 40%/cover}
+.top .scrim{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,4,10,.72) 0%,rgba(10,4,10,.26) 26%,
+    rgba(12,5,12,.38) 52%,rgba(10,4,10,.78) 88%,rgba(10,4,10,.92) 100%)}
+.top .in{position:relative;height:100%;padding:26px 30px 22px;display:flex;flex-direction:column}
+
+.mast{display:flex;align-items:center;gap:10px}
+.mast img{height:34px;width:auto}
+.mast .j{font-size:8px;letter-spacing:.32em;font-weight:700;text-transform:uppercase;
+  color:rgba(255,241,220,.72);line-height:1.5}
+
+.hook{margin-top:auto}
+.hook .greet{font-family:var(--hand);font-size:27px;line-height:1;color:var(--gold)}
+.hook h1{margin-top:2px;font-family:var(--display);font-size:56px;line-height:.9;
+  text-transform:uppercase;letter-spacing:-.01em;color:var(--sand)}
+.hook .found{margin-top:1px;font-family:var(--brush);font-size:42px;line-height:1.02;
+  color:var(--pink)}
+.hook .sub{margin-top:14px;font-family:var(--serif);font-size:16px;line-height:1.25;
+  color:#FFE9A8;max-width:340px}
+
+/* ---------------- the ticket half ---------------- */
+.pass{position:relative;flex:1;background:#fffdf7;color:var(--ink);padding:26px 30px 22px;
+  display:flex;flex-direction:column}
+/* the perforation, and two punched notches that read as a torn stub */
+.pass::before{content:"";position:absolute;left:0;right:0;top:0;height:0;
+  border-top:2px dashed rgba(26,13,10,.28)}
+.notch{position:absolute;top:-11px;width:22px;height:22px;border-radius:50%;background:#120510}
+.notch.l{left:-11px} .notch.r{right:-11px}
+
+.dest{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}
+.dest .k{font-size:8px;letter-spacing:.3em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.5)}
+.dest .goa{font-family:var(--display);font-size:52px;line-height:.86;text-transform:uppercase;
+  margin-top:4px}
+.dest .when{margin-top:3px;font-family:var(--display);font-size:15px;letter-spacing:.02em;
+  color:var(--pink)}
+
+.facts{margin-top:16px;border-top:1px solid rgba(26,13,10,.18);padding-top:12px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.facts .k{font-size:7px;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.45)}
+.facts .v{margin-top:3px;font-family:var(--display);font-size:14px;letter-spacing:.02em}
+
+/* the ask — the whole point of the card */
+.ask{margin-top:auto;border-top:1px solid rgba(26,13,10,.18);padding-top:14px;
+  display:flex;align-items:flex-end;justify-content:space-between;gap:14px}
+.ask .t{font-family:var(--display);font-size:24px;line-height:.96;text-transform:uppercase}
+.ask .t span{color:var(--pink)}
+.ask .d{margin-top:5px;font-size:11px;line-height:1.35;color:rgba(26,13,10,.66);max-width:250px}
+.ask .d b{color:var(--ink);font-weight:700}
+
+.tail{margin-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.tail .lock{font-size:7.5px;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.42)}
+.tail .lock b{color:var(--ocean)}
+</style>
+</head>
+<body>
+
+<div class="card grain">
+
+  <div class="top">
+    <div class="bg"></div><div class="scrim"></div>
+    <div class="in">
+      <div class="mast">
+        <img src="invite-assets/logo.png" alt="Plot Twist">
+        <div class="j">JOURNEY 00<br>GOA</div>
+      </div>
+
+      <div class="hook">
+        <!--IF:NAMED--><div class="greet">for {{NAME}},</div><!--/IF:NAMED-->
+        <!--IF:OPEN--><div class="greet">if this reached you,</div><!--/IF:OPEN-->
+        <h1>THE PLOT</h1>
+        <div class="found">FOUND YOU.</div>
+        <div class="sub">Not a group trip. A plot we&rsquo;re writing together &mdash; and we think you belong in it.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pass">
+    <span class="notch l"></span><span class="notch r"></span>
+
+    <div class="dest">
+      <div>
+        <div class="k">DESTINATION</div>
+        <div class="goa">GOA</div>
+        <div class="when">17&ndash;20 OCTOBER 2026</div>
+      </div>
+      <svg width="74" height="74" viewBox="0 0 60 60" aria-hidden="true">
+        <defs>
+          <path id="aT" d="M30 30 m -19.5 0 a 19.5 19.5 0 1 1 39 0" fill="none"/>
+          <path id="aB" d="M30 30 m 18.5 0 a 18.5 18.5 0 1 1 -37 0" fill="none"/>
+        </defs>
+        <circle cx="30" cy="30" r="25.5" fill="none" stroke="#00a9c7" stroke-width="1.1" opacity=".85"/>
+        <circle cx="30" cy="30" r="22.6" fill="none" stroke="#00a9c7" stroke-width=".5" opacity=".6"/>
+        <text font-family="Anton" font-size="7.2" fill="#00a9c7" letter-spacing="1.8">
+          <textPath href="#aT" startOffset="50%" text-anchor="middle">PLOT TWIST</textPath></text>
+        <text font-family="Anton" font-size="6.6" fill="#00a9c7" letter-spacing="1.6">
+          <textPath href="#aB" startOffset="50%" text-anchor="middle">JOURNEY 00</textPath></text>
+        <text x="30" y="29" font-family="Anton" font-size="12" fill="#00a9c7"
+              text-anchor="middle" dominant-baseline="middle">GOA</text>
+        <text x="30" y="38.5" font-family="Anton" font-size="5" fill="#00a9c7"
+              text-anchor="middle" letter-spacing=".8">OCT 2026</text>
+      </svg>
+    </div>
+
+    <div class="facts">
+      <div><div class="k">HOW LONG</div><div class="v">4 DAYS &middot; 3 NIGHTS</div></div>
+      <div><div class="k">THE CAST</div><div class="v">20 PEOPLE</div></div>
+      <div><div class="k">AGES</div><div class="v">18&ndash;30</div></div>
+    </div>
+
+    <div class="ask">
+      <div>
+        <div class="t">SAY THE<br><span>WORD.</span></div>
+        <div class="d">Reply <b>&ldquo;IN&rdquo;</b> and I&rsquo;ll send you the rest of the plot.</div>
+      </div>
+    </div>
+
+    <div class="tail">
+      <div class="lock">ADMIT ONE &middot; <b>INVITATION ONLY</b></div>
+      <div class="lock">PT-00-GOA-2026</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
