@@ -1,8 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { chapters, roleCall } from "@/content/goa";
-import { Note } from "../Bits";
+import { bollywoodLook, chapters, roleCall } from "@/content/goa";
+import { Note, Stamp } from "../Bits";
 import { Reveal } from "../motion";
 import { Scene, SceneDetail, SceneSlate } from "./Scene";
 
@@ -50,9 +50,11 @@ export function ChapterBollywood() {
             </Reveal>
 
             <Reveal delay={0.16}>
-              <p className="mt-4 max-w-[40ch] text-[clamp(0.95rem,2.3vw,1.08rem)] leading-[1.5] text-sand/80">
-                {ch.body[0]}
-              </p>
+              <div className="mt-4 max-w-[40ch] space-y-2.5 text-[clamp(0.95rem,2.3vw,1.08rem)] leading-[1.5] text-sand/80">
+                {ch.body.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
             </Reveal>
 
             <Note className="mt-5 block text-[1.3rem] text-sand/60" rotate={-3}>
@@ -60,12 +62,25 @@ export function ChapterBollywood() {
             </Note>
           </div>
 
-          {/* the details, written into the scene rather than boxed */}
+          {/* the details, written into the scene rather than boxed — with the
+              dress code stamped above them, the same device White Flamingo
+              uses for ALL WHITE */}
           <Reveal delay={0.2}>
-            <div className="grid gap-5 sm:grid-cols-2 lg:gap-6">
-              {ch.details.map((d) => (
-                <SceneDetail key={d.k} k={d.k} v={d.v} accent="#FF6B96" />
-              ))}
+            <div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <Stamp color="#FF6B96" rotate={-3}>
+                  {bollywoodLook.stamp}
+                </Stamp>
+                <span className="font-hand text-[clamp(1.05rem,3vw,1.3rem)] leading-none text-sand/65">
+                  {bollywoodLook.line}
+                </span>
+              </div>
+
+              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:gap-6">
+                {ch.details.map((d) => (
+                  <SceneDetail key={d.k} k={d.k} v={d.v} accent="#FF6B96" />
+                ))}
+              </div>
             </div>
           </Reveal>
         </div>

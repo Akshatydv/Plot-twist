@@ -15,9 +15,12 @@ import { Glimpse } from "./Glimpse";
  * copy directly above the button is about the twenty seats and the fact that
  * a person decides — not about Goa, which has already done its job.
  *
- * "YOU CAME FOR GOA. YOU'LL LEAVE WITH 19 PEOPLE." closes the loop opened by
- * the hero's "Come alone. Leave with 19 others." — the page ends where it
- * started, which is what makes it a story rather than a scroll.
+ * "YOU CAME FOR GOA. YOU'LL LEAVE WITH 19 PEOPLE." was written as a callback
+ * to the hero's earlier "Come alone. Leave with 19 others." — that hero line
+ * has since been rewritten (it framed the cast as strangers, which the brief
+ * asked to remove), so this no longer closes a loop with anything on the
+ * page. Flagged rather than changed here: this section's own copy is out of
+ * scope for that edit. Worth a look next time this section is touched.
  */
 export function FinalBeat() {
   return (

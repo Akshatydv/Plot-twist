@@ -1,5 +1,4 @@
 import { Ticker } from "@/components/Ticker";
-import { TrustStrip } from "@/components/TrustStrip";
 import { ApplicationForm } from "@/components/ApplicationForm";
 import { Footer } from "@/components/Footer";
 import { ContactTeaCup } from "@/components/ContactTeaCup";
@@ -12,8 +11,7 @@ import { ChapterFlamingo } from "./ChapterFlamingo";
 import { ChapterLostInGoa } from "./ChapterLostInGoa";
 import { ChapterHangoverClub } from "./ChapterHangoverClub";
 import { TheHomeBase } from "./TheHomeBase";
-import { ThePlotTwists } from "./ThePlotTwists";
-import { TheDifference } from "./TheDifference";
+import { TheFinePrint } from "./TheFinePrint";
 import { TheFacts } from "./TheFacts";
 import { FinalBeat } from "./FinalBeat";
 
@@ -72,7 +70,7 @@ export function GoaPage() {
           the premise and the four chapters — see the note on WhatsATen. The
           hierarchy this protects is EXPERIENCE → PEOPLE → EXPERIENCE.
         */}
-        <WhatsATen compact composition={cast.split} index={goaIndex("cast")} />
+        <WhatsATen compact composition={cast.split} index={goaIndex("cast")} bridge={cast.bridge} />
 
         {/* the four days — anchor target for the hero's scroll cue */}
         <div id="chapters">
@@ -91,8 +89,6 @@ export function GoaPage() {
         */}
         <TheHomeBase />
 
-        <ThePlotTwists />
-
         <div className="relative -mt-4 overflow-hidden">
           <Ticker
             items={["4 DAYS", "20 PEOPLE", "10 GIRLS + 10 GUYS", "OCTOBER 2026", "APPLICATIONS ARE READ BY HUMANS"]}
@@ -102,11 +98,18 @@ export function GoaPage() {
           />
         </div>
 
-        <TheDifference />
         <TheFacts />
 
-        {/* who's on the other end — immediately before the form asks for a number */}
-        <TrustStrip />
+        {/*
+          Who's on the other end — immediately before the form asks for a
+          number. This replaces <TrustStrip/> on the reveal page rather than
+          sitting beside it: both occupy the same slot and do the same job, and
+          two trust blocks in a row is the heavy corporate section this was
+          specifically meant not to be. TrustStrip is untouched and still runs
+          on Journey 01; its four vetted commitments are carried into the
+          pillars here.
+        */}
+        <TheFinePrint />
 
         <FinalBeat />
         <ApplicationForm index={goaIndex("application")} />

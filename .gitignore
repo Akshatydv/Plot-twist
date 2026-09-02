@@ -21,3 +21,14 @@ supabase/.branches
 # OS/editor cruft
 Thumbs.db
 *.log
+
+# generated deliverables — regenerate with make-invite.js / make-card.js /
+# make-invite-cards.js and the pdf-source.html print step. Sources are tracked,
+# outputs are not: they are large, binary, and rebuilt on every copy change.
+invites/
+dm-cards/
+cards/
+Plot-Twist-*.pdf
+
+# scratch reference pulled out of the old Mac-built invite
+_invite-ref/

@@ -1,7 +1,7 @@
 "use client";
 
 import { chapters } from "@/content/goa";
-import { Note } from "../Bits";
+import { Note, Stamp } from "../Bits";
 import { Reveal } from "../motion";
 import { Scene, SceneDetail, SceneSlate } from "./Scene";
 
@@ -14,15 +14,17 @@ const ch = chapters[3];
  * chairs specifically — that is what makes it read as the morning after rather
  * than as a resort advert.
  *
- * COMPOSITION — the softest of the four. Where the first three push their type
- * hard into a corner, this one sits low and centred-left with more air above
- * it, so the scroll decelerates into the end of the story rather than
- * finishing on another shout.
+ * COMPOSITION — still the softest of the four, unchanged in spirit: type sits
+ * low with air above it, so the scroll decelerates into the end of the story.
+ * What's new is two closing exchanges (the "leaving." reveal, the "same
+ * people next time?" callback) between the details grid and the taped strip —
+ * same moment/Stamp treatment White Flamingo and Lost in Goa already use, so
+ * the three story-heavy chapters read as one family.
  *
- * Its own element is the taped strip — a torn piece of the site's paper laid
- * over the photograph, which is where the scrapbook vocabulary finally lands
- * on top of a scene. It closes on the callback to the hero's promise, and is
- * the last thing before the page turns to asking for something.
+ * The taped strip stays the true final element — a torn piece of the site's
+ * paper laid over the photograph, the one place the scrapbook vocabulary
+ * lands directly on top of a scene. It's the last thing before the page turns
+ * to asking for something.
  */
 export function ChapterHangoverClub() {
   return (
@@ -49,9 +51,11 @@ export function ChapterHangoverClub() {
             </Reveal>
 
             <Reveal delay={0.18}>
-              <p className="mt-4 max-w-[40ch] text-[clamp(0.95rem,2.3vw,1.08rem)] leading-[1.5] text-sand/80">
-                {ch.body[0]}
-              </p>
+              <div className="mt-4 max-w-[40ch] space-y-2.5 text-[clamp(0.95rem,2.3vw,1.08rem)] leading-[1.5] text-sand/80">
+                {ch.body.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
             </Reveal>
           </div>
 
@@ -63,6 +67,28 @@ export function ChapterHangoverClub() {
             </div>
           </Reveal>
         </div>
+
+        {/* ---------------- the two closing exchanges ---------------- */}
+        {ch.story && ch.story.length > 0 && (
+          <Reveal delay={0.1}>
+            <div className="mt-9 space-y-6 border-t border-sand/20 pt-7">
+              {ch.story.map((beat, i) =>
+                beat.kind === "moment" ? (
+                  <div key={i} className="flex flex-col items-center gap-3 text-center">
+                    <p className="max-w-[34ch] font-serif text-[clamp(1.15rem,3.6vw,1.6rem)] italic leading-[1.2] text-sand">
+                      {beat.line}
+                    </p>
+                    {beat.reply && (
+                      <Stamp color="#FFC46B" rotate={i % 2 ? 3 : -3}>
+                        {beat.reply}
+                      </Stamp>
+                    )}
+                  </div>
+                ) : null
+              )}
+            </div>
+          </Reveal>
+        )}
 
         {/*
           THE TAPED STRIP — the one place the site's paper lands directly on

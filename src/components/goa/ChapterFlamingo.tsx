@@ -1,41 +1,46 @@
 "use client";
 
-import { chapters } from "@/content/goa";
-import { Note } from "../Bits";
+import { chapters, flamingoLook } from "@/content/goa";
+import { Note, Stamp } from "../Bits";
 import { Reveal } from "../motion";
 import { Scene, SceneDetail, SceneSlate } from "./Scene";
 
 const ch = chapters[1];
 
 /**
- * CHAPTER 02 — WHITE FLAMINGO. The premium one.
+ * CHAPTER 02 — WHITE FLAMINGO. The signature chapter.
  *
- * THE SCENE: a white deck curving out toward a coral sunset over open water.
+ * THE SCENE: a white deck curving out toward a coral sunset — unchanged.
  *
- * COMPOSITION — CENTRED, and the only centred chapter of the four. Bollywood
- * before it is bottom-left and dense; this is middle-of-frame and sparse, so
- * scrolling from one to the other feels like stepping out of a club into
- * daylight. That contrast is the strongest transition on the page.
+ * COMPOSITION — this chapter is the one that has to feel expensive, so it
+ * carries the LEAST copy of the four, not the most. An earlier pass ran the
+ * whole Saturday as eight prose beats and it read as an itinerary; this is
+ * the rewrite of that.
  *
- * It also carries the LEAST copy of any chapter — one line, two details, no
- * card row — because the brief for this one is to let it breathe. Adding a
- * third element here would cost more than it added.
+ * Its own idea — no other chapter does this — is the DAY / NIGHT SPLIT: the
+ * day genuinely divides at the moment everyone changes into white, so the
+ * two halves sit either side of a centre rule with the ALL WHITE stamp on the
+ * seam. That single device replaces a seven-stop arrow chain, three detail
+ * boxes and five paragraphs, and says the same thing.
  *
- * Its scrim is the lightest of the four (see content/goa.ts): this is the one
- * scene whose whole point is that it stays bright.
+ * Everything else stays centred and airy exactly as before: slate, mark,
+ * dominant WHITE / FLAMINGO, one-line hook, one moment, one handwritten note.
  */
 export function ChapterFlamingo() {
+  const moment = ch.story?.[0];
+
   return (
     <Scene scene={ch.scene} chapterId={ch.id} className="justify-center">
-      <div className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col items-center justify-center py-6 text-center">
+      <div className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col items-center justify-center py-8 text-center">
         <Reveal>
           <SceneSlate day={ch.day} index={ch.index} />
         </Reveal>
 
         <Reveal delay={0.06}>
-          <FlamingoMark className="mx-auto mt-7 h-12 w-auto text-[#FF8FB0] drop-shadow-[0_2px_14px_rgba(0,0,0,0.5)] sm:h-16" />
+          <FlamingoMark className="mx-auto mt-7 h-11 w-auto text-[#FF8FB0] drop-shadow-[0_2px_14px_rgba(0,0,0,0.5)] sm:h-14" />
         </Reveal>
 
+        {/* the dominant mark on the page */}
         <Reveal delay={0.1}>
           <h2 className="mt-5 font-display text-[clamp(2.7rem,13.5vw,7.8rem)] uppercase leading-[0.84] tracking-[-0.015em] text-sand drop-shadow-[0_4px_30px_rgba(0,0,0,0.55)]">
             {ch.titleLines[0]}
@@ -44,29 +49,49 @@ export function ChapterFlamingo() {
           </h2>
         </Reveal>
 
-        {/* the one line — the most spaced-out type on the page */}
+        {/* the whole day, in one line */}
         <Reveal delay={0.16}>
-          <p className="mx-auto mt-7 max-w-[20ch] font-serif text-[clamp(1.3rem,5vw,2.3rem)] italic leading-[1.12] text-[#FFE9A8] drop-shadow-[0_2px_18px_rgba(0,0,0,0.6)]">
+          <p className="mx-auto mt-7 max-w-[26ch] font-serif text-[clamp(1.3rem,4.6vw,2.1rem)] italic leading-[1.15] text-[#FFE9A8] drop-shadow-[0_2px_18px_rgba(0,0,0,0.6)]">
             {ch.tagline}
           </p>
         </Reveal>
 
-        <Reveal delay={0.22}>
-          <p className="mx-auto mt-5 max-w-[44ch] text-[clamp(0.95rem,2.3vw,1.1rem)] leading-[1.5] text-sand/85">
-            {ch.body[0]}
-          </p>
-        </Reveal>
+        {/* ---------------- THE DAY / NIGHT SPLIT ---------------- */}
+        <Reveal delay={0.24}>
+          <div className="mx-auto mt-12 w-full max-w-[46rem]">
+            <div className="grid items-start gap-8 sm:grid-cols-[1fr_auto_1fr] sm:gap-7">
+              <div className="text-left sm:text-right">
+                <SceneDetail k={ch.details[0].k} v={ch.details[0].v} accent="#FFE9A8" />
+              </div>
 
-        {/* two details only, centred, wide apart */}
-        <Reveal delay={0.28}>
-          <div className="mx-auto mt-10 grid w-full max-w-[34rem] gap-6 text-left sm:grid-cols-2 sm:gap-10">
-            {ch.details.map((d) => (
-              <SceneDetail key={d.k} k={d.k} v={d.v} accent="#FFE9A8" />
-            ))}
+              {/* the seam — where everyone changes into white */}
+              <div className="flex flex-row items-center justify-center gap-4 sm:flex-col sm:gap-3 sm:self-stretch">
+                <span className="hidden w-px flex-1 bg-sand/25 sm:block" aria-hidden />
+                <Stamp color="#FFE9A8" rotate={-3} className="shrink-0">
+                  {flamingoLook.stamp}
+                </Stamp>
+                <span className="hidden w-px flex-1 bg-sand/25 sm:block" aria-hidden />
+              </div>
+
+              <div className="text-left">
+                <SceneDetail k={ch.details[1].k} v={ch.details[1].v} accent="#FFE9A8" />
+              </div>
+            </div>
+
+            <p className="mt-6 text-[clamp(0.9rem,2.2vw,1rem)] leading-tight text-sand/60">{flamingoLook.line}</p>
           </div>
         </Reveal>
 
-        <Note className="mx-auto mt-8 block max-w-[30ch] text-[clamp(1.05rem,3vw,1.3rem)] text-sand/60" rotate={-2}>
+        {/* the one moment — the Dil Chahta Hai beat */}
+        {moment?.kind === "moment" && (
+          <Reveal delay={0.3}>
+            <p className="mx-auto mt-11 max-w-[30ch] font-serif text-[clamp(1.1rem,3.2vw,1.45rem)] italic leading-[1.3] text-sand">
+              {moment.line}
+            </p>
+          </Reveal>
+        )}
+
+        <Note className="mx-auto mt-7 block max-w-[34ch] text-[clamp(1.05rem,3vw,1.3rem)] text-sand/60" rotate={-2}>
           {ch.note}
         </Note>
       </div>

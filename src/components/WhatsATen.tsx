@@ -426,9 +426,10 @@ export function WhatsATen({
   compact = false,
   composition,
   index,
+  bridge,
 }: {
   compact?: boolean;
-  composition?: { title: string; body: string; disclaimer: string };
+  composition?: { title: string; body: string; disclaimer: string; extra?: readonly string[] };
   /**
    * Section number beside the label. Defaults to `casting.index`, which is
    * this section's position in JOURNEY 01's running order — correct there and
@@ -436,6 +437,13 @@ export function WhatsATen({
    * passes its own. See GOA_SECTION_ORDER in content/goa.ts.
    */
   index?: string;
+  /**
+   * The two-line bridge under the stamp. Defaults to `casting.bridge`, which
+   * is Journey 01's copy — the reveal page passes its own so this shared
+   * component's wording can differ per journey without a second copy of the
+   * whole board.
+   */
+  bridge?: readonly [string, string];
 } = {}) {
   // Only the stamp and the three photo scraps are per-journey — the six
   // traits, the grading and the 10/10 are brand-level and shared.
@@ -484,9 +492,9 @@ export function WhatsATen({
               compact ? "mt-3.5" : "mt-5"
             }`}
           >
-            {casting.bridge[0]}
+            {(bridge ?? casting.bridge)[0]}
             <br />
-            {casting.bridge[1]}
+            {(bridge ?? casting.bridge)[1]}
           </p>
         </Reveal>
 
@@ -658,6 +666,18 @@ export function WhatsATen({
                 {composition.disclaimer}
               </p>
             </div>
+
+            {/* Optional trailer lines, set in the same smaller supporting-copy
+                style as composition.body directly above. */}
+            {composition.extra && composition.extra.length > 0 && (
+              <div className="mt-2">
+                {composition.extra.map((line) => (
+                  <p key={line} className="text-[clamp(0.95rem,2.4vw,1.15rem)] leading-tight text-sand/80">
+                    {line}
+                  </p>
+                ))}
+              </div>
+            )}
           </Reveal>
         )}
 

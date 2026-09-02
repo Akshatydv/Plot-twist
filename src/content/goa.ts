@@ -46,9 +46,8 @@ export const GOA_SECTION_ORDER = [
   "premise",
   "cast",
   "homeBase",
-  "plotTwists",
-  "difference",
   "facts",
+  "finePrint",
   "application",
 ] as const;
 
@@ -80,15 +79,49 @@ export const GOA = {
 /* hero                                                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * THE HERO — copy hierarchy, refined.
+ *
+ * The previous version framed the cast as strangers ("20 people who haven't
+ * met yet", "Come alone. Leave with 19 others.") — accurate, but it led with
+ * social risk rather than FOMO, and the brief was explicit that arriving
+ * without knowing anyone should never be the hero's opening note. Nothing
+ * below implies loneliness or a need to make friends; the energy is Goa,
+ * the people, the trip — not the fact that the cast doesn't know each other
+ * yet.
+ *
+ * `secondary` and `subheading` replace the old single italic `sub` line —
+ * they're two different weights doing two different jobs (the emotional hook,
+ * then a light confident aside), not one sentence split in half.
+ *
+ * The old four-chip fact strip is replaced by one line (`tripLine`) plus a
+ * voiced tagline, with the age range pulled OUT into its own handwritten note
+ * (`ageNote`) rather than sitting in the line as a fifth stat — composition
+ * ("10 and 10") already has its real home in THE CAST section below; the hero
+ * only needs the playful "10s ONLY" version.
+ */
 export const goaHero = {
   /** The destination, stated flat, in the highest-attention slot on the site. */
   eyebrow: `${GOA.destination} · ${GOA.when}`,
+  /** The primary heading. Unchanged — this is the biggest, type-dominant element. */
   line1: "You've found",
   line2: "the plot.",
-  sub: "20 people who haven't met yet. Four days in Goa. One plot.",
-  support: "Come alone. Leave with 19 others.",
-  /** The four-fact strip under the headline — the whole offer, before a scroll. */
-  facts: [GOA.cast, GOA.days, GOA.split, `AGES ${GOA.ages}`],
+  /** The emotional hook — large, but clearly subordinate to line1/line2. */
+  secondary: "The kind of trip you'll be talking about after.",
+  /** Lighter, smaller, a confident aside rather than a second headline. */
+  subheading: "And it hasn't even started yet.",
+  /** One line, dot-separated — the offer, stated once, playfully. */
+  tripLine: `${GOA.cast} · ${GOA.days} · 10s ONLY`,
+  tripTagline: "Good people. Questionable decisions.",
+  /**
+   * The floating scrapbook note — kept OUT of tripLine on purpose, so it reads
+   * as an aside pinned to the trip-details area rather than a fifth statistic
+   * in the row.
+   */
+  ageNote: {
+    headline: GOA.ages,
+    lines: ["old enough to know better", "young enough to do it anyway"],
+  },
   cta: { label: "REQUEST YOUR INVITE", href: "#apply" },
   scrollCue: "THE FOUR DAYS ↓",
   annotation: "twenty seats. that's the whole trip.",
@@ -101,14 +134,20 @@ export const goaHero = {
 export const premise = {
   index: goaIndex("premise"),
   label: "THE PREMISE",
-  big: ["YOU COULD", "JUST GO TO GOA.", "OR YOU COULD DO THIS."],
+  big: ["YOU COULD", "JUST GO TO GOA.", "OR YOU COULD MAKE A PLOT OUT OF IT."],
   body: [
-    "Anyone can book a flight and a room.",
-    "We cast twenty people, put them in the same four days, and let the rest happen.",
+    "Anyone can book a flight. Anyone can book a room.",
+    "We bring the right people into the story.",
     "Ten girls. Ten guys. Every one of them picked.",
   ],
-  /** The objection, killed early — the full version of this lands in THE DIFFERENCE. */
-  kicker: "You can book Goa. You can't book the nineteen people you're about to meet.",
+  /**
+   * The objection, answered. This used to be the short version, with the full
+   * argument ("WE PLANNED THE TRIP. NOT THE PEOPLE.") landing later in THE
+   * DIFFERENCE — that section has since been removed, so this line is now the
+   * only place on the page that makes the people-over-place case. Worth
+   * keeping in mind before trimming it.
+   */
+  kicker: "You can book Goa. You can't book the nineteen people who make the trip what it is.",
   annotation: "that's the whole idea.",
   badge: "20 SEATS. NO FILLERS.",
 } as const;
@@ -134,11 +173,21 @@ export const premise = {
  * importing, so it stays journey-agnostic.
  */
 export const cast = {
+  /**
+   * The bridge under the CASTING — JOURNEY 00 stamp. Overrides
+   * `casting.bridge` from site.ts, which is Journey 01's wording — see the
+   * `bridge` prop on WhatsATen.
+   */
+  bridge: [
+    "WE'RE PICKING THE PEOPLE. THE TRIP CAN TAKE CARE OF ITSELF.",
+    "20 spots. 10 girls. 10 guys. And a very particular kind of energy.",
+  ] as [string, string],
   split: {
     title: "10 AND 10.",
-    body: "Twenty people. Not a ratio — a room that works.",
+    body: "We're looking for the ones who are always up for one more plan, one more drink, one more story.",
     /** Said once. Never explained, never repeated — explaining it makes it louder. */
-    disclaimer: "This isn't that kind of show.",
+    disclaimer: "Basically, good vibes only.",
+    extra: ["And yes, 10/10s only.", "Not the looks kind. The energy kind."],
   },
 } as const;
 
@@ -186,6 +235,15 @@ export type Chapter = {
   scene: Scene;
   /** Small labelled details laid into the scene — dress code, running order. */
   details: { k: string; v: string }[];
+  /**
+   * An ordered narrative, for a chapter with more to tell than `body` fits.
+   * Optional — most chapters don't set it and read `body` instead. A "beat"
+   * is either a plain paragraph or a `moment`: a specific memorable line
+   * (a cinematic reference, a quoted exchange) that earns heavier visual
+   * treatment than the surrounding prose. Currently only White Flamingo uses
+   * this; the other three chapters are untouched by adding it.
+   */
+  story?: ({ kind: "p"; text: string } | { kind: "moment"; line: string; reply?: string })[];
 };
 
 /**
@@ -201,14 +259,23 @@ export const chapters: Chapter[] = [
     index: "01",
     title: "BOLLYWOOD AFTER DARK",
     titleLines: ["BOLLYWOOD", "AFTER DARK"],
-    tagline: "Everyone arrives as themselves. By dinner, everyone's got a character.",
+    // Cut from two clauses to one. The old version explained the whole day
+    // before the day had started; the details row below already does that.
+    tagline: "First day energy. By night, everyone's got an alter ego.",
     body: [
-      "Twenty strangers, one dress code, and a room that stops being quiet almost immediately.",
+      "Check in, meet the crew, explore, eat. Then dinner, glam, music — and a night with no intention of ending early.",
     ],
-    note: "the awkward part lasts about an hour.",
+    // Replaces "the awkward part lasts about an hour." — that line leaned on
+    // the awkward-strangers beat the rest of the page moved away from (it had
+    // been flagged twice). This is the site owner's own wording from the
+    // earlier draft of this chapter, so nothing new is invented.
+    note: "nobody's shy by the second round.",
+    // Two halves, not three boxes. THE LOOK moved out to a stamp (see
+    // `bollywoodLook`) — it's the dress code, and the dress code is this
+    // chapter's signature, so it reads as a stamp rather than a labelled box.
     details: [
-      { k: "DRESS CODE", v: "Bollywood / Indian glam" },
-      { k: "THE NIGHT", v: "Dinner → Character reveal → Out" },
+      { k: "THE DAY", v: "Check-in. Settle in. Explore. Dinner." },
+      { k: "THE NIGHT", v: "Bollywood glam. Music. Out late." },
     ],
     scene: {
       video: null,
@@ -227,12 +294,25 @@ export const chapters: Chapter[] = [
     index: "02",
     title: "WHITE FLAMINGO",
     titleLines: ["WHITE", "FLAMINGO"],
-    tagline: "All white. All day. The party left the shore.",
-    body: ["One dress code. One direction — out. It doesn't come back until the sun does."],
-    note: "yes, everyone's in white. yes, it photographs exactly like that.",
+    // The whole day in one line. Saturday is the signature chapter, so it
+    // gets the shortest copy of the four, not the longest — the earlier
+    // version ran to eight prose beats and read as an itinerary.
+    tagline: "Slow morning. Iconic Goa. Then everything goes white.",
+    // Unused — this chapter reads `story` and `details` below.
+    body: ["Slow morning, Chapora Fort, café hopping, then sunset offshore in all white."],
+    // ONE moment, kept because it's the culture-specific beat nothing else on
+    // the page has. The "Same time next year? / Obviously." exchange that used
+    // to sit here was cut: The Hangover Club now closes the whole trip on
+    // "Same people next time? / Obviously.", and the same punchline landing
+    // twice made neither of them hit.
+    story: [{ kind: "moment", line: "Chapora Fort. Our own Dil Chahta Hai moment — obviously." }],
+    note: "Yes, everyone's in white. Yes, it photographs exactly like that.",
+    // Two halves, not a seven-stop chain — the day splits cleanly at the
+    // point everyone changes into white, and that split is this chapter's
+    // own composition (see components/goa/ChapterFlamingo.tsx).
     details: [
-      { k: "DRESS CODE", v: "All white" },
-      { k: "THE PLOT", v: "Cruise → Water → Sunset → Party" },
+      { k: "THE DAY", v: "Breakfast. Pool. Chapora Fort. Café hopping." },
+      { k: "THE NIGHT", v: "Sunset yacht. Thalassa. Purple Martini. Whatever comes after." },
     ],
     scene: {
       video: null,
@@ -252,12 +332,24 @@ export const chapters: Chapter[] = [
     title: "LOST IN GOA",
     titleLines: ["LOST", "IN GOA"],
     tagline: "No dress code. No rush. Just follow the road.",
-    body: ["Somebody says let's just drive. Nobody argues. You get back when you get back."],
-    note: "this is the day everyone talks about after.",
-    details: [
-      { k: "DRESS CODE", v: "None. Genuinely." },
-      { k: "THE ROUTE", v: "Jeep → Waterfall → Beach → Shack → Sunset" },
+    // Unused — this chapter reads `story` below.
+    body: ["Open jeeps, the coast road, and nowhere in particular to be on time."],
+    // Down from five beats to two. The place-name run that used to sit here
+    // ("Cabo de Rama. Cola. Palolem…") was cut because THE ROUTE strip below
+    // already IS that list — printing it twice was most of why this chapter
+    // ran to 169% of the viewport while its neighbours sat near 100%.
+    story: [
+      {
+        kind: "p",
+        text: "We head south. We stop wherever looks good, and keep finding places we weren't planning to find.",
+      },
+      { kind: "moment", line: "Somebody says let's just drive.", reply: "Nobody argues." },
     ],
+    note: "That's kind of the point.",
+    // No details row and no dress-code stamp, on purpose: the tagline already
+    // says "No dress code", and this is the one chapter whose character is
+    // that nothing is prescribed. THE ROUTE is its signature instead.
+    details: [],
     scene: {
       video: null,
       poster: "/photos/goa/chapters/lost.jpg",
@@ -275,11 +367,30 @@ export const chapters: Chapter[] = [
     title: "THE HANGOVER CLUB",
     titleLines: ["THE HANGOVER", "CLUB"],
     tagline: "Nobody's ready to leave.",
-    body: ["Coffee, the pool, and twenty people reconstructing a weekend nobody fully remembers."],
-    note: "you came alone. that's over now.",
+    body: [
+      "Coffee. Pool. Beach air. Brunch. One last slow morning before reality starts calling.",
+      "After three days of doing the absolute most, Monday is deliberately easy.",
+      "No alarms. No rushing. Just twenty people soaking up the last few hours of Goa together.",
+    ],
+    // The two closing exchanges — "leaving.", then "same people next time? /
+    // obviously." — same moment/reply pattern as White Flamingo and Lost in
+    // Goa, rendered after the details grid and before the taped closing note.
+    story: [
+      { kind: "moment", line: "And then comes the part nobody really planned for:", reply: "Leaving." },
+      { kind: "moment", line: "Same people next time?", reply: "Obviously." },
+    ],
+    // Replaces "you came alone. that's over now." — that line was a callback
+    // to the hero's old "Come alone. Leave with 19 others.", which was
+    // rewritten to drop the strangers framing (see the note in FinalBeat.tsx).
+    // This couplet was in the new copy and needs no callback to stand on its
+    // own, so it resolves that flagged loose end as a side effect.
+    note: "You came for the trip. You leave with a story.",
     details: [
-      { k: "SLOW MORNING", v: "Coffee · Pool · Brunch" },
-      { k: "ONE LAST THING", v: "Not on the itinerary" },
+      { k: "SLOW MORNING", v: "Coffee → Pool → Beach → Brunch → One last hang" },
+      {
+        k: "ONE LAST THING",
+        v: "We saved one more surprise. Not everything needs to be on the itinerary. Some things are better discovered when everyone's already there.",
+      },
     ],
     scene: {
       video: null,
@@ -298,15 +409,66 @@ export const chapters: Chapter[] = [
  * the trip. Playful Bollywood archetypes, drawn as casting cards. Deliberately
  * NOT explained on the page beyond the cards themselves.
  */
+/**
+ * THE STAMPED DRESS CODE — the one device shared across the chapters.
+ *
+ * Each night that HAS a dress code stamps it, rather than filing it in a
+ * labelled box: it's the most repeatable, most screenshot-able fact about
+ * that night, and a stamp is the loudest small element in the design system.
+ *
+ * Lost in Goa deliberately has none — its whole point is that Sunday has no
+ * dress code, and its tagline already says so. Absence is the joke; stamping
+ * "NO DRESS CODE" would have flattened it into just another label.
+ *
+ * The stamp is shared vocabulary, NOT a shared layout: each chapter still
+ * places it inside its own composition (Bollywood low-left with the role
+ * cards, Flamingo centred on the day/night seam).
+ */
+export const flamingoLook = {
+  stamp: "ALL WHITE",
+  line: "One dress code. One very good excuse to overdress.",
+} as const;
+
+export const bollywoodLook = {
+  stamp: "BOLLYWOOD GLAM",
+  line: "No rules. Just make an entrance.",
+} as const;
+
 export const roleCall = {
-  title: "THE ROLE CALL",
-  sub: "Everyone draws a character. Nobody gets to pick.",
+  title: "BRING YOUR ALTER EGO",
+  // Replaces the old "Everyone draws a character. Nobody gets to pick." —
+  // that line implied a mandatory, randomly-assigned character, which this
+  // rewrite explicitly asked to remove. This is purely optional/inspirational.
+  sub: "Whatever your Bollywood looks like, tonight's the night to bring it out.",
   roles: ["THE SRK", "THE KAREENA", "THE RANVEER", "THE VILLAIN", "THE HEARTBREAK HERO", "THE ITEM SONG"],
   note: "you do not get to swap.",
 } as const;
 
 /** LOST IN GOA renders as an actual route rather than a list. */
-export const route = ["THE ROAD", "THE WATERFALL", "THE BEACH", "THE SHACK", "THE SUNSET"] as const;
+export const route = [
+  "JEEP",
+  "CABO DE RAMA",
+  "WATERFALL",
+  "COLA",
+  "PALOLEM / AGONDA",
+  "SHACK",
+  "SUNSET",
+] as const;
+
+/**
+ * THE NIGHT — Lost in Goa's closing beat, unplanned on purpose. Standalone
+ * const, the same way `roleCall` is Bollywood's own extra block.
+ *
+ * Compressed from nine stacked lines (a three-line intro, four questions on
+ * their own rows, a resolve line) to two. The options now run as one line
+ * because that IS the point — they're a shrug, not a menu, and stacking them
+ * gave four throwaway phrases the same vertical weight as the day itself.
+ */
+export const theNight = {
+  label: "THE NIGHT",
+  options: "Shack? Beach party? Club hopping? Somewhere nobody expected?",
+  resolve: "We haven't planned it. The group decides.",
+} as const;
 
 /* ------------------------------------------------------------------ */
 /* the home base                                                       */
@@ -405,51 +567,6 @@ export const homeBase = {
     },
   ] as HomeBaseShot[],
 } as const;
-
-/* ------------------------------------------------------------------ */
-/* the plot twists                                                     */
-/* ------------------------------------------------------------------ */
-
-export const plotTwists = {
-  index: goaIndex("plotTwists"),
-  label: "THE PLOT TWISTS",
-  headline: ["SOME THINGS ARE ON THE ITINERARY.", "SOME THINGS ARE BETTER LEFT OFF IT."],
-  /** Everything confirmed, listed plainly. Transparency is the point. */
-  onIt: [
-    "Bollywood night",
-    "The White Flamingo cruise",
-    "Fire on the sand",
-    "Open jeeps",
-    "Waterfalls",
-    "Beach shacks",
-    "Sunsets, every night",
-    "Goa after midnight",
-  ],
-  /** The kept mystery — about WHAT happens, never about where. Never hinted at. */
-  offIt: {
-    title: "ONE LAST THING.",
-    body: "It's in the four days. It isn't on this page.",
-    note: "you'll find out when everyone else does.",
-    /** Rendered as a redacted bar — the case-file vocabulary, reused. */
-    redacted: "████████ ███████ ██████",
-  },
-} as const;
-
-/* ------------------------------------------------------------------ */
-/* the difference                                                      */
-/* ------------------------------------------------------------------ */
-
-export const difference = {
-  index: goaIndex("difference"),
-  label: "THE DIFFERENCE",
-  /** The best line on the site. Unchanged, and now the thesis rather than an aside. */
-  big: ["WE PLANNED THE TRIP.", "NOT THE PEOPLE."],
-  bookable: ["You can book the flight.", "You can book the room.", "You can book the boat."],
-  unbookable: "You can't book the nineteen people.",
-  body: "We plan the destination. We plan the parties. We can't plan who you're friends with by 2AM, or the story you'll tell after.",
-  signature: "DO IT FOR THE PLOT.",
-} as const;
-
 /* ------------------------------------------------------------------ */
 /* the facts                                                           */
 /* ------------------------------------------------------------------ */
@@ -488,7 +605,7 @@ export const inclusions = {
   confirmed: false,
   included: [] as string[],
   excluded: [] as string[],
-  pending: "The full included / not-included list is being finalised. Ask us and we'll send it.",
+  pending: "We're finalising the full included / not-included list. Ask us and we'll send it.",
 } as const;
 
 export const facts = {
@@ -496,18 +613,180 @@ export const facts = {
   label: "THE CALL SHEET",
   headline: ["THE BORING PAGE", "OF THE SCRIPT."],
   annotation: "every page needs one.",
-  /** Only confirmed values. */
-  rows: [
+  /**
+   * THE SIX BASICS — a compact grid, not a stack of full-width rows.
+   *
+   * These used to run as seven stacked rows plus a price row: eight rows at
+   * ~56px each, which was most of this section's height. Six short facts in a
+   * grid say exactly the same thing in two rows instead of six.
+   */
+  basics: [
     { k: "WHERE", v: "Goa" },
     { k: "WHEN", v: "October 2026" },
-    { k: "HOW LONG", v: "4 days" },
+    { k: "HOW LONG", v: "4 days · 3 nights" },
     { k: "THE CAST", v: "20 people" },
     { k: "THE SPLIT", v: "10 girls + 10 guys" },
     { k: "AGES", v: "18–30" },
-    { k: "SELECTION", v: "Curated. Every application read by a real person." },
   ],
+  /**
+   * The two facts that carry weight rather than just data — pulled out of the
+   * grid as callouts, because "a person reads this" and "here's the money"
+   * are the two lines someone actually decides on.
+   */
+  selection: { k: "SELECTION", v: "Curated. Every application is read by a real person." },
+  /** Was derived from a brittle `rows[6]` index lookup. Stated plainly instead. */
+  stamp: "EVERY APPLICATION READ BY A HUMAN",
+  cta: "ASK US ANYTHING →",
   price,
   inclusions,
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* the fine print + behind the plot                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * THE FINE PRINT — the last reassurance before the ask.
+ *
+ * ─── WHERE THESE CLAIMS COME FROM ───────────────────────────────────────────
+ * Every pillar below is either a restatement of something this page already
+ * shows, or one of the four commitments already written and vetted in
+ * `trust.safety` in content/site.ts — which this section replaces on the
+ * reveal page. Nothing here is new marketing.
+ *
+ * NOTHING INVENTED. No testimonials, traveller counts, ratings, press,
+ * application numbers or awards, because none of that exists yet. At this
+ * stage the trust is: a real founder, a real process, and saying plainly what
+ * is and isn't decided. After Journey 00 runs, this is the section that earns
+ * real participant stories.
+ *
+ * On CLEAR DETAILS specifically: the price is NOT yet published (see
+ * `facts.price`). The pillar is therefore worded as a promise about WHEN you
+ * will know — which is true and matches trust.safety's "trip details are
+ * shared clearly before anyone travels" — and never as a claim that the
+ * number is already on the page.
+ */
+export const finePrint = {
+  index: goaIndex("finePrint"),
+  label: "THE FINE PRINT",
+  headline: ["THE FINE", "PRINT"],
+  sub: "Because “trust us bro” isn’t a travel policy.",
+  pillars: [
+    {
+      k: "CURATED PEOPLE",
+      v: "20 isn’t a random number. A real person reads every application — that’s also why it isn’t instant.",
+      accent: "#FF4F87",
+    },
+    {
+      k: "HANDPICKED STAYS",
+      v: "Whichever property availability lands on, it has to pass the same vibe check.",
+      accent: "#00A9C7",
+    },
+    {
+      k: "CLEAR DETAILS",
+      v: "The mystery is the entertainment, not the invoice. You’ll know the number, and what’s in and out, before you commit.",
+      accent: "#FF7A3D",
+    },
+    {
+      k: "SOMEONE TO CALL",
+      v: "Shortlisted means a real conversation first — then a direct contact for the whole trip, not just up to the booking.",
+      accent: "#36C96F",
+    },
+  ],
+} as const;
+
+/**
+ * BEHIND THE PLOT — the founder note.
+ *
+ * Written to sound like a traveller talking, not a founder writing an About
+ * page. The only facts used are the ones supplied: seven-plus countries, solo
+ * trips, group trips hosted, food, late nights. No dates, no company history,
+ * no credentials — none were given and none are invented.
+ *
+ * `photo` is null: there is no founder photograph in this project yet. The
+ * block is written to work as a signed handwritten note WITHOUT one, so it
+ * reads as finished rather than as a section with a hole in it. Drop a file in
+ * /photos/founder/ and set `photo` + `alt`; the polaroid appears beside the
+ * note and the layout re-balances. See components/goa/TheFinePrint.tsx.
+ */
+export const founder = {
+  eyebrow: "BEHIND THE PLOT",
+  greeting: "Hi, I’m Akshat.",
+  /**
+   * The note is broken into beats rather than paragraphs so the composition
+   * can breathe between them — the pivot line ("the best part was almost
+   * never the place") is set apart on its own, because it's the sentence the
+   * whole company is built on.
+   */
+  opening: "I’ve always been the kind of person who’d rather take the trip than talk about taking it.",
+  story: [
+    "Seven-plus countries, solo trips, group trips, too many late nights, far too much good food — and somewhere along the way, I realised something:",
+  ],
+  /** The pivot. Set larger and on its own line. */
+  pivot: "the best part of travelling was almost never the place.",
+  after: [
+    "It was the people you met, the plans that changed, the stories that came out of nowhere, and those random moments you still talk about years later.",
+    "That’s why I built Plot Twist. To make trips that feel less like a holiday you booked, and more like a story you got to be part of.",
+  ],
+  kicker: "And hopefully, a few of those stories become the ones you keep talking about long after you’re home.",
+  signature: "— Akshat",
+  role: "Founder, Plot Twist",
+  /**
+   * Three, not four. "FOOD MOTIVATED" was dropped so the marks stay an aside
+   * rather than a badge row — the brief asked for these to be used
+   * selectively so the section doesn't feel cluttered.
+   */
+  marks: ["7+ COUNTRIES", "TRIP HOST", "TRAVELLER BY HEART"],
+  /**
+   * THE SCRAPBOOK MOMENTS — real photographs, supplied by the founder.
+   *
+   * Deliberately small and scattered, one per beat of the note: a street
+   * abroad beside the opening, a city at night beside the travel line, water
+   * beside the signature. Day / night / water, so three small prints don't
+   * read as three of the same picture.
+   *
+   * Five were supplied; three are used. Kept out: a shirtless beach frame
+   * (visible third-party underwear branding, and this is the section whose
+   * job is credibility) and a theme-park castle. Both are in Downloads if
+   * you'd rather swap one in — it's one line each.
+   */
+  photos: [
+    {
+      src: "/photos/founder/founder-01.jpg",
+      alt: "Akshat walking down a tree-lined street in Hanoi in the late afternoon",
+      note: "hanoi, no plan.",
+      aspect: "3 / 4",
+    },
+    {
+      src: "/photos/founder/founder-02.jpg",
+      alt: "Akshat on a city street at night, the Petronas Towers lit up behind him",
+      note: "kuala lumpur, 1am.",
+      aspect: "3 / 4",
+    },
+    {
+      src: "/photos/founder/founder-03.jpg",
+      alt: "Akshat sitting on the bow of a longtail boat in turquoise water below limestone cliffs",
+      note: "worth the boat.",
+      aspect: "4 / 5",
+    },
+  ],
+} as const;
+
+/**
+ * HOW IT ACTUALLY WORKS — three steps, one thin row.
+ *
+ * Exists so REQUEST YOUR INVITE reads as entry to a process rather than a
+ * decorated Buy Now. Kept to a single line of copy per step: the brief was
+ * explicit that if this makes the section big, the founder and the pillars
+ * win instead.
+ */
+export const howItWorks = {
+  eyebrow: "AND THEN WHAT HAPPENS",
+  steps: [
+    { n: "01", t: "REQUEST YOUR INVITE", d: "Under five minutes. Be honest — it’s more interesting." },
+    { n: "02", t: "GET SELECTED", d: "A real person reads it. Shortlisted means a real conversation." },
+    { n: "03", t: "GET ON THE PLOT", d: "Goa. October 2026. Nineteen strangers." },
+  ],
 } as const;
 
 /* ------------------------------------------------------------------ */

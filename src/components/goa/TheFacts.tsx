@@ -14,15 +14,25 @@ import { Reveal } from "../motion";
  * four immersive chapters, a plain document reads as the one section not
  * selling to them.
  *
+ * ─── THE RECOMPOSITION ──────────────────────────────────────────────────────
+ * It used to run as eight stacked full-width rows — a spec table, and ~450px
+ * of one. Now it reads as an actual call sheet:
+ *
+ *   - the six basics sit in a THREE-COLUMN GRID (two rows, not six), each cell
+ *     a small tracked label above its value — the same k/v vocabulary, at a
+ *     fraction of the height;
+ *   - SELECTION and THE DAMAGE are pulled OUT of the grid as two side-by-side
+ *     callouts, because they're the two lines someone actually decides on;
+ *   - the inclusions line, the stamp and the WhatsApp CTA collapse into one
+ *     footer row instead of three stacked blocks.
+ *
+ * Same information, same voice, no new facts — roughly half the height.
+ *
  * ─── THE TWO UNCONFIRMED FACTS ──────────────────────────────────────────────
  * Price and the included/excluded list do not exist anywhere in this project,
  * so this component renders neither. It shows an honest "not announced yet"
- * with a way to ask instead.
- *
- * That is a deliberate product decision, not an oversight: a plausible-looking
- * number on a page that asks for a phone number would be an invented
- * commitment. Both switch on from content/goa.ts the moment real values exist
- * — no change is needed here.
+ * with a way to ask instead. Both switch on from content/goa.ts the moment
+ * real values exist — no change is needed here.
  * ────────────────────────────────────────────────────────────────────────────
  */
 export function TheFacts() {
@@ -31,113 +41,122 @@ export function TheFacts() {
     ? `https://wa.me/${number}?text=${encodeURIComponent("Hey Plot Twist 👀 what's the damage for Goa?")}`
     : null;
 
-  return (
-    <section id="facts" className="paper relative overflow-hidden px-5 py-16 sm:px-8 sm:py-20 lg:px-14">
-      <div className="relative mx-auto max-w-[1000px]">
-        <SectionLabel index={facts.index} label={facts.label} />
+  const priceValue =
+    facts.price.confirmed && facts.price.amount ? facts.price.amount : facts.price.pending;
+  const priceNote =
+    facts.price.confirmed && facts.price.amount ? facts.price.note : facts.price.pendingNote;
 
-        <div className="mt-7 flex flex-wrap items-end justify-between gap-6">
-          <Reveal>
-            <h2 className="font-display text-[clamp(2rem,7.6vw,4rem)] uppercase leading-[0.92] text-ink">
-              {facts.headline[0]}
-              <br />
-              {facts.headline[1]}
-            </h2>
-          </Reveal>
-          <Note className="text-[clamp(1.15rem,3.4vw,1.5rem)] text-ink/45" rotate={-2}>
+  return (
+    <section id="facts" className="paper relative overflow-hidden px-5 py-11 sm:px-8 sm:py-12 lg:px-14">
+      <div className="relative mx-auto max-w-[1000px]">
+        {/* masthead — label, headline and aside on ONE line where there's room,
+            rather than a stacked block with its own margins */}
+        <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+          <div>
+            <SectionLabel index={facts.index} label={facts.label} />
+            <Reveal>
+              <h2 className="mt-3 font-display text-[clamp(1.6rem,5.2vw,2.8rem)] uppercase leading-[0.94] text-ink">
+                {facts.headline[0]} {facts.headline[1]}
+              </h2>
+            </Reveal>
+          </div>
+          <Note className="text-[clamp(1.05rem,3vw,1.35rem)] text-ink/45" rotate={-2}>
             {facts.annotation}
           </Note>
         </div>
 
-        {/* the confirmed rows — a document, not a card grid */}
-        <Reveal delay={0.1}>
-          <dl className="mt-10 border-t-2 border-ink/20">
-            {facts.rows.map((row) => (
-              <div
-                key={row.k}
-                className="flex flex-col gap-1 border-b border-ink/12 py-4 sm:flex-row sm:items-baseline sm:gap-8 sm:py-3.5"
-              >
-                <dt className="shrink-0 text-[10px] tracked text-ink/45 sm:w-[9.5rem]">{row.k}</dt>
-                <dd className="font-display text-[clamp(1.05rem,3vw,1.35rem)] leading-tight tracking-[0.02em] text-ink">
+        {/* ---------------- THE SIX BASICS ---------------- */}
+        <Reveal delay={0.08}>
+          <dl className="mt-7 grid grid-cols-2 gap-x-6 gap-y-5 border-t-2 border-ink/20 pt-6 sm:grid-cols-3 sm:gap-x-8">
+            {facts.basics.map((row) => (
+              <div key={row.k}>
+                <dt className="text-[9px] tracked text-ink/45">{row.k}</dt>
+                <dd className="mt-1 font-display text-[clamp(1rem,2.8vw,1.25rem)] leading-tight tracking-[0.02em] text-ink">
                   {row.v}
                 </dd>
               </div>
             ))}
-
-            {/* ---- price ---- */}
-            <div className="flex flex-col gap-1 border-b border-ink/12 py-4 sm:flex-row sm:items-baseline sm:gap-8 sm:py-3.5">
-              <dt className="shrink-0 text-[10px] tracked text-ink/45 sm:w-[9.5rem]">THE DAMAGE</dt>
-              <dd className="font-display text-[clamp(1.05rem,3vw,1.35rem)] leading-tight tracking-[0.02em] text-ink">
-                {facts.price.confirmed && facts.price.amount ? (
-                  <>
-                    {facts.price.amount}
-                    {facts.price.note && (
-                      <span className="ml-2 font-sans text-[0.8em] font-normal tracking-normal text-ink/55">
-                        {facts.price.note}
-                      </span>
-                    )}
-                  </>
-                ) : (
-                  <span className="text-ink/55">
-                    {facts.price.pending}
-                    <span className="ml-2 font-sans text-[0.8em] font-normal tracking-normal text-ink/45">
-                      {facts.price.pendingNote}
-                    </span>
-                  </span>
-                )}
-              </dd>
-            </div>
           </dl>
         </Reveal>
 
-        {/* ---- inclusions ---- */}
-        <Reveal delay={0.16}>
-          {facts.inclusions.confirmed ? (
-            <div className="mt-10 grid gap-8 sm:grid-cols-2">
-              <div>
-                <span className="text-[10px] tracked text-ink/45">INCLUDED</span>
-                <ul className="mt-3 space-y-2">
-                  {facts.inclusions.included.map((i) => (
-                    <li key={i} className="flex gap-2.5 text-[0.98rem] leading-tight text-ink/80">
-                      <span className="text-[#1f7a45]" aria-hidden>✓</span>
-                      {i}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <span className="text-[10px] tracked text-ink/45">NOT INCLUDED</span>
-                <ul className="mt-3 space-y-2">
-                  {facts.inclusions.excluded.map((i) => (
-                    <li key={i} className="flex gap-2.5 text-[0.98rem] leading-tight text-ink/60">
-                      <span className="text-pink" aria-hidden>×</span>
-                      {i}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+        {/* ---------------- THE TWO THAT MATTER ---------------- */}
+        <Reveal delay={0.14}>
+          <div className="mt-7 grid gap-4 sm:grid-cols-2 sm:gap-6">
+            {/* selection */}
+            <div className="border-l-2 border-ocean/70 pl-4">
+              <span className="text-[9px] tracked text-ocean">{facts.selection.k}</span>
+              <p className="mt-1 text-[clamp(0.95rem,2.4vw,1.05rem)] leading-[1.4] text-ink/85">
+                {facts.selection.v}
+              </p>
             </div>
-          ) : (
-            <p className="mt-8 max-w-[52ch] text-[0.98rem] leading-[1.5] text-ink/60">
-              {facts.inclusions.pending}
-            </p>
-          )}
+
+            {/* the damage */}
+            <div className="border-l-2 border-pink/70 pl-4">
+              <span className="text-[9px] tracked text-pink">THE DAMAGE</span>
+              <p className="mt-1 font-display text-[clamp(1rem,2.8vw,1.25rem)] leading-tight tracking-[0.02em] text-ink">
+                {priceValue}
+              </p>
+              {priceNote && (
+                <p className="mt-0.5 text-[0.86rem] leading-tight text-ink/55">{priceNote}</p>
+              )}
+            </div>
+          </div>
         </Reveal>
 
-        <div className="mt-10 flex flex-wrap items-center gap-5">
-          <Stamp color="#00A9C7">{facts.rows[6]?.v ? "EVERY APPLICATION READ BY A HUMAN" : "CURATED"}</Stamp>
-          {askHref && (
-            <a
-              href={askHref}
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => track(PLOT_EVENTS.contactWhatsapp)}
-              className="text-[11px] font-semibold tracked text-ink/60 underline decoration-ink/25 underline-offset-4 transition-colors hover:text-ink"
-            >
-              ASK US ANYTHING →
-            </a>
-          )}
-        </div>
+        {/* ---------------- footer: inclusions + stamp + CTA, one row ---------------- */}
+        <Reveal delay={0.2}>
+          <div className="mt-7 border-t border-ink/15 pt-5">
+            {facts.inclusions.confirmed ? (
+              <div className="grid gap-6 sm:grid-cols-2">
+                <div>
+                  <span className="text-[9px] tracked text-ink/45">INCLUDED</span>
+                  <ul className="mt-2 space-y-1.5">
+                    {facts.inclusions.included.map((i) => (
+                      <li key={i} className="flex gap-2.5 text-[0.95rem] leading-tight text-ink/80">
+                        <span className="text-[#1f7a45]" aria-hidden>
+                          ✓
+                        </span>
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <span className="text-[9px] tracked text-ink/45">NOT INCLUDED</span>
+                  <ul className="mt-2 space-y-1.5">
+                    {facts.inclusions.excluded.map((i) => (
+                      <li key={i} className="flex gap-2.5 text-[0.95rem] leading-tight text-ink/60">
+                        <span className="text-pink" aria-hidden>
+                          ×
+                        </span>
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <p className="max-w-[54ch] text-[0.92rem] leading-[1.45] text-ink/60">
+                {facts.inclusions.pending}
+              </p>
+            )}
+
+            <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Stamp color="#00A9C7">{facts.stamp}</Stamp>
+              {askHref && (
+                <a
+                  href={askHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={() => track(PLOT_EVENTS.contactWhatsapp)}
+                  className="text-[11px] font-semibold tracked text-ink/60 underline decoration-ink/25 underline-offset-4 transition-colors hover:text-ink"
+                >
+                  {facts.cta}
+                </a>
+              )}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -20,9 +20,16 @@ const ease = [0.22, 1, 0.36, 1] as const;
  *
  * 1. The eyebrow states GOA · OCTOBER 2026 outright, in the highest-attention
  *    slot on the site. The mystery hero withholds it; this one leads with it.
- * 2. A four-fact strip sits under the headline, so a visitor arriving cold
- *    from an ad knows the cast size, the length, the split and the age range
- *    before they have scrolled a single pixel.
+ * 2. Below the (unchanged) YOU'VE FOUND THE PLOT. heading, a full copy
+ *    hierarchy carries the offer: a secondary headline (the emotional hook),
+ *    a lighter subheading, one branded trip-details line with its own
+ *    tagline, and a floating handwritten 18–30 note — see goaHero in
+ *    content/goa.ts for why each is its own field rather than one paragraph.
+ *
+ * NONE of this copy frames the cast as strangers or leans on the fact that
+ * they haven't met — that framing (the old "20 people who haven't met yet",
+ * "Come alone. Leave with 19 others.") was deliberately removed. The hero
+ * leads with Goa, the trip and the people, not with the social premise.
  *
  * The CTA is the real one — REQUEST YOUR INVITE — rather than a scroll nudge.
  * Someone who already knows they want in should not have to hunt for the way.
@@ -61,6 +68,30 @@ export function GoaHero() {
           </motion.div>
         </header>
 
+        {/*
+          THE 18–30 NOTE — written straight onto the photograph in the open
+          space between the masthead and the headline block, the same slot
+          Journey 01's hero uses for its handwritten side note. Deliberately
+          NOT part of the trip-details cluster below: pinned in open air, on
+          its own, is what makes it read as a scrapbook aside rather than a
+          fifth statistic bolted onto the fact line.
+        */}
+        <motion.div
+          className="pointer-events-none absolute right-5 top-[22%] max-w-[8.5rem] -rotate-[4deg] text-right sm:right-8 sm:top-[19%] sm:max-w-[10.5rem] lg:right-14 lg:top-[17%] lg:max-w-[12rem]"
+          initial={reduce ? undefined : { opacity: 0, y: 14, rotate: -9 }}
+          animate={{ opacity: 1, y: 0, rotate: -4 }}
+          transition={{ duration: 0.8, delay: 0.56, ease }}
+        >
+          <span className="block font-brush text-[clamp(1.5rem,4.6vw,2.4rem)] leading-none text-[#FFE9A8] [text-shadow:0_2px_16px_rgba(10,2,10,0.6)]">
+            {goaHero.ageNote.headline}
+          </span>
+          <span className="mt-1.5 block font-hand text-[clamp(0.85rem,1.9vw,1.05rem)] leading-[1.15] text-sand/90 [text-shadow:0_2px_12px_rgba(10,2,10,0.55)]">
+            {goaHero.ageNote.lines[0]}
+            <br />
+            {goaHero.ageNote.lines[1]}
+          </span>
+        </motion.div>
+
         {/* headline block */}
         <div className="mt-auto max-w-[22rem] pt-16 sm:max-w-[32rem] sm:pt-20 lg:max-w-[48rem]">
           {/* THE REVEAL — destination and date, stated flat, before anything else */}
@@ -85,54 +116,56 @@ export function GoaHero() {
               {goaHero.line2}
               <MarkerUnderline color="#FF4F87" className="absolute -bottom-2 left-0 h-4 w-[72%]" />
             </motion.span>
-            <motion.span
-              className="mt-6 block font-serif text-[clamp(1.2rem,3.4vw,2.1rem)] italic leading-[1.1] text-sand/95"
-              {...inFrom(0.64)}
-            >
-              {goaHero.sub}
-            </motion.span>
           </h1>
 
-          {/*
-            THE FACT STRIP — the entire offer in four chips. Wraps to two rows
-            on the narrowest phones rather than scrolling sideways, which is
-            why it's a flex-wrap and not a single nowrap line.
-          */}
-          <motion.ul
-            className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-2 sm:gap-x-3"
-            {...inFrom(0.74)}
+          {/* THE SECONDARY HEADLINE — the emotional hook, large but clearly
+              subordinate to the h1 above it. */}
+          <motion.p
+            className="mt-5 max-w-[26ch] font-display text-[clamp(1.3rem,4.4vw,2.3rem)] uppercase leading-[1.05] tracking-[-0.005em] text-sand sm:max-w-[34ch]"
+            {...inFrom(0.6)}
           >
-            {goaHero.facts.map((fact) => (
-              <li
-                key={fact}
-                className="border border-sand/30 bg-ink/25 px-2.5 py-1.5 text-[9.5px] font-semibold tracked text-sand/90 backdrop-blur-sm sm:px-3 sm:text-[10.5px]"
-              >
-                {fact}
-              </li>
-            ))}
-          </motion.ul>
+            {goaHero.secondary}
+          </motion.p>
+
+          {/* THE SUBHEADING — lighter, smaller, a confident aside with room to breathe. */}
+          <motion.p
+            className="mt-3 font-serif text-[clamp(1.05rem,2.6vw,1.4rem)] italic leading-[1.2] text-sand/70"
+            {...inFrom(0.7)}
+          >
+            {goaHero.subheading}
+          </motion.p>
+
+          {/*
+            THE TRIP DETAILS — one branded line and a playful tagline, not a
+            row of stat chips. The 18–30 note floats beside/over it rather than
+            joining the line as a fifth statistic, which is what keeps it
+            reading as a scrapbook aside instead of another data point.
+          */}
+          <motion.div className="relative mt-8 max-w-[30rem]" {...inFrom(0.82)}>
+            <p className="font-display text-[clamp(1.05rem,3.4vw,1.5rem)] uppercase tracking-[0.03em] text-sand">
+              {goaHero.tripLine}
+            </p>
+            <p className="mt-1.5 font-serif text-[clamp(0.95rem,2.3vw,1.15rem)] italic text-sand/70">
+              {goaHero.tripTagline}
+            </p>
+          </motion.div>
         </div>
 
         {/* footer row */}
         <div className="mt-8 flex flex-col gap-6 sm:mt-12 sm:flex-row sm:items-end sm:justify-between">
-          <motion.div className="flex flex-col gap-5" {...inFrom(0.84)}>
-            <p className="font-display text-[clamp(1rem,3.6vw,1.5rem)] tracking-[0.02em] text-sand">
-              {goaHero.support}
-            </p>
-            <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-              <PlotButton
-                href={goaHero.cta.href}
-                bg="#FFF1DC"
-                fg="#1A0D0A"
-                shadow="#FF4F87"
-                event={PLOT_EVENTS.requestInvite}
-              >
-                {goaHero.cta.label}
-              </PlotButton>
-              <Note className="block text-[1.25rem] text-[#FFE9A8]" rotate={-4}>
-                {goaHero.annotation}
-              </Note>
-            </div>
+          <motion.div className="flex flex-wrap items-center gap-x-5 gap-y-3" {...inFrom(0.9)}>
+            <PlotButton
+              href={goaHero.cta.href}
+              bg="#FFF1DC"
+              fg="#1A0D0A"
+              shadow="#FF4F87"
+              event={PLOT_EVENTS.requestInvite}
+            >
+              {goaHero.cta.label}
+            </PlotButton>
+            <Note className="block text-[1.25rem] text-[#FFE9A8]" rotate={-4}>
+              {goaHero.annotation}
+            </Note>
           </motion.div>
 
           <motion.a
