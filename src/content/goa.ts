@@ -578,18 +578,21 @@ export const homeBase = {
  * content/site.ts (pricing.revealed is false, amount is ""), not in the terms
  * page, which states outright that price and cancellation aren't final.
  *
- * A plausible-looking number here would be an invented commitment on a page
- * that asks for a phone number, so the row renders `pending` instead and
- * points at WhatsApp. Set `confirmed: true` and fill `amount` when it's real.
+ * CONFIRMED 4 SEPTEMBER 2026. The price is public — it is on the Journey 00
+ * performance creative — so the site states it rather than deferring to a DM.
+ * It is a FROM price and is labelled as one.
  *
- * NOTE FOR WHOEVER SETS IT: the reward pool already promises ₹1,000 / ₹2,500 /
- * ₹5,000 off (content/rewards.ts) and those emails are already going out. The
- * price has to make those discounts sane.
+ * THE REWARD POOL STILL HAS TO MAKE SENSE AGAINST IT. content/rewards.ts
+ * promises ₹1,000 / ₹2,500 / ₹5,000 off and those emails are already going
+ * out. Against ₹14,999 the top reward is a third off, taking a seat to
+ * ₹9,999. That is survivable at its 1-4% draw rate, but it is a real
+ * commitment to anyone holding one and should be a deliberate decision rather
+ * than an inherited default.
  */
 export const price = {
-  confirmed: false,
-  amount: "",
-  note: "",
+  confirmed: true,
+  amount: "FROM ₹14,999 / PERSON",
+  note: "Flights, alcohol and personal spends aren't in it.",
   pending: "ANNOUNCED SOON",
   pendingNote: "Ask us for the number before it's public.",
 } as const;
@@ -597,14 +600,38 @@ export const price = {
 /**
  * INCLUSIONS / EXCLUSIONS.
  *
- * Same rule as the price: nothing is recorded in this project, so nothing is
- * listed. Populate both arrays and flip `confirmed` — the section renders the
- * two columns automatically and hides the placeholder.
+ * CONFIRMED 4 SEPTEMBER 2026, and deliberately explicit on both sides. Open
+ * jeeps are listed under NOT INCLUDED rather than omitted: they appear in the
+ * Journey 00 story and content, so a reader could reasonably assume they are
+ * covered. Naming them costs one line and prevents a dispute on the trip.
  */
 export const inclusions = {
-  confirmed: false,
-  included: [] as string[],
-  excluded: [] as string[],
+  confirmed: true,
+  included: [
+    "3 nights at 4-star properties",
+    "Breakfast every day",
+    "One hosted lunch",
+    "White Flamingo yacht party",
+    "Bollywood After Dark",
+    "Club hopping",
+    "South Goa, all day",
+    "Chapora Fort",
+    "Waterfall experiences",
+    "Beach experiences",
+    "Café hopping",
+    "Local trip transfers",
+    "Plot Twist hosts throughout",
+    "Spontaneous moments and surprises",
+  ] as string[],
+  excluded: [
+    "Flights",
+    "Alcohol and personal drinks",
+    "Shopping and personal expenses",
+    "Additional meals",
+    "Optional add-ons, including open jeeps",
+    "Independent rentals",
+    "Travel insurance where desired or required",
+  ] as string[],
   pending: "We're finalising the full included / not-included list. Ask us and we'll send it.",
 } as const;
 

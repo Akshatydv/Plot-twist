@@ -284,7 +284,7 @@ export const JOURNEY_00: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 00. The first plot — and 19 of the seats are still open.",
+  solvedBody: "Journey 00. The first plot — and 15 of the seats are still open.",
 
   rewards: {
     // The same eight rewards, drawn from the same table. This is one reward
