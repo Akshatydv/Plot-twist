@@ -84,6 +84,19 @@ export function ApplicationForm({
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error" | "duplicate">("idle");
   const [serverError, setServerError] = useState<string | null>(null);
+  /**
+   * A failed "Next" used to be completely invisible.
+   *
+   * next() set the field errors and returned — no scroll, no focus, no message
+   * anywhere near the control that was just pressed. On a phone the button sits
+   * below five stacked fields, so the only thing that changed was 300-500px
+   * above the thumb, often off-screen entirely. Thumb on the button, eyes on
+   * the button: the tap did nothing. That is exactly what it was reported as.
+   *
+   * (submit() already scrolled back to the broken step, so the two paths
+   * disagreed about whether failure deserved feedback.)
+   */
+  const [formError, setFormError] = useState<string | null>(null);
   const startedRef = useRef(false);
   const headingRef = useRef<HTMLDivElement>(null);
 
@@ -98,6 +111,7 @@ export function ApplicationForm({
     setValues((v) => ({ ...v, [name]: value }));
     // Clear the error the moment they start fixing it — never re-add mid-typing.
     setErrors((e) => (e[name as keyof FieldErrors] ? { ...e, [name]: undefined } : e));
+    setFormError(null);
   };
 
   const goTo = (nextStep: number) => {
@@ -109,13 +123,43 @@ export function ApplicationForm({
   const onlyReal = (found: FieldErrors) =>
     Object.fromEntries(Object.entries(found).filter(([, v]) => v)) as FieldErrors;
 
+  /**
+   * Screen order, so "the first problem" means the first one they'd read
+   * rather than whichever key the validator happened to write first.
+   */
+  const FIELD_ORDER: (keyof FieldErrors)[] = [
+    "name", "instagram", "mobile", "age", "city",
+    "answer_1", "answer_2", "answer_3",
+  ];
+
+  /**
+   * Scroll to the first broken field and focus it. Focus is the important
+   * half: it moves the caret, it opens the keyboard on mobile, and it is what
+   * a screen reader announces. rAF because on the submit path the step may
+   * still be mid-render when this runs.
+   */
+  const showFirstError = (found: FieldErrors) => {
+    const first = FIELD_ORDER.find((k) => found[k]);
+    if (!first) return;
+    requestAnimationFrame(() => {
+      const el = document.getElementById(first) as HTMLInputElement | HTMLTextAreaElement | null;
+      if (!el) return;
+      el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+      el.focus({ preventScroll: true });
+    });
+  };
+
   const next = () => {
     const real = onlyReal(step === 0 ? validateBasics(values) : validateAnswers(values));
     if (Object.keys(real).length > 0) {
       setErrors(real);
+      const n = Object.keys(real).length;
+      setFormError(n === 1 ? "One thing needs fixing above." : `${n} things need fixing above.`);
+      showFirstError(real);
       return;
     }
     setErrors({});
+    setFormError(null);
     track(PLOT_EVENTS.applicationStep, { step: steps[step].n });
     goTo(step + 1);
   };
@@ -126,7 +170,10 @@ export function ApplicationForm({
       setErrors(real);
       // Send them back to whichever step actually has the problem.
       const basicsBroken = real.name || real.instagram || real.mobile || real.age || real.city;
+      const n = Object.keys(real).length;
+      setFormError(n === 1 ? "One thing needs fixing." : `${n} things need fixing.`);
       goTo(basicsBroken ? 0 : 1);
+      showFirstError(real);
       return;
     }
 
@@ -581,6 +628,17 @@ export function ApplicationForm({
               <p className="font-display text-[12px] tracking-[0.04em] text-pink">{application.scarcity}</p>
               <p className="mt-0.5 text-[11px] tracked text-ink/45">{application.disclaimer}</p>
             </div>
+          </div>
+
+          {/* Feedback at the point of interaction. The field-level errors are
+              still the detail; this exists so that pressing the button is never
+              silent, whatever is scrolled into view. */}
+          <div aria-live="assertive">
+            {formError && status !== "sending" && (
+              <Note className="mt-5 block text-[1.25rem] text-pink" rotate={-1}>
+                {formError}
+              </Note>
+            )}
           </div>
 
           <div aria-live="polite">
