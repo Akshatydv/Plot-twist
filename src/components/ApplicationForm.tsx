@@ -5,7 +5,6 @@ import type { HTMLAttributes } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { application } from "@/content/site";
 import {
-  ANSWER_MIN,
   normaliseInstagram,
   validateAnswers,
   validateBasics,
@@ -505,7 +504,6 @@ export function ApplicationForm({
               >
                 {application.questions.map((q) => {
                   const err = errors[q.name as keyof FieldErrors];
-                  const len = values[q.name].trim().length;
                   return (
                     <div key={q.name}>
                       <div className="flex items-baseline gap-4">
@@ -535,15 +533,9 @@ export function ApplicationForm({
                           err ? "border-pink" : "border-ink/30 focus:border-pink"
                         }`}
                       />
-                      <div className="mt-1.5 flex items-baseline justify-between gap-4">
+                      <div className="mt-1.5">
                         <span id={`${q.name}-error`}>
                           <FieldError message={err} />
-                        </span>
-                        <span
-                          className="shrink-0 font-display text-[11px] tracking-[0.06em]"
-                          style={{ color: len >= ANSWER_MIN ? "#1f7a45" : "rgba(26,13,10,0.35)" }}
-                        >
-                          {len >= ANSWER_MIN ? "✓" : `${len}/${ANSWER_MIN}`}
                         </span>
                       </div>
                     </div>

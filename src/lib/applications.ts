@@ -36,8 +36,14 @@ export function isKnownJourney(value: unknown): boolean {
 export const AGE_MIN = 18;
 export const AGE_MAX = 30;
 
-/** Long enough to rule out "idk lol", short enough not to be a chore. */
-export const ANSWER_MIN = 40;
+/**
+ * There is no minimum any more.
+ *
+ * A character counter on a question like "what are you bringing to the plot?"
+ * turns an invitation to be interesting into a word-count exercise, and the
+ * best possible answer to that question is four words long. Empty is still
+ * rejected; length is no longer anybody's problem.
+ */
 /** Not a UX limit — a backstop against someone pasting megabytes into a textarea. */
 export const ANSWER_MAX = 1200;
 
@@ -187,7 +193,6 @@ export function validateAnswers(input: Partial<ApplicationInput>): FieldErrors {
   for (const key of ANSWER_KEYS) {
     const value = String(input[key] ?? "").trim();
     if (!value) errors[key] = "This one's not optional.";
-    else if (value.length < ANSWER_MIN) errors[key] = `A bit more than that — ${ANSWER_MIN - value.length} characters to go.`;
     else if (value.length > ANSWER_MAX) errors[key] = "Okay, that's a novel. Trim it down.";
   }
   return errors;
