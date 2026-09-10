@@ -71,7 +71,15 @@ export function ContactTeaCup() {
   return (
     <div
       ref={wrapRef}
-      className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6"
+      /*
+        `pt-teacup` is a hook, not a style: it carries no rules of its own here.
+        A page that puts a fixed bar along the bottom edge — currently only the
+        EDC page's mobile CTA — needs to lift the cup clear of it, and this is
+        what that rule targets. See the `--edc-sticky-lift` block in
+        globals.css. Nothing changes on the Goa or Bali pages, which never set
+        the variable.
+      */
+      className="pt-teacup fixed bottom-4 right-4 z-50 transition-transform duration-300 ease-out sm:bottom-6 sm:right-6"
       style={{ paddingBottom: "env(safe-area-inset-bottom)", paddingRight: "env(safe-area-inset-right)" }}
     >
       <div className="relative">

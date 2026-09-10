@@ -46,7 +46,18 @@ export type LadderRung = {
  * removed by it: every clue, rung, hotspot and reward stays in the repo and
  * stays live on Journey 01.
  */
-export type JourneyPageVariant = "mystery" | "reveal";
+/**
+ * "edc" is the third posture, and it is a genuine redesign rather than a
+ * destination: the page is built around an embedded, unmodified official
+ * festival video, runs on a near-black neon canvas, and re-reads the site's
+ * own devices as festival credentials (set-time board, ticket stub,
+ * countdown). See components/edc/EdcPage.tsx and content/thailand.ts.
+ *
+ * It is named and switched on explicitly here for exactly the reason
+ * "reveal" is — so a new composition is a typed variant, never a quiet fork
+ * inside a component.
+ */
+export type JourneyPageVariant = "mystery" | "reveal" | "edc";
 
 export type JourneyConfig = {
   /** The stored id. Written to every application row and every analytics event. */
@@ -55,6 +66,31 @@ export type JourneyConfig = {
   slug: string;
   /** Human label for the admin filter. */
   displayName: string;
+
+  /**
+   * HOW THIS JOURNEY APPEARS IN THE MASTHEAD MENU.
+   *
+   * Optional: a journey with no `nav` is simply not offered in the menu, which
+   * is the right default for anything unlaunched or retired.
+   *
+   * ─── A WARNING BEFORE YOU SET THIS ON A MYSTERY JOURNEY ────────────────────
+   * `label` is rendered in plain sight, on every page, to every visitor. On a
+   * journey running `pageVariant: "mystery"` the whole product is that the
+   * destination is WITHHELD until someone earns it through five clues and a
+   * guess — so putting that destination in the menu hands out the answer for
+   * free and quietly kills the hunt.
+   *
+   * The build-time invariant in index.ts cannot catch this: it guards clue and
+   * hero copy, not navigation. It is a judgement call, and it is deliberately
+   * one field so it can be reversed in one word (see JOURNEY_01, where the
+   * trade-off is spelled out).
+   */
+  nav?: {
+    /** The line the visitor reads. */
+    label: string;
+    /** The small line above it — what kind of trip this is. */
+    kicker: string;
+  };
   /** Which page composition this journey renders. Defaults to "mystery". */
   pageVariant?: JourneyPageVariant;
   /**

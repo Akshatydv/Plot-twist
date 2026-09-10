@@ -131,3 +131,323 @@ body {
   overscroll-behavior-x: contain;
 }
 .snap-x-strip > * { scroll-snap-align: center; }
+
+
+/* ================================================================== */
+/* JOURNEY 02 — EDC THAILAND                                           */
+/*                                                                     */
+/* Scoped under `.edc`. Nothing here can reach the Goa or Bali pages:  */
+/* they never carry the class.                                         */
+/*                                                                     */
+/* --- THE PALETTE, AND WHY IT IS ONE ARC --------------------------   */
+/* An earlier version ran cyan against hot pink on pure black. It did  */
+/* not gel, and the reason is structural rather than a matter of       */
+/* taste: cyan and pink sit on opposite sides of the wheel with        */
+/* nothing between them, so on a neutral black canvas they read as two */
+/* unrelated light sources fighting rather than as one lit environment.*/
+/*                                                                     */
+/* This palette is a SINGLE CONTINUOUS ARC instead:                    */
+/*                                                                     */
+/*     violet  ->  magenta  ->  blush                                  */
+/*     #8B3DFF     #FF2E7E     #FF7FA8                                 */
+/*                                                                     */
+/* Every hue is adjacent to the next, so any two of them together read */
+/* as the same stage lit from two angles. That is what a mainstage at  */
+/* night actually looks like — warm light punching through violet haze */
+/* — and it is why this version buzzes where the cyan version clanged. */
+/*                                                                     */
+/* A GOLD STEP WAS TRIED AND CUT. #FFC93C read as ugly against this    */
+/* footage, and the reason is that the video itself has no yellow in   */
+/* it — EDC after dark is violet, magenta and lilac light on skin      */
+/* tones. Gold sat OUTSIDE the environment instead of inside it, so no */
+/* amount of tuning made it belong. The arc is now narrow on purpose:  */
+/* three neighbouring hues, all of which appear in the footage.        */
+/*                                                                     */
+/* THE BRIGHTEST THING ON THE PAGE IS NOT A COLOUR. Where a line needs */
+/* maximum emphasis — the EDC lockup, the payoff line, the countdown — */
+/* the type is set in SAND (#FFF1DC) with a magenta/violet bloom       */
+/* behind it. That is how festival signage actually reads: white-hot   */
+/* type with coloured light spilling off it. It cannot clash with the  */
+/* footage, and it stays the loudest element in any frame.             */
+/*                                                                     */
+/* #FF2E7E is a half-step off `--color-pink` from the theme block at   */
+/* the top of this file, so the page still belongs to the same brand.  */
+/*                                                                     */
+/* The canvas is deliberately NOT neutral black. #0A0414 is a violet-  */
+/* black, so the darkness itself belongs to the arc and the accents    */
+/* sit inside the environment rather than on top of it.                */
+/*                                                                     */
+/* NO COOL ACCENT, AND NO WARM ONE EITHER. There is no cyan, no blue,  */
+/* no acid green, no gold and no orange anywhere on this page. One     */
+/* narrow arc, no exceptions — every clash this page has had came from */
+/* adding a fourth hue outside it.                                     */
+/*                                                                     */
+/* --- THE ONE COLOUR RULE -----------------------------------------   */
+/* --edc-violet is a LIGHT SOURCE, never a text colour: #8B3DFF on the */
+/* canvas is ~3.6:1 and fails AA for body copy. Type is only ever set  */
+/* in magenta (~5.3:1), blush (~8.6:1) or sand (~17:1).                */
+/* ================================================================== */
+
+.edc {
+  --edc-void: #0a0414;
+  --edc-deep: #170727;
+  --edc-panel: #1a0a2e;
+  --edc-violet: #8b3dff;
+  --edc-hot: #ff2e7e;
+  --edc-blush: #ff7fa8;
+  --edc-chrome: #d6cfe6;
+  background: var(--edc-void);
+  color: #fff1dc;
+}
+
+/* Tiny technical type — set times, coordinates, credential fields.
+   Never larger than 11px, which is what keeps it reading as machine
+   print beside the display type rather than as a second heading. */
+.edc-meta {
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--edc-chrome);
+  opacity: 0.7;
+}
+
+/* A hairline of stage light. The page's only rule style. */
+.edc-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--edc-violet), var(--edc-hot), transparent);
+  opacity: 0.6;
+}
+
+/* ---------- the light plane ----------
+   ONE per section, blended screen so it ADDS light rather than painting
+   over the footage. It runs the full arc across its own width — violet
+   at the leading edge, magenta through the middle, gold trailing — so a
+   single sweep restates the whole palette every time it crosses.
+   Transform-only, so it never triggers layout, and never positioned
+   where it would cross running text. */
+.edc-sweep {
+  position: absolute;
+  top: -30%;
+  bottom: -30%;
+  width: 52vw;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: skewX(-14deg);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 61, 255, 0.2) 28%,
+    rgba(255, 46, 126, 0.22) 50%,
+    rgba(255, 127, 168, 0.12) 70%,
+    transparent 100%
+  );
+  animation: edc-sweep 14s cubic-bezier(0.4, 0, 0.35, 1) infinite;
+}
+.edc-sweep--slow {
+  animation-duration: 22s;
+  opacity: 0.75;
+}
+@keyframes edc-sweep {
+  0% { transform: translate3d(-70vw, 0, 0) skewX(-14deg); }
+  100% { transform: translate3d(150vw, 0, 0) skewX(-14deg); }
+}
+
+/* ---------- haze ----------
+   The bloom behind headline type. Static: a moving glow under text is
+   the fastest way to make a page unreadable. Violet, because lighting
+   is the one job violet is allowed to do here. */
+.edc-haze {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(139, 61, 255, 0.55), rgba(139, 61, 255, 0) 72%);
+  filter: blur(20px);
+}
+.edc-haze--hot {
+  background: radial-gradient(closest-side, rgba(255, 46, 126, 0.48), rgba(255, 46, 126, 0) 72%);
+}
+
+/* ---------- the credential ----------
+   Translucent laminate: violet-black stock, a warm edge, and a foil
+   sheen running the arc diagonally across it. */
+.edc-holo {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(139, 61, 255, 0.15) 0%, rgba(255, 46, 126, 0.09) 48%, rgba(255, 127, 168, 0.06) 100%),
+    rgba(26, 10, 46, 0.86);
+  border: 1px solid rgba(255, 46, 126, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+.edc-holo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background: linear-gradient(
+    115deg,
+    transparent 34%,
+    rgba(255, 127, 168, 0.11) 46%,
+    rgba(255, 46, 126, 0.11) 52%,
+    transparent 63%
+  );
+}
+
+/* Glow behind display type. A bloom on the glyph itself is what makes
+   neon type illegible at small sizes, so these stay on the big lines. */
+.edc-glow-hot {
+  text-shadow: 0 0 26px rgba(255, 46, 126, 0.62), 0 0 70px rgba(139, 61, 255, 0.45);
+}
+/* The maximum-emphasis treatment: sand type, magenta-into-violet bloom.
+   Used on the EDC lockup, the payoff line and the countdown, and nowhere
+   else — it stops being the loudest thing if everything wears it. */
+.edc-glow-max {
+  text-shadow: 0 0 18px rgba(255, 241, 220, 0.35), 0 0 46px rgba(255, 46, 126, 0.75),
+    0 0 96px rgba(139, 61, 255, 0.6);
+}
+
+/* ---------- the ticket edge ---------- */
+.edc-perf {
+  height: 10px;
+  background-image: radial-gradient(circle at 5px 5px, var(--edc-void) 4.5px, transparent 5px);
+  background-size: 14px 10px;
+  background-repeat: repeat-x;
+}
+
+/* ---------- live grain ----------
+   The site's existing .grain, given a sub-pixel step so it shimmers the
+   way projected haze does. steps() not a smooth ease: film grain jumps. */
+.edc-grain-live::after {
+  animation: edc-grain 0.8s steps(8) infinite;
+}
+@keyframes edc-grain {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-2%, 1%, 0); }
+  40% { transform: translate3d(1%, -2%, 0); }
+  60% { transform: translate3d(-1%, -1%, 0); }
+  80% { transform: translate3d(2%, 1%, 0); }
+}
+
+/* Reduced motion kills every light in the building. The global rule at
+   the top of this file already zeroes durations; this parks the sweep
+   somewhere that still looks composed rather than off-screen. */
+@media (prefers-reduced-motion: reduce) {
+  .edc-sweep {
+    animation: none;
+    transform: translate3d(24vw, 0, 0) skewX(-14deg);
+  }
+  .edc-grain-live::after {
+    animation: none;
+  }
+}
+
+/* The tea cup is `fixed ... z-50` bottom-right on every page. The EDC page
+   puts a sticky CTA bar along the bottom edge on mobile, which would sit
+   directly under it — two overlapping fixed elements in a phone's corner.
+
+   StickyCta sets --edc-sticky-lift on <html> while the bar is up, so the cup
+   rides above it and drops back when the bar leaves. Scoped to the variable
+   rather than to a page class because the cup renders outside <main>, and no
+   other page ever sets it. */
+.pt-teacup {
+  transform: translateY(calc(-1 * var(--edc-sticky-lift, 0px)));
+}
+
+/* ================================================================== */
+/* THE BEAT                                                            */
+/*                                                                     */
+/* The page has to feel like music is playing WITHOUT playing any. No  */
+/* page on this site plays audio at a visitor, and a festival page is  */
+/* the most tempting and the worst place to break that.                */
+/*                                                                     */
+/* So the room pulses instead of the speakers. One tempo, stated once  */
+/* here and used by everything that moves:                             */
+/*                                                                     */
+/*     --edc-bpm-bar: 1.85s  ≈ one 4-beat bar at ~130 BPM              */
+/*                                                                     */
+/* Everything on the beat runs on a MULTIPLE of that value, so the     */
+/* haze, the LED strip and the stickers are all locked to the same     */
+/* grid rather than drifting against each other. Two elements pulsing  */
+/* at unrelated speeds reads as broken; locked, it reads as a room.    */
+/*                                                                     */
+/* WHAT IS ALLOWED TO PULSE: light — haze, glow, the LED strip.        */
+/* WHAT IS NOT: text, photographs, panels, buttons, or anything a      */
+/* visitor is reading. A throbbing paragraph is unreadable and a       */
+/* throbbing button is a dark pattern.                                 */
+/* ================================================================== */
+
+.edc {
+  --edc-bpm-bar: 1.85s;
+}
+
+@keyframes edc-beat {
+  0%, 100% { opacity: 0.62; transform: scale(1); }
+  8% { opacity: 1; transform: scale(1.045); }
+  30% { opacity: 0.72; transform: scale(1.01); }
+  50% { opacity: 0.92; transform: scale(1.03); }
+  72% { opacity: 0.68; transform: scale(1.005); }
+}
+
+/* Every section's bloom breathes on the bar. `.edc-haze` already sits behind
+   headline type in each section, so this costs no new elements. */
+.edc-haze {
+  animation: edc-beat var(--edc-bpm-bar) ease-in-out infinite;
+  will-change: opacity, transform;
+}
+
+/* ---------- the LED strip ----------
+   A venue ribbon along the very top edge of the viewport, present on every
+   section, fixed so it never scrolls away. Two layers: a base wash that
+   breathes on the bar, and a highlight that travels across it on a four-bar
+   loop. It is 2px tall — enough to register as "the room is lit", not enough
+   to be a UI element.
+
+   Top edge rather than bottom on purpose: the bottom of the viewport belongs
+   to the mobile sticky CTA and the tea cup, and three fixed things stacked in
+   one corner is how a phone screen gets unusable. */
+.edc-led {
+  position: fixed;
+  inset-inline: 0;
+  top: 0;
+  height: 2px;
+  z-index: 45;
+  pointer-events: none;
+  background: linear-gradient(90deg, #8b3dff, #ff2e7e, #ff7fa8, #ff2e7e, #8b3dff);
+  animation: edc-beat var(--edc-bpm-bar) ease-in-out infinite;
+}
+.edc-led::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, rgba(255, 241, 220, 0.95), transparent);
+  animation: edc-led-travel calc(var(--edc-bpm-bar) * 4) linear infinite;
+}
+@keyframes edc-led-travel {
+  from { transform: translateX(-120%); }
+  to { transform: translateX(560%); }
+}
+
+/* ---------- stickers ----------
+   The idle wobble is deliberately OFF the beat grid and very slow. A sticker
+   ticking in time with the lights would read as one more animated element in
+   a busy page; drifting slightly out of time is what makes it read as a
+   physical thing someone stuck on. */
+@keyframes edc-sticker-idle {
+  0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); }
+  50% { transform: rotate(calc(var(--r, 0deg) + 1.4deg)) translateY(-3px); }
+}
+.edc-sticker-idle {
+  animation: edc-sticker-idle 6.4s ease-in-out infinite;
+}
+
+/* Nothing above survives reduced motion. A page that pulses at ~130 BPM is
+   exactly what that setting exists to switch off. */
+@media (prefers-reduced-motion: reduce) {
+  .edc-haze,
+  .edc-led,
+  .edc-led::after,
+  .edc-sticker-idle {
+    animation: none !important;
+  }
+  .edc-led { opacity: 0.7; }
+}

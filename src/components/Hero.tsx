@@ -5,7 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { brand, hero } from "@/content/site";
 import { INTERNATIONAL_JOURNEY } from "@/content/journeys";
 import { useJourney } from "./mystery/JourneyProvider";
-import { Logo } from "./Logo";
+import { JourneyMenu } from "./JourneyMenu";
 import { SunsetBackdrop } from "./SunsetBackdrop";
 import { Note, PlotButton } from "./Bits";
 import { PLOT_EVENTS } from "@/lib/analytics";
@@ -34,7 +34,9 @@ export function Hero() {
         {/* masthead */}
         <header className="flex items-start justify-between gap-4">
           <motion.div {...inFrom(0.05)}>
-            <Logo className="text-[15px] sm:text-[19px]" />
+            {/* The mark is the menu — see components/JourneyMenu.tsx for why the
+                navigation lives here rather than in a nav bar. */}
+            <JourneyMenu tone="warm" />
           </motion.div>
           <motion.div className="pt-2 text-right" {...inFrom(0.18)}>
             <div className="flex flex-wrap justify-end gap-x-2 gap-y-1 text-[10px] tracked text-sand/80 sm:text-[11px]">

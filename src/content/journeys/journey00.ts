@@ -42,6 +42,8 @@ export const JOURNEY_00: JourneyConfig = {
   id: "JOURNEY 00",
   slug: "00",
   displayName: "Journey 00",
+  /** The reveal page — Goa is stated in its own hero, so naming it costs nothing. */
+  nav: { label: "GOA", kicker: "JOURNEY 00 · OCTOBER 2026" },
   campaignId: "journey00_launch",
   /**
    * Goa is stated outright — see content/goa.ts for the page this renders.

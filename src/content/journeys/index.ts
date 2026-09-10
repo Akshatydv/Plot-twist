@@ -8,12 +8,13 @@
 
 import { JOURNEY_00 } from "./journey00";
 import { JOURNEY_01 } from "./journey01";
+import { JOURNEY_02 } from "./journey02";
 import type { JourneyConfig, JourneyId } from "./types";
 
 export type { JourneyConfig, JourneyId, JourneyPageVariant, LadderRung } from "./types";
 
 /** Newest first — the order the admin dropdown shows. */
-export const JOURNEYS: JourneyConfig[] = [JOURNEY_01, JOURNEY_00];
+export const JOURNEYS: JourneyConfig[] = [JOURNEY_02, JOURNEY_01, JOURNEY_00];
 
 /**
  * What `/` renders, and what a submission with no journey falls back to.
@@ -29,6 +30,29 @@ export const DEFAULT_JOURNEY = JOURNEY_00;
  * journey if the roster or the default ever changes again.
  */
 export const INTERNATIONAL_JOURNEY = JOURNEY_01;
+
+/**
+ * WHERE A JOURNEY LIVES.
+ *
+ * The default journey owns "/" and every other one lives at /journey/<slug> —
+ * see the redirect in app/journey/[journey]/page.tsx, which is keyed off the
+ * same constant. Deriving the URL here rather than hardcoding it in the menu
+ * means the day the default changes, every link follows.
+ */
+export function journeyHref(journey: JourneyConfig): string {
+  return journey.id === DEFAULT_JOURNEY.id ? "/" : `/journey/${journey.slug}`;
+}
+
+/**
+ * THE MASTHEAD MENU'S CONTENTS — every journey that has opted in via `nav`,
+ * minus the one you are already looking at.
+ *
+ * Derived from the registry, so launching Journey 03 puts it in the menu on
+ * every page with no component change, and retiring one removes it everywhere.
+ */
+export function otherJourneys(currentId: string | null | undefined): JourneyConfig[] {
+  return JOURNEYS.filter((j) => j.nav && j.id !== currentId);
+}
 
 export function journeyById(id: string | null | undefined): JourneyConfig | null {
   if (!id) return null;

@@ -16,17 +16,21 @@ import { ClueTracker } from "@/components/mystery/ClueTracker";
 import { PlotDebug } from "@/components/mystery/PlotDebug";
 import { DestinationGuess } from "@/components/mystery/DestinationGuess";
 import { GoaPage } from "@/components/goa/GoaPage";
+import { EdcPage } from "@/components/edc/EdcPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
  * ONE PAGE PER VARIANT, EVERY JOURNEY.
  *
- * A journey renders one of two compositions, chosen by `pageVariant`:
+ * A journey renders one of three compositions, chosen by `pageVariant`:
  *
  *   "mystery" (below) — the original. Destination withheld, five clues hidden
  *                       down the page, a guess box, a reward. Journey 01.
  *   "reveal"          — destination stated, the four days are the story.
  *                       Journey 00 / Goa. See components/goa/GoaPage.tsx.
+ *   "edc"             — the festival page. Built around an embedded official
+ *                       festival video on a near-black neon canvas.
+ *                       Journey 02 / EDC Thailand. See components/edc/EdcPage.tsx.
  *
  * This used to say that a journey needing different sections is a redesign
  * rather than a destination, and that is still true — which is exactly why the
@@ -39,6 +43,25 @@ import type { JourneyConfig } from "@/content/journeys";
  * analytics journey id work the same on either page.
  */
 export function JourneyPage({ journey }: { journey: JourneyConfig }) {
+  /*
+    THE FESTIVAL PAGE — Journey 02. Same wrapper contract as the reveal page
+    below: JourneyProvider carries the destination-shaped values into the
+    shared casting board and tea cup, and PlotProvider owns the analytics
+    journey id, campaign attribution and the page_view signal that
+    ApplicationForm reads. Neither is optional, even though nothing on this
+    page hunts a clue — dropping PlotProvider would silently break attribution
+    on a page taking paid traffic.
+  */
+  if (journey.pageVariant === "edc") {
+    return (
+      <JourneyProvider journey={journey}>
+        <PlotProvider>
+          <EdcPage />
+        </PlotProvider>
+      </JourneyProvider>
+    );
+  }
+
   if (journey.pageVariant === "reveal") {
     return (
       <JourneyProvider journey={journey}>

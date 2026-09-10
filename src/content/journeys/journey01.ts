@@ -19,6 +19,24 @@ export const JOURNEY_01: JourneyConfig = {
   id: "JOURNEY 01",
   slug: "01",
   displayName: "Journey 01",
+  /**
+   * ─── THIS ONE IS A DELIBERATE TRADE-OFF, NOT AN OVERSIGHT ──────────────────
+   * Journey 01 runs the MYSTERY variant: its destination is withheld, and a
+   * visitor is meant to earn it through five clues and a guess. Naming Bali in
+   * a menu that renders on every page hands that answer out for free, to
+   * everyone, before they have scrolled anything.
+   *
+   * It is named anyway, on the site owner's instruction (11 September 2026):
+   * the menu's job is to move cold traffic between three live trips, and an
+   * entry reading "JOURNEY 01" tells a first-time visitor nothing about
+   * whether they want to click it.
+   *
+   * IF THE HUNT MATTERS MORE THAN THE NAVIGATION, this is a one-word fix:
+   * change `label` to "SOMEWHERE WARM", or delete this `nav` block entirely to
+   * take the journey out of the menu. Nothing else needs to change — every
+   * clue, rung, hotspot and reward is untouched by it.
+   */
+  nav: { label: "BALI", kicker: "JOURNEY 01 · THE MYSTERY ONE" },
   campaignId: "journey01_launch",
   storageKey: "plottwist.plot.v3",
 

@@ -56,6 +56,29 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${dm.variable} ${anton.variable} ${marker.variable} ${caveat.variable} ${instrument.variable}`}>
       <head>
+        {/*
+          The Journey 02 hero plays official festival footage from YouTube's
+          embed player, and the single biggest component of "the video takes
+          too long" is the DNS + TLS handshake to four separate Google hosts
+          before a byte of video moves. Warming them here buys roughly a
+          round-trip each, on every connection, before the player asks.
+
+          These are hints, not requests: on the pages that don't embed
+          anything they cost one idle socket and nothing else.
+        */}
+        <link rel="preconnect" href="https://www.youtube.com" />
+        <link rel="preconnect" href="https://i.ytimg.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://googlevideo.com" />
+        {/*
+          The player boots in three serial steps — fetch iframe_api.js, fetch
+          the player bundle it pulls in, then fetch the video itself. Nothing
+          can start until the first one lands, so it is fetched at high
+          priority alongside the document rather than discovered later by a
+          script the browser has not parsed yet.
+        */}
+        <link rel="preload" as="script" href="https://www.youtube.com/iframe_api" />
+
         {/* One instance, root layout only — every route (/, /journey/*, /admin/*, /privacy, /terms) mounts this exactly once. */}
         <GoogleAnalytics />
       </head>
