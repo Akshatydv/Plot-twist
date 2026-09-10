@@ -6,3 +6,11 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# netlify/functions is Netlify's default, but it is stated here so that the
+# scheduled keep-db-awake function is visibly part of the deploy rather than
+# something picked up by convention. See netlify/functions/keep-db-awake.mts —
+# it is the only thing standing between a quiet week and Supabase pausing the
+# project again, which is what broke every application submit on 9 Sep 2026.
+[functions]
+  directory = "netlify/functions"
