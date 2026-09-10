@@ -134,13 +134,18 @@ export function ApplicationForm({
   /**
    * Scroll to the first broken field and focus it. Focus is the important
    * half: it moves the caret, it opens the keyboard on mobile, and it is what
-   * a screen reader announces. rAF because on the submit path the step may
-   * still be mid-render when this runs.
+   * a screen reader announces.
+   *
+   * Deferred with setTimeout rather than requestAnimationFrame. Both wait long
+   * enough for React to commit the step change, but rAF additionally waits for
+   * a PAINT -- and a tab that is not compositing never paints, so the focus
+   * move silently never happened. Moving focus is an accessibility behaviour
+   * and must not depend on the compositor.
    */
   const showFirstError = (found: FieldErrors) => {
     const first = FIELD_ORDER.find((k) => found[k]);
     if (!first) return;
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       const el = document.getElementById(first) as HTMLInputElement | HTMLTextAreaElement | null;
       if (!el) return;
       el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
