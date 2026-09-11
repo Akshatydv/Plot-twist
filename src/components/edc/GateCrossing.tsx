@@ -34,11 +34,11 @@ import { HouseFlash, LaserFan, ScanSheets, StageLights } from "./StageLights";
  * an inner `sticky` screen holds still while you move through it. Everything
  * derives from one `useScroll` progress value, 0 → 1:
  *
- *     0.00  gates shut, one seam of light, reader waiting
- *     0.22  reader reads
- *     0.20  the leaves begin to part
+ *     0.00  gates shut, one seam of light, the board reads SCAN TO ENTER
+ *     0.20  the halves begin to part
+ *     0.22  the board reads READING
  *     0.40  the wash rig strikes, one pair at a time — the build
- *     0.44  ACCESS GRANTED
+ *     0.44  the board reads ACCESS GRANTED
  *     0.58  THE DROP: house flash and the whole laser fan on one frame
  *     0.72  confetti
  *     0.85  YOU'RE IN.
@@ -78,7 +78,19 @@ export function GateCrossing() {
   const beyondOpacity = useTransform(scrollYProgress, [0.15, 0.6], [0.35, 1]);
 
   // The signage on the closed gates goes as the gates go.
-  const signOpacity = useTransform(scrollYProgress, [0, 0.3, 0.5], [1, 1, 0]);
+  // The board holds longer than the gates now that it carries the scan state —
+  // ACCESS GRANTED has to be readable before the signage clears.
+  const signOpacity = useTransform(scrollYProgress, [0, 0.5, 0.62], [1, 1, 0]);
+
+  /*
+    The three scan windows barely overlap — 0.03 of crossfade. They used to
+    overlap by 0.06, which looked fine in the abstract and was unreadable in
+    practice: three different-length strings stacked at one position, two of
+    them half-visible, reading as "READING GRANTED".
+  */
+  const waiting = useTransform(scrollYProgress, [0, 0.19, 0.22], [1, 1, 0]);
+  const reading = useTransform(scrollYProgress, [0.22, 0.25, 0.41, 0.44], [0, 1, 1, 0]);
+  const granted = useTransform(scrollYProgress, [0.44, 0.47, 1], [0, 1, 1]);
 
   // The payoff arrives last and stays.
   const payoffOpacity = useTransform(scrollYProgress, [0.68, 0.88], [0, 1]);
@@ -202,12 +214,30 @@ export function GateCrossing() {
             <span className="font-display text-[clamp(1rem,3.4vw,1.7rem)] uppercase tracking-[0.22em] text-sand">
               {crossing.gateMark}
             </span>
-            <span className="edc-meta !text-[9px]">{crossing.approach}</span>
+            {/*
+              The scan state lives on the sign board now.
+
+              It used to be its own lit box floating dead centre, which put a
+              second piece of furniture directly over the owl's face and left
+              people asking what the badge was for. The board already says SCAN
+              TO ENTER; the state of that scan belongs on the same sign, not on
+              a competing one.
+            */}
+            <span className="relative block h-4 w-full">
+              <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: waiting }}>
+                <span className="edc-meta !text-[9px]">{crossing.approach}</span>
+              </motion.span>
+              <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: reading }}>
+                <span className="edc-meta !text-[9px]">{crossing.scan.reading}</span>
+              </motion.span>
+              <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: granted }}>
+                <span className="edc-meta !text-[9px]" style={{ color: "#FF2E7E", opacity: 1 }}>
+                  {crossing.scan.granted}
+                </span>
+              </motion.span>
+            </span>
           </span>
         </motion.div>
-
-        {/* ---------- the wristband reader ---------- */}
-        <ScanReader progress={scrollYProgress} />
 
         {/*
           A dark pool under the payoff.
@@ -245,77 +275,5 @@ export function GateCrossing() {
         </motion.div>
       </div>
     </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-
-/**
- * The reader bolted to the gate, stepping through its three states as you
- * approach. It is deliberately NOT interactive: this one scans you because you
- * arrived, which is what a gate reader does. The wristband you can actually
- * play with lives further down the page.
- */
-function ScanReader({ progress }: { progress: ReturnType<typeof useScroll>["scrollYProgress"] }) {
-  /*
-    The three windows barely overlap — 0.03 of crossfade, about 15px of scroll.
-
-    They used to overlap by 0.06 each, which looked fine in the abstract and
-    was unreadable in practice: three different-length strings stacked at the
-    same position, two of them half-visible, reading as "READING GRANTED". A
-    reader that says two things at once is not a reader.
-  */
-  const waiting = useTransform(progress, [0, 0.19, 0.22], [1, 1, 0]);
-  const reading = useTransform(progress, [0.22, 0.25, 0.41, 0.44], [0, 1, 1, 0]);
-  const granted = useTransform(progress, [0.44, 0.47, 0.95, 1], [0, 1, 1, 0.85]);
-
-  // The scan line sweeping the reader window while it reads.
-  const lineY = useTransform(progress, [0.2, 0.48], ["-120%", "120%"]);
-  const readerGlow = useTransform(progress, [0.42, 0.52], [0.35, 1]);
-
-  return (
-    <motion.div
-      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      style={{ opacity: readerGlow }}
-      aria-hidden
-    >
-      <div className="edc-reader relative w-[168px] px-3 py-3 sm:w-[196px]">
-        {/* the reader window */}
-        <div className="relative h-10 overflow-hidden border border-sand/15 bg-[#05020c]">
-          <motion.div
-            className="absolute inset-x-0 h-6"
-            style={{
-              y: lineY,
-              background:
-                "linear-gradient(180deg, transparent, rgba(255,46,126,0.85), transparent)",
-            }}
-          />
-        </div>
-
-        {/*
-          The three states, stacked and cross-faded so the box never resizes.
-
-          Each one is a motion wrapper carrying ONLY the animated opacity, with
-          the styling on a plain child. That split is load-bearing: `edc-meta`
-          sets its own opacity and the Tailwind opacity utilities compile to
-          `!important`, either of which silently overrides framer's inline
-          style. Putting both on one element made all three states visible at
-          once — the granted line bled through the waiting one.
-        */}
-        <div className="relative mt-2.5 h-4">
-          <motion.span className="absolute inset-0" style={{ opacity: waiting }}>
-            <span className="edc-meta !text-[9px]">{crossing.scan.waiting}</span>
-          </motion.span>
-          <motion.span className="absolute inset-0" style={{ opacity: reading }}>
-            <span className="edc-meta !text-[9px]">{crossing.scan.reading}</span>
-          </motion.span>
-          <motion.span className="absolute inset-0" style={{ opacity: granted }}>
-            <span className="edc-meta !text-[9px]" style={{ color: "#FF2E7E", opacity: 1 }}>
-              {crossing.scan.granted}
-            </span>
-          </motion.span>
-        </div>
-      </div>
-    </motion.div>
   );
 }
