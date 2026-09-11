@@ -566,11 +566,21 @@ export const cast = {
  * only place Thailand-the-country gets to be beautiful without competing with
  * the festival for attention.
  *
- * Every `src` is null. See public/photos/thailand/PHOTOS.md: no Thailand
- * photograph in this repo is licensed, and sourcing one without verifying its
- * licence is exactly the mistake public/photos/goa/PHOTOS.md exists to
- * prevent. Each slot renders a designed plate carrying its own caption, the
- * same posture `homeBase` already takes on the Goa page.
+ * ─── THE PHOTOGRAPHY ────────────────────────────────────────────────────────
+ * All four slots carry licensed photographs (Pexels License — commercial use
+ * and self-hosting permitted, no attribution required). Per-file provenance,
+ * the licence check and the photographers are recorded in
+ * public/photos/thailand/PHOTOS.md.
+ *
+ * `LightPlate` still renders its designed plate for any slot set back to null,
+ * so the section cannot break while a photograph is being swapped.
+ *
+ * ─── ALT TEXT DESCRIBES THE FRAME, NOT THE TRIP ─────────────────────────────
+ * These are mood photographs, not documentation of a trip that has not
+ * happened yet. So no alt line below claims a city, a venue, or that this is
+ * where the cast will be — two of the four were not even shot in Thailand.
+ * `pass.disclaimer` says the same thing in words, at full contrast, where a
+ * visitor reads for facts.
  */
 export type Frame = {
   id: string;
@@ -592,8 +602,8 @@ export const beyond = {
   frames: [
     {
       id: "water",
-      src: null,
-      alt: "Longtail boats moored under limestone cliffs in bright midday sun",
+      src: "/photos/thailand/water.jpg",
+      alt: "A wooden longtail boat on clear emerald water beneath a limestone cliff",
       caption: "THE WATER",
       stamp: "12:40",
       note: "worth the boat.",
@@ -601,16 +611,16 @@ export const beyond = {
     },
     {
       id: "streets",
-      src: null,
-      alt: "A crowded Phuket night market, grills and neon signage",
+      src: "/photos/thailand/streets.jpg",
+      alt: "A night market seen from above, hundreds of lit stall canopies in dense rows",
       caption: "THE STREETS",
       stamp: "21:05",
       aspect: "1 / 1",
     },
     {
       id: "food",
-      src: null,
-      alt: "Street food being cooked over open flame at a roadside stall",
+      src: "/photos/thailand/food.jpg",
+      alt: "A street vendor grilling skewers over a burst of open flame after dark",
       caption: "THE FOOD",
       stamp: "23:18",
       note: "order the thing you can't pronounce.",
@@ -618,8 +628,8 @@ export const beyond = {
     },
     {
       id: "recovery",
-      src: null,
-      alt: "An empty pool in flat morning light, nobody awake yet",
+      src: "/photos/thailand/recovery.jpg",
+      alt: "An empty poolside under palms in bright morning light, loungers still folded",
       caption: "THE RECOVERY",
       stamp: "11:52",
       aspect: "3 / 2",
@@ -744,7 +754,7 @@ export const pass = {
    * See the affiliation rule at the top of this file.
    */
   disclaimer:
-    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. Video and imagery on this page is licensed stock footage — it was not shot at EDC Thailand and is not the organiser's. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
+    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. Video and photography on this page is licensed stock — it was not shot at EDC Thailand, it is not the organiser's, and it does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
   price,
   inclusions,
 } as const;

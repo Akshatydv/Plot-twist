@@ -77,35 +77,41 @@ export const JOURNEY_02: JourneyConfig = {
   story: { frames: [] },
 
   /**
-   * ─── A DELIBERATE, DOCUMENTED EXCEPTION ─────────────────────────────────
-   * Goa and Bali share no photograph. These three scraps break that rule, and
-   * the reason is licence, not laziness: there is no licensed Thailand or
-   * festival photography in this repo, and public/photos/goa/PHOTOS.md exists
-   * precisely because sourcing images without verifying their licence is how
-   * this project has previously nearly shipped a mistake.
+   * THE CASTING SCRAPS — this journey's own, at last.
    *
-   * So the casting board reuses three already-cleared night frames. They are
-   * night-energy crowd images, which is the right register for this page —
-   * but they ARE Journey 00's, and REPLACING THEM IS THE FIRST THING TO DO
-   * once real photography exists. The shot list is in
-   * public/photos/thailand/PHOTOS.md.
+   * These three used to be Journey 00's frames, borrowed because nothing
+   * licensed existed for this page. They are now three licensed photographs of
+   * their own (Pexels License; provenance in
+   * public/photos/thailand/PHOTOS.md), which restores the rule that no two
+   * journeys share a frame.
+   *
+   * Chosen as a SET, not individually: a club at eye level, a festival crowd
+   * from behind, and a room mid-dance. Three different distances from the
+   * subject, so the board reads as three moments from one night rather than
+   * three versions of the same photograph.
+   *
+   * They are night, candid and imperfect on purpose — a posed studio shot was
+   * shortlisted and rejected for exactly that reason. The Plot Twist register
+   * is a scrapbook, not a catalogue.
+   *
+   * NOBODY IN THEM IS ON THIS TRIP, and the notes are careful not to imply it.
    */
   casting: {
     stamp: "CASTING — JOURNEY 02",
     photos: [
       {
-        src: "/photos/goa/people.jpg",
-        alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
+        src: "/photos/thailand/cast-01.jpg",
+        alt: "Friends dancing together in a crowded club under blue light",
         note: "the group chat, irl",
       },
       {
-        src: "/photos/goa/plot.jpg",
-        alt: "A beach after dark, lantern-lit tables on the sand below shacks strung with lights",
+        src: "/photos/thailand/cast-02.jpg",
+        alt: "A figure with both arms raised in a festival crowd, magenta stage light behind",
         note: "04:00",
       },
       {
-        src: "/photos/plot.jpg",
-        alt: "A crowd silhouetted against a burning tropical sunset",
+        src: "/photos/thailand/cast-03.jpg",
+        alt: "People mid-dance in a dark venue strung with coloured light",
         note: "no filter",
       },
     ],
