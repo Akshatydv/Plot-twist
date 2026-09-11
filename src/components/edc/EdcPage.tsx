@@ -16,6 +16,7 @@ import { GatesOpen } from "./GatesOpen";
 import { StickyCta } from "./StickyCta";
 import { PreRegister } from "./PreRegister";
 import { Room } from "./Room";
+import { SoundDesk } from "./SoundDesk";
 
 /**
  * THE FESTIVAL PAGE — Journey 02, EDC Thailand.
@@ -87,6 +88,14 @@ export function EdcPage() {
           to the sticky CTA and the tea cup.
         */}
         <div className="edc-led" aria-hidden />
+
+        {/*
+          THE SOUND DESK — opt-in, always. Audio never starts on its own here;
+          see the component for why that is a design decision rather than a
+          browser constraint, and why the file is not even fetched until
+          somebody asks for it.
+        */}
+        <SoundDesk />
 
         <GateHero />
 

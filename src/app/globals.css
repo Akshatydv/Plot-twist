@@ -863,3 +863,81 @@ body {
   .edc .edc-fleck,
   .edc .edc-room-beat { animation: none; }
 }
+
+/* ---------- the sound desk ----------
+   One control, top-right, under the LED strip. Sits clear of the tea cup and
+   the sticky CTA, both of which own the bottom of a phone viewport. */
+.edc .edc-desk {
+  position: fixed;
+  top: 14px;
+  right: 14px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 10px;
+  border: 1px solid rgba(255, 241, 220, 0.26);
+  border-radius: 999px;
+  background: rgba(10, 4, 20, 0.72);
+  backdrop-filter: blur(10px) saturate(130%);
+  color: var(--edc-chrome);
+  cursor: pointer;
+  /* Arrives once the hero is behind you — see SoundDesk.tsx. */
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.edc .edc-desk.is-shown {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.edc .edc-desk.is-shown:hover { border-color: rgba(255, 46, 126, 0.7); transform: translateY(-1px); }
+.edc .edc-desk:focus-visible {
+  outline: 2px solid var(--edc-hot);
+  outline-offset: 3px;
+}
+.edc .edc-desk[aria-pressed="true"] {
+  border-color: rgba(255, 46, 126, 0.75);
+  color: var(--edc-sand, #fff1dc);
+  box-shadow: 0 0 22px rgba(255, 46, 126, 0.35);
+}
+.edc .edc-desk-label {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* The meter reports the real state: the bars are flat until audio is actually
+   playing, so the control can never claim to be on when it is not. */
+.edc .edc-desk-eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.edc .edc-desk-eq i {
+  width: 2px;
+  height: 3px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: height 0.25s ease;
+}
+.edc .edc-desk-eq.is-on i {
+  background: var(--edc-hot);
+  animation: edc-eq 0.72s ease-in-out infinite alternate;
+}
+.edc .edc-desk-eq.is-on i:nth-child(1) { animation-delay: -0.42s; }
+.edc .edc-desk-eq.is-on i:nth-child(2) { animation-delay: -0.16s; }
+.edc .edc-desk-eq.is-on i:nth-child(3) { animation-delay: -0.58s; }
+.edc .edc-desk-eq.is-on i:nth-child(4) { animation-delay: -0.3s; }
+@keyframes edc-eq {
+  from { height: 3px; }
+  to { height: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edc .edc-desk-eq.is-on i { animation: none; height: 8px; }
+}

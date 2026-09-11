@@ -974,6 +974,27 @@ export const preRegister = {
  * stops being a toy and starts being a dark pattern — on a page whose entire
  * job is to be clear that nothing here is a booking.
  */
+/**
+ * THE SOUND DESK — the copy on the one control that starts audio.
+ *
+ * The label is a STATE, never an instruction. "Sound on" tells you what is
+ * true; "Turn on sound" nags. The idle label says SOUND rather than PLAY
+ * because this is a room you can turn up, not a track you start.
+ *
+ * The track is licensed stock under the Pixabay Content License. It is not a
+ * commercial dance record and must not be swapped for one — a released track
+ * would need sync and master licences Plot Twist does not hold. Provenance
+ * lives in public/audio/thailand/AUDIO.md.
+ */
+export const soundDesk = {
+  src: "/audio/thailand/mainstage.mp3",
+  idle: "SOUND",
+  on: "SOUND ON",
+  off: "SOUND OFF",
+  a11yOff: "Turn on the festival soundtrack",
+  a11yOn: "Turn off the festival soundtrack",
+} as const;
+
 export const wristband = {
   label: "JOURNEY 02 · EDC THAILAND",
   serial: "PT—02",
