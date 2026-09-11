@@ -135,7 +135,23 @@ export function EdcPage() {
         <ThePlot />
 
         <div className="relative -mt-4 overflow-hidden">
-          <Ticker items={[...ribbonBottom]} bg="#8B3DFF" fg="#FFF1DC" rotate={1.4} />
+          {/*
+            THE SECOND RIBBON — blush ground, void type.
+
+            This was a flat violet slab (#8B3DFF with sand type) and it was the
+            one element on the page that looked like it came from somewhere
+            else. The palette rule in globals.css says violet is a LIGHT
+            SOURCE — haze, glow, sweep — and never a surface. Everywhere else
+            it only ever appears diffuse and behind something; painted flat
+            across a full-bleed bar it stopped reading as stage light and
+            started reading as a fourth, unrelated colour.
+
+            So the two ribbons are now separated by LIGHTNESS rather than hue:
+            magenta ground up top, blush ground down here, dark type on both.
+            Same board, lit two ways — which is what a venue ribbon actually
+            does, and it keeps the whole page inside the one arc.
+          */}
+          <Ticker items={[...ribbonBottom]} bg="#FF7FA8" fg="#0A0414" rotate={1.4} />
         </div>
 
         <ThePass />

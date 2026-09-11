@@ -15,12 +15,15 @@ import { motion, useReducedMotion } from "framer-motion";
  *   Goa's `.rule`                        →  NeonRule
  *   Goa's `.pin` polaroid                →  LightPlate / Flash (timestamped)
  *
- * THE COLOUR RULE, ENFORCED HERE: `--edc-violet` (#7B2CFF) is ~3.2:1 on the
- * page canvas and fails AA, so it is used as a LIGHT SOURCE only — glows,
- * sweeps, fills — and never as a text colour. Type is only ever set in magenta,
- * sunset, gold or sand, which are the four steps of the one arc this page runs.
- * There is no cool accent anywhere on this page, deliberately: see the long
- * palette note in globals.css.
+ * THE COLOUR RULE, ENFORCED HERE: `--edc-violet` (#8B3DFF) is ~3.6:1 on the
+ * page canvas and fails AA, so it is a LIGHT SOURCE only: haze, glow and
+ * sweep, always diffuse and always behind something. It is never a text colour
+ * and never a flat surface — see the two-part rule in globals.css, the second
+ * half of which was learned by painting it across an LED ribbon and watching
+ * the page stop looking like itself.
+ *
+ * Type is only ever set in magenta, blush or sand — the three steps of the one
+ * arc this page runs. There is no cool accent and no warm one either.
  */
 
 /* ------------------------------------------------------------------ */
@@ -188,14 +191,11 @@ export function HoloPanel({
  * as finished rather than as a layout with a hole in it. It is the same
  * posture Goa's `homeBase` already takes with its null slots.
  *
- * WHY IT EXISTS AT ALL: no Thailand or festival photograph in this repo is
- * licensed. public/photos/goa/PHOTOS.md was written specifically because
- * sourcing images without verifying their licence is a mistake this project
- * has already come close to shipping — two otherwise-perfect candidates were
- * rejected on licence grounds alone. So nothing is guessed at here. The shot
- * list lives in public/photos/thailand/PHOTOS.md; drop a file in, set `src`
- * in content/thailand.ts, and the photograph replaces the plate with no
- * change to any component.
+ * WHY IT STILL EXISTS NOW THE PHOTOS ARE IN: every Journey 02 slot is filled
+ * (see public/photos/thailand/PHOTOS.md), so this renders nowhere today. It is
+ * kept because a slot set back to null — a photo pulled for a licence question,
+ * a frame being swapped — must degrade to something composed rather than to a
+ * hole. Set `src` back and the photograph returns with no component change.
  */
 export function LightPlate({
   src,

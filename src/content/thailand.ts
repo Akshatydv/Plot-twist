@@ -350,10 +350,19 @@ export const ribbonTop = [
   "DO IT FOR THE PLOT",
 ] as const;
 
+/**
+ * "APPLICATIONS ARE READ BY HUMANS" used to be the third item here. It was
+ * inherited from the Goa ribbon and it went stale the moment this page became
+ * a teaser: Journey 02 does not take applications, and the pre-registration
+ * section two screens below says so twice, at full contrast.
+ *
+ * A marquee is easy to forget when the page's model changes. Anything added
+ * here has to still be true of a page that is not selling anything.
+ */
 export const ribbonBottom = [
   "SEE YOU AFTER DARK",
   "THAILAND → EDC → PLOT TWIST",
-  "APPLICATIONS ARE READ BY HUMANS",
+  "THE LIST HEARS FIRST",
   "SLEEP? WE'LL DISCUSS THAT LATER",
 ] as const;
 

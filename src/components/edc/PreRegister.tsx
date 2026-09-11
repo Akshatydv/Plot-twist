@@ -208,7 +208,7 @@ export function PreRegister() {
                   type="submit"
                   disabled={state === "sending"}
                   className="group relative inline-flex touch-manipulation items-center gap-3 px-7 py-4 text-[13px] font-semibold tracked uppercase transition-transform duration-200 ease-out will-change-transform hover:-translate-x-[3px] hover:-translate-y-[3px] active:translate-x-0 active:translate-y-0 disabled:opacity-60"
-                  style={{ background: "#FF2E7E", color: "#0A0414", boxShadow: "6px 6px 0 0 #8B3DFF" }}
+                  style={{ background: "#FF2E7E", color: "#0A0414", boxShadow: "6px 6px 0 0 #FF4F87" }}
                 >
                   <span>{state === "sending" ? preRegister.submitting : preRegister.submit}</span>
                   <span className="transition-transform duration-200 group-hover:translate-x-1.5" aria-hidden>

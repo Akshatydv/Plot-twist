@@ -183,9 +183,17 @@ body {
 /* adding a fourth hue outside it.                                     */
 /*                                                                     */
 /* --- THE ONE COLOUR RULE -----------------------------------------   */
-/* --edc-violet is a LIGHT SOURCE, never a text colour: #8B3DFF on the */
-/* canvas is ~3.6:1 and fails AA for body copy. Type is only ever set  */
-/* in magenta (~5.3:1), blush (~8.6:1) or sand (~17:1).                */
+/* --edc-violet is a LIGHT SOURCE. Two things follow from that, and    */
+/* the second one was learned the hard way:                            */
+/*                                                                     */
+/*   1. NEVER A TEXT COLOUR. #8B3DFF on the canvas is ~3.6:1 and fails */
+/*      AA for body copy. Type is only ever set in magenta (~5.3:1),   */
+/*      blush (~8.6:1) or sand (~17:1).                                */
+/*   2. NEVER A FLAT SURFACE. Violet may be haze, glow or sweep —      */
+/*      always diffuse, always behind something. Painted flat across a */
+/*      full-bleed bar it stops reading as stage light and starts      */
+/*      reading as a fourth, unrelated colour. The bottom LED ribbon   */
+/*      was exactly that mistake and is now blush-on-void.             */
 /* ================================================================== */
 
 .edc {
