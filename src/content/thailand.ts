@@ -418,15 +418,43 @@ export const ribbonBottom = [
  * section.
  */
 export const crossing = {
-  /** Stencilled on the closed gates, before anything opens. */
-  gateMark: "GATE A",
-  approach: "SCAN TO ENTER",
-  /** The three states the wristband reader steps through as the gates part. */
-  scan: {
-    waiting: "◦ WAITING",
-    reading: "◦ READING",
-    granted: "● ACCESS GRANTED",
+  /**
+   * ─── WHY THIS IS NOT "GATE A / SCAN TO ENTER" ANY MORE ────────────────────
+   * It used to be, because the section used to have a wristband reader in the
+   * middle of it that stepped through WAITING → READING → ACCESS GRANTED. That
+   * reader was removed — it sat on top of the owl's face and read as an
+   * unexplained badge — and the moment it went, the scan copy was describing a
+   * mechanic that no longer existed. "SCAN TO ENTER" with nothing to scan is
+   * just a sentence.
+   *
+   * So the board is what it should have been: VENUE SIGNAGE. The kind bolted
+   * over an entrance telling you where you are and whether the gates are open.
+   * It says where you are going and it counts the gates open as you scroll,
+   * which is a thing the section is actually doing.
+   */
+  sign: "NOW ENTERING",
+  /** Stepped through as the halves part. Sign states, not puzzle states. */
+  states: {
+    approach: `${festival.name} · ${TRIP.city}`,
+    opening: "GATES OPENING",
+    open: "● GATES OPEN",
   },
+  /**
+   * THE BANNER — strung across the entrance, unfurling as you come through.
+   *
+   * It exists because the top of the frame was empty once the gates parted:
+   * the sign board had cleared and the payoff sits low, leaving a screen's
+   * worth of bare gradient overhead. A banner is what is actually strung above
+   * a festival entrance, so it fills the space with the right object rather
+   * than with decoration.
+   *
+   * The line is the hero's old tagline. It was cut from the first screen when
+   * that got stripped back to four elements, and it was too good to lose —
+   * this is the right place for it, because it is the first thing you read
+   * once you are inside rather than the fifth thing you read before you are.
+   */
+  banner: "GOOD PEOPLE · LOUD MUSIC · QUESTIONABLE DECISIONS",
+
   /** The payoff, once you are through. The largest type in the section. */
   payoff: "YOU'RE IN.",
   /** Handwritten, small, after the payoff. */

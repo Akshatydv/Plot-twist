@@ -595,8 +595,8 @@ body {
   62% { opacity: 0.92; }
 }
 
-.edc-scan-a { animation: edc-scan-a 3.7s ease-in-out infinite; }
-.edc-scan-b { animation: edc-scan-b 4.9s ease-in-out infinite; }
+.edc-scan-a { animation: edc-scan-a 4.8s ease-in-out infinite; }
+.edc-scan-b { animation: edc-scan-b 6.3s ease-in-out infinite; }
 .edc-throb { animation: edc-laser-throb var(--edc-bpm-bar) ease-in-out infinite; }
 
 /* ---------- the horizontal scan sheet ----------
@@ -618,7 +618,7 @@ body {
     rgba(139, 61, 255, 0.9) 78%,
     transparent 100%
   );
-  animation: edc-sheet 5.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  animation: edc-sheet 6.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 @keyframes edc-sheet {
   0%, 100% { transform: translateY(14vh) scaleY(1); opacity: 0.25; }
@@ -632,4 +632,27 @@ body {
   .edc-sheet {
     animation: none !important;
   }
+}
+
+/* ---------- the entrance banner ----------
+   Strung across the gate, unfurling as you come through. The sway is a slow
+   two-axis rotation from a top-centre origin, which is how a length of fabric
+   on two ropes actually moves — a pure left-right rotation reads as a rigid
+   sign swinging on one hinge. */
+@keyframes edc-banner-sway {
+  0%, 100% { transform: rotate(-0.7deg) translateY(0); }
+  50% { transform: rotate(0.7deg) translateY(2px); }
+}
+.edc-banner-sway { animation: edc-banner-sway 6.2s ease-in-out infinite; }
+
+/* One bunting flag. A triangle cut from a block of colour, so the row can be
+   a flex line of identical elements rather than a row of SVGs. */
+.edc-bunt {
+  width: 26px;
+  height: 30px;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edc-banner-sway { animation: none; }
 }

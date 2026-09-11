@@ -84,8 +84,10 @@ function build(): Piece[] {
       driftX: (rnd(k, 3) - 0.5) * 26,
       spin: (rnd(k, 4) - 0.5) * 1400,
       flutter: 6 + rnd(k, 10) * 14,
-      delay: rnd(k, 5) * 0.16,
-      duration: 2.4 + rnd(k, 6) * 1.8,
+      delay: rnd(k, 5) * 0.22,
+      // ~25% longer than the first pass. The burst was reading as a flicker
+      // rather than a flight — you want to watch a piece travel.
+      duration: 3.1 + rnd(k, 6) * 2.2,
       colour: COLOURS[Math.floor(rnd(k, 8) * COLOURS.length)],
       w: streamer ? 4 : 7 + Math.floor(rnd(k, 11) * 6),
       h: streamer ? 22 + Math.floor(rnd(k, 12) * 14) : 7 + Math.floor(rnd(k, 13) * 5),
@@ -105,8 +107,8 @@ function build(): Piece[] {
       driftX: (rnd(i, 15) - 0.5) * 40,
       spin: (rnd(i, 16) - 0.5) * 1100,
       flutter: 8 + rnd(i, 20) * 16,
-      delay: 0.35 + rnd(i, 17) * 1.1,
-      duration: 2.8 + rnd(i, 18) * 2,
+      delay: 0.45 + rnd(i, 17) * 1.3,
+      duration: 3.6 + rnd(i, 18) * 2.4,
       colour: COLOURS[Math.floor(rnd(i, 21) * COLOURS.length)],
       w: streamer ? 4 : 7 + Math.floor(rnd(i, 22) * 5),
       h: streamer ? 20 + Math.floor(rnd(i, 23) * 12) : 7 + Math.floor(rnd(i, 24) * 5),

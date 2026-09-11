@@ -58,7 +58,7 @@ function Beam({
     through, so the light is already there when the opening arrives rather
     than arriving late behind it. Pairs share a beat: 0, then ±1, then ±2…
   */
-  const t = 0.4 + Math.ceil(order / 2) * 0.035;
+  const t = 0.38 + Math.ceil(order / 2) * 0.042;
 
   const opacity = useTransform(
     progress,
@@ -214,7 +214,7 @@ export function ScanSheets({ progress }: { progress: MotionValue<number> }) {
   return (
     <motion.div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ opacity }} aria-hidden>
       <div className="edc-sheet" style={{ top: 0 }} />
-      <div className="edc-sheet" style={{ top: 0, animationDelay: "-2.6s", animationDuration: "6.8s" }} />
+      <div className="edc-sheet" style={{ top: 0, animationDelay: "-3.3s", animationDuration: "8.6s" }} />
     </motion.div>
   );
 }

@@ -34,11 +34,11 @@ import { HouseFlash, LaserFan, ScanSheets, StageLights } from "./StageLights";
  * an inner `sticky` screen holds still while you move through it. Everything
  * derives from one `useScroll` progress value, 0 → 1:
  *
- *     0.00  gates shut, one seam of light, the board reads SCAN TO ENTER
+ *     0.00  gates shut, one seam of light, the board names the destination
  *     0.20  the halves begin to part
- *     0.22  the board reads READING
+ *     0.22  the board reads GATES OPENING
  *     0.40  the wash rig strikes, one pair at a time — the build
- *     0.44  the board reads ACCESS GRANTED
+ *     0.44  the board reads GATES OPEN
  *     0.58  THE DROP: house flash and the whole laser fan on one frame
  *     0.72  confetti
  *     0.85  YOU'RE IN.
@@ -92,6 +92,14 @@ export function GateCrossing() {
   const reading = useTransform(scrollYProgress, [0.22, 0.25, 0.41, 0.44], [0, 1, 1, 0]);
   const granted = useTransform(scrollYProgress, [0.44, 0.47, 1], [0, 1, 1]);
 
+  /*
+    THE BANNER unfurls as the sign board clears, filling the top of the frame.
+    scaleY from a top origin is the move: fabric drops from the rope it is
+    strung on, it does not fade in.
+  */
+  const bannerScale = useTransform(scrollYProgress, [0.6, 0.78], [0, 1]);
+  const bannerOpacity = useTransform(scrollYProgress, [0.6, 0.68], [0, 1]);
+
   // The payoff arrives last and stays.
   const payoffOpacity = useTransform(scrollYProgress, [0.68, 0.88], [0, 1]);
   const payoffY = useTransform(scrollYProgress, [0.68, 0.88], [26, 0]);
@@ -117,7 +125,9 @@ export function GateCrossing() {
   useMotionValueEvent(scrollYProgress, "change", (v) => {
     if (v < 0.72 || popped || reduce) return;
     setPopped(true);
-    clearAt.current = window.setTimeout(() => setPopped(false), 6000);
+    // Longer than the slowest piece (delay + duration) or the drop would be
+    // cut off mid-air when the component unmounts.
+    clearAt.current = window.setTimeout(() => setPopped(false), 8500);
   });
 
   /* ---------------- reduced motion: the open state, and nothing else ------- */
@@ -127,7 +137,7 @@ export function GateCrossing() {
         <div className="edc-gate-beyond absolute inset-0" aria-hidden />
         <div className="grain pointer-events-none absolute inset-0 opacity-70" aria-hidden />
         <div className="relative">
-          <span className="edc-meta !text-[9px]">{crossing.scan.granted}</span>
+          <span className="edc-meta !text-[9px]">{crossing.states.open}</span>
           <h2 className="mt-3 font-display text-[clamp(2.4rem,10vw,5.5rem)] uppercase leading-[0.9] text-sand edc-glow-max">
             {crossing.payoff}
           </h2>
@@ -142,15 +152,19 @@ export function GateCrossing() {
 
   return (
     /*
-      118vh: one pinned screen plus about a fifth of a screen of travel.
+      136vh: one pinned screen plus a bit over a third of a screen of travel.
 
-      It has been cut twice — 180vh, then 130vh, now this. Both earlier values
-      held the viewport long enough that the section stopped reading as a beat
-      and started reading as the page having jammed. At 118vh the whole
-      sequence lands inside a single unhurried swipe, which is what it should
-      have been: a moment you pass through, not a place you get stuck.
+      This number has moved four times and the tension is real: the section
+      height IS the animation speed. Every pixel of travel is spread across the
+      same 0 → 1 progress, so a shorter section does not just take less of the
+      page — it makes the gates fly open.
+
+      180 and 130 were both long enough that the section stopped reading as a
+      beat and started reading as the page having jammed. 118 fixed the length
+      and made everything snap. 136 is the middle: still well under half the
+      original, but the gates now open at a pace you can watch.
     */
-    <section ref={ref} className="relative h-[118vh] bg-[#0a0414]" aria-label="Entering the festival">
+    <section ref={ref} className="relative h-[136vh] bg-[#0a0414]" aria-label="Entering the festival">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* ---------- what is through the gate ---------- */}
         <motion.div className="edc-gate-beyond" style={{ opacity: beyondOpacity }} aria-hidden />
@@ -212,31 +226,73 @@ export function GateCrossing() {
         >
           <span className="edc-reader flex flex-col items-center gap-1.5 px-6 py-2.5">
             <span className="font-display text-[clamp(1rem,3.4vw,1.7rem)] uppercase tracking-[0.22em] text-sand">
-              {crossing.gateMark}
+              {crossing.sign}
             </span>
             {/*
-              The scan state lives on the sign board now.
+              The gate state, on the sign that announces the gate.
 
-              It used to be its own lit box floating dead centre, which put a
-              second piece of furniture directly over the owl's face and left
-              people asking what the badge was for. The board already says SCAN
-              TO ENTER; the state of that scan belongs on the same sign, not on
-              a competing one.
+              This was a separate lit reader floating dead centre, stepping
+              through WAITING / READING / ACCESS GRANTED. It sat on the owl's
+              face and read as an unexplained badge, so it went — and with it
+              went the reason for any scan copy at all. What is left is venue
+              signage doing the one job it should: telling you where you are
+              and whether the gates are open.
             */}
             <span className="relative block h-4 w-full">
               <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: waiting }}>
-                <span className="edc-meta !text-[9px]">{crossing.approach}</span>
+                <span className="edc-meta !text-[9px]">{crossing.states.approach}</span>
               </motion.span>
               <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: reading }}>
-                <span className="edc-meta !text-[9px]">{crossing.scan.reading}</span>
+                <span className="edc-meta !text-[9px]">{crossing.states.opening}</span>
               </motion.span>
               <motion.span className="absolute inset-0 flex justify-center" style={{ opacity: granted }}>
                 <span className="edc-meta !text-[9px]" style={{ color: "#FF2E7E", opacity: 1 }}>
-                  {crossing.scan.granted}
+                  {crossing.states.open}
                 </span>
               </motion.span>
             </span>
           </span>
+        </motion.div>
+
+        {/*
+          THE ENTRANCE BANNER.
+
+          The top of the frame was bare once the gates parted — the sign board
+          had cleared and the payoff sits low, leaving a screen of empty
+          gradient overhead. A banner is the thing actually strung above a
+          festival entrance, so this fills the space with the right object
+          rather than with decoration.
+        */}
+        <motion.div
+          className="pointer-events-none absolute inset-x-0 top-0 origin-top"
+          style={{ opacity: bannerOpacity, scaleY: bannerScale }}
+          aria-hidden
+        >
+          <div className="edc-banner-sway origin-top">
+            <div
+              className="flex items-center justify-center px-4 py-2.5 sm:py-3"
+              style={{ background: "var(--edc-hot)" }}
+            >
+              <span className="text-center font-display text-[clamp(0.65rem,2.3vw,1.05rem)] uppercase tracking-[0.14em] text-[#0a0414]">
+                {crossing.banner}
+              </span>
+            </div>
+
+            {/* bunting hanging off the banner's lower edge */}
+            <div className="flex justify-center gap-1.5 px-2">
+              {Array.from({ length: 22 }, (_, i) => (
+                <span
+                  key={i}
+                  className="edc-bunt shrink-0"
+                  style={{
+                    background:
+                      i % 3 === 0 ? "var(--edc-blush)" : i % 3 === 1 ? "var(--edc-violet)" : "#FFF1DC",
+                    opacity: 0.92,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         {/*
