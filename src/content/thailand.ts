@@ -988,6 +988,18 @@ export const preRegister = {
  */
 export const soundDesk = {
   src: "/audio/thailand/mainstage.mp3",
+  /**
+   * Start on the drop, not at the top of the track.
+   *
+   * MEASURED, NOT GUESSED. The energy envelope was sampled every half second:
+   * the track runs a breakdown from ~40s (level falling 0.59 -> 0.55 -> 0.34)
+   * and then hits its single loudest point at 45.5s. Landing there means the
+   * page opens on the drop rather than on forty-five seconds of build, which
+   * is the wrong half of a track for somebody who has just arrived.
+   *
+   * The loop returns HERE rather than to zero, so the intro is never heard.
+   */
+  startAt: 45.5,
   idle: "SOUND",
   on: "SOUND ON",
   off: "SOUND OFF",

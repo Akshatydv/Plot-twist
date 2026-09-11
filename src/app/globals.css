@@ -865,35 +865,44 @@ body {
 }
 
 /* ---------- the sound desk ----------
-   One control, top-right, under the LED strip. Sits clear of the tea cup and
-   the sticky CTA, both of which own the bottom of a phone viewport. */
+   BOTTOM-LEFT, AND VISIBLE FROM THE FIRST FRAME. Audio that starts on its own
+   must come with a way to stop it, present from the start and in the tab order
+   (WCAG 2.1, 1.4.2) — so this can no longer fade in after the hero.
+
+   Every other corner is spoken for: the masthead nav owns top-right in the
+   hero, the tea cup owns bottom-right, and the sticky CTA owns the whole
+   bottom edge on phones, which the raised mobile offset clears. */
 .edc .edc-desk {
   position: fixed;
-  top: 14px;
-  right: 14px;
+  bottom: 16px;
+  left: 16px;
   z-index: 60;
+  /* Rides above the mobile CTA bar exactly as the tea cup does on the other
+     side: StickyCta sets --edc-sticky-lift on <html> while the bar is up. */
+  transform: translateY(calc(-1 * var(--edc-sticky-lift, 0px)));
+  /* METER ONLY, NO WORD. With a label this was ~106px wide and sat across both
+     the hero CTA and the line beneath it — there is no corner of a full-bleed
+     hero wide enough for a labelled pill. Four animated bars read as sound on
+     sight, and the accessible name states it for anyone who needs it stated. */
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 12px 7px 10px;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
   border: 1px solid rgba(255, 241, 220, 0.26);
   border-radius: 999px;
   background: rgba(10, 4, 20, 0.72);
   backdrop-filter: blur(10px) saturate(130%);
   color: var(--edc-chrome);
   cursor: pointer;
-  /* Arrives once the hero is behind you — see SoundDesk.tsx. */
-  opacity: 0;
-  transform: translateY(-8px);
-  pointer-events: none;
-  transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.25s ease, background 0.25s ease;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
 }
-.edc .edc-desk.is-shown {
-  opacity: 1;
-  transform: none;
-  pointer-events: auto;
+/* The sticky CTA only exists below sm, so the clearance can go once it does. */
+@media (min-width: 640px) {
+  .edc .edc-desk { bottom: 24px; left: 24px; }
 }
-.edc .edc-desk.is-shown:hover { border-color: rgba(255, 46, 126, 0.7); transform: translateY(-1px); }
+.edc .edc-desk:hover { border-color: rgba(255, 46, 126, 0.7); }
 .edc .edc-desk:focus-visible {
   outline: 2px solid var(--edc-hot);
   outline-offset: 3px;
@@ -902,13 +911,6 @@ body {
   border-color: rgba(255, 46, 126, 0.75);
   color: var(--edc-sand, #fff1dc);
   box-shadow: 0 0 22px rgba(255, 46, 126, 0.35);
-}
-.edc .edc-desk-label {
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  line-height: 1;
 }
 
 /* The meter reports the real state: the bars are flat until audio is actually
