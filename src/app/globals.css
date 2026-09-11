@@ -709,3 +709,156 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .edc-banner-sway { animation: none; }
 }
+
+/* ================================================================== */
+/* THE ROOM — the lighting the page below the crossing stands in.      */
+/*                                                                     */
+/* One viewport-pinned layer that every body section scrolls THROUGH,  */
+/* rather than a light rig per section: a dozen rigs read as a dozen   */
+/* rooms, and this is one room. See components/edc/Room.tsx.           */
+/*                                                                     */
+/* SCREEN, SO IT CANNOT DARKEN ANYTHING. The layer is arithmetically   */
+/* incapable of making a pixel darker than it already was, which means */
+/* sand type on a dark panel is safe by construction, and the two      */
+/* bright sections (BEYOND THE GATES, the casting board) need no       */
+/* special handling — screen over an already-light surface is close to */
+/* a no-op, so the specks simply disappear there.                      */
+/* ================================================================== */
+
+/* height:0 so the layer costs no layout. The inner box is what has size. */
+.edc .edc-room {
+  position: sticky;
+  top: 0;
+  height: 0;
+  z-index: 20;
+  pointer-events: none;
+}
+.edc .edc-room-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100svh;
+  overflow: hidden;
+  mix-blend-mode: screen;
+}
+
+/* The swell. ~0.54Hz — a slow breath, deliberately nowhere near the ~3Hz
+   photosensitive-seizure threshold the house flash is already held under. */
+.edc .edc-room-beat {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 70% at 50% 42%, rgba(139, 61, 255, 0.16) 0%, transparent 68%);
+  animation: edc-room-breathe calc(var(--edc-bpm-bar) * 4) ease-in-out infinite;
+}
+@keyframes edc-room-breathe {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 1; }
+}
+
+/* ---------- the ball ----------
+   Only the light coming off it. A screen-blended layer has no darks to shade a
+   sphere with, so the roundness comes from a mask falloff rather than a fill:
+   bright toward the light, gone at the rim.
+
+   FACETS ARE A GRID, NOT A STARBURST. The first pass used a conic comb, which
+   radiates from the centre and therefore read as a firework rather than a
+   ball. A mirrorball is a grid of little mirrors: latitude rings that STAY PUT
+   as it turns, and longitude columns that travel across it. Splitting those
+   two into separate layers and moving only the columns is what actually reads
+   as a sphere rotating, rather than as a flat pattern spinning.
+
+   Off-centre on purpose: every section on this page centres its own type and
+   graphics, and a ball on the centre line collided with all of them. */
+.edc .edc-ball {
+  position: absolute;
+  left: 79%;
+  top: 9vh;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  -webkit-mask-image: radial-gradient(circle at 34% 28%, #000 0%, #000 42%, rgba(0,0,0,0.42) 70%, transparent 88%);
+  mask-image: radial-gradient(circle at 34% 28%, #000 0%, #000 42%, rgba(0,0,0,0.42) 70%, transparent 88%);
+  /* A crisp grid reads as a wireframe. Half a pixel of blur turns the lines
+     back into little mirrors catching light, which is what they are. */
+  filter: blur(0.5px);
+  opacity: 0.82;
+}
+/* longitude — travels as it turns */
+.edc .edc-ball-facets {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  width: 300%;
+  background: repeating-linear-gradient(90deg, rgba(255,241,220,0.44) 0 2px, transparent 2px 7px);
+  animation: edc-ball-roll 7s linear infinite;
+}
+@keyframes edc-ball-roll {
+  to { transform: translate3d(21px, 0, 0); }
+}
+/* latitude — holds still, which is the cue that the thing is round */
+.edc .edc-ball::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(255,127,168,0.26) 0 2px, transparent 2px 7px),
+    /* two facets catching the light harder than the rest — a real ball never
+       glints evenly */
+    radial-gradient(circle at 30% 24%, rgba(255,241,220,0.9) 0%, transparent 16%),
+    radial-gradient(circle at 62% 58%, rgba(255,127,168,0.6) 0%, transparent 14%),
+    radial-gradient(circle at 33% 27%, rgba(255,241,220,0.42) 0%, transparent 48%);
+}
+.edc .edc-ball-glow {
+  position: absolute;
+  left: 79%;
+  top: 9vh;
+  width: 260px;
+  height: 260px;
+  margin: -98px 0 0 -98px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255,46,126,0.2) 0%, rgba(139,61,255,0.11) 38%, transparent 68%);
+}
+
+/* ---------- what the ball does to the room ----------
+   Every fleck rides ONE rotation, so they sweep together in arcs. Independent
+   drift reads as dust; a shared rotation reads as a mirrorball, because that
+   is what a mirrorball is. It is also one animated transform rather than 44. */
+.edc .edc-spin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 150vmax;
+  height: 150vmax;
+  margin: -75vmax 0 0 -75vmax;
+  animation: edc-spin 104s linear infinite;
+}
+@keyframes edc-spin {
+  to { transform: rotate(360deg); }
+}
+.edc .edc-fleck {
+  position: absolute;
+  border-radius: 50%;
+  /* Soft at the edge from the gradient itself — cheaper than a blur filter,
+     and 44 blur filters is a real cost on a scrolling page. */
+  background: radial-gradient(circle, rgba(255, 241, 220, 0.95) 0%, rgba(255, 241, 220, 0.45) 38%, transparent 70%);
+  animation: edc-twinkle var(--t) ease-in-out infinite alternate;
+}
+.edc .edc-fleck--blush {
+  background: radial-gradient(circle, rgba(255, 127, 168, 0.95) 0%, rgba(255, 46, 126, 0.4) 40%, transparent 72%);
+}
+@keyframes edc-twinkle {
+  from { opacity: var(--a0); }
+  to { opacity: var(--a1); }
+}
+
+/* The light stays; only the movement is optional. */
+.edc .edc-still { animation: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .edc .edc-spin,
+  .edc .edc-ball-facets,
+  .edc .edc-fleck,
+  .edc .edc-room-beat { animation: none; }
+}

@@ -15,6 +15,7 @@ import { ThePass } from "./ThePass";
 import { GatesOpen } from "./GatesOpen";
 import { StickyCta } from "./StickyCta";
 import { PreRegister } from "./PreRegister";
+import { Room } from "./Room";
 
 /**
  * THE FESTIVAL PAGE — Journey 02, EDC Thailand.
@@ -111,8 +112,21 @@ export function EdcPage() {
           <Ticker items={[...ribbonTop]} bg="#FF2E7E" fg="#0A0414" rotate={-1.6} />
         </div>
 
-        <ThePremise />
-        <TheShape />
+        {/*
+          EVERYTHING BELOW THE GATE IS IN ONE ROOM.
+
+          The wrapper exists only so <Room/> can be sticky inside it: the layer
+          pins to the viewport and these sections scroll through it, which is
+          why the mirrorball holds still while the copy moves past. It starts
+          here rather than at the top of the page on purpose — the hero is
+          footage and the crossing is a photograph, and both already have their
+          own light. Adding a rig over them would be lighting a lit room.
+        */}
+        <div className="relative">
+          <Room />
+
+          <ThePremise />
+          <TheShape />
 
         {/* ── the peak ── */}
         <TheDrop />
@@ -150,7 +164,17 @@ export function EdcPage() {
         />
 
         {/* ── the one bright screen ── */}
-        <BeyondTheGates />
+        {/*
+          THE ROOM DOES NOT REACH THIS SECTION. Everything else below the gate
+          is night, and the mirrorball belongs to night; this is the single
+          daylight screen on the page, and a glitterball hanging over a beach
+          at noon is a continuity error. Sitting the section above the room
+          layer (z-30 against the room's z-20) is the whole fix — no second
+          switch to keep in sync, and the room stays one layer.
+        */}
+        <div className="relative z-30">
+          <BeyondTheGates />
+        </div>
 
         <ThePlot />
 
@@ -190,7 +214,8 @@ export function EdcPage() {
           See components/edc/PreRegister.tsx. It writes to the same table and
           the same admin, tagged JOURNEY 02.
         */}
-        <PreRegister />
+          <PreRegister />
+        </div>
         <Footer tone="night" />
       </main>
 
