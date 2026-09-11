@@ -60,10 +60,20 @@ function Beam({
   */
   const t = 0.38 + Math.ceil(order / 2) * 0.042;
 
+  /*
+     HELD LOW ON PURPOSE, SINCE THE SCENE BECAME A PHOTOGRAPH.
+     These used to strike to full and hold at 0.72, because behind them was a
+     flat gradient and they were the only thing selling "lit". There is a real
+     rig in the frame now, with real beams in real haze, and nine blurred
+     rectangles at 0.72 sat ON TOP of it as a pink wash — flattening the very
+     photograph they were supposed to be lighting. They still strike, because
+     the cue is the point; they just settle to a fifth of the old level and
+     add light to the scene rather than replacing it.
+  */
   const opacity = useTransform(
     progress,
     [t, t + 0.012, t + 0.05, 1],
-    [0, 1, 0.72, 0.72],
+    [0, 0.46, 0.2, 0.2],
   );
   // A short lengthening as it strikes — the beam reaching for the floor.
   const scaleY = useTransform(progress, [t, t + 0.09], [0.55, 1]);
@@ -81,11 +91,12 @@ function Beam({
         originX: 0.5,
         originY: 0,
         mixBlendMode: "screen",
-        filter: "blur(9px)",
+        // Softer than before: a shaft in haze, not an edged wedge.
+        filter: "blur(15px)",
         // Narrow at the lamp, wide at the floor.
         clipPath: "polygon(47.5% 0%, 52.5% 0%, 100% 100%, 0% 100%)",
         background:
-          "linear-gradient(180deg, rgba(255,241,220,0.55) 0%, rgba(255,46,126,0.34) 30%, rgba(139,61,255,0.22) 68%, rgba(139,61,255,0) 100%)",
+          "linear-gradient(180deg, rgba(255,241,220,0.4) 0%, rgba(255,46,126,0.2) 32%, rgba(139,61,255,0.12) 70%, rgba(139,61,255,0) 100%)",
       }}
     />
   );
@@ -146,7 +157,7 @@ function LaserLine({
   const opacity = useTransform(
     progress,
     [DROP, DROP + 0.01, DROP + 0.18, 1],
-    [0, 1, 0.62, 0.52],
+    [0, 0.8, 0.42, 0.34],
   );
 
   /*
@@ -210,7 +221,7 @@ function LaserLine({
  * and it costs two elements.
  */
 export function ScanSheets({ progress }: { progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, [DROP, DROP + 0.02, 1], [0, 1, 0.8]);
+  const opacity = useTransform(progress, [DROP, DROP + 0.02, 1], [0, 0.55, 0.4]);
   return (
     <motion.div className="pointer-events-none absolute inset-0 overflow-hidden" style={{ opacity }} aria-hidden>
       <div className="edc-sheet" style={{ top: 0 }} />
@@ -227,7 +238,7 @@ export function ScanSheets({ progress }: { progress: MotionValue<number> }) {
  * rules for this page; one bloom is the theatrical beat without the hazard.
  */
 export function HouseFlash({ progress }: { progress: MotionValue<number> }) {
-  const opacity = useTransform(progress, [0.56, 0.585, 0.65], [0, 0.42, 0]);
+  const opacity = useTransform(progress, [0.56, 0.585, 0.65], [0, 0.3, 0]);
   return (
     <motion.div
       className="pointer-events-none absolute inset-0"

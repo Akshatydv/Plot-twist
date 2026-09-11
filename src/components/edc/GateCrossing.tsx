@@ -77,6 +77,17 @@ export function GateCrossing() {
 
   const beyondOpacity = useTransform(scrollYProgress, [0.15, 0.6], [0.35, 1]);
 
+  /*
+    THE WALK IN. The crowd sits slightly oversized while the gates are shut and
+    settles back as they part, so the scene comes toward you instead of being
+    revealed flat behind a hole. It is a small move — 1.24 to 1.02 — because
+    anything larger reads as a zoom effect rather than as walking, and the
+    photograph is doing the real work here.
+  */
+  const crowdScale = useTransform(scrollYProgress, [0.15, 1], [1.24, 1.02]);
+  /* Lifts as the rig strikes, so the room brightens as you come through it. */
+  const crowdLift = useTransform(scrollYProgress, [0.3, 0.62], [0.72, 1]);
+
   // The signage on the closed gates goes as the gates go.
   // The board holds longer than the gates now that it carries the scan state —
   // ACCESS GRANTED has to be readable before the signage clears.
@@ -167,7 +178,22 @@ export function GateCrossing() {
     <section ref={ref} className="relative h-[136vh] bg-[#0a0414]" aria-label="Entering the festival">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* ---------- what is through the gate ---------- */}
-        <motion.div className="edc-gate-beyond" style={{ opacity: beyondOpacity }} aria-hidden />
+        {/*
+          WHAT IS ACTUALLY THROUGH THE GATE — a stage, and ten thousand people.
+          The opacity wrapper is also the stacking context the duotone multiply
+          blends inside, so the ramp can only recolour the photograph and can
+          never reach the gate leaves sitting above it.
+        */}
+        <motion.div
+          className="absolute inset-0 overflow-hidden"
+          style={{ opacity: beyondOpacity }}
+          aria-hidden
+        >
+          <motion.div className="edc-crowd" style={{ scale: crowdScale, opacity: crowdLift }} />
+          <div className="edc-crowd-duo" />
+          <div className="edc-crowd-glow" />
+          <div className="edc-crowd-vig" />
+        </motion.div>
 
         {/*
           THE LIGHT SHOW — build, then drop.

@@ -15,9 +15,28 @@ Photographers are credited below anyway, because they should be.
 | `streets.jpg` | `17704286` | Ahmet Çığşar | A night market from above, hundreds of lit stall canopies in dense rows | BEYOND THE GATES — THE STREETS (1:1) |
 | `food.jpg` | `37324089` | Hera hendrayana | A vendor grilling skewers over a burst of open flame after dark | BEYOND THE GATES — THE FOOD (4:3) |
 | `recovery.jpg` | `6821435` | Lelani Badenhorst | An empty resort poolside under palms, loungers still folded, bright morning | BEYOND THE GATES — THE RECOVERY (3:2) |
+| `crowd.jpg` | `35777518` | Noland Live | An outdoor night festival: a circular light rig in haze, crowd to the horizon | THE CROSSING — what is behind the gate |
 | `cast-01.jpg` | `18704290` | QVEVRI TBILISI | Friends dancing together in a crowded club under blue light | THE CAST scrap 1 |
 | `cast-02.jpg` | `16118362` | Valentin Angel Fernandez | A figure with both arms raised in a festival crowd, magenta stage light | THE CAST scrap 2 |
 | `cast-03.jpg` | `9005501` | Yan Krukau | People mid-dance in a dark venue strung with coloured light | THE CAST scrap 3 |
+
+### A note on `crowd.jpg`
+
+This is the frame a visitor could most easily mistake for documentation, because
+the gates open onto it and the section is called "Entering the festival". It is
+licensed stock of **an unnamed festival** — not EDC Thailand, not Rhythm Park,
+not this trip.
+
+It carries no legible third-party branding. That was checked at full resolution,
+which is the only way it gets caught: an "aiwa" sponsor logo and an
+"OPEN'ER FESTIVAL" wristband both survived thumbnail review and were only
+spotted at full size during the teaser carousel work
+(see [`teaser-assets/PHOTOS.md`](../../../teaser-assets/PHOTOS.md)). Everyone in
+it is a silhouette in a crowd.
+
+It is never captioned as the venue, and `pass.disclaimer` already states in plain
+text that the photography is licensed stock and was not shot at the festival.
+Keep both of those true.
 
 ## Two honesty notes that matter
 
