@@ -358,13 +358,24 @@ export function HeroVideo() {
         of the frame — the stage, the crowd — stays as close to untouched as a
         readable page permits.
       */}
+      {/*
+        Tuned UP slightly when the hero footage changed. The previous clip was
+        flatter and darker; this one is a graded trailer full of confetti,
+        pyro and white stage light, and the headline block sits lower-left
+        directly over the busiest part of it.
+
+        The increase is deliberately confined to the two bands type actually
+        occupies — the lower edge and the left column. The centre stops are
+        untouched at 0.18/0.06, so the middle of the frame, where the stage and
+        the crowd are, stays as close to untouched as a readable page allows.
+      */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,4,20,0.70)_0%,rgba(10,4,20,0.18)_22%,rgba(10,4,20,0.06)_44%,rgba(10,4,20,0.74)_84%,rgba(10,4,20,0.95)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,4,20,0.70)_0%,rgba(10,4,20,0.18)_22%,rgba(10,4,20,0.06)_44%,rgba(10,4,20,0.80)_84%,rgba(10,4,20,0.96)_100%)]"
       />
       <div
         aria-hidden
-        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,4,20,0.74)_0%,rgba(10,4,20,0.28)_42%,transparent_74%)]"
+        className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,4,20,0.82)_0%,rgba(10,4,20,0.36)_42%,transparent_74%)]"
       />
 
       {/* Grain, so the footage joins the rest of the site's world rather than

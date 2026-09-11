@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { festival, gatesOpen, stickers } from "@/content/thailand";
+import { festival, gatesOpen, stickers, TRIP } from "@/content/thailand";
 import { PLOT_EVENTS } from "@/lib/analytics";
 import { Note, PlotButton } from "../Bits";
 import { Reveal } from "../motion";
@@ -110,6 +110,11 @@ export function GatesOpen() {
             </span>
             <span className="h-px w-10 bg-[var(--edc-hot)]/40" />
             <span className="edc-meta">{festival.dates}</span>
+            <span className="h-px w-6 bg-[var(--edc-chrome)]/25" />
+            {/* The countdown runs to the FESTIVAL gates; the trip is wider than
+                that, so both windows are stated rather than one standing in
+                for the other. */}
+            <span className="edc-meta">TRIP {TRIP.dates.value}</span>
           </div>
         </Reveal>
 

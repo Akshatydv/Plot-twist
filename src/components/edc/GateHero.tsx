@@ -151,10 +151,21 @@ export function GateHero() {
           {/* The festival and its dates, stated flat. Both verified — see
               `festival` in content/thailand.ts. */}
           <motion.p
-            className="mb-3 font-display text-[clamp(0.8rem,2.4vw,1rem)] tracking-[0.16em] text-[var(--edc-hot)]"
+            className="mb-1 font-display text-[clamp(0.8rem,2.4vw,1rem)] tracking-[0.16em] text-[var(--edc-hot)]"
             {...inFrom(0.28)}
           >
             {gate.eyebrow}
+          </motion.p>
+
+          {/*
+            THE TRIP'S OWN DATES, directly under the festival's.
+            The eyebrow above answers "when is EDC"; this answers "when do I
+            fly", which is a different and equally top-tier question on a
+            travel page. It sits at metadata size rather than display size, so
+            the hero stays four elements and the footage keeps the screen.
+          */}
+          <motion.p className="mb-4 edc-meta !text-[9px] sm:!text-[10px]" {...inFrom(0.33)}>
+            {gate.tripDates}
           </motion.p>
 
           <h1 className="relative">

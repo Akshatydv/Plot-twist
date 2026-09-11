@@ -58,6 +58,11 @@ export function TheShape() {
                 <br />
                 <span className="text-[var(--edc-hot)] edc-glow-hot">{shape.headline[1]}</span>
               </h2>
+              {/* The window itself, stated once at a size you cannot miss — this
+                  is the section a visitor comes to for "when". */}
+              <p className="mt-3 font-display text-[clamp(1.1rem,3.6vw,1.7rem)] uppercase tracking-[0.04em] text-sand/85">
+                {shape.dateline}
+              </p>
             </Reveal>
             <Reveal delay={0.08}>
               <p className="mt-4 max-w-[44ch] font-serif text-[clamp(1.1rem,2.8vw,1.45rem)] italic leading-[1.25] text-sand/75">

@@ -10,10 +10,10 @@
  *
  *   1. THE FESTIVAL'S OWN FACTS — dates and city. VERIFIED, and sourced in
  *      `festival.source`. See the note on `festival` before changing them.
- *   2. PLOT TWIST'S OWN FACTS — trip length, price, hotel, inclusions,
- *      itinerary detail. NONE of these have been confirmed, so every one of
- *      them is modelled as explicitly unconfirmed and renders an honest
- *      "not announced yet" rather than a plausible-looking value.
+ *   2. PLOT TWIST'S OWN FACTS. Confirmed so far: the trip dates (16–22 Dec
+ *      2026) and its length (7D/6N). Still unconfirmed and therefore still
+ *      rendering an honest "not announced yet": the price, the inclusions,
+ *      the stay, and the day-by-day itinerary.
  *
  * Flip the flags when the real values exist. Do not fill them in to make the
  * page look finished.
@@ -92,9 +92,10 @@ export function edcIndex(key: EdcSectionKey): string {
  * official-hotel partner resort named in the press release — that is a
  * different thing and is not stated anywhere on this page.
  *
- * These are EDC's dates, not Plot Twist's trip dates. The trip's own arrival
- * and departure days are unconfirmed and live in `trip` below. Do not derive
- * one from the other.
+ * These are EDC's dates, not Plot Twist's trip dates — the trip runs 16–22
+ * December and lives in `TRIP.dates` below. The festival's three nights sit
+ * inside that window; the two sets are related but neither is derived from the
+ * other, so edit them independently and re-check that they still agree.
  */
 export const festival = {
   name: "EDC THAILAND",
@@ -119,43 +120,44 @@ export const festival = {
  * THE HERO FOOTAGE.
  *
  * ─── WHAT PLAYS TODAY ───────────────────────────────────────────────────────
- * A LICENSED, SELF-HOSTED CLIP: /videos/thailand/festival-night.mp4, under the
- * Pexels License, which explicitly permits commercial use and hosting on your
- * own site and requires no attribution. Licence, source and the full
- * verification are recorded in public/videos/thailand/VIDEOS.md.
+ * /videos/thailand/edc-hero.mp4 — a 24-second silent loop cut from Insomniac's
+ * official "EDC Thailand 2026 Trailer", self-hosted.
  *
- * Because it is our own file served from our own origin, the hero is a plain
- * muted <video>: first frame on paint, no third-party script, no player
- * chrome, no spinner, no pause affordance, nothing to boot. That is the only
- * way a background video is genuinely seamless.
+ * Because it is served from our own origin, the hero is a plain muted <video>:
+ * first frame on paint, no third-party script, no player chrome, no spinner,
+ * no pause affordance, nothing to boot.
  *
- * ─── IT IS NOT EDC FOOTAGE, AND THE PAGE MUST NEVER SAY IT IS ───────────────
- * This is generic night-festival footage. It was not shot at EDC Thailand and
- * it is not published by Insomniac. `pass.disclaimer` states that in plain
- * text at full contrast. Do not caption this clip with an EDC name, date or
- * stage name, and do not place it directly beside a line that would read as a
- * caption for it.
+ * ─── READ THIS BEFORE YOU TOUCH IT ──────────────────────────────────────────
+ * THIS FILE IS NOT LICENSED TO US. It is a copy of a copyrighted work
+ * published by Insomniac, hosted on a commercial site. That is the position,
+ * stated plainly so nobody later assumes it was cleared:
  *
- * ─── THE EDC EMBED, AND WHY IT IS PARKED ────────────────────────────────────
- * This was built the other way first and it worked: Insomniac's OFFICIAL "EDC
- * Thailand 2026 Trailer" (`videoId` below), played through YouTube's own
- * iframe player, unmodified. Channel and embeddability were verified against
- * YouTube's oEmbed endpoint — `author_name` "Insomniac", `author_url`
- * youtube.com/@Insomniac — and a candidate titled "EDC Thailand 2026 |
+ *   - The site owner obtained the source and directed this use on
+ *     11 September 2026, after the risk was raised and explained.
+ *   - "Publicly viewable on YouTube" is not a licence to copy. Embedding plays
+ *     the publisher's file from the publisher's servers through the player
+ *     they provide for it; this does not.
+ *   - The realistic consequence is a takedown, and potentially more.
+ *
+ * TWO SAFE EXITS ARE KEPT READY, and both are one field:
+ *   1. Point `selfHosted` at "/videos/thailand/festival-night.mp4" — the
+ *      licensed Pexels clip, still in the repo, still documented in VIDEOS.md.
+ *   2. Set `selfHosted` to null — the component falls straight back to the
+ *      OFFICIAL YouTube embed of the same trailer, credit line and all, which
+ *      is the lawful way to show this footage.
+ *
+ * ─── THE EMBED THAT IS BEING BYPASSED ───────────────────────────────────────
+ * `videoId` below is the same trailer, and it was verified official before it
+ * ever shipped: YouTube's oEmbed endpoint reported `author_name` "Insomniac",
+ * `author_url` youtube.com/@Insomniac. A candidate titled "EDC Thailand 2026 |
  * Aftermovie" was REJECTED on that same check because oEmbed reported its
- * channel as "DemoDrops EDM", a fan re-upload.
+ * channel as "DemoDrops EDM", a fan re-upload. That verification still stands
+ * and the embed path still works.
  *
- * That path is NOT deleted. Set `selfHosted` to null and the component falls
- * straight back to it, credit line and all. It was replaced for exactly one
- * reason: a cross-origin iframe player cannot be made seamless — it takes
- * seconds to boot and draws its own furniture, none of which can be styled
- * from outside the frame.
- *
- * DOWNLOADING THE EDC TRAILER WAS CONSIDERED AND REJECTED. "Publicly viewable
- * on YouTube" is not a licence to copy a work onto a commercial site.
- * Embedding plays the publisher's file from the publisher's servers through
- * the player they provide for it; self-hosting makes an unlicensed copy and
- * distributes it commercially.
+ * ─── WHAT THE PAGE MUST STILL NOT CLAIM ─────────────────────────────────────
+ * Playing the organiser's trailer does not make us the organiser. Nothing may
+ * imply partnership, sponsorship or endorsement — `pass.disclaimer` carries
+ * that, and it is mandatory copy.
  *
  * ─── THE RULES, EITHER WAY ──────────────────────────────────────────────────
  *   - Muted, always. No page on this site plays audio at a visitor.
@@ -224,14 +226,14 @@ export const heroVideo = {
    * Until one of those exists, the YouTube embed stays — and the component
    * hides every part of the player that is not the picture. See HeroVideo.tsx.
    */
-  selfHosted: "/videos/thailand/festival-night.mp4" as string | null,
+  selfHosted: "/videos/thailand/edc-hero.mp4" as string | null,
   /**
-   * No poster file, deliberately. The painted stage plate underneath the video
-   * IS the poster: it is on-palette, it paints from CSS with no request at
-   * all, and a 4.6 MB clip served from our own origin starts before a poster
-   * image would finish downloading anyway.
+   * A real first frame this time. The previous clip was flat enough that the
+   * painted plate underneath was a good enough poster; this footage opens on a
+   * lit stage and a ferris wheel, and a CSS gradient standing in for that for
+   * even 200ms reads as the video failing rather than loading.
    */
-  selfHostedPoster: null as string | null,
+  selfHostedPoster: "/videos/thailand/edc-hero-poster.jpg" as string | null,
   /**
    * ONLY RENDERED ON THE YOUTUBE FALLBACK PATH.
    *
@@ -275,6 +277,20 @@ export const TRIP = {
   split: "10 GIRLS + 10 GUYS",
   ages: "18–30",
   days: { confirmed: true, value: "7 DAYS · 6 NIGHTS" },
+  /**
+   * THE TRIP'S OWN DATES. Confirmed by the site owner, 11 September 2026.
+   *
+   * ─── THEY AGREE WITH EVERYTHING ELSE, AND THAT WAS CHECKED ────────────────
+   * 16–22 December is seven days and six nights, which is what `days` already
+   * said. The festival's own three nights — 18, 19 and 20 December — sit
+   * INSIDE that window, leaving 16, 17 and 21 as the other three. So the
+   * "3 nights EDC / 3 nights the island" split in `shape` is not a rounding:
+   * it is exactly what these dates produce.
+   *
+   * If any of these four values is ever edited, re-check the other three. The
+   * whole page's arithmetic rests on them lining up.
+   */
+  dates: { confirmed: true, value: "16–22 DECEMBER 2026", short: "DEC 16–22" },
   /** The split that carries the argument: 3 nights of festival, 3 of Thailand. */
   nights: { festival: "3 NIGHTS", rest: "3 NIGHTS" },
 } as const;
@@ -322,6 +338,14 @@ export const TBA = "TBA";
  */
 export const gate = {
   eyebrow: `${festival.name} · ${festival.datesShort}`,
+  /**
+   * One extra line in a hero that was deliberately cut to four elements —
+   * justified because "when do I actually fly" is a top-tier question on a
+   * travel page and the eyebrow above it answers a different one (when the
+   * FESTIVAL is). It renders at metadata size, not display size, so it costs
+   * the footage almost nothing.
+   */
+  tripDates: `THE TRIP · ${TRIP.dates.value}`,
   line1: "You've found",
   /** Three fields because EDC is typeset differently from the words around it. */
   line2: { pre: "the", brand: "EDC", post: "plot." },
@@ -344,6 +368,7 @@ export const gate = {
 export const ribbonTop = [
   `${festival.name} · ${festival.datesShort}`,
   "THAILAND IS JUST WHERE IT HAPPENS",
+  `TRIP · ${TRIP.dates.value}`,
   `${TRIP.days.value}`,
   "20 SEATS. NO FILLERS.",
   "10/10s ONLY",
@@ -421,6 +446,8 @@ export const shape = {
   index: edcIndex("shape"),
   label: "THE SHAPE",
   headline: ["SEVEN DAYS.", "SIX NIGHTS."],
+  /** Now that the window is confirmed, the section leads with it. */
+  dateline: TRIP.dates.value,
   sub: "Three of those nights are EDC. The other three are Thailand.",
   annotation: "the rest lands later.",
   /** Three blocks, and nothing under them. */
@@ -434,7 +461,7 @@ export const shape = {
     {
       k: "3 NIGHTS",
       v: "THE ISLAND",
-      d: "Water, longtails, night markets, and the last quiet day anyone gets before the gates open.",
+      d: "16–17 and 21 December. Water, longtails, night markets, and the last quiet day anyone gets before the gates open.",
       accent: "#FF7FA8",
     },
     {
@@ -749,7 +776,7 @@ export const pass = {
     { k: "THE FESTIVAL", v: festival.name },
     { k: "FESTIVAL DATES", v: festival.dates },
     { k: "WHERE", v: festival.venue },
-    { k: "TRIP LENGTH", v: TRIP.days.value },
+    { k: "THE TRIP", v: `${TRIP.dates.value} · ${TRIP.days.value}` },
     { k: "THE CAST", v: TRIP.cast },
     { k: "AGES", v: TRIP.ages },
   ],
@@ -763,7 +790,7 @@ export const pass = {
    * See the affiliation rule at the top of this file.
    */
   disclaimer:
-    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. Video and photography on this page is licensed stock — it was not shot at EDC Thailand, it is not the organiser's, and it does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
+    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. The hero video is festival footage from EDC Thailand's own trailer and belongs to its makers, not to us. The photography is licensed stock and does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
   price,
   inclusions,
 } as const;
