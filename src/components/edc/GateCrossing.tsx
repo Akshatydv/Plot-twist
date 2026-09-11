@@ -130,15 +130,15 @@ export function GateCrossing() {
 
   return (
     /*
-      130vh of scroll distance for one screen of animation — about a third of
-      a screen of extra scrolling on top of the pinned one.
+      118vh: one pinned screen plus about a fifth of a screen of travel.
 
-      It was 180vh and that was too long: the section held the viewport for
-      nearly two full swipes, which stopped reading as a moment and started
-      reading as the page having jammed. Short enough to feel like a beat,
-      long enough that the gates do not snap open in a flick.
+      It has been cut twice — 180vh, then 130vh, now this. Both earlier values
+      held the viewport long enough that the section stopped reading as a beat
+      and started reading as the page having jammed. At 118vh the whole
+      sequence lands inside a single unhurried swipe, which is what it should
+      have been: a moment you pass through, not a place you get stuck.
     */
-    <section ref={ref} className="relative h-[130vh] bg-[#0a0414]" aria-label="Entering the festival">
+    <section ref={ref} className="relative h-[118vh] bg-[#0a0414]" aria-label="Entering the festival">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {/* ---------- what is through the gate ---------- */}
         <motion.div className="edc-gate-beyond" style={{ opacity: beyondOpacity }} aria-hidden />
@@ -185,14 +185,25 @@ export function GateCrossing() {
 
 
         {/* ---------- signage on the closed gates ---------- */}
+        {/*
+          Gate signage on its own board.
+
+          It used to sit bare between the owl's eyes, which are the two
+          brightest objects on the structure — the type had nothing to hold
+          against. Real gate signage is a panel bolted to the frame, so this is
+          one, and it solves the contrast problem by being the thing it
+          actually is.
+        */}
         <motion.div
-          className="pointer-events-none absolute inset-x-0 top-[16%] flex flex-col items-center gap-2"
+          className="pointer-events-none absolute inset-x-0 top-[7%] flex justify-center"
           style={{ opacity: signOpacity }}
         >
-          <span className="font-display text-[clamp(1.1rem,4vw,2rem)] uppercase tracking-[0.22em] text-sand/70">
-            {crossing.gateMark}
+          <span className="edc-reader flex flex-col items-center gap-1.5 px-6 py-2.5">
+            <span className="font-display text-[clamp(1rem,3.4vw,1.7rem)] uppercase tracking-[0.22em] text-sand">
+              {crossing.gateMark}
+            </span>
+            <span className="edc-meta !text-[9px]">{crossing.approach}</span>
           </span>
-          <span className="edc-meta !text-[9px]">{crossing.approach}</span>
         </motion.div>
 
         {/* ---------- the wristband reader ---------- */}
