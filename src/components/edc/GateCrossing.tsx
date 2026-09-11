@@ -190,7 +190,6 @@ export function GateCrossing() {
           aria-hidden
         >
           <motion.div className="edc-crowd" style={{ scale: crowdScale, opacity: crowdLift }} />
-          <div className="edc-crowd-duo" />
           <div className="edc-crowd-glow" />
           <div className="edc-crowd-vig" />
         </motion.div>

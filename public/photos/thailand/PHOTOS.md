@@ -15,7 +15,7 @@ Photographers are credited below anyway, because they should be.
 | `streets.jpg` | `17704286` | Ahmet Çığşar | A night market from above, hundreds of lit stall canopies in dense rows | BEYOND THE GATES — THE STREETS (1:1) |
 | `food.jpg` | `37324089` | Hera hendrayana | A vendor grilling skewers over a burst of open flame after dark | BEYOND THE GATES — THE FOOD (4:3) |
 | `recovery.jpg` | `6821435` | Lelani Badenhorst | An empty resort poolside under palms, loungers still folded, bright morning | BEYOND THE GATES — THE RECOVERY (3:2) |
-| `crowd.jpg` | `35777518` | Noland Live | An outdoor night festival: a circular light rig in haze, crowd to the horizon | THE CROSSING — what is behind the gate |
+| `crowd.jpg` | `1190298` | Wendy Wei | Pyro fountains and CO2 jets across a stage in violet haze, hands up in the foreground crowd | THE CROSSING — what is behind the gate |
 | `cast-01.jpg` | `18704290` | QVEVRI TBILISI | Friends dancing together in a crowded club under blue light | THE CAST scrap 1 |
 | `cast-02.jpg` | `16118362` | Valentin Angel Fernandez | A figure with both arms raised in a festival crowd, magenta stage light | THE CAST scrap 2 |
 | `cast-03.jpg` | `9005501` | Yan Krukau | People mid-dance in a dark venue strung with coloured light | THE CAST scrap 3 |
@@ -26,6 +26,19 @@ This is the frame a visitor could most easily mistake for documentation, because
 the gates open onto it and the section is called "Entering the festival". It is
 licensed stock of **an unnamed festival** — not EDC Thailand, not Rhythm Park,
 not this trip.
+
+It is also the one frame chosen by comparison rather than on its own. Three
+candidates were wired in behind the gate and photographed in place, because a
+frame that looks spectacular in a contact sheet can still read as flat once it
+is cropped, darkened and seen through a gap. The two rejected:
+
+- **`5193531`** — long-exposure sparks raining over a stage, genuinely
+  spectacular, and useless here: the audience is **seated**, on a page whose own
+  copy is "a crowd that definitely didn't come to sit down". Its screens also
+  show identifiable faces.
+- **`30169356`** — LED columns in haze, clean and graphic, but the crowd is
+  distant and small. It reads as a stage across a field rather than as walking
+  into one, which is the entire job of this frame.
 
 It carries no legible third-party branding. That was checked at full resolution,
 which is the only way it gets caught: an "aiwa" sponsor logo and an
