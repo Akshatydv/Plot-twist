@@ -79,12 +79,24 @@ export function describeReward(app: StoredApplication): string {
 
 const ANSWER_KEYS = ["answer_1", "answer_2", "answer_3"] as const;
 
+/**
+ * Mobile is here because this alert exists to be ACTED ON, and the application
+ * form itself says "we call, we don't email". Leaving the number out meant
+ * opening the case file just to read one field back.
+ *
+ * It is no more exposed than the rest of this email already is — the same
+ * message carries a name, an age, a city, a handle and three written answers.
+ * The line that must stay true is the one in notifyApplication.ts: none of
+ * this may appear in the structured LOG, which goes to a far wider audience
+ * than the casting inbox.
+ */
 function theBasics(app: StoredApplication): Field[] {
   return [
     { label: "Name", value: app.name },
     { label: "Age", value: String(app.age) },
     { label: "City", value: app.city },
     { label: "Instagram", value: app.instagram },
+    { label: "Mobile", value: app.mobile },
   ];
 }
 
