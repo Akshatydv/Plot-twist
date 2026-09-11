@@ -392,6 +392,49 @@ export const ribbonBottom = [
 ] as const;
 
 /* ------------------------------------------------------------------ */
+/* 00b — the crossing                                                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * THE CROSSING — the moment you walk through the gate.
+ *
+ * ─── WHAT IT IS ─────────────────────────────────────────────────────────────
+ * A scroll-driven beat between the hero and the rest of the page. Two gate
+ * panels part as you scroll, light floods the gap, a wristband scans, and you
+ * come out the other side. It is the only section on the site that is
+ * controlled by scroll POSITION rather than triggered when it enters view.
+ *
+ * ─── WHY IT EARNS A WHOLE SCREEN ────────────────────────────────────────────
+ * The page's entire metaphor is a credential — the hero is called THE GATE,
+ * the facts are THE PASS, the slates are gate slates. Until now the page said
+ * that; it never made you DO it. Scrolling through a set of opening gates is
+ * the one interaction that turns the metaphor into an experience, and it costs
+ * the visitor nothing: they were going to scroll anyway.
+ *
+ * ─── THE COPY IS FOUR WORDS AND A SIGN ──────────────────────────────────────
+ * Everything here has to read in the half-second it is on screen while moving.
+ * That means gate signage, not sentences: a gate letter, a scan state, a
+ * payoff. Anything longer would be unreadable and would turn a moment into a
+ * section.
+ */
+export const crossing = {
+  /** Stencilled on the closed gates, before anything opens. */
+  gateMark: "GATE A",
+  approach: "SCAN TO ENTER",
+  /** The three states the wristband reader steps through as the gates part. */
+  scan: {
+    waiting: "◦ WAITING",
+    reading: "◦ READING",
+    granted: "● ACCESS GRANTED",
+  },
+  /** The payoff, once you are through. The largest type in the section. */
+  payoff: "YOU'RE IN.",
+  /** Handwritten, small, after the payoff. */
+  aside: "no turning back now.",
+  meta: `${festival.ground} · ${festival.dates}`,
+} as const;
+
+/* ------------------------------------------------------------------ */
 /* 01 — the premise                                                    */
 /* ------------------------------------------------------------------ */
 
@@ -881,6 +924,34 @@ export const preRegister = {
   error: "That didn't send. Try again, or message us — the tea cup's bottom right.",
   /** See the note above: a system marker, never a fabricated answer. */
   marker: "[PRE-REGISTRATION — no questions asked at this stage]",
+} as const;
+
+/**
+ * THE WRISTBAND — the page's one properly playable object.
+ *
+ * The stickers can be thrown around; this can be USED. Tap it and it fastens,
+ * the chip lights, and the label changes. It is the only element on the site
+ * that holds a state the visitor put it in.
+ *
+ * ─── WHY A WRISTBAND AND NOT A BUTTON ───────────────────────────────────────
+ * It is the object this whole page is built around — the credential, the thing
+ * that means you are inside. Fastening one is also the single most recognisable
+ * physical gesture of going to a festival, and it is irreversible in real life,
+ * which is the joke the copy lands on.
+ *
+ * ─── WHAT IT DOES NOT DO ────────────────────────────────────────────────────
+ * It is not a CTA and must never become one. It does not submit anything, does
+ * not gate anything, and nothing on the page depends on its state. The moment
+ * a visitor could believe that fastening it registered them for something, it
+ * stops being a toy and starts being a dark pattern — on a page whose entire
+ * job is to be clear that nothing here is a booking.
+ */
+export const wristband = {
+  label: "JOURNEY 02 · EDC THAILAND",
+  serial: "PT—02",
+  idle: "TAP TO FASTEN",
+  fastened: "ON. THAT'S PERMANENT.",
+  note: "you can't put it back.",
 } as const;
 
 /**

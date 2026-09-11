@@ -459,3 +459,177 @@ body {
   }
   .edc-led { opacity: 0.7; }
 }
+
+/* ================================================================== */
+/* THE CROSSING                                                        */
+/*                                                                     */
+/* The gate you scroll through between the hero and the page. Every    */
+/* rule here paints a STATIC surface — the opening itself is driven    */
+/* entirely by transform and opacity from the component, so the whole  */
+/* sequence is compositor-only and costs no layout.                    */
+/* ================================================================== */
+
+/* ---------- the gate leaves ----------
+   Scaffold rather than a solid door: horizontal truss rungs and one
+   vertical upright, so it reads as a festival entrance structure and
+   not as a UI panel sliding away. The rungs are a repeating gradient,
+   which means zero elements and zero requests. */
+.edc-gate-leaf {
+  position: absolute;
+  inset-block: 0;
+  width: 52%;
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 44px, rgba(214, 207, 230, 0.05) 44px 46px),
+    repeating-linear-gradient(90deg, transparent 0 120px, rgba(214, 207, 230, 0.04) 120px 123px),
+    linear-gradient(180deg, #0d0520 0%, #05020c 60%, #0a0414 100%);
+  will-change: transform;
+}
+
+/* The lit inner edge — the seam of light before the gates part, and the
+   edge that stays hot as they slide. A border plus an outward glow. */
+.edc-gate-leaf--left {
+  left: 0;
+  border-right: 2px solid var(--edc-hot);
+  box-shadow: 8px 0 40px -4px rgba(255, 46, 126, 0.75);
+}
+.edc-gate-leaf--right {
+  right: 0;
+  border-left: 2px solid var(--edc-hot);
+  box-shadow: -8px 0 40px -4px rgba(255, 46, 126, 0.75);
+}
+
+/* ---------- what is behind the gates ----------
+   The light you are walking into. Sits under the leaves and is revealed
+   as they part; it never moves itself. */
+.edc-gate-beyond {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 70% at 50% 62%, rgba(255, 46, 126, 0.55) 0%, transparent 62%),
+    radial-gradient(90% 90% at 50% 40%, rgba(139, 61, 255, 0.5) 0%, transparent 70%),
+    linear-gradient(180deg, #1b0833 0%, #0a0414 100%);
+}
+
+/* Vertical beams standing in the opening. Three fixed positions rather
+   than a loop — a symmetrical fan reads as stage rig, a random scatter
+   reads as noise. */
+.edc-gate-beam {
+  position: absolute;
+  inset-block: -10%;
+  width: 14%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 127, 168, 0) 0%,
+    rgba(255, 46, 126, 0.28) 35%,
+    rgba(139, 61, 255, 0.22) 70%,
+    rgba(139, 61, 255, 0) 100%
+  );
+  filter: blur(6px);
+}
+
+/* ---------- the wristband reader ----------
+   A small credential box on the gate. Its own surface, so it reads as
+   hardware bolted to the structure rather than page furniture. */
+.edc-reader {
+  background: rgba(10, 4, 20, 0.86);
+  border: 1px solid rgba(255, 46, 126, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 30px -10px rgba(255, 46, 126, 0.8);
+}
+
+/* ---------- the wristband ----------
+   A tactile object, not a graphic. The strap is a gradient with a woven
+   texture; the clasp is a separate block. `cursor: grab` is the whole
+   affordance — it tells you it is a thing before you touch it. */
+.edc-band {
+  background-image:
+    repeating-linear-gradient(115deg, rgba(10, 4, 20, 0.18) 0 3px, transparent 3px 7px),
+    linear-gradient(90deg, var(--edc-hot) 0%, #ff5c9b 42%, var(--edc-blush) 100%);
+  box-shadow: 0 0 26px -8px rgba(255, 46, 126, 0.9), inset 0 -2px 0 rgba(10, 4, 20, 0.28);
+}
+
+/* The RFID chip on the band. Lights when fastened. */
+.edc-band-chip {
+  background: rgba(10, 4, 20, 0.55);
+  border: 1px solid rgba(255, 241, 220, 0.45);
+}
+.edc-band--on .edc-band-chip {
+  background: rgba(255, 241, 220, 0.92);
+  border-color: #fff1dc;
+  box-shadow: 0 0 16px 2px rgba(255, 241, 220, 0.75);
+}
+
+/* Reduced motion: the gates are simply already open. The component stops
+   driving them from scroll, so nothing here needs to animate at all. */
+@media (prefers-reduced-motion: reduce) {
+  .edc-gate-leaf {
+    box-shadow: none;
+  }
+}
+
+/* ================================================================== */
+/* THE LASER RIG                                                       */
+/*                                                                     */
+/* The scroll drives WHETHER the lasers are on and how wide the fan is */
+/* open. It must not drive their movement: a beam that only moves when */
+/* you scroll is a diagram of a laser. These keyframes run on their    */
+/* own clock so the rig keeps working while you sit still, which is    */
+/* the difference between a lit room and a screenshot of one.          */
+/* ================================================================== */
+
+@keyframes edc-scan-a {
+  0%, 100% { transform: rotate(-9deg); }
+  50% { transform: rotate(9deg); }
+}
+@keyframes edc-scan-b {
+  0%, 100% { transform: rotate(7deg); }
+  50% { transform: rotate(-11deg); }
+}
+/* The brightness flicker every real laser has in haze. Deliberately not a
+   strobe — it never fully extinguishes, and it is far slower than the ~3Hz
+   photosensitive threshold. */
+@keyframes edc-laser-throb {
+  0%, 100% { opacity: 1; }
+  38% { opacity: 0.55; }
+  62% { opacity: 0.92; }
+}
+
+.edc-scan-a { animation: edc-scan-a 3.7s ease-in-out infinite; }
+.edc-scan-b { animation: edc-scan-b 4.9s ease-in-out infinite; }
+.edc-throb { animation: edc-laser-throb var(--edc-bpm-bar) ease-in-out infinite; }
+
+/* ---------- the horizontal scan sheet ----------
+   The flat plane of light that sweeps down across a crowd. One element, and
+   it does more for "this is a laser rig" than another ten beams would. */
+.edc-sheet {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 2px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(1.5px);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 46, 126, 0.9) 22%,
+    rgba(255, 241, 220, 0.95) 50%,
+    rgba(139, 61, 255, 0.9) 78%,
+    transparent 100%
+  );
+  animation: edc-sheet 5.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes edc-sheet {
+  0%, 100% { transform: translateY(14vh) scaleY(1); opacity: 0.25; }
+  50% { transform: translateY(78vh) scaleY(2.4); opacity: 0.85; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edc-scan-a,
+  .edc-scan-b,
+  .edc-throb,
+  .edc-sheet {
+    animation: none !important;
+  }
+}

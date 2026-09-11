@@ -4,6 +4,7 @@ import { ContactTeaCup } from "@/components/ContactTeaCup";
 import { WhatsATen } from "@/components/WhatsATen";
 import { cast, edcIndex, ribbonBottom, ribbonTop } from "@/content/thailand";
 import { GateHero } from "./GateHero";
+import { GateCrossing } from "./GateCrossing";
 import { ThePremise } from "./ThePremise";
 import { TheShape } from "./TheShape";
 import { TheDrop } from "./TheDrop";
@@ -87,6 +88,20 @@ export function EdcPage() {
         <div className="edc-led" aria-hidden />
 
         <GateHero />
+
+        {/*
+          THE CROSSING — you scroll, and the gates open.
+
+          Placed between the hero and the ribbon deliberately: you come off the
+          footage, walk through the gate, and the first thing inside is the
+          venue's LED board. That order is the narrative, and it is why this
+          does not sit anywhere else on the page.
+
+          It is the only section driven by scroll POSITION rather than by
+          entering the viewport — see the component for why that is worth the
+          180vh it costs.
+        */}
+        <GateCrossing />
 
         {/* THE LED RIBBON — the site's existing Ticker, in festival colours.
             Same component, same rotation, same -mt-4 overlap as both other

@@ -5,6 +5,7 @@ import { Note } from "../Bits";
 import { Reveal } from "../motion";
 import { CredChip, GateSlate, Haze, HoloPanel, LaserSweep, NeonRule } from "./Neon";
 import { Sticker } from "./Sticker";
+import { Wristband } from "./Wristband";
 
 /**
  * THE SHAPE — what replaced the day-by-day board.
@@ -96,6 +97,18 @@ export function TheShape() {
             </Reveal>
           ))}
         </div>
+
+        {/*
+          THE WRISTBAND — a toy, parked here because this is the section about
+          what the trip actually IS. It submits nothing and gates nothing; see
+          the component for why that restraint is deliberate on a page whose
+          job is to be clear that nothing here is a booking.
+        */}
+        <Reveal delay={0.12}>
+          <div className="mt-10">
+            <Wristband />
+          </div>
+        </Reveal>
 
         {/* ---------------- what we're not telling you yet ---------------- */}
         <Reveal delay={0.14}>
