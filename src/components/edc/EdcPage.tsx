@@ -127,6 +127,11 @@ export function EdcPage() {
           composition={cast.composition}
           index={edcIndex("cast")}
           bridge={cast.bridge}
+          /* The board is shared and its STRUCTURE is untouched — only which
+             palette it is lit in. Its defaults are Goa’s gold/cyan/green/
+             orange, which were four banned hues sitting in the middle of this
+             page. See CAST_TONES in components/WhatsATen.tsx. */
+          tone="night"
         />
 
         {/* ── the one bright screen ── */}
@@ -171,7 +176,7 @@ export function EdcPage() {
           the same admin, tagged JOURNEY 02.
         */}
         <PreRegister />
-        <Footer />
+        <Footer tone="night" />
       </main>
 
       <ContactTeaCup />

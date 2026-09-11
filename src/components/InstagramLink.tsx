@@ -1,6 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 
 /**
@@ -13,10 +13,13 @@ export function InstagramLink({
   href,
   children,
   className = "",
+  style,
 }: {
   href: string;
   children: ReactNode;
   className?: string;
+  /** The footer sets its colour per tone; a class cannot, since it varies. */
+  style?: CSSProperties;
 }) {
   return (
     <a
@@ -25,6 +28,7 @@ export function InstagramLink({
       rel="noreferrer"
       onClick={() => track(PLOT_EVENTS.openInstagram)}
       className={className}
+      style={style}
     >
       {children}
     </a>

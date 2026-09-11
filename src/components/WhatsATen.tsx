@@ -59,7 +59,17 @@ function GradeStar({ color, className = "" }: { color: string; className?: strin
  * `score` is the sum of picked traits' weights, always 0–10 by construction
  * (see CASTING_MAX_SCORE and the weight-sum assertion in content/site.ts).
  */
-function Grade({ score, count, verdict }: { score: number; count: number; verdict: string | null }) {
+function Grade({
+  score,
+  count,
+  verdict,
+  tone,
+}: {
+  score: number;
+  count: number;
+  verdict: string | null;
+  tone: CastTone;
+}) {
   const reduce = useReducedMotion();
   const full = score === CASTING_MAX_SCORE;
   const progress = score === 0 ? 0 : 0.2 + (score / CASTING_MAX_SCORE) * 0.8;
@@ -87,7 +97,7 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
           />
           <motion.path
             d="M168,18 C252,20 306,58 303,100 C300,146 232,182 156,182 C80,182 16,148 18,100 C20,52 84,16 166,16 C190,16 214,22 232,32"
-            stroke="#FF4F87"
+            stroke={tone.brushA}
             strokeWidth="4.5"
             strokeLinecap="round"
             fill="none"
@@ -99,7 +109,7 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
           {/* second pass once every box is ticked — emphatic double circle */}
           <motion.path
             d="M176,30 C246,34 288,64 286,100 C284,138 226,166 158,167 C92,168 34,140 36,100 C38,62 96,32 168,30"
-            stroke="#FF7A3D"
+            stroke={tone.gold}
             strokeWidth="3"
             strokeLinecap="round"
             fill="none"
@@ -121,7 +131,7 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
           animate={
             reduce
               ? undefined
-              : { scale: full ? 1.04 : 1, rotate: full ? -3 : -1.5, color: full ? "#FFE9A8" : "#FFF1DC" }
+              : { scale: full ? 1.04 : 1, rotate: full ? -3 : -1.5, color: full ? tone.cream : "#FFF1DC" }
           }
           transition={{ type: "spring", stiffness: 200, damping: 14 }}
         >
@@ -144,24 +154,27 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
             exit={reduce ? undefined : { opacity: 0, scale: 0.3 }}
             transition={{ type: "spring", stiffness: 240, damping: 13 }}
           >
-            <GradeStar color="#FFD75E" className="h-9 w-9 drop-shadow-[0_3px_8px_rgba(0,0,0,0.5)] sm:h-12 sm:w-12" />
+            <GradeStar color={tone.gold} className="h-9 w-9 drop-shadow-[0_3px_8px_rgba(0,0,0,0.5)] sm:h-12 sm:w-12" />
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* the tally: six boxes waiting to be ticked */}
       <div className="mt-4 flex items-center gap-2">
-        {casting.traits.map((t, i) => (
-          <span
-            key={t.id}
-            className="flex h-5 w-5 items-center justify-center border transition-colors duration-300 sm:h-6 sm:w-6"
-            style={{ borderColor: i < count ? `${t.accent}` : "rgba(255,241,220,0.28)" }}
-          >
-            <span className="block h-3 w-3 sm:h-3.5 sm:w-3.5">
-              <Tick color={t.accent} on={i < count} />
+        {casting.traits.map((trait, i) => {
+          const accent = tone.accents?.[trait.id] ?? trait.accent;
+          return (
+            <span
+              key={trait.id}
+              className="flex h-5 w-5 items-center justify-center border transition-colors duration-300 sm:h-6 sm:w-6"
+              style={{ borderColor: i < count ? accent : "rgba(255,241,220,0.28)" }}
+            >
+              <span className="block h-3 w-3 sm:h-3.5 sm:w-3.5">
+                <Tick color={accent} on={i < count} />
+              </span>
             </span>
-          </span>
-        ))}
+          );
+        })}
       </div>
 
       {/* margin note that swaps as traits are picked */}
@@ -170,7 +183,7 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
           <motion.span
             key={verdict ?? "idle"}
             className="font-hand text-[clamp(1.1rem,3.4vw,1.45rem)] leading-none"
-            style={{ color: full ? "#FFD75E" : verdict ? "#FF7EA8" : "rgba(255,241,220,0.5)" }}
+            style={{ color: full ? tone.gold : verdict ? tone.blush : "rgba(255,241,220,0.5)" }}
             initial={reduce ? undefined : { opacity: 0, y: 6, rotate: -3 }}
             animate={{ opacity: 1, y: 0, rotate: -2 }}
             exit={reduce ? undefined : { opacity: 0, y: -6 }}
@@ -190,7 +203,7 @@ function Grade({ score, count, verdict }: { score: number; count: number; verdic
 /* ------------------------------------------------------------------ */
 
 /** Each trait gets its own drawn mark — never the same icon twice. */
-function TraitGlyph({ id, accent, active }: { id: string; accent: string; active: boolean }) {
+function TraitGlyph({ id, accent, active, ink }: { id: string; accent: string; active: boolean; ink: string }) {
   const reduce = useReducedMotion();
   const dim = active ? 1 : 0.55;
   const common = { stroke: accent, strokeWidth: 2.4, fill: "none", strokeLinecap: "round" as const };
@@ -255,7 +268,7 @@ function TraitGlyph({ id, accent, active }: { id: string; accent: string; active
             style={{ transformOrigin: "22px 16px" }}
             transition={{ type: "spring", stiffness: 240, damping: 12 }}
           />
-          <path d="M15,16 L20,20 L30,11" stroke="#24081f" strokeWidth={2.6} fill="none" strokeLinecap="round" />
+          <path d="M15,16 L20,20 L30,11" stroke={ink} strokeWidth={2.6} fill="none" strokeLinecap="round" />
         </>
       )}
     </motion.svg>
@@ -269,6 +282,8 @@ function TraitCard({
   tilt,
   className = "",
   style,
+  accent,
+  ink,
 }: {
   trait: Trait;
   active: boolean;
@@ -276,6 +291,9 @@ function TraitCard({
   tilt: number;
   className?: string;
   style?: React.CSSProperties;
+  /** Resolved by the tone — falls back to the trait’s own accent. */
+  accent: string;
+  ink: string;
 }) {
   const reduce = useReducedMotion();
   const baddie = trait.id === "baddies";
@@ -299,29 +317,29 @@ function TraitCard({
       <span
         className="relative block border-2 px-3 py-2.5 transition-colors duration-300 sm:px-3.5 sm:py-3"
         style={{
-          borderColor: active ? trait.accent : "rgba(255,241,220,0.26)",
-          background: active ? `${trait.accent}24` : "rgba(255,255,255,0.05)",
-          boxShadow: active ? `4px 4px 0 0 ${trait.accent}` : "4px 4px 0 0 rgba(0,0,0,0.28)",
+          borderColor: active ? accent : "rgba(255,241,220,0.26)",
+          background: active ? `${accent}24` : "rgba(255,255,255,0.05)",
+          boxShadow: active ? `4px 4px 0 0 ${accent}` : "4px 4px 0 0 rgba(0,0,0,0.28)",
         }}
       >
         {/* a strip of tape, because it's pinned to a board */}
         <span
           className="absolute -top-2.5 left-1/2 h-4 w-12 -translate-x-1/2 rotate-[-5deg] transition-colors duration-300"
-          style={{ background: active ? `${trait.accent}cc` : "rgba(255,241,220,0.5)" }}
+          style={{ background: active ? `${accent}cc` : "rgba(255,241,220,0.5)" }}
           aria-hidden
         />
 
         <span className="flex items-center gap-2">
-          <TraitGlyph id={trait.id} accent={trait.accent} active={active} />
+          <TraitGlyph id={trait.id} accent={accent} active={active} ink={ink} />
           <span
             className={`font-display leading-none tracking-[0.01em] ${baddie ? "text-[13px] sm:text-[16px]" : "text-[12px] sm:text-[14px]"}`}
-            style={{ color: active ? trait.accent : "#FFF1DC" }}
+            style={{ color: active ? accent : "#FFF1DC" }}
           >
             {trait.name}
           </span>
           <motion.span
             className="ml-auto font-hand text-[15px] leading-none sm:text-[17px]"
-            style={{ color: trait.accent }}
+            style={{ color: accent }}
             initial={false}
             animate={reduce ? undefined : { scale: active ? [0.5, 1.3, 1] : 1 }}
             transition={{ duration: 0.4, ease }}
@@ -395,11 +413,11 @@ const BOARD: Record<string, { top: string; left: string; tilt: number }> = {
  * Margin notes, tucked into the gaps the cards leave behind. Positions are
  * centre points, kept clear of the grade circle and the polaroids.
  */
-const NOTES: { top: string; left: string; rotate: number; color: string }[] = [
-  { top: "5%", left: "50%", rotate: -3, color: "#FFD75E" },
-  { top: "66%", left: "12%", rotate: 5, color: "rgba(255,241,220,0.5)" },
-  { top: "34%", left: "10%", rotate: -4, color: "#FF7EA8" },
-  { top: "93%", left: "14%", rotate: 4, color: "rgba(255,241,220,0.5)" },
+const NOTES: { top: string; left: string; rotate: number; ink: "gold" | "blush" | "muted" }[] = [
+  { top: "5%", left: "50%", rotate: -3, ink: "gold" },
+  { top: "66%", left: "12%", rotate: 5, ink: "muted" },
+  { top: "34%", left: "10%", rotate: -4, ink: "blush" },
+  { top: "93%", left: "14%", rotate: 4, ink: "muted" },
 ];
 
 /**
@@ -422,13 +440,105 @@ const NOTES: { top: string; left: string; rotate: number; color: string }[] = [
  * component stays journey-agnostic — Journey 01 passes nothing and renders
  * exactly what it always did.
  */
+/**
+ * THE TWO TONES THIS BOARD CAN BE LIT IN.
+ *
+ * ─── WHY THIS EXISTS ────────────────────────────────────────────────────────
+ * This is the master Cast section and it is shared by every journey, which is
+ * exactly right — the casting concept must not be reinterpreted per
+ * destination. But its COLOURS were hardcoded to the Goa/Bali palette: gold,
+ * cyan, green, orange, and a warm magenta-brown ground.
+ *
+ * On Journey 02 that made it the loudest off-palette moment on the page. That
+ * page runs one narrow arc — violet → magenta → blush, no cool accent and no
+ * warm one either — and this board was dropping four banned hues into the
+ * middle of it.
+ *
+ * ─── WHAT CHANGED, AND WHAT DID NOT ─────────────────────────────────────────
+ * Nothing about the board's structure, copy, interaction, weights or grading.
+ * Only which colours it is painted in. "warm" reproduces the previous values
+ * EXACTLY and is the default, so Goa and Bali render identically and neither
+ * page needed an edit.
+ *
+ * `accents` remaps the six trait colours, which otherwise come from
+ * `casting.traits` in content/site.ts. It is keyed by trait id rather than by
+ * position, so reordering the traits cannot silently recolour them.
+ */
+type CastTone = {
+  surface: string;
+  /** The grade, the star, the loud handwritten asides. */
+  gold: string;
+  /** The solved-state heading. */
+  cream: string;
+  /** The part-way verdict colour. */
+  blush: string;
+  brushA: string;
+  brushB: string;
+  noteA: string;
+  noteB: string;
+  arrowA: string;
+  arrowB: string;
+  /** The dark drawn ON TOP of an accent fill — must match the surface. */
+  ink: string;
+  /** null = use each trait's own accent from content/site.ts. */
+  accents: Record<string, string> | null;
+};
+
+const CAST_TONES: Record<"warm" | "night", CastTone> = {
+  /** Goa and Bali. Every value here is the literal this file used before. */
+  warm: {
+    surface: "radial-gradient(120% 90% at 20% 0%, #6b1a45 0%, #3d1030 42%, #24081f 100%)",
+    gold: "#FFD75E",
+    cream: "#FFE9A8",
+    blush: "#FF7EA8",
+    brushA: "#FF4F87",
+    brushB: "#00A9C7",
+    noteA: "#36C96F",
+    noteB: "#FFD75E",
+    arrowA: "#FF4F87",
+    arrowB: "#00A9C7",
+    ink: "#24081f",
+    accents: null,
+  },
+  /**
+   * Journey 02. Inside the arc, and separated by LIGHTNESS rather than hue —
+   * magenta, blush, chrome — the same trick the two LED ribbons use. Six
+   * traits in six different hues is what made this board shout; six traits in
+   * three weights of one hue still reads as six distinct cards.
+   */
+  night: {
+    surface: "radial-gradient(120% 90% at 20% 0%, #2a0d4d 0%, #170727 44%, #0a0414 100%)",
+    gold: "#FF7FA8",
+    cream: "#FFF1DC",
+    blush: "#FF7FA8",
+    brushA: "#FF2E7E",
+    brushB: "#8B3DFF",
+    noteA: "#FF7FA8",
+    noteB: "#FF7FA8",
+    arrowA: "#FF2E7E",
+    arrowB: "#8B3DFF",
+    ink: "#0a0414",
+    accents: {
+      face: "#FF2E7E",
+      charm: "#FF7FA8",
+      energy: "#FF2E7E",
+      personality: "#FF7FA8",
+      stories: "#D6CFE6",
+      baddies: "#FF2E7E",
+    },
+  },
+};
+
 export function WhatsATen({
   compact = false,
   composition,
   index,
   bridge,
+  tone = "warm",
 }: {
   compact?: boolean;
+  /** Which palette to light the board in. "warm" is Goa/Bali, and is unchanged. */
+  tone?: "warm" | "night";
   composition?: { title: string; body: string; disclaimer: string; extra?: readonly string[] };
   /**
    * Section number beside the label. Defaults to `casting.index`, which is
@@ -463,17 +573,21 @@ export function WhatsATen({
    */
   const score = picked.reduce((sum, id) => sum + (casting.traits.find((t) => t.id === id)?.weight ?? 0), 0);
 
+  /** Resolved once; every colour below reads from here rather than a literal. */
+  const ct = CAST_TONES[tone];
+  const accentOf = (id: string, fallback: string) => ct.accents?.[id] ?? fallback;
+
   return (
     <section
       id="casting"
       className={`relative overflow-hidden px-5 text-sand sm:px-8 lg:px-14 ${
         compact ? "py-10 sm:py-12" : "py-12 sm:py-16"
       }`}
-      style={{ background: "radial-gradient(120% 90% at 20% 0%, #6b1a45 0%, #3d1030 42%, #24081f 100%)" }}
+      style={{ background: ct.surface }}
     >
       <div className="grain pointer-events-none absolute inset-0" />
-      <BrushStroke color="#FF4F87" seed={31} className="pointer-events-none absolute -right-16 top-2 h-32 w-56 opacity-[0.16]" />
-      <BrushStroke color="#00A9C7" seed={13} className="pointer-events-none absolute -left-24 bottom-24 h-28 w-56 -rotate-12 opacity-[0.12]" />
+      <BrushStroke color={ct.brushA} seed={31} className="pointer-events-none absolute -right-16 top-2 h-32 w-56 opacity-[0.16]" />
+      <BrushStroke color={ct.brushB} seed={13} className="pointer-events-none absolute -left-24 bottom-24 h-28 w-56 -rotate-12 opacity-[0.12]" />
 
       <div className="relative">
         {/* masthead */}
@@ -523,7 +637,7 @@ export function WhatsATen({
             <p className="max-w-[26ch] font-serif text-[clamp(1.05rem,2.6vw,1.3rem)] italic leading-[1.25] text-sand/85">
               {casting.intro}
             </p>
-            <Note className="mt-3 block text-[clamp(1.15rem,3.4vw,1.5rem)] text-[#36C96F]" rotate={-4}>
+            <Note className="mt-3 block text-[clamp(1.15rem,3.4vw,1.5rem)]" color={ct.noteA} rotate={-4}>
               {casting.annotation}
             </Note>
           </Reveal>
@@ -542,7 +656,7 @@ export function WhatsATen({
           <PhotoScrap photo={journey.casting.photos[1]} tilt={7} className="absolute w-[14%] -translate-x-1/2 -translate-y-1/2" style={{ top: "74%", left: "90%" }} />
           <PhotoScrap photo={journey.casting.photos[2]} tilt={-5} className="absolute w-[13%] -translate-x-1/2 -translate-y-1/2" style={{ top: "84%", left: "50%" }} />
 
-          <span className="pointer-events-none absolute left-[86%] top-[18%] -translate-x-1/2 -translate-y-1/2 rotate-[7deg] font-hand text-2xl text-[#FFD75E]">
+          <span className="pointer-events-none absolute left-[86%] top-[18%] -translate-x-1/2 -translate-y-1/2 rotate-[7deg] font-hand text-2xl" style={{ color: ct.noteB }}>
             {casting.asides[0]}
           </span>
 
@@ -553,7 +667,13 @@ export function WhatsATen({
               <span
                 key={n}
                 className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-hand text-xl"
-                style={{ top: p.top, left: p.left, rotate: `${p.rotate}deg`, color: p.color }}
+                style={{
+                  top: p.top,
+                  left: p.left,
+                  rotate: `${p.rotate}deg`,
+                  color:
+                    p.ink === "gold" ? ct.gold : p.ink === "blush" ? ct.blush : "rgba(255,241,220,0.5)",
+                }}
               >
                 {n}
               </span>
@@ -564,14 +684,14 @@ export function WhatsATen({
               Positioned inline like the notes and photos — one-off percentages
               are safer as styles than as generated utility classes. */}
           <span className="pointer-events-none absolute" style={{ left: "31%", top: "20%", rotate: "18deg" }}>
-            <Arrow color="#FF4F87" className="h-16 w-16 opacity-70" />
+            <Arrow color={ct.arrowA} className="h-16 w-16 opacity-70" />
           </span>
           <span className="pointer-events-none absolute" style={{ left: "70%", top: "58%", rotate: "-150deg" }}>
-            <Arrow color="#00A9C7" className="h-16 w-16 opacity-60" />
+            <Arrow color={ct.arrowB} className="h-16 w-16 opacity-60" />
           </span>
 
           <div className="absolute left-1/2 top-[48%] w-[30%] -translate-x-1/2 -translate-y-1/2">
-            <Grade score={score} count={count} verdict={verdict} />
+            <Grade score={score} count={count} verdict={verdict} tone={ct} />
           </div>
 
           {casting.traits.map((t) => {
@@ -583,6 +703,8 @@ export function WhatsATen({
                 tilt={p.tilt}
                 active={picked.includes(t.id)}
                 onToggle={() => toggle(t.id)}
+                accent={accentOf(t.id, t.accent)}
+                ink={ct.ink}
                 className="absolute w-[20%] -translate-x-1/2 -translate-y-1/2"
                 style={{ top: p.top, left: p.left }}
               />
@@ -617,7 +739,7 @@ export function WhatsATen({
                 compact ? "w-[46%] max-w-[212px]" : "w-[54%] max-w-[260px]"
               }`}
             >
-              <Grade score={score} count={count} verdict={verdict} />
+              <Grade score={score} count={count} verdict={verdict} tone={ct} />
             </div>
           </div>
 
@@ -629,12 +751,14 @@ export function WhatsATen({
                 tilt={i % 2 ? 2.5 : -2.5}
                 active={picked.includes(t.id)}
                 onToggle={() => toggle(t.id)}
+                accent={accentOf(t.id, t.accent)}
+                ink={ct.ink}
               />
             ))}
           </div>
 
           <div className={`flex items-start justify-between gap-4 ${compact ? "mt-3" : "mt-4"}`}>
-            <Note className="block text-lg text-[#FFD75E]" rotate={-4}>
+            <Note className="block text-lg" color={ct.noteB} rotate={-4}>
               {casting.asides[0]}
             </Note>
             <PhotoScrap
@@ -657,7 +781,7 @@ export function WhatsATen({
           <Reveal delay={0.05}>
             <div className="mt-6 flex flex-col gap-2 border-t-2 border-sand/20 pt-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-10">
               <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-                <h3 className="font-display text-[clamp(1.6rem,5.6vw,2.6rem)] uppercase leading-none text-[#FFE9A8]">
+                <h3 className="font-display text-[clamp(1.6rem,5.6vw,2.6rem)] uppercase leading-none" style={{ color: ct.cream }}>
                   {composition.title}
                 </h3>
                 <p className="text-[clamp(0.95rem,2.4vw,1.15rem)] leading-tight text-sand/80">{composition.body}</p>
@@ -698,7 +822,7 @@ export function WhatsATen({
               {casting.outro.annotation}
             </Note>
             <Reveal delay={0.1} className="mt-6 flex justify-center">
-              <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow="#FF4F87" event={PLOT_EVENTS.viewClues}>
+              <PlotButton href={casting.cta.href} bg="#FFF1DC" fg="#1A0D0A" shadow={ct.brushA} event={PLOT_EVENTS.viewClues}>
                 {casting.cta.label}
               </PlotButton>
             </Reveal>

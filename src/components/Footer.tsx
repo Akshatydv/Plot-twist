@@ -3,9 +3,42 @@ import { brand, footer } from "@/content/site";
 import { Logo } from "./Logo";
 import { InstagramLink } from "./InstagramLink";
 
-export function Footer() {
+/**
+ * THE TWO TONES THIS FOOTER CAN BE LIT IN.
+ *
+ * Same reasoning as the casting board (see CAST_TONES in WhatsATen.tsx): one
+ * shared footer across every journey, but its colours were hardcoded to the
+ * Goa/Bali palette — a warm brown-black ground (`bg-ink`, #1A0D0A), an orange
+ * Instagram handle and a brand-pink signature.
+ *
+ * Under Journey 02 that landed a warm brown slab at the bottom of a
+ * violet-black page, with an orange link on it. Both are outside that page's
+ * arc, and the two blacks read as a seam rather than a continuation.
+ *
+ * "warm" is byte-identical to the previous values and is the default, so Goa
+ * and Bali are untouched and neither page needed an edit.
+ */
+type FooterTone = {
+  surface: string;
+  /** The Instagram handle. */
+  handle: string;
+  /** The oversized brush signature. */
+  signature: string;
+};
+
+const FOOTER_TONES: Record<"warm" | "night", FooterTone> = {
+  warm: { surface: "#1A0D0A", handle: "#FF7A3D", signature: "#FF4F87" },
+  night: { surface: "#0A0414", handle: "#FF7FA8", signature: "#FF2E7E" },
+};
+
+export function Footer({ tone = "warm" }: { tone?: "warm" | "night" } = {}) {
+  const ft = FOOTER_TONES[tone];
+
   return (
-    <footer className="relative overflow-hidden bg-ink px-5 pb-8 pt-14 text-sand sm:px-8 lg:px-14">
+    <footer
+      className="relative overflow-hidden px-5 pb-8 pt-14 text-sand sm:px-8 lg:px-14"
+      style={{ background: ft.surface }}
+    >
       <div className="grain pointer-events-none absolute inset-0" />
 
       <div className="relative">
@@ -15,7 +48,8 @@ export function Footer() {
             <p className="font-display text-[clamp(0.95rem,3vw,1.35rem)] tracking-[0.04em]">{footer.tagline}</p>
             <InstagramLink
               href={footer.instagramUrl}
-              className="mt-2 inline-block font-hand text-[clamp(1.5rem,5vw,2.2rem)] leading-none text-sunset underline-offset-4 hover:underline"
+              className="mt-2 inline-block font-hand text-[clamp(1.5rem,5vw,2.2rem)] leading-none underline-offset-4 hover:underline"
+              style={{ color: ft.handle }}
             >
               {footer.instagram}
             </InstagramLink>
@@ -23,8 +57,8 @@ export function Footer() {
         </div>
 
         <div
-          className="mt-10 select-none font-brush leading-[0.82] text-pink"
-          style={{ fontSize: "clamp(2.6rem,13vw,10rem)" }}
+          className="mt-10 select-none font-brush leading-[0.82]"
+          style={{ fontSize: "clamp(2.6rem,13vw,10rem)", color: ft.signature }}
           aria-hidden
         >
           {footer.signature}
