@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { preRegister } from "@/content/thailand";
-import { normaliseInstagram } from "@/lib/applications";
+import { normaliseInstagram, validateBasics, type FieldErrors } from "@/lib/applications";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { attributionForApplication } from "@/lib/attribution";
 import { useJourney } from "../mystery/JourneyProvider";
@@ -39,10 +39,24 @@ const ease = [0.22, 1, 0.36, 1] as const;
  * pre-registration becomes permanent, the correct fix is a nullable answers
  * column, not a more convincing placeholder.
  *
- * ─── VALIDATION ─────────────────────────────────────────────────────────────
- * Light on purpose. The server re-checks everything regardless (see
- * lib/applications.ts), and a pre-registration that argues with someone about
- * their phone number format has misunderstood what it is for.
+ * ─── VALIDATION: THE SAME FUNCTION THE SERVER RUNS ──────────────────────────
+ * This form once checked only name, handle and mobile, and sent an em dash for
+ * City and Age when they were blank. The button was therefore enabled on a
+ * payload the API rejects outright — `validateBasics` requires a real city and
+ * an integer age in range, so "—" came back 422 and the visitor got the
+ * generic failure line. Every person who skipped either field was told to try
+ * again, with nothing to fix on screen, and nothing ever reached the casting
+ * table.
+ *
+ * So the client now calls `validateBasics` itself — literally the function the
+ * route calls — rather than keeping a second, looser copy of the rules in
+ * sync by hand. Client and server cannot disagree about what a valid
+ * pre-registration is, because there is only one definition of it.
+ *
+ * Field errors are still only SHOWN once someone has tried to submit, so the
+ * form stays quiet while it is being filled in. And if the API ever rejects a
+ * payload this file thought was fine, those field errors are rendered too
+ * instead of being swallowed — a silent 422 is how this bug survived.
  */
 
 type Values = { name: string; instagram: string; mobile: string; city: string; age: string };
@@ -57,18 +71,33 @@ export function PreRegister() {
   const [values, setValues] = useState<Values>(EMPTY);
   const [state, setState] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [touched, setTouched] = useState(false);
+  /** Field errors the API sent back, for the case where it disagrees with us. */
+  const [serverErrors, setServerErrors] = useState<FieldErrors>({});
 
   const set = (k: keyof Values) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues((v) => ({ ...v, [k]: e.target.value }));
 
-  const ready =
-    values.name.trim().length > 0 &&
-    normaliseInstagram(values.instagram).length > 0 &&
-    values.mobile.replace(/\D/g, "").length >= 7;
+  // The exact check the route performs. Not a client-side approximation of it.
+  const errors = useMemo(
+    () =>
+      validateBasics({
+        name: values.name,
+        instagram: normaliseInstagram(values.instagram),
+        mobile: values.mobile,
+        city: values.city,
+        age: values.age,
+      }),
+    [values]
+  );
+  const ready = Object.keys(errors).length === 0;
+
+  /** Ours while typing; the server's once it has had an opinion. */
+  const shown = (k: keyof Values) => (touched ? serverErrors[k] ?? errors[k] : undefined);
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setTouched(true);
+    setServerErrors({});
     if (!ready || state === "sending") return;
 
     setState("sending");
@@ -82,8 +111,10 @@ export function PreRegister() {
           name: values.name.trim(),
           instagram: normaliseInstagram(values.instagram),
           mobile: values.mobile.trim(),
-          city: values.city.trim() || "—",
-          age: values.age.trim() || "—",
+          // Sent as given. The em-dash placeholders that used to stand in for a
+          // blank City or Age are exactly what the API rejected.
+          city: values.city.trim(),
+          age: values.age.trim(),
           // See the note above: a system marker, never a fabricated answer.
           answer_1: preRegister.marker,
           answer_2: preRegister.marker,
@@ -92,7 +123,14 @@ export function PreRegister() {
           ...attributionForApplication(),
         }),
       });
-      if (!res.ok) throw new Error(String(res.status));
+      if (!res.ok) {
+        // A 422 carries per-field reasons. Showing them is the difference
+        // between "fix your age" and "something went sideways", which is the
+        // failure mode that hid this bug for as long as it did.
+        const payload = (await res.json().catch(() => null)) as { errors?: FieldErrors } | null;
+        if (res.status === 422 && payload?.errors) setServerErrors(payload.errors);
+        throw new Error(String(res.status));
+      }
       setState("done");
       track(PLOT_EVENTS.applicationSubmitted);
     } catch {
@@ -156,36 +194,16 @@ export function PreRegister() {
               exit={reduce ? undefined : { opacity: 0, y: -12 }}
             >
               <div className="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-                <Field
-                  id="pr-name"
-                  f={preRegister.fields.name}
-                  value={values.name}
-                  onChange={set("name")}
-                  invalid={touched && !values.name.trim()}
-                />
-                <Field
-                  id="pr-instagram"
-                  f={preRegister.fields.instagram}
-                  value={values.instagram}
-                  onChange={set("instagram")}
-                  invalid={touched && !normaliseInstagram(values.instagram)}
-                />
-                <Field
-                  id="pr-mobile"
-                  f={preRegister.fields.mobile}
-                  value={values.mobile}
-                  onChange={set("mobile")}
-                  type="tel"
-                  invalid={touched && values.mobile.replace(/\D/g, "").length < 7}
-                />
-                <Field id="pr-city" f={preRegister.fields.city} value={values.city} onChange={set("city")} />
-                <Field
-                  id="pr-age"
-                  f={preRegister.fields.age}
-                  value={values.age}
-                  onChange={set("age")}
-                  type="number"
-                />
+                <Field id="pr-name" f={preRegister.fields.name} value={values.name}
+                  onChange={set("name")} error={shown("name")} />
+                <Field id="pr-instagram" f={preRegister.fields.instagram} value={values.instagram}
+                  onChange={set("instagram")} error={shown("instagram")} />
+                <Field id="pr-mobile" f={preRegister.fields.mobile} value={values.mobile}
+                  onChange={set("mobile")} type="tel" error={shown("mobile")} />
+                <Field id="pr-city" f={preRegister.fields.city} value={values.city}
+                  onChange={set("city")} error={shown("city")} />
+                <Field id="pr-age" f={preRegister.fields.age} value={values.age}
+                  onChange={set("age")} type="number" error={shown("age")} />
               </div>
 
               {/*
@@ -235,21 +253,30 @@ export function PreRegister() {
 
 /* ------------------------------------------------------------------ */
 
+/**
+ * One field, and its reason for being wrong.
+ *
+ * The message is rendered rather than implied by a coloured underline: a red
+ * line tells someone that something is wrong, not what, and Age here has a
+ * rule nobody can guess from looking at it (18–30). The message is tied to the
+ * input with aria-describedby so it is announced rather than merely seen.
+ */
 function Field({
   id,
   f,
   value,
   onChange,
   type = "text",
-  invalid = false,
+  error,
 }: {
   id: string;
   f: { label: string; placeholder: string };
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
-  invalid?: boolean;
+  error?: string;
 }) {
+  const invalid = Boolean(error);
   return (
     <div>
       <label htmlFor={id} className="edc-meta !text-[9px]">
@@ -262,8 +289,14 @@ function Field({
         onChange={onChange}
         placeholder={f.placeholder}
         aria-invalid={invalid || undefined}
+        aria-describedby={invalid ? `${id}-err` : undefined}
         className={`${fieldBase} ${invalid ? "border-[var(--edc-hot)]" : ""}`}
       />
+      {invalid && (
+        <p id={`${id}-err`} className="mt-2 font-hand text-[1.05rem] leading-tight text-[var(--edc-hot)]">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
