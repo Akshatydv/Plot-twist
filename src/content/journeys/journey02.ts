@@ -43,6 +43,27 @@ export const JOURNEY_02: JourneyConfig = {
   nav: { label: "EDC THAILAND", kicker: "JOURNEY 02 · DEC 18–20, 2026" },
   campaignId: "journey02_launch",
   /** The festival page. See components/edc/EdcPage.tsx. */
+  /**
+   * The page states EDC Thailand, Phuket and the dates in its own hero, so
+   * naming them here gives nothing away and is the only reason this page can
+   * be found at all. See the note on `seo` in types.ts.
+   *
+   * DELIBERATELY NOT "tickets" OR "packages". Plot Twist does not sell festival
+   * tickets and is not an EDC partner, reseller or agent — a title promising
+   * either would rank for the wrong intent AND imply the affiliation the whole
+   * page is careful to disclaim. "Group trip" is what this actually is.
+   */
+  seo: {
+    title: "EDC Thailand 2026 — 7-Day Group Trip from India | Plot Twist",
+    description:
+      "Twenty strangers, one crew, seven days built around EDC Thailand in Phuket, 16–22 Dec 2026. Not a tour and not a ticket agent — pre-register to hear first.",
+    /** Confirmed trip window — the same 16–22 December 2026 as TRIP.dates in
+     *  content/thailand.ts. These two must agree; change both or neither. */
+    startDate: "2026-12-16",
+    endDate: "2026-12-22",
+    destination: "Phuket, Thailand",
+  },
+
   pageVariant: "edc",
   /** Its own namespace — this is what stops three hunts bleeding into each other. */
   storageKey: "plottwist.plot.j02.v1",

@@ -54,6 +54,14 @@ export const JOURNEY_00: JourneyConfig = {
    * returns exactly as it was. The header comment above documents the ladder's
    * verified research, which is the expensive part to recreate.
    */
+  /** Same reasoning as `nav` above: Goa is in this page's own hero, so naming
+   *  it in the title costs nothing and is what lets the page be found. */
+  seo: {
+    title: "Goa Group Trip for 20 Strangers, October 2026 | Plot Twist",
+    description:
+      "Twenty people who didn't know each other, one crew, four days in Goa this October. Not a tour — a cast. Apply, and a real person reads every word of it.",
+  },
+
   pageVariant: "reveal",
   /** Its own namespace. This is what keeps the two hunts from bleeding into each other. */
   storageKey: "plottwist.plot.j00.v1",

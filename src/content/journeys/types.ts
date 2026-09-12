@@ -91,6 +91,50 @@ export type JourneyConfig = {
     /** The small line above it — what kind of trip this is. */
     kicker: string;
   };
+  /**
+   * SEARCH METADATA — the title and description this journey's page carries.
+   *
+   * ─── WHY THIS IS PER-JOURNEY AND NOT ONE SITE-WIDE STRING ──────────────────
+   * Every page shipped the root title and description verbatim: "Plot Twist —
+   * 20 People. One Trip. 10/10s Only." / "You've found the plot. But do you
+   * know where it's going?". That was correct while every journey was a
+   * mystery, and it is what a shared link should still say for one.
+   *
+   * It is also why /journey/02 could not rank for anything. Nothing in its
+   * head named EDC, Thailand, Phuket or 2026, so the one page on this site
+   * with genuine search demand behind it was invisible for all of it — and
+   * two pages sharing a title and description are duplicates to a crawler.
+   *
+   * ─── THE RULE ──────────────────────────────────────────────────────────────
+   * Set this ONLY on a journey that already states its destination on the
+   * page. The precedent is `nav` directly above: Journey 00 names Goa in the
+   * menu because Goa is in its own hero, so naming it costs nothing. Identical
+   * reasoning — metadata cannot give away something the H1 already says.
+   *
+   * NEVER set it on a `pageVariant: "mystery"` journey. There the withheld
+   * destination IS the product, and putting it in a <title> hands the answer
+   * to anyone who hovers a tab, plus every search result and every share.
+   * Those journeys inherit the generic pair, which is the correct behaviour
+   * and not an oversight.
+   *
+   * Keep `title` under ~60 characters and `description` under ~155, or Google
+   * truncates them and writes its own.
+   */
+  seo?: {
+    title: string;
+    description: string;
+    /**
+     * Trip facts for the TouristTrip node in this page's structured data.
+     * All optional, and all subject to the same rule as the rest of this
+     * repo: only set them once they are CONFIRMED. An ISO date in a schema
+     * is a fact stated to a machine, and "probably October" is not one.
+     */
+    startDate?: string;
+    endDate?: string;
+    /** Plain place name, e.g. "Phuket, Thailand". */
+    destination?: string;
+  };
+
   /** Which page composition this journey renders. Defaults to "mystery". */
   pageVariant?: JourneyPageVariant;
   /**

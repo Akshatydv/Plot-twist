@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Caveat, DM_Sans, Instrument_Serif, Permanent_Marker } from "next/font/google";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { siteGraph } from "@/lib/seo/schema";
 import "./globals.css";
 
 const dm = DM_Sans({ subsets: ["latin"], variable: "--font-dm", display: "swap" });
@@ -66,6 +68,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           These are hints, not requests: on the pages that don't embed
           anything they cost one idle socket and nothing else.
         */}
+        {/* Who this site is, in machine-readable form. See lib/seo/schema.ts
+            for why the festival never appears in the graph. */}
+        <JsonLd data={siteGraph()} />
+
         <link rel="preconnect" href="https://www.youtube.com" />
         <link rel="preconnect" href="https://i.ytimg.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
