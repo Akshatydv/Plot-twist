@@ -75,6 +75,80 @@ export function siteGraph() {
 }
 
 /**
+ * An FAQ, as structured data.
+ *
+ * ONLY CALL THIS WITH QUESTIONS THAT ARE VISIBLE ON THE PAGE. FAQPage markup
+ * describing content a visitor cannot see is a documented cause of manual
+ * actions, and it is the single most commonly abused schema type there is.
+ * The EDC page renders every one of these in a <details> that keeps its answer
+ * in the DOM whether open or not, which is what makes the markup truthful.
+ */
+export function faqSchema(items: readonly { q: string; a: string }[]) {
+  return {
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+}
+
+/**
+ * A guide page.
+ *
+ * `Article` rather than `BlogPosting` — these are standing reference pages
+ * that get revised, not dated posts in a feed, and nothing on the site
+ * presents them as a blog.
+ *
+ * `dateModified` matters more than `datePublished` here: a guide that answers
+ * a question about a specific festival has a shelf life, and the modified date
+ * is the honest signal of whether it has been looked at since.
+ */
+export function articleGraph({
+  path,
+  headline,
+  description,
+  published,
+  modified,
+}: {
+  path: string;
+  headline: string;
+  description: string;
+  published: string;
+  modified: string;
+}) {
+  const url = `${SITE_URL}${path}`;
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      organisationSchema(),
+      webSiteSchema(),
+      {
+        "@type": "Article",
+        "@id": `${url}#article`,
+        headline,
+        description,
+        datePublished: published,
+        dateModified: modified,
+        author: { "@id": ORG_ID },
+        publisher: { "@id": ORG_ID },
+        mainEntityOfPage: url,
+        inLanguage: "en",
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${url}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Plot Twist", item: SITE_URL },
+          { "@type": "ListItem", position: 2, name: headline, item: url },
+        ],
+      },
+    ],
+  };
+}
+
+/**
  * A journey's own page, as a trip Plot Twist provides.
  *
  * `itinerary` is deliberately absent while the day-by-day is unpublished —
@@ -88,6 +162,7 @@ export function journeyGraph({
   startDate,
   endDate,
   destination,
+  faq,
 }: {
   path: string;
   name: string;
@@ -97,6 +172,8 @@ export function journeyGraph({
   endDate?: string;
   /** Plain place name, e.g. "Phuket, Thailand". */
   destination?: string;
+  /** Only pass questions the page actually renders — see faqSchema. */
+  faq?: readonly { q: string; a: string }[];
 }) {
   const url = `${SITE_URL}${path}`;
   return {
@@ -138,6 +215,7 @@ export function journeyGraph({
           { "@type": "ListItem", position: 2, name, item: url },
         ],
       },
+      ...(faq?.length ? [{ ...faqSchema(faq), "@id": `${url}#faq` }] : []),
     ],
   };
 }

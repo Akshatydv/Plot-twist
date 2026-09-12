@@ -14,6 +14,7 @@ import { ThePass } from "./ThePass";
 import { GatesOpen } from "./GatesOpen";
 import { StickyCta } from "./StickyCta";
 import { PreRegister } from "./PreRegister";
+import { TheFaq } from "./TheFaq";
 import { Room } from "./Room";
 import { SoundDesk } from "./SoundDesk";
 import { CrewRadio } from "./CrewRadio";
@@ -223,6 +224,16 @@ export function EdcPage() {
           See components/edc/PreRegister.tsx. It writes to the same table and
           the same admin, tagged JOURNEY 02.
         */}
+          {/*
+            THE FAQ, immediately before the ask. Every question in it is an
+            objection somebody would otherwise have to message to resolve, and
+            the three that matter most — not official, price not announced,
+            pre-registering books nothing — are the ones a sales page buries.
+            Answering them here is also the only reason FAQPage markup on this
+            page is honest: the answers are visible.
+          */}
+          <TheFaq />
+
           <PreRegister />
         </div>
         <Footer tone="night" />

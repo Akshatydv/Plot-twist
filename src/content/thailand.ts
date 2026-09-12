@@ -66,6 +66,7 @@ export const EDC_SECTION_ORDER = [
   "beyond",
   "plot",
   "pass",
+  "faq",
   "preRegister",
 ] as const;
 
@@ -1040,6 +1041,67 @@ export const crew = {
   channel: "CH 02",
   cta: "WhatsApp",
   aria: "Ask the crew: contact Plot Twist on WhatsApp",
+} as const;
+
+/**
+ * THE FAQ — the objections, answered on the page.
+ *
+ * ─── WHY THIS EXISTS, IN BOTH DIRECTIONS ────────────────────────────────────
+ * Search: "is X an official package", "what does it cost", "are tickets
+ * included" are real queries with real volume, and answering them plainly is
+ * the only way this page can appear for them. It is also the one place on the
+ * site where FAQPage structured data is honest, because these questions are
+ * VISIBLE on the page — marking up questions a visitor cannot see is a manual
+ * action waiting to happen, which is why the panels in `plot` are not
+ * marked up as an FAQ despite superficially looking like one.
+ *
+ * Conversion: every question below is something somebody would otherwise have
+ * to message to find out, and the three that matter most are the ones a sales
+ * page would bury. Answering "no, this is not official" and "no, the price is
+ * not announced" up front loses the people who were never going to be happy
+ * and keeps the ones who were.
+ *
+ * ─── THE RULE FOR ADDING ONE ────────────────────────────────────────────────
+ * Only questions answerable from a CONFIRMED fact already in this file. No
+ * invented policy — if the honest answer is "not decided yet", either say that
+ * or leave the question out. Several below say exactly that on purpose; a
+ * teaser that answers everything is not a teaser, it is a brochure that is
+ * making things up.
+ */
+export const faq = {
+  index: edcIndex("faq"),
+  label: "STRAIGHT ANSWERS",
+  headline: ["THE BIT WHERE", "WE STOP BEING COY."],
+  items: [
+    {
+      q: "Is this an official EDC Thailand package?",
+      a: "No. Plot Twist is an independent travel company and is not a partner, sponsor, organiser, reseller or agent of EDC, EDC Thailand or Insomniac Events. We run a trip that happens to be built around their festival. Anything to do with the festival itself — tickets, lineup, entry — is theirs, not ours.",
+    },
+    {
+      q: "Are festival tickets included?",
+      a: "Not announced yet. What is in and what is not is still being built, and we would rather say that than publish a list we have to walk back. The pre-registration list hears the moment it is settled.",
+    },
+    {
+      q: "What does it cost?",
+      a: "Not announced yet, and there is no deposit, no payment and nothing to commit to at this stage. A teaser that quotes a number is not a teaser.",
+    },
+    {
+      q: "Does pre-registering book me a seat?",
+      a: "No. It is your name on a list so you hear before the internet does. It is not a booking, not an application, and it holds nothing — when the twenty seats actually open, this list gets told first.",
+    },
+    {
+      q: "When is the trip, and how long is it?",
+      a: `Seven days and six nights, ${TRIP.dates}. The festival itself runs ${festival.dates} at ${festival.ground}, which sits inside that window — the trip is deliberately longer than the festival, because the other four days are the point.`,
+    },
+    {
+      q: "Who else is going?",
+      a: "Twenty people, aged 18 to 30, most of whom will not know each other beforehand. A real person reads every application and picks the mix one at a time, which is why it is not instant and why it is not simply whoever paid first.",
+    },
+    {
+      q: "Where is the day-by-day itinerary?",
+      a: "Not public while the trip is still being built. We publish the shape — seven days, six nights, three of them the festival — and the detail lands with the pre-registration list before it lands anywhere else.",
+    },
+  ],
 } as const;
 
 export const wristband = {

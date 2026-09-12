@@ -4,6 +4,7 @@ import { JourneyPage } from "@/components/JourneyPage";
 import { DEFAULT_JOURNEY, JOURNEYS, journeyBySlug } from "@/content/journeys";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { journeyGraph } from "@/lib/seo/schema";
+import { faq } from "@/content/thailand";
 
 /**
  * /journey/00, /journey/01, /journey/02 …
@@ -93,6 +94,9 @@ export default async function Page({ params }: { params: Promise<{ journey: stri
             startDate: journey.seo.startDate,
             endDate: journey.seo.endDate,
             destination: journey.seo.destination,
+            // Only Journey 02 renders a visible FAQ, and the markup is only
+            // honest because it does. See faqSchema in lib/seo/schema.ts.
+            faq: journey.pageVariant === "edc" ? faq.items : undefined,
           })}
         />
       )}
