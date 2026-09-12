@@ -44,6 +44,25 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
+  /**
+   * SEARCH CONSOLE, AND WHY IT IS AN ENV VAR RATHER THAN A PASTED STRING.
+   *
+   * Nothing on this domain can be diagnosed without Search Console — whether
+   * Google has the sitemap, which pages are indexed, what is being searched to
+   * reach them. Verification is a one-off token, and putting it in the
+   * environment means it can be added the moment somebody opens the console,
+   * with no code change, no review and no deploy of a source file whose only
+   * diff is a hash.
+   *
+   * Unset, `verification` is simply absent and nothing is rendered.
+   *
+   * Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION to the content value of the
+   * <meta name="google-site-verification"> tag Search Console offers under
+   * "HTML tag" — the token only, not the whole tag.
+   */
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
   formatDetection: { telephone: false, address: false, email: false },
 };
 
