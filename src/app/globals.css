@@ -945,3 +945,27 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .edc .edc-desk-eq.is-on i { animation: none; height: 8px; }
 }
+
+/* ---------- the crew radio ----------
+   Journey 02's contact affordance, in place of the tea cup. Same corner, same
+   lift over the mobile CTA bar — StickyCta sets --edc-sticky-lift on <html>,
+   and the cup uses the identical rule on the pages that still carry it. */
+.edc-radio-dock {
+  transform: translateY(calc(-1 * var(--edc-sticky-lift, 0px)));
+  transition: transform 0.3s ease-out;
+}
+
+/* The status light, breathing on the page's own bar length so the radio runs
+   on the same clock as the LED strip and the room rather than on a timer of
+   its own. Well under any flash threshold: this is a slow pulse, not a strobe. */
+.edc-radio-led {
+  animation: edc-radio-led calc(var(--edc-bpm-bar) * 2) ease-in-out infinite;
+  transform-origin: center;
+}
+@keyframes edc-radio-led {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .edc-radio-led { animation: none; opacity: 0.9; }
+}

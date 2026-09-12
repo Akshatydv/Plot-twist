@@ -1,6 +1,5 @@
 import { Ticker } from "@/components/Ticker";
 import { Footer } from "@/components/Footer";
-import { ContactTeaCup } from "@/components/ContactTeaCup";
 import { WhatsATen } from "@/components/WhatsATen";
 import { cast, edcIndex, ribbonBottom, ribbonTop } from "@/content/thailand";
 import { GateHero } from "./GateHero";
@@ -17,6 +16,7 @@ import { StickyCta } from "./StickyCta";
 import { PreRegister } from "./PreRegister";
 import { Room } from "./Room";
 import { SoundDesk } from "./SoundDesk";
+import { CrewRadio } from "./CrewRadio";
 
 /**
  * THE FESTIVAL PAGE — Journey 02, EDC Thailand.
@@ -228,7 +228,15 @@ export function EdcPage() {
         <Footer tone="night" />
       </main>
 
-      <ContactTeaCup />
+      {/*
+        THE CREW RADIO, NOT THE TEA CUP. The cup is a casting-room prop and a
+        joke about gossip; in a field at 2am it reads as a different brand, and
+        the cream paper slip it opens is the one warm surface this page does
+        not have. A handheld radio is a communication device AND festival crew
+        kit, so it says "talk to somebody" without explaining itself. Goa and
+        Bali still mount <ContactTeaCup/>, untouched.
+      */}
+      <CrewRadio />
       <StickyCta />
     </>
   );

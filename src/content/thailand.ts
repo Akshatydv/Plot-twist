@@ -1013,6 +1013,35 @@ export const soundDesk = {
   a11yOn: "Turn off the festival soundtrack",
 } as const;
 
+/**
+ * THE CREW RADIO — this page version of the tea cup.
+ *
+ * The cup is a casting-room prop and a joke about gossip. It is exactly right
+ * on Goa and Bali and lands on nothing here: an enamel mug of tea in a field
+ * at 2am reads as a different brand, and the cream paper slip it opens is the
+ * one warm surface on a page built entirely out of night.
+ *
+ * A handheld radio replaces it, because it solves both halves at once. It is
+ * literally a communication device, so it reads as "talk to somebody" without
+ * needing to be explained — and every person working a festival carries one,
+ * so it belongs here the way the cup belongs in a casting room.
+ *
+ * CH 02 on its screen is the journey number. That is the whole reason the
+ * detail is there: it makes the object belong to THIS trip rather than being
+ * festival set-dressing bolted onto a contact button.
+ *
+ * Same number, same WhatsApp, same behaviour. Only the object changed.
+ */
+export const crew = {
+  /** Reads as the visitor opening the conversation, not filing a ticket. */
+  prefill: "Hey Plot Twist 👀 about Journey 02...",
+  headline: ["ASK", "THE CREW"],
+  sub: ["Talk to the humans", "running this →"],
+  channel: "CH 02",
+  cta: "WhatsApp",
+  aria: "Ask the crew: contact Plot Twist on WhatsApp",
+} as const;
+
 export const wristband = {
   label: "JOURNEY 02 · EDC THAILAND",
   serial: "PT—02",
