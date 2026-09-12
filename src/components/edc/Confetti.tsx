@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
@@ -59,13 +60,16 @@ function rnd(i: number, salt: number) {
  * size, focus and contrast. Change one and it still looks fake; change all
  * three together and it stops looking like anything at all, which is the goal.
  *
- *   far   tiny, sharp, dim        — specks over the crowd
- *   mid   small, barely soft
- *   near  larger, properly blurred, bright — it is moving fast and close
+ *   far   tiny and dim    — specks over the crowd
+ *   near  larger, bright  — it is close and moving fast
  *
- * The blur is the part that matters most. Confetti is travelling several
- * metres a second; a camera never freezes it, so a perfectly crisp edge is
- * the single biggest tell that something was drawn rather than photographed.
+ * IT USED TO BE THREE CUES. The third was a per-piece blur, and it looked the
+ * best of the lot right up until it was measured: every blurred element gets
+ * its own composited layer and intermediate buffer, so at the drop the page
+ * carried 170 of them and frame time doubled to 33ms on a desktop. Phones did
+ * not merely stutter — the browser killed the page. Size and opacity carry
+ * depth nearly as well for nothing, so the blur is gone and is not coming
+ * back. See the note at the style block below.
  */
 function size(i: number, streamer: boolean, salt: number) {
   const depth = rnd(i, 40 + salt);
@@ -75,7 +79,6 @@ function size(i: number, streamer: boolean, salt: number) {
     depth,
     w: Math.max(2, Math.round(base * scale * 10) / 10),
     h: Math.max(2, Math.round((streamer ? base * (5 + rnd(i, 44 + salt) * 3) : base * (0.8 + rnd(i, 45 + salt) * 0.6)) * scale * 10) / 10),
-    blur: Math.round(depth * depth * 1.5 * 100) / 100,
     alpha: Math.round((0.42 + depth * 0.58) * 100) / 100,
     sheen: Math.round(rnd(i, 46 + salt) * 360),
   };
@@ -96,10 +99,9 @@ type Piece = {
   w: number;
   h: number;
   streamer: boolean;
-  /** 0 = far across the field, 1 = right past your face. Drives all three of
-   *  size, blur and opacity together, which is what actually reads as depth. */
+  /** 0 = far across the field, 1 = right past your face. Drives size and
+   *  opacity together, which is what reads as depth. */
   depth: number;
-  blur: number;
   alpha: number;
   /** Angle of the foil sheen, so no two pieces catch the light the same way. */
   sheen: number;
@@ -162,11 +164,25 @@ const PIECES = build();
 
 export function Confetti() {
   const reduce = useReducedMotion();
+  /*
+    Fewer pieces on a phone. Safe to branch on width at render time without a
+    hydration mismatch, because this component only ever mounts once `popped`
+    has flipped on the client — the server renders the crossing with no
+    confetti in it at all.
+
+    THINNED BY STRIDE, NOT BY SLICE. The array is ordered left cannon, right
+    cannon, then the overhead shower, so taking the first 55% would fire one
+    cannon, half the other, and no shower at all. Keeping 11 of every 20 drops
+    the same proportion out of each group and leaves the burst balanced.
+  */
+  const [narrow] = useState(() => typeof window !== "undefined" && window.innerWidth < 640);
+  const pieces = narrow ? PIECES.filter((_, i) => i % 20 < 11) : PIECES;
+
   if (reduce) return null;
 
   return (
     <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden>
-      {PIECES.map((p, i) => {
+      {pieces.map((p, i) => {
         const cannon = p.kind === "cannon";
         return (
           <motion.span
@@ -186,7 +202,22 @@ export function Confetti() {
               */
               backgroundImage: `linear-gradient(${p.sheen}deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.05) 42%, rgba(0,0,0,0.42) 100%)`,
               borderRadius: p.streamer ? 2 : 0.5,
-              filter: p.blur > 0.05 ? `blur(${p.blur}px)` : undefined,
+              /*
+                NO filter: blur() HERE, AND THAT IS A HARD RULE.
+
+                Depth used to be carried by three cues — size, opacity and a
+                per-piece blur. The blur was the best-looking of the three and
+                by far the most expensive: every blurred element becomes its
+                own composited layer with its own intermediate buffer, so at
+                the drop the page was carrying 170 of them at once. Measured on
+                production, that put frame time at 33ms — half frame rate on a
+                desktop — and on phones it was enough for the browser to kill
+                the page outright.
+
+                Size and opacity read depth nearly as well and cost nothing,
+                and confetti this small moving this fast was never going to
+                show its edges anyway.
+              */
             }}
             initial={{ x: 0, y: 0, rotate: 0, opacity: 0 }}
             animate={{

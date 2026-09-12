@@ -91,8 +91,14 @@ function Beam({
         originX: 0.5,
         originY: 0,
         mixBlendMode: "screen",
-        // Softer than before: a shaft in haze, not an edged wedge.
-        filter: "blur(15px)",
+        /*
+          HALVED, FOR FRAME TIME. Blur cost scales with radius, and these nine
+          elements are blurred WHILE being scaled and rotated, so each one is
+          re-rasterised every frame rather than cached. 7px still reads as a
+          shaft in haze rather than an edged wedge; 15px just cost twice as
+          much to say the same thing.
+        */
+        filter: "blur(7px)",
         // Narrow at the lamp, wide at the floor.
         clipPath: "polygon(47.5% 0%, 52.5% 0%, 100% 100%, 0% 100%)",
         background:

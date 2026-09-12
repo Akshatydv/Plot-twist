@@ -536,14 +536,16 @@ body {
   /* Oversized so the push-in never exposes an edge. */
   inset: -8%;
   background: url("/photos/thailand/crowd.jpg") center 52% / cover no-repeat;
-    /* NO DUOTONE ON THIS FRAME, AND THAT IS THE POINT.
-     The first photograph here was amber at source and had to be taken to
-     greyscale and multiplied back up into the palette. This one was shot in
-     violet and magenta haze — it is already inside the arc, so it is graded
-     rather than recoloured, and what you see is what the camera saw. If this
-     is ever swapped for an off-palette frame, the greyscale x light-violet
-     multiply is the technique to bring back; see teaser/README.md. */
-  filter: contrast(1.06) saturate(1.04);
+    /* NO RUNTIME FILTER, AND NO DUOTONE.
+     The first photograph here was amber at source and had to be greyscaled and
+     multiplied back into the palette. This one was shot in violet and magenta
+     haze, so it only ever needed a light grade — and that grade is now BAKED
+     INTO THE JPEG rather than applied in CSS. A filter on an element that is
+     also being scaled forces the browser to re-rasterise the whole image every
+     frame, which is a real cost on a full-bleed photograph and pure waste when
+     the values never change. The file is also 1500px rather than 2400px: the
+     decoded bitmap went from ~14.6MB to ~5.7MB, which is the kind of number
+     that decides whether a phone keeps the page alive. */
 }
 /* Magenta coming off the rig, low in the frame where the stage is. Added as
    light rather than painted on, so it can only brighten what is already there. */
