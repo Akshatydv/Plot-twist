@@ -90,7 +90,6 @@ export const photos = {
   flags: { file: "/photos/bir/bir-flags.jpg", title: "Bir Billing, Himachal Pradesh", author: "Mansi Gill", ...CC_BY_4, source: `${COMMONS}Bir_billing,_Himchal_pradesh.jpg` },
   monastery: { file: "/photos/bir/bir-monastery.jpg", title: "Monastery, Bir", author: "Gerd Eichmann", ...CC_BY_SA_4, source: `${COMMONS}Bir-06-Kloster-gje.jpg` },
   chokling: { file: "/photos/bir/bir-chokling.jpg", title: "Chokling Monastery, Bir", author: "Gannu03", ...CC_BY_SA_4, source: `${COMMONS}Chokling_Monastery,_Bir,_Himachal_Pradesh.jpg` },
-  street: { file: "/photos/bir/bir-street.jpg", title: "Bir Village", author: "Gannu03", ...CC_BY_SA_4, source: `${COMMONS}Bir_Village_05.jpg` },
   aerial: { file: "/photos/bir/bir-aerial.jpg", title: "An aerial view of Bir", author: "Fredi Bach", ...CC_BY_2, source: `${COMMONS}An_aerial_view_of_Bir,_Kangra_valley_sights_nature_culture_Himachal_Pradesh_India_2015.jpg` },
   sunsetGliding: { file: "/photos/bir/bir-sunset-gliding.jpg", title: "Sunset gliding in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_gliding_in_Bir,_Himachal_Pradesh.jpg` },
   sunset: { file: "/photos/bir/bir-sunset.jpg", title: "Sunset in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_in_Bir,_Himachal_Pradesh.jpg` },
@@ -184,7 +183,7 @@ export const sequences = {
     still(scenes.routeCity, "A city road at night, streaked with the light trails of traffic"),
     still(scenes.routeHighway, "An empty expressway under a clear evening sky"),
     still(scenes.routeHills, "A narrow road bending round a hillside, trucks climbing it"),
-    still(photos.street, "A street in Bir: cafés, yellow balconies, prayer flags overhead", "50% 55%"),
+    still(photos.aerial, "Bir from above: the town among green terraced fields, forest rising behind it", "50% 40%"),
   ],
   dawn: [
     still(scenes.nightStars, "The Milky Way over a tent glowing orange under the trees"),
