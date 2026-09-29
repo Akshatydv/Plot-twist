@@ -969,3 +969,114 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .edc-radio-led { animation: none; opacity: 0.9; }
 }
+
+/* ================================================================== */
+/* JOURNEY 03 — BIR × BAROT                                            */
+/*                                                                     */
+/* Scoped under .bir exactly as the festival page is scoped under      */
+/* .edc: nothing here can reach another journey. The four worlds and   */
+/* why they are these colours: docs/bir-barot-design.md §1.            */
+/* ================================================================== */
+
+.bir {
+  --bir-char: #101311;
+  --bir-bone: #efe9dd;
+  --bir-stone: #a59d8f;
+  /* day 01 — barot */
+  --bir-pine: #0f1d16;
+  --bir-moss: #2c4436;
+  --bir-river: #8fb1a8;
+  --bir-fire: #e8793a;
+  --bir-ember: #ffb36b;
+  /* day 02 — bir */
+  --bir-sky: #a9cbe0;
+  --bir-sky-deep: #24527d;
+  /* day 03 — the wild */
+  --bir-earth: #2e2119;
+  --bir-clay: #a95f38;
+  --bir-trail: #d9c7a6;
+  /* day 04 — the road */
+  --bir-dawn: #f1e6d6;
+  --bir-peach: #e8b48a;
+  --bir-slate: #5d6b73;
+
+  background: var(--bir-char);
+  color: var(--bir-bone);
+}
+
+/* Stars: opacity only. */
+.bir-twinkle {
+  animation: bir-twinkle 4.5s ease-in-out infinite;
+  opacity: 0.35;
+}
+@keyframes bir-twinkle {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.95; }
+}
+
+/* Cloud banks cross the frame left → right and wrap. translate only. */
+.bir-drift {
+  animation: bir-drift 90s linear infinite;
+  will-change: transform;
+}
+@keyframes bir-drift {
+  from { transform: translate3d(-110%, 0, 0); }
+  to { transform: translate3d(160%, 0, 0); }
+}
+
+/* Prayer flags: a small skew-and-swing from the top edge. */
+.bir-flutter {
+  animation: bir-flutter 2.4s ease-in-out infinite;
+}
+@keyframes bir-flutter {
+  0%, 100% { transform: skewX(0deg) rotate(0deg); }
+  30% { transform: skewX(-7deg) rotate(2deg); }
+  65% { transform: skewX(5deg) rotate(-2deg); }
+}
+
+/* Firelight on everything near it. Opacity + scale, never colour. */
+.bir-flicker {
+  animation: bir-flicker 2.2s ease-in-out infinite;
+}
+@keyframes bir-flicker {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  20% { opacity: 1; transform: scale(1.03); }
+  45% { opacity: 0.75; transform: scale(0.98); }
+  70% { opacity: 0.95; transform: scale(1.02); }
+}
+
+/* The mobile JOIN bar lifts the tea cup the same way the EDC bar does —
+   by setting --edc-sticky-lift, which .pt-teacup already reads. */
+
+@media (prefers-reduced-motion: reduce) {
+  .bir-twinkle,
+  .bir-drift,
+  .bir-flutter,
+  .bir-flicker {
+    animation: none;
+  }
+}
+
+/* The flight strip: two of its four tiles, looped. */
+.bir-pan {
+  animation: bir-pan 60s linear infinite;
+  will-change: transform;
+}
+@keyframes bir-pan {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bir-pan { animation: none; }
+}
+
+/* The river's bright thread, moving downstream. */
+.bir-flow {
+  animation: bir-flow 2.6s linear infinite;
+}
+@keyframes bir-flow {
+  to { stroke-dashoffset: -100; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bir-flow { animation: none; }
+}

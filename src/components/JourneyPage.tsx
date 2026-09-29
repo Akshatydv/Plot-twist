@@ -17,6 +17,7 @@ import { PlotDebug } from "@/components/mystery/PlotDebug";
 import { DestinationGuess } from "@/components/mystery/DestinationGuess";
 import { GoaPage } from "@/components/goa/GoaPage";
 import { EdcPage } from "@/components/edc/EdcPage";
+import { BirPage } from "@/components/bir/BirPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
@@ -31,6 +32,8 @@ import type { JourneyConfig } from "@/content/journeys";
  *   "edc"             — the festival page. Built around an embedded official
  *                       festival video on a near-black neon canvas.
  *                       Journey 02 / EDC Thailand. See components/edc/EdcPage.tsx.
+ *   "bir"             — the mountain page. A scroll-driven film through four
+ *                       worlds. Journey 03 / Bir × Barot. See components/bir/BirPage.tsx.
  *
  * This used to say that a journey needing different sections is a redesign
  * rather than a destination, and that is still true — which is exactly why the
@@ -57,6 +60,17 @@ export function JourneyPage({ journey }: { journey: JourneyConfig }) {
       <JourneyProvider journey={journey}>
         <PlotProvider>
           <EdcPage />
+        </PlotProvider>
+      </JourneyProvider>
+    );
+  }
+
+  /* THE MOUNTAIN PAGE — Journey 03. Same wrapper contract as the two above. */
+  if (journey.pageVariant === "bir") {
+    return (
+      <JourneyProvider journey={journey}>
+        <PlotProvider>
+          <BirPage />
         </PlotProvider>
       </JourneyProvider>
     );

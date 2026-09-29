@@ -57,7 +57,13 @@ export type LadderRung = {
  * "reveal" is — so a new composition is a typed variant, never a quiet fork
  * inside a component.
  */
-export type JourneyPageVariant = "mystery" | "reveal" | "edc";
+/**
+ * "bir" is the fourth: Journey 03, Bir × Barot. A scroll-driven mountain
+ * film — one continuous camera move through four visual worlds, with every
+ * photographic surface a slot that falls back to a generated landscape. See
+ * components/bir/BirPage.tsx and docs/bir-barot-design.md.
+ */
+export type JourneyPageVariant = "mystery" | "reveal" | "edc" | "bir";
 
 export type JourneyConfig = {
   /** The stored id. Written to every application row and every analytics event. */

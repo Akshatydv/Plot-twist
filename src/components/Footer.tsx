@@ -26,12 +26,14 @@ type FooterTone = {
   signature: string;
 };
 
-const FOOTER_TONES: Record<"warm" | "night", FooterTone> = {
+const FOOTER_TONES: Record<"warm" | "night" | "alpine", FooterTone> = {
   warm: { surface: "#1A0D0A", handle: "#FF7A3D", signature: "#FF4F87" },
   night: { surface: "#0A0414", handle: "#FF7FA8", signature: "#FF2E7E" },
+  /** Journey 03 — charcoal ground, fire and peach, so the page ends where its last night did. */
+  alpine: { surface: "#101311", handle: "#E8B48A", signature: "#E8793A" },
 };
 
-export function Footer({ tone = "warm" }: { tone?: "warm" | "night" } = {}) {
+export function Footer({ tone = "warm" }: { tone?: "warm" | "night" | "alpine" } = {}) {
   const ft = FOOTER_TONES[tone];
 
   return (

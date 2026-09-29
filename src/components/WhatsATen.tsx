@@ -484,7 +484,7 @@ type CastTone = {
   accents: Record<string, string> | null;
 };
 
-const CAST_TONES: Record<"warm" | "night", CastTone> = {
+const CAST_TONES: Record<"warm" | "night" | "alpine", CastTone> = {
   /** Goa and Bali. Every value here is the literal this file used before. */
   warm: {
     surface: "radial-gradient(120% 90% at 20% 0%, #6b1a45 0%, #3d1030 42%, #24081f 100%)",
@@ -527,6 +527,32 @@ const CAST_TONES: Record<"warm" | "night", CastTone> = {
       baddies: "#FF2E7E",
     },
   },
+  /**
+   * Journey 03, Bir × Barot. Pine-to-charcoal ground, lit by the page's two
+   * warm lights (fire, peach) and its two cool ones (river, sky) — the four
+   * worlds of that page, one per pair of traits.
+   */
+  alpine: {
+    surface: "radial-gradient(120% 90% at 20% 0%, #1f3a2e 0%, #13241c 44%, #0b1510 100%)",
+    gold: "#E8B48A",
+    cream: "#EFE9DD",
+    blush: "#8FB1A8",
+    brushA: "#E8793A",
+    brushB: "#8FB1A8",
+    noteA: "#A9CBE0",
+    noteB: "#E8B48A",
+    arrowA: "#E8793A",
+    arrowB: "#8FB1A8",
+    ink: "#0b1510",
+    accents: {
+      face: "#E8793A",
+      charm: "#E8B48A",
+      energy: "#A9CBE0",
+      personality: "#8FB1A8",
+      stories: "#D9C7A6",
+      baddies: "#E8793A",
+    },
+  },
 };
 
 export function WhatsATen({
@@ -538,7 +564,7 @@ export function WhatsATen({
 }: {
   compact?: boolean;
   /** Which palette to light the board in. "warm" is Goa/Bali, and is unchanged. */
-  tone?: "warm" | "night";
+  tone?: "warm" | "night" | "alpine";
   composition?: { title: string; body: string; disclaimer: string; extra?: readonly string[] };
   /**
    * Section number beside the label. Defaults to `casting.index`, which is
