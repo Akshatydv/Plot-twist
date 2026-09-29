@@ -38,15 +38,16 @@ export const JOURNEY_03: JourneyConfig = {
   campaignId: "journey03_launch",
   /**
    * The hero states Bir, Barot and Himachal outright, so naming them here
-   * gives nothing away. No start/end dates: "last weekend of November" is
-   * read as 27–30 Nov in content/bir.ts, but that is an interpretation, and
-   * types.ts is explicit that an ISO date in a schema must be CONFIRMED.
-   * Add them once it is.
+   * gives nothing away. Dates CONFIRMED: leave Delhi 20 Nov (night), back
+   * 24 Nov (evening) — the same window as trip.dates in content/bir.ts.
+   * These two must agree; change both or neither.
    */
   seo: {
     title: "Bir Billing + Barot Group Trip, Nov 2026 | Plot Twist",
     description:
-      "Twenty strangers, three nights in Bir: a day trip to Barot and Billing, tandem paragliding, a mountain trek, two bonfire nights. Not a tour, a story.",
+      "20–24 Nov 2026. Twenty strangers, three nights in Bir: Barot, Billing, tandem paragliding, a mountain trek, two bonfire nights. Not a tour, a story.",
+    startDate: "2026-11-20",
+    endDate: "2026-11-24",
     destination: "Bir Billing & Barot, Himachal Pradesh, India",
   },
 

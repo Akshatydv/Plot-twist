@@ -8,14 +8,13 @@
  *
  * ─── THE ONE RULE ───────────────────────────────────────────────────────────
  * NOTHING IN HERE IS INVENTED. What the brief supplied is stated flat: the
- * route (Delhi → Barot → Bir → Delhi), the length (3 nights, 4 days), the
- * month (last weekend of November), and every experience named day by day.
+ * route (Delhi → Bir → Delhi, three nights in Bir), the length (3 nights,
+ * 4 days), the dates (confirmed: leave Delhi the night of 20 Nov, in Bir the
+ * morning of the 21st, back in Delhi the evening of the 24th), and every
+ * experience named day by day.
  *
- * Two things the brief did NOT supply are modelled honestly:
- *   - the PRICE → `price.confirmed: false`, renders "announced soon";
- *   - the EXACT DATES → "last weekend of November" is read as Fri 27 – Mon 30
- *     Nov 2026. That is an interpretation, flagged on `trip.dates`. Confirm
- *     it before a single ad runs.
+ * One thing has NOT been supplied and is modelled honestly:
+ *   - the PRICE → `price.confirmed: false`, renders "announced soon".
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -303,14 +302,14 @@ export const trip = {
   stay: "Bir, all 3 nights",
   dayTrips: ["Barot valley", "Billing", "the paragliding circuit"] as const,
   /**
-   * ⚠ INTERPRETATION, NOT CONFIRMATION. The brief says "last weekend of
-   * November". In 2026 that is Sat 28 – Sun 29; a four-day trip around it is
-   * read as Fri 27 – Mon 30. If the real window is different, change it here
-   * and nowhere else.
+   * CONFIRMED by the site owner. Overnight from Delhi on Fri 20 Nov, in Bir
+   * on the morning of Sat 21 (Day 01), back in Delhi by the evening of Tue 24
+   * (Day 04). The three nights in Bir are the 21st, 22nd and 23rd. Must agree
+   * with seo.startDate / endDate in journeys/journey03.ts.
    */
-  dates: "27–30 NOV 2026",
-  datesNote: "The last weekend of November.",
-  departure: "Delhi",
+  dates: "20–24 NOV 2026",
+  datesNote: "Leave Delhi Fri 20 Nov, night · in Bir Sat 21 morning · back in Delhi Tue 24, evening.",
+  departure: "Delhi · Fri 20 Nov, night",
   group: "20 people",
   split: "10 + 10",
   ages: "18–30",
@@ -533,8 +532,8 @@ export const day3 = {
     sequence: ["Hot shower", "Warm clothes", "Sunset", "Dinner", "Fire"] as const,
     title: "THE LAST NIGHT.",
     body: "One long table under the sky. Candles, a bonfire, music, drinks — and twenty people who are very much not strangers any more.",
-    /** The disposable-camera date burned into each print — Day 03 under the reading of `trip.dates`. */
-    stamp: "11 29 '26",
+    /** The disposable-camera date burned into each print — Day 03, Mon 23 Nov. */
+    stamp: "11 23 '26",
     polaroids: [
       { caption: "the long table", tone: "#E8793A", image: photos.lastNight.file },
       { caption: "someone brought a guitar", tone: "#A95F38", image: photos.embers.file },
