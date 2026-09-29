@@ -10,7 +10,7 @@ import { DawnRoad } from "./DawnRoad";
 import { DayTwo } from "./DayTwo";
 import { DayThree } from "./DayThree";
 import { DayFour } from "./DayFour";
-import { FinalCta, Recap, TheDetails } from "./TheClose";
+import { FinalCta, PhotoCredits, Recap, TheDetails } from "./TheClose";
 import { Hud, JoinCta } from "./Chrome";
 import { Calm } from "./Scenery";
 
@@ -57,6 +57,7 @@ export function BirPage() {
         <TheDetails />
         <FinalCta />
         <ApplicationForm index={birIndex("application")} />
+        <PhotoCredits />
         <Footer tone="alpine" />
       </main>
 

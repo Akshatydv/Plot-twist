@@ -9,11 +9,11 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { day2, media, townPhotos } from "@/content/bir";
+import { day2, media, sequences } from "@/content/bir";
 import Image from "next/image";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
-import { Clouds, FireGlow, Focus, Footage, Glider, Kicker, MaskLines, PanRidge, PrayerFlags, Ridge, useCalm } from "./Scenery";
+import { Clouds, FireGlow, Focus, Footage, FrameStack, Glider, Kicker, MaskLines, PrayerFlags, Ridge, useCalm } from "./Scenery";
 
 /**
  * DAY 02 — THE FLIGHT. Bir.
@@ -89,7 +89,7 @@ function Town() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(p, [0.05, 0.95], ["0%", "-78%"]);
+  const x = useTransform(p, [0.05, 0.95], ["0%", "-66%"]);
 
   return (
     <section ref={ref} data-hud="day2" className={reduce ? "relative" : "relative h-[320svh]"}>
@@ -104,35 +104,27 @@ function Town() {
           <p className="mt-4 max-w-[40ch] font-serif text-[clamp(1.35rem,3.4vw,2.2rem)] italic leading-[1.15] text-[var(--bir-char)]">{day2.intro}</p>
         </div>
 
+        {/* one full-height photograph per word — the word lives on its picture */}
         <motion.ul
-          className={`relative mt-10 flex gap-10 px-5 sm:gap-16 sm:px-8 lg:px-14 ${reduce ? "flex-wrap" : "w-max"}`}
+          className={`relative mt-8 flex gap-4 px-5 sm:gap-6 sm:px-8 lg:px-14 ${reduce ? "flex-wrap" : "w-max"}`}
           style={{ x: reduce ? undefined : x }}
         >
-          {day2.town.flatMap((t, i) => {
-            const word = (
-              <li key={t.word} className="flex shrink-0 items-end gap-5">
-                <span aria-hidden className="mb-3 block h-[clamp(5rem,16vw,11rem)] w-2 sm:w-3" style={{ background: FLAG[i % FLAG.length] }} />
-                <span>
-                  <span className="block whitespace-nowrap font-serif text-[clamp(3rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.02em] text-[var(--bir-char)]">
-                    {t.word}
-                  </span>
-                  <span className="mt-2 block font-hand text-[1.35rem] leading-none text-[var(--bir-char)]/55">{t.note}</span>
-                </span>
+          {day2.town.map((t, i) => {
+            const ph = sequences.town[i];
+            return (
+              <li
+                key={t.word}
+                className="relative h-[min(58svh,560px)] w-[min(76vw,440px)] shrink-0 overflow-hidden bg-[#d9d2c3] shadow-[0_18px_40px_rgba(16,19,17,0.22)]"
+              >
+                <Image src={ph.file} alt={ph.title} fill sizes="(max-width: 640px) 76vw, 440px" className="bir-grade bir-kenburns object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#101311]/85 via-[#101311]/15 to-transparent" />
+                <span aria-hidden className="absolute left-0 top-0 h-full w-2 sm:w-3" style={{ background: FLAG[i % FLAG.length] }} />
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">
+                  <span className="block font-serif text-[clamp(2.4rem,7vw,4.6rem)] leading-[0.9] tracking-[-0.02em] text-[#F3EFE6]">{t.word}</span>
+                  <span className="mt-2 block font-hand text-[1.35rem] leading-none text-[#F3EFE6]/75">{t.note}</span>
+                </div>
               </li>
             );
-            const ph = townPhotos.find((x) => x.after === i);
-            if (!ph) return [word];
-            return [
-              word,
-              <li key={ph.file} className="relative shrink-0 self-center">
-                <div
-                  className="relative h-[clamp(11rem,34vw,20rem)] w-[clamp(8.5rem,26vw,15rem)] overflow-hidden bg-[#d9d2c3] shadow-[0_14px_30px_rgba(16,19,17,0.18)]"
-                  style={{ rotate: `${[-3, 2, -2][townPhotos.indexOf(ph)]}deg` }}
-                >
-                  <Image src={ph.file} alt={ph.alt} fill sizes="(max-width: 640px) 40vw, 240px" className="bir-grade object-cover" />
-                </div>
-              </li>,
-            ];
           })}
         </motion.ul>
       </div>
@@ -175,12 +167,15 @@ const FLIGHT_PATH = "M40,40 C120,50 150,120 210,130 S300,90 330,150 S380,230 460
  * 640svh of scroll, pinned. Scroll is airspeed: stop scrolling and the glider
  * hangs. Six stages, each a sixth of the run:
  *
- *   PREPARE          on the launch, canopy up, nothing moving yet
- *   WALK TO THE EDGE the hill slides away left; the valley opens beyond it
- *   TAKE OFF         the ground falls out from under the frame
- *   FLY              ranges stream past; the altimeter climbs on a thermal
- *   LOOK DOWN        the sky tilts out of frame; the valley floor fills it
- *   LAND             the landing field comes up to meet you
+ *   PREPARE          clip: wings laid out on a launch meadow
+ *   WALK TO THE EDGE photo: a launch's edge, the valley beyond
+ *   TAKE OFF         clip: a wing fills and lifts its pilot off
+ *   FLY              clip: under the canopy over green mountains
+ *   LOOK DOWN        photo: Bir from the air
+ *   LAND             clip: low over the fields, onto the grass
+ *
+ * Each stage is a full-bleed frame from content/bir.ts → sequences.flight.
+ * Only Bir's aerial is Bir; the clips are Slovenia (CC BY 3.0), credited.
  *
  * The flight path (BILLING → BIR) and the altimeter are live the whole way.
  * The altitudes are the approximate launch and landing heights and a
@@ -197,20 +192,6 @@ function TheFlight() {
     setStage((c) => (c === s ? c : s));
   });
 
-  // the launch hill: slides left on the walk, drops on take-off
-  const hillX = useTransform(p, [S * 0.6, S * 2], ["0%", "-38%"]);
-  const hillY = useTransform(p, [S * 2, S * 2.8], ["0%", "110%"]);
-  // the airborne world tilts up out of frame when you look down, then returns
-  const skyY = useTransform(p, [S * 4, S * 4.5, S * 4.9, S * 5.3], ["0%", "-62%", "-62%", "0%"]);
-  const below = useTransform(p, [S * 3.9, S * 4.4, S * 4.9, S * 5.25], [0, 1, 1, 0]);
-  const belowScale = useTransform(p, [S * 3.9, S * 5], [1.35, 1]);
-  // the landing field
-  const fieldY = useTransform(p, [S * 5, 1], ["100%", "0%"]);
-  // you
-  const gY = useTransform(p, [0, S * 2, S * 3, S * 4, S * 5, 1], ["52%", "52%", "26%", "20%", "24%", "58%"]);
-  const gX = useTransform(p, [0, S * 2, S * 3, 1], ["54%", "62%", "44%", "46%"]);
-  const gR = useTransform(p, [S * 2, S * 2.4, S * 3, S * 5.6, 1], [0, -10, 2, -4, 0]);
-  const gS = useTransform(p, [0, S * 2, S * 3, S * 4.2, S * 4.8, 1], [0.8, 0.9, 1, 1, 0.7, 0.9]);
   // instruments
   const alt = useTransform(p, [0, S * 2, S * 3.8, S * 5, 1], [2400, 2400, 2620, 2050, 1400]);
   const altText = useTransform(alt, (v) => `± ${Math.round(v / 10) * 10}`.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -223,54 +204,10 @@ function TheFlight() {
   return (
     <section ref={ref} data-hud="day2" aria-label="The paragliding flight, Billing to Bir" className="relative h-[640svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#8fb9d6]">
-        <Footage slot={media.flight}>
-          {/* the airborne world */}
-          <motion.div className="absolute inset-0" style={{ y: skyY }}>
-            <div className="absolute inset-0 h-[170%]" style={{ background: "linear-gradient(to bottom, #5d8fb7 0%, #a9cbe0 35%, #e8eef0 55%, #b9c9b0 70%, #5f7a55 100%)" }} />
-            <PanRidge name="peaks" fill="#c5d4de" duration={200} className="h-[60%]" />
-            <Clouds color="rgba(255,255,255,0.6)" banks={3} speed={2.5} className="top-[20%]" />
-            <PanRidge name="wide" fill="#93adbd" duration={120} className="h-[50%]" />
-            <PanRidge name="mid" fill="#6c8a6c" duration={60} className="h-[38%]" />
-            <PanRidge name="near" fill="#46603f" duration={30} className="h-[26%]" />
-          </motion.div>
+        {/* a real frame for every stage: launch, edge, take-off, flight, the valley, the landing */}
+        <FrameStack frames={sequences.flight} active={stage} />
 
-          {/* look down: the valley floor, top-down */}
-          <motion.div className="absolute inset-0" style={{ opacity: below, scale: belowScale }}>
-            <Footage slot={media.lookDown}>
-              <ValleyFloor />
-            </Footage>
-          </motion.div>
-
-          {/* the launch */}
-          <motion.div className="absolute inset-0" style={{ x: hillX, y: hillY }}>
-            <svg viewBox="0 0 1600 400" preserveAspectRatio="none" className="absolute bottom-0 left-0 h-[46%] w-[150%]" aria-hidden>
-              <path d="M0,400 L0,120 C300,90 700,100 1000,150 L1060,170 L1080,400 Z" fill="#6b7a3f" />
-              <path d="M0,130 C300,100 700,110 1000,158 L1060,176" stroke="#8a9a55" strokeWidth="8" fill="none" />
-              {/* a windsock at the edge */}
-              <line x1="980" y1="150" x2="980" y2="70" stroke="#101311" strokeWidth="3" />
-              <path className="bir-flutter" d="M980,72 L1030,80 L1030,92 L980,98 Z" fill="#E8793A" style={{ transformBox: "fill-box", transformOrigin: "0% 50%" }} />
-            </svg>
-          </motion.div>
-
-          {/* the landing field */}
-          <motion.div className="absolute inset-x-0 bottom-0 h-[34%]" style={{ y: fieldY }}>
-            <svg viewBox="0 0 1600 400" preserveAspectRatio="none" className="h-full w-full" aria-hidden>
-              <path d="M0,400 L0,90 Q800,40 1600,90 L1600,400 Z" fill="#5f7a3f" />
-              <path d="M200,400 L700,90 M900,90 L1400,400" stroke="#7d9650" strokeWidth="6" opacity="0.5" />
-              <circle cx="800" cy="170" r="60" fill="none" stroke="#F3EFE6" strokeWidth="6" opacity="0.7" />
-            </svg>
-          </motion.div>
-
-          {/* you */}
-          <motion.div
-            className="absolute w-[34vw] min-w-[130px] max-w-[260px] -translate-x-1/2 -translate-y-1/2"
-            style={{ top: gY, left: gX, rotate: gR, scale: gS }}
-          >
-            <Glider canopy="#E8793A" />
-          </motion.div>
-        </Footage>
-
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/30" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/10 to-black/55" />
         <div className="grain pointer-events-none absolute inset-0" />
 
         {/* the stage */}
@@ -331,31 +268,6 @@ function TheFlight() {
         </div>
       </div>
     </section>
-  );
-}
-
-/** Top-down valley: a patchwork of terraces, a river, a village. */
-function ValleyFloor() {
-  const cells = Array.from({ length: 70 }, (_, i) => ({
-    x: (i % 10) * 10 + ((i * 7) % 3),
-    y: Math.floor(i / 10) * 15 + ((i * 11) % 4),
-    w: 8 + ((i * 13) % 4),
-    h: 11 + ((i * 5) % 5),
-    c: ["#6f8a4a", "#8aa05a", "#a7a863", "#58703c", "#9a8a55", "#7c9a5a"][i % 6],
-    r: ((i * 17) % 9) - 4,
-  }));
-  return (
-    <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden>
-      <rect width="100" height="100" fill="#4f6a38" />
-      {cells.map((c, i) => (
-        <rect key={i} x={c.x} y={c.y} width={c.w} height={c.h} fill={c.c} transform={`rotate(${c.r} ${c.x + c.w / 2} ${c.y + c.h / 2})`} opacity="0.9" />
-      ))}
-      <path d="M-5,20 C20,30 30,50 50,52 S80,70 105,85" stroke="#a9cbe0" strokeWidth="2.4" fill="none" />
-      <path d="M-5,20 C20,30 30,50 50,52 S80,70 105,85" stroke="#e8f1f5" strokeWidth="0.6" fill="none" />
-      {Array.from({ length: 24 }, (_, i) => (
-        <rect key={i} x={60 + (i % 6) * 2.2} y={30 + Math.floor(i / 6) * 2.4} width="1.4" height="1.4" fill={i % 5 ? "#efe9dd" : "#c8412f"} />
-      ))}
-    </svg>
   );
 }
 
@@ -420,7 +332,6 @@ function SocialClub() {
   );
 }
 
-const DUSK = ["#e9b48a", "#c9705a", "#6b3a5a", "#1a1a33"];
 
 /** SUNSET. MUSIC. STRANGERS. NOT FOR LONG. — one word per screen of scroll, sky darkening under it. */
 function Evening() {
@@ -433,10 +344,6 @@ function Evening() {
     const k = Math.min(n - 1, Math.max(0, Math.floor(v * n)));
     setI((c) => (c === k ? c : k));
   });
-  const l1 = useTransform(p, [0.15, 0.3], [0, 1]);
-  const sunO = useTransform(p, [0, 0.2, 0.3], [1, 1, 0]);
-  const l2 = useTransform(p, [0.4, 0.55], [0, 1]);
-  const l3 = useTransform(p, [0.65, 0.8], [0, 1]);
 
   if (reduce) {
     return (
@@ -451,16 +358,12 @@ function Evening() {
   return (
     <section ref={ref} data-hud="day2" className="relative h-[360svh]">
       <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 sm:px-8 lg:px-14">
-        <div className="absolute inset-0" style={{ background: DUSK[0] }} />
-        {/* SUNSET. is the real one — Bir, a glider crossing the sun */}
-        <motion.div className="absolute inset-0" style={{ opacity: sunO }}>
-          <Footage slot={media.sunset} drift />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a33]/70 via-transparent to-[#e9b48a]/20" />
-        </motion.div>
-        <motion.div className="absolute inset-0" style={{ background: DUSK[1], opacity: l1 }} />
-        <motion.div className="absolute inset-0" style={{ background: DUSK[2], opacity: l2 }} />
-        <motion.div className="absolute inset-0" style={{ background: DUSK[3], opacity: l3 }} />
-        <Ridge name="mid" fill="rgba(16,19,17,0.35)" className="h-[30%]" />
+        {/* a real photograph per word, the light dropping frame by frame */}
+        <FrameStack
+          frames={sequences.evening}
+          active={i}
+          tint="linear-gradient(to bottom, rgba(26,26,51,0.35) 0%, rgba(26,26,51,0.25) 45%, rgba(26,26,51,0.75) 100%)"
+        />
         <div className="grain pointer-events-none absolute inset-0" />
         <AnimatePresence mode="wait">
           <motion.p

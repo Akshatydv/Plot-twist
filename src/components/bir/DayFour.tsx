@@ -2,7 +2,11 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { day4, media } from "@/content/bir";
+import Image from "next/image";
+import { day4, media, sequences } from "@/content/bir";
+
+/** The same sunrise the Day 01→02 transition uses: one morning, seen twice. */
+const dawnSlot = sequences.dawn[1];
 import { DayCard } from "./DayCard";
 import { Embers, Focus, Footage, MaskLines, Ridge, useCalm } from "./Scenery";
 
@@ -33,6 +37,8 @@ export function DayFour() {
         ink="#3b464c"
         accent="#A95F38"
         scene={(p) => <DawnScene p={p} />}
+        slot={media.day4}
+        tint="linear-gradient(to bottom, rgba(241,230,214,0.5) 0%, rgba(241,230,214,0.45) 45%, rgba(241,230,214,0.95) 100%)"
       />
       <Moments />
       <TheEnd />
@@ -49,7 +55,6 @@ function EmberDawn() {
   const blue = useTransform(p, [0.2, 0.5], [0, 1]);
   const dawn = useTransform(p, [0.45, 0.85], [0, 1]);
   const embers = useTransform(p, [0.3, 0.65], [1, 0]);
-  const sun = useTransform(p, [0.45, 0.95], ["60%", "22%"]);
 
   if (reduce) return <section ref={ref} className="h-24 bg-[#F1E6D6]" aria-hidden />;
 
@@ -57,14 +62,10 @@ function EmberDawn() {
     <section ref={ref} data-hud="day4" aria-label="The fire burns down into morning" className="relative h-[200svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#140a06]">
         <motion.div className="absolute inset-0" style={{ opacity: blue, background: "linear-gradient(to bottom, #2b3550 0%, #6b5a6a 70%, #8a6a5a 100%)" }} />
-        <motion.div className="absolute inset-0" style={{ opacity: dawn, background: "linear-gradient(to bottom, #d8dfe3 0%, #f1e6d6 55%, #f3d2b0 100%)" }} />
-        <motion.div
-          className="absolute left-1/2 h-[30vmin] w-[30vmin] -translate-x-1/2 rounded-full"
-          style={{ top: sun, opacity: dawn, background: "radial-gradient(circle, #fff6e6 0%, #f7c99a 38%, transparent 70%)" }}
-        />
         <motion.div className="absolute inset-0" style={{ opacity: dawn }}>
-          <Ridge name="peaks" fill="#cfd5d6" className="h-[46%]" />
-          <Ridge name="mid" fill="#a9b2b4" className="h-[32%]" />
+          {/* the fire burns down and the next morning comes up — a real sunrise */}
+          <Footage slot={dawnSlot} />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#F1E6D6]" />
         </motion.div>
         <motion.div className="absolute inset-0" style={{ opacity: embers }}>
           <Embers density={1.2} />
@@ -87,23 +88,35 @@ function DawnScene({ p }: { p: MotionValue<number> }) {
   );
 }
 
+/**
+ * The epilogue's moments, one photograph each, alternating sides with a lot
+ * of air between them — the page slowing down, frame by frame.
+ */
 function Moments() {
   const reduce = useCalm();
   return (
-    <section data-hud="day4" className="relative bg-[#F1E6D6] px-5 py-24 sm:px-8 sm:py-36 lg:px-14">
-      <ul className="mx-auto max-w-[1100px] space-y-[14svh] sm:space-y-[18svh]">
-        {day4.moments.map((m, i) => (
-          <motion.li
-            key={m}
-            className={`font-serif text-[clamp(1.8rem,5.5vw,4rem)] italic leading-none text-[#3b464c] ${i % 2 ? "text-right" : ""}`}
-            initial={reduce ? false : { opacity: 0, y: 30, filter: "blur(6px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.9 }}
-            transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          >
-            {m}
-          </motion.li>
-        ))}
+    <section data-hud="day4" className="relative bg-[#F1E6D6] px-5 py-20 sm:px-8 sm:py-28 lg:px-14">
+      <ul className="mx-auto max-w-[1100px] space-y-[10svh] sm:space-y-[14svh]">
+        {day4.moments.map((m, i) => {
+          const ph = sequences.home[i];
+          return (
+            <motion.li
+              key={m}
+              className={`flex flex-col gap-5 sm:items-end sm:gap-10 ${i % 2 ? "sm:flex-row-reverse" : "sm:flex-row"}`}
+              initial={reduce ? false : { opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#e3d6c3] sm:w-[58%]">
+                {ph?.image && (
+                  <Image src={ph.image} alt={ph.alt ?? ""} fill sizes="(max-width: 640px) 100vw, 640px" className="bir-grade object-cover [filter:saturate(0.8)_sepia(0.12)]" style={{ objectPosition: ph.focus }} />
+                )}
+              </div>
+              <p className={`font-serif text-[clamp(1.8rem,5.5vw,4rem)] italic leading-none text-[#3b464c] ${i % 2 ? "sm:text-right" : ""}`}>{m}</p>
+            </motion.li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -111,10 +124,13 @@ function Moments() {
 
 function TheEnd() {
   return (
-    <section data-hud="day4" className="relative flex min-h-[100svh] flex-col justify-center bg-[#F1E6D6] px-5 py-24 sm:px-8 lg:px-14">
-      <MaskLines lines={day4.end} className="font-serif text-[clamp(2.6rem,9vw,8rem)] leading-[0.9] tracking-[-0.025em] text-[#3b464c]" />
+    <section data-hud="day4" className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-[#2b2622] px-5 py-24 sm:px-8 lg:px-14">
+      <Footage slot={media.end} drift />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#1c1916]/90 via-[#1c1916]/40 to-[#1c1916]/30" />
+      <div className="grain pointer-events-none absolute inset-0" />
+      <MaskLines lines={day4.end} className="relative font-serif text-[clamp(2.6rem,9vw,8rem)] leading-[0.9] tracking-[-0.025em] text-[#F1E6D6]" />
       <Focus delay={0.6}>
-        <p className="mt-10 text-[clamp(1rem,2.6vw,1.6rem)] font-semibold tracked text-[#A95F38]">{day4.turn}</p>
+        <p className="relative mt-10 text-[clamp(1rem,2.6vw,1.6rem)] font-semibold tracked text-[#E8B48A]">{day4.turn}</p>
       </Focus>
     </section>
   );

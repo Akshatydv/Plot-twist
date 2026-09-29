@@ -7,12 +7,12 @@ import { hero, media } from "@/content/bir";
 import { PLOT_EVENTS } from "@/lib/analytics";
 import { JourneyMenu } from "../JourneyMenu";
 import { PlotButton } from "../Bits";
-import { Clouds, Footage, Glider, PanRidge, Ridge, useCalm } from "./Scenery";
+import { Clouds, Footage, Glider, PanRidge, useCalm } from "./Scenery";
 
 /**
  * 00 · THE HERO — FLY INTO HIMACHAL, THEN LAND.
  *
- * One sticky frame, 230svh tall. The hero and the transition into Day 01 are
+ * One sticky frame, 330svh tall. The hero and the transition into Day 01 are
  * the same component because they are the same shot: there is no cut between
  * flying and landing, so there is no section boundary either.
  *
@@ -21,29 +21,47 @@ import { Clouds, Footage, Glider, PanRidge, Ridge, useCalm } from "./Scenery";
  *   0.20–0.60  descent. The title lifts and blurs away; the whole scene
  *              scales up and rises — the ground is coming toward you.
  *   0.45–0.85  a cloud bank crosses the lens. "COMING DOWN INTO THE VALLEY."
- *   0.70–1.00  pine-dark ground fills the frame. That colour IS the first
- *              frame of the next section, so the hand-off has no seam.
+ *   0.70–1.00  the cloud clears onto the landing site — Barot valley,
+ *              seen from just above — and the camera settles onto it.
+ *
+ * THE LANDING IS WHERE THE NEXT SECTION BEGINS. The frame is 330svh, and
+ * THE JOURNEY is pulled up 100svh over its tail (see TheJourney.tsx), so the
+ * frame stays pinned with the valley in it while that section's words rise
+ * over it. One photograph, never two copies of it — so no seam, and never a
+ * blank screen between the sky and the text. All timings below are
+ * fractions of the descent, which ends (LANDED) just as that section enters.
  *
  * With a hero clip in content/bir.ts → media.hero, the footage plays over the
  * illustrated flight and the descent choreography runs over the footage
  * unchanged. Reduced motion gets one still screen and no descent.
  */
+/** Fraction of this frame's scroll the descent takes: (330 − 200) / (330 − 100). */
+const LANDED = 130 / 230;
+
+/** Dark enough for THE JOURNEY's type to sit on, light enough to still be a place. */
+const LANDING_TINT =
+  "linear-gradient(to bottom, rgba(11,21,16,0.62) 0%, rgba(11,21,16,0.5) 45%, rgba(11,21,16,0.8) 100%)";
+
 export function FlightHero() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
-  const sceneScale = useTransform(p, [0, 0.3, 0.85], [1, 1.06, 1.75]);
-  const sceneY = useTransform(p, [0, 0.3, 0.85], ["0%", "-2%", "-18%"]);
-  const textOpacity = useTransform(p, [0, 0.12, 0.3], [1, 1, 0]);
-  const textY = useTransform(p, [0, 0.3], [0, -90]);
-  const textBlur = useTransform(p, [0.08, 0.3], ["blur(0px)", "blur(10px)"]);
-  const cloud = useTransform(p, [0.4, 0.55, 0.72, 0.86], [0, 1, 1, 0]);
-  const cloudScale = useTransform(p, [0.4, 0.86], [0.9, 1.6]);
-  const ground = useTransform(p, [0.62, 0.96], ["135%", "0%"]);
-  const words = useTransform(p, [0.46, 0.56, 0.74, 0.84], [0, 1, 1, 0]);
-  const wordsY = useTransform(p, [0.46, 0.84], [40, -40]);
-  const cue = useTransform(p, [0, 0.08], [1, 0]);
+  // The descent occupies the first LANDED of this frame's scroll; the rest is
+  // the next section rising over the landed frame. (330 − 200) / (330 − 100).
+  const at = (...xs: number[]) => xs.map((x) => x * LANDED);
+  const sceneScale = useTransform(p, at(0, 0.3, 0.85), [1, 1.06, 1.75]);
+  const sceneY = useTransform(p, at(0, 0.3, 0.85), ["0%", "-2%", "-18%"]);
+  const textOpacity = useTransform(p, at(0, 0.12, 0.3), [1, 1, 0]);
+  const textY = useTransform(p, at(0, 0.3), [0, -90]);
+  const textBlur = useTransform(p, at(0.08, 0.3), ["blur(0px)", "blur(10px)"]);
+  const cloud = useTransform(p, at(0.36, 0.5, 0.7, 0.86), [0, 1, 1, 0]);
+  const cloudScale = useTransform(p, at(0.36, 0.86), [0.9, 1.6]);
+  const land = useTransform(p, at(0.6, 0.82), [0, 1]);
+  const landScale = useTransform(p, at(0.6, 1), [1.45, 1]);
+  const words = useTransform(p, at(0.42, 0.52, 0.66, 0.78), [0, 1, 1, 0]);
+  const wordsY = useTransform(p, at(0.42, 0.78), [40, -40]);
+  const cue = useTransform(p, at(0, 0.08), [1, 0]);
 
   const m = <T,>(v: T) => (reduce ? undefined : v);
 
@@ -52,7 +70,7 @@ export function FlightHero() {
       id="top"
       ref={ref}
       data-hud="hero"
-      className={reduce ? "relative h-[100svh]" : "relative h-[230svh]"}
+      className={reduce ? "relative h-[100svh]" : "relative h-[330svh]"}
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[var(--bir-pine)]">
         {/* ── the camera ── */}
@@ -111,9 +129,12 @@ export function FlightHero() {
                   "radial-gradient(40% 35% at 30% 45%, #f3efe6 0%, transparent 70%), radial-gradient(45% 40% at 70% 55%, #e9e4d8 0%, transparent 72%), radial-gradient(60% 50% at 50% 50%, rgba(233,228,216,0.95) 0%, rgba(233,228,216,0.6) 50%, transparent 80%)",
               }}
             />
-            <motion.div className="absolute inset-0" style={{ y: ground }} aria-hidden>
-              <Ridge name="hills" fill="var(--bir-pine)" className="h-[30%]" style={{ bottom: "calc(100% - 1px)" }} />
-              <div className="absolute inset-0 bg-[var(--bir-pine)]" />
+            {/* the landing site — the camera settles onto the valley as the cloud clears */}
+            <motion.div className="absolute inset-0 bg-[var(--bir-pine)]" style={{ opacity: land }} aria-hidden>
+              <motion.div className="absolute inset-0" style={{ scale: landScale }}>
+                <Footage slot={media.landing} sizes="100vw" />
+              </motion.div>
+              <div className="absolute inset-0" style={{ background: LANDING_TINT }} />
             </motion.div>
             <motion.p
               aria-hidden

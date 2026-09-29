@@ -10,11 +10,11 @@ import {
   type MotionValue,
 } from "framer-motion";
 import Image from "next/image";
-import { day3, intoForest, media } from "@/content/bir";
+import { day3, intoForest, media, sequences } from "@/content/bir";
 import { Note } from "../Bits";
 import { contourRings, trekProfile } from "./art";
 import { DayCard } from "./DayCard";
-import { Clouds, Embers, FireGlow, Flames, Focus, Footage, Kicker, MaskLines, Pines, Ridge, useCalm } from "./Scenery";
+import { Clouds, Embers, FireGlow, Flames, Focus, Footage, FrameStack, Kicker, MaskLines, Pines, Ridge, useCalm } from "./Scenery";
 
 /**
  * DAY 03 — THE WILD. The trail.
@@ -44,6 +44,8 @@ export function DayThree() {
         ink="#D9C7A6"
         accent="#E8B48A"
         scene={(p) => <TopoScene p={p} />}
+        slot={media.day3}
+        tint="linear-gradient(to bottom, rgba(46,33,25,0.55) 0%, rgba(46,33,25,0.35) 45%, rgba(35,24,18,0.9) 100%)"
       />
       <Challenge />
       <Summit />
@@ -61,18 +63,15 @@ function IntoForest() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const cloudY = useTransform(p, [0.05, 0.5], ["60%", "-120%"]);
-  const cloudO = useTransform(p, [0.05, 0.2, 0.42, 0.52], [0, 1, 1, 0]);
-  const rangeS = useTransform(p, [0.2, 0.75], [1, 2.6]);
-  const rangeY = useTransform(p, [0.2, 0.75], ["0%", "30%"]);
-  const canopy = useTransform(p, [0.45, 0.72], [0, 1]);
-  const pinesY = useTransform(p, [0.45, 0.9], ["70%", "0%"]);
-  const earth = useTransform(p, [0.82, 1], [0, 1]);
+  const cloudY = useTransform(p, [0.2, 0.62], ["60%", "-120%"]);
+  const cloudO = useTransform(p, [0.2, 0.32, 0.48, 0.6], [0, 1, 1, 0]);
+  const rangeS = useTransform(p, [0, 1], [1, 1.35]);
+  const earth = useTransform(p, [0.93, 1], [0, 1]);
   // arrives from Social Night, so it starts at night and brightens into morning
-  const night = useTransform(p, [0, 0.14], [1, 0]);
+  const night = useTransform(p, [0, 0.05], [0.7, 0]);
   const [i, setI] = useState(0);
   useMotionValueEvent(p, "change", (v) => {
-    const k = v < 0.34 ? 0 : v < 0.62 ? 1 : 2;
+    const k = v < 0.3 ? 0 : v < 0.55 ? 1 : 2;
     setI((c) => (c === k ? c : k));
   });
 
@@ -81,17 +80,9 @@ function IntoForest() {
   return (
     <section ref={ref} data-hud="day3" aria-label="Down through the clouds into the forest" className="relative h-[240svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden">
-        <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #7fa9c8 0%, #d7e5ec 60%, #c7d5c0 100%)" }} />
-        <motion.div className="absolute inset-0" style={{ scale: rangeS, y: rangeY, transformOrigin: "50% 100%" }}>
-          <Ridge name="peaks" fill="#b5c7cf" className="h-[60%]" />
-          <Ridge name="mid" fill="#6e8b76" className="h-[44%]" />
-          <Ridge name="near" fill="#3d5a43" className="h-[30%]" />
-        </motion.div>
-        <motion.div className="absolute inset-0 bg-[#1f3526]" style={{ opacity: canopy }} />
-        <motion.div className="absolute inset-0" style={{ y: pinesY }}>
-          <Pines name="far" fill="#2c4a34" className="h-[90%]" />
-          <Pines name="mid" fill="#1a2e21" className="h-[80%]" />
-          <Pines name="near" fill="#0e1a12" className="h-[70%]" />
+        {/* above the cloud, then down into the trees — photographs, zooming as you drop */}
+        <motion.div className="absolute inset-0" style={{ scale: rangeS, transformOrigin: "50% 70%" }}>
+          <FrameStack frames={sequences.forest} active={i < 2 ? 0 : 1} />
         </motion.div>
         <motion.div
           className="absolute inset-[-10%]"
@@ -102,6 +93,7 @@ function IntoForest() {
               "radial-gradient(45% 30% at 30% 40%, #fff 0%, transparent 70%), radial-gradient(50% 35% at 70% 55%, #f3f5f4 0%, transparent 72%), radial-gradient(70% 40% at 50% 70%, rgba(243,245,244,0.95) 0%, transparent 75%)",
           }}
         />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/45" />
         <motion.div className="absolute inset-0 bg-[#2e2119]" style={{ opacity: earth }} />
         <motion.div className="absolute inset-0 bg-[#1a1a33]" style={{ opacity: night }} />
         <div className="grain pointer-events-none absolute inset-0" />
@@ -109,7 +101,7 @@ function IntoForest() {
           <AnimatePresence mode="wait">
             <motion.p
               key={i}
-              className={`font-serif text-[clamp(2rem,7vw,5rem)] italic leading-[1] ${i === 0 ? "text-[#101311]" : "text-[#EFE9DD]"}`}
+              className={`font-serif text-[clamp(2rem,7vw,5rem)] italic leading-[1] text-[#EFE9DD] [text-shadow:0_2px_24px_rgba(0,0,0,0.5)]`}
               initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -20, filter: "blur(8px)" }}
@@ -216,11 +208,12 @@ function Challenge() {
   return (
     <section ref={ref} data-hud="day3" className={reduce ? "relative" : "relative h-[440svh]"}>
       <div className={`${reduce ? "relative py-20" : "sticky top-0 h-[100svh]"} flex flex-col overflow-hidden bg-[#2e2119] px-5 py-14 sm:px-8 lg:px-14`}>
-        <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full opacity-60" aria-hidden>
-          {RINGS_A.map((d, i) => (
-            <path key={i} d={d} fill="none" stroke="#D9C7A6" strokeOpacity="0.14" />
-          ))}
-        </svg>
+        {/* where you are on the trail, photographed: kit, climb, the picnic spot, the top */}
+        <FrameStack
+          frames={sequences.trek}
+          active={beat}
+          tint="linear-gradient(to bottom, rgba(30,21,15,0.7) 0%, rgba(30,21,15,0.25) 40%, rgba(30,21,15,0.35) 60%, rgba(30,21,15,0.88) 100%)"
+        />
         <div className="grain pointer-events-none absolute inset-0" />
 
         <div className="relative z-10">
@@ -377,7 +370,12 @@ function LastNight() {
   const reduce = useCalm();
   const ln = day3.lastNight;
   return (
-    <section data-hud="day3" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32 lg:px-14" style={{ background: "linear-gradient(to bottom, #2e2119 0%, #3a1a0e 40%, #140a06 100%)" }}>
+    <section data-hud="day3" className="relative overflow-hidden bg-[#140a06] px-5 py-24 sm:px-8 sm:py-32 lg:px-14">
+      {/* the fire, full-bleed behind the whole section */}
+      <Footage slot={media.lastNight}>
+        <LongTable />
+      </Footage>
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#140a06]/80 via-[#140a06]/35 to-[#140a06]/90" />
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-[1200px]">
         {/* after the trek: warmth, in order */}
@@ -403,12 +401,7 @@ function LastNight() {
           <p className="mt-6 max-w-[44ch] text-[clamp(1rem,2.2vw,1.15rem)] leading-[1.6] text-[#EFE9DD]/70">{ln.body}</p>
         </Focus>
 
-        {/* the long table */}
-        <div className="relative mt-14 h-[38svh] min-h-[240px] overflow-hidden">
-          <Footage slot={media.lastNight}>
-            <LongTable />
-          </Footage>
-        </div>
+        <div className="h-[22svh] sm:h-[30svh]" aria-hidden />
 
         {/* disposable-camera prints */}
         <div className="mt-12 flex flex-wrap justify-center gap-6 sm:gap-10">

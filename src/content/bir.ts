@@ -77,12 +77,15 @@ const CC_BY_4 = { license: "CC BY 4.0", licenseUrl: "https://creativecommons.org
 const CC_BY_2 = { license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" };
 const CC_BY_3 = { license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0/" };
 const CC0 = { license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/" };
+const CC_BY_SA_2 = { license: "CC BY-SA 2.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/" };
+const PDM = { license: "Public Domain Mark", licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/" };
 const MIXKIT = { license: "Mixkit Free License", licenseUrl: "https://mixkit.co/license/#videoFree" };
 const COMMONS = "https://commons.wikimedia.org/wiki/File:";
 
 export const photos = {
   hero: { file: "/photos/bir/hero.jpg", title: "Paragliding at Bir, HP", author: "PanWoyteczek (derivative: UnpetitproleX)", ...CC_BY_SA_4, source: `${COMMONS}Paragliding_at_Bir,_HP.jpg` },
   barotValley: { file: "/photos/bir/barot-valley.jpg", title: "Barot and Ühl Rivulet", author: "Sanjay Lakhanpal", ...CC_BY_SA_4, source: `${COMMONS}Barot_and_%C3%9Chl_Rivulet.jpg` },
+  barotUhl: { file: "/photos/bir/barot-uhl.jpg", title: "Uhl above Barot towards Billing", author: "Timothy Gonsalves", ...CC_BY_SA_4, source: `${COMMONS}Uhl_above_Barot_towards_Billing_Oct_2017_D72_2280_01.jpg` },
   river: { file: "/photos/bir/river.jpg", title: "Uhl River at Barot", author: "Timothy Gonsalves", ...CC_BY_SA_4, source: `${COMMONS}Uhl_River_at_Barot_Oct_2017_D72_2280.jpg` },
   trail: { file: "/photos/bir/trail.jpg", title: "Lamba Dug, Barot", author: "Timothy A. Gonsalves", ...CC_BY_SA_4, source: `${COMMONS}Lamba_Dug_Barot_Himachal_Oct20_R16_04289.jpg` },
   flags: { file: "/photos/bir/bir-flags.jpg", title: "Bir Billing, Himachal Pradesh", author: "Mansi Gill", ...CC_BY_4, source: `${COMMONS}Bir_billing,_Himchal_pradesh.jpg` },
@@ -101,6 +104,50 @@ export const photos = {
   lastNight: { file: "/photos/bir/last-night.jpg", title: "Dinner under the lights", author: "shankar s.", ...CC_BY_2, source: "https://www.flickr.com/photos/77742560@N06/14583973531" },
   road: { file: "/photos/bir/road.jpg", title: "A winding mountain road", author: "shirishpoudel07", ...CC0, source: "https://wordpress.org/photos/photo/9666995a9b/" },
   roadAlt: { file: "/photos/bir/road-alt.jpg", title: "A road through the tea gardens", author: "Vishnu Chandra", ...CC0, source: "https://wordpress.org/photos/photo/6216a2a5a7/" },
+  barotView: { file: "/photos/bir/barot-view.jpg", title: "View of Barot valley", author: "Harvinder Chandigarh", ...CC_BY_SA_4, source: `${COMMONS}View_of_Barot_valley_01.jpg` },
+} satisfies Record<string, PhotoCredit>;
+
+/**
+ * THE SCENE PHOTOGRAPHS — one for every screen that used to be illustration.
+ * Moment photographs, like the ones above: chosen for what's happening, not
+ * where, and never labelled as Bir or Barot. Found through Openverse; all
+ * CC BY / BY-SA 2.0, CC0 or Public Domain Mark. No-derivatives (ND) licences
+ * were excluded, since every one of these is cropped and graded.
+ */
+export const scenes = {
+  clouds: { file: "/photos/bir/more/clouds.jpg", title: "Hiking above the clouds. Chugach State Park, Alaska", author: "Paxson Woelber", ...CC_BY_2, source: "https://www.flickr.com/photos/59306007@N08/29693555372" },
+  day3: { file: "/photos/bir/more/day3.jpg", title: "Spiti Valley Trek: Where Adventure Meets The Road", author: "hitesh9352718", ...CC_BY_2, source: "https://www.flickr.com/photos/198887757@N02/53207533720" },
+  day4: { file: "/photos/bir/more/day4.jpg", title: "RoadToChandraTal", author: "4ocima", ...CC_BY_2, source: "https://www.flickr.com/photos/19016430@N00/299019563" },
+  end: { file: "/photos/bir/more/end.jpg", title: "The Burning Dhaulagiri", author: "cnneil", ...CC_BY_SA_2, source: "https://www.flickr.com/photos/62510930@N07/12608812145" },
+  eveMusic: { file: "/photos/bir/more/eve-music.jpg", title: "Last night campfire.", author: "twodolla", ...CC_BY_2, source: "https://www.flickr.com/photos/76991932@N00/5779158766" },
+  eveNotforlong: { file: "/photos/bir/more/eve-notforlong.jpg", title: "Sunset Watching", author: "Zach Dischner", ...CC_BY_2, source: "https://www.flickr.com/photos/35557234@N07/5975314337" },
+  eveStrangers: { file: "/photos/bir/more/eve-strangers.jpg", title: "Friends!", author: "philos from Athens", ...CC_BY_2, source: "https://www.flickr.com/photos/62722383@N00/9583526116" },
+  finalStars: { file: "/photos/bir/more/final-stars.jpg", title: "Loveland Lights", author: "Zach Dischner", ...CC_BY_2, source: "https://www.flickr.com/photos/35557234@N07/31454588860" },
+  flightEdge: { file: "/photos/bir/more/flight-edge.jpg", title: "Little Church Paragliding Launch in Greece", author: "jonas.wagner", ...CC_BY_2, source: "https://www.flickr.com/photos/80225884@N06/30426400422" },
+  homeBreakfast: { file: "/photos/bir/more/home-breakfast.jpg", title: "Breakfast @ Mountain Lyon", author: "nloyless", ...CC_BY_2, source: "https://www.flickr.com/photos/56201943@N00/7615332098" },
+  homeCoffee: { file: "/photos/bir/more/home-coffee.jpg", title: "Bosnian coffee", author: "M1key.me", ...CC_BY_2, source: "https://www.flickr.com/photos/91418149@N03/13926468997" },
+  homeMorning: { file: "/photos/bir/more/home-morning.jpg", title: "Old Market's Window", author: "Diego3336", ...CC_BY_2, source: "https://www.flickr.com/photos/31018257@N00/9930009153" },
+  homePacking: { file: "/photos/bir/more/home-packing.jpg", title: "Packs", author: "Jo Simon", ...CC_BY_2, source: "https://www.flickr.com/photos/49194777@N00/2229636990" },
+  homePhotos: { file: "/photos/bir/more/home-photos.jpg", title: "Top of ridge above lake buttermere", author: "SeanJCPhoto", ...CC_BY_2, source: "https://www.flickr.com/photos/38016332@N02/4568996957" },
+  homeRoad: { file: "/photos/bir/more/home-road.jpg", title: "15 mph curve, Haleakela", author: "wbaiv", ...CC_BY_SA_2, source: "https://www.flickr.com/photos/9998127@N06/7533845556" },
+  homeViews: { file: "/photos/bir/more/home-views.jpg", title: "Lockett Meadow", author: "deborah.soltesz", ...CC0, source: "https://www.flickr.com/photos/10836653@N05/3593834794" },
+  morningRoad: { file: "/photos/bir/more/morning-road.jpg", title: "Children's Seat Viewpoint, yercaud, Salem, Chennai", author: "Mathew S Thomas", ...CC0, source: "https://www.flickr.com/photos/144598114@N02/41838657830" },
+  nightStars: { file: "/photos/bir/more/night-stars.jpg", title: "February #conservationlands15 Social Media Takeover: Top 15 Places on", author: "mypubliclands", ...CC_BY_2, source: "https://www.flickr.com/photos/91981596@N06/15924490113" },
+  recapPeople: { file: "/photos/bir/more/recap-people.jpg", title: "climbing helping team work , success concept", author: "ujgmxxuy61", ...PDM, source: "https://www.flickr.com/photos/159535053@N06/42172615510" },
+  routeCity: { file: "/photos/bir/more/route-city.jpg", title: "City streets!", author: "Flickr user 61732052@N02", ...CC_BY_2, source: "https://www.flickr.com/photos/61732052@N02/8061937565" },
+  routeHighway: { file: "/photos/bir/more/route-highway.jpg", title: "Belgharia Expressway,Kolkata", author: "seaview99", ...CC_BY_SA_2, source: "https://www.flickr.com/photos/85296574@N00/2067375702" },
+  routeHills: { file: "/photos/bir/more/route-hills.jpg", title: "Mountain road", author: "generalising", ...CC_BY_SA_2, source: "https://www.flickr.com/photos/97534175@N00/6609215681" },
+  sunrise: { file: "/photos/bir/more/sunrise.jpg", title: "Sunrise in the Himalayas", author: "Koshyk", ...CC_BY_2, source: "https://www.flickr.com/photos/97235261@N00/11096205714" },
+  townCafe: { file: "/photos/bir/more/town-cafe.jpg", title: "Chai tea latte at Tod Mountain Cafe", author: "Ruth and Dave", ...CC_BY_2, source: "https://www.flickr.com/photos/95142644@N00/31970926371" },
+  townColour: { file: "/photos/bir/more/town-colour.jpg", title: "A Mexican - Tibetan Buddha rooftop in Puerto Vallarta, Jalisco, Mexico", author: "Wonderlane", ...CC0, source: "https://www.flickr.com/photos/71401718@N00/351494912" },
+  townFlags: { file: "/photos/bir/more/town-flags.jpg", title: "Prayer Flag over Namgyal Tsemo", author: "Prayudi Hartono", ...CC_BY_2, source: "https://www.flickr.com/photos/30040853@N02/6272955020" },
+  townRoads: { file: "/photos/bir/more/town-roads.jpg", title: "Trollstigen - The Troll Ladder", author: "doegox", ...CC_BY_SA_2, source: "https://www.flickr.com/photos/8034873@N07/2764840675" },
+  townTravellers: { file: "/photos/bir/more/town-travellers.jpg", title: "Girl Traveling Mountain Vacation", author: "Rawpixel Ltd", ...CC0, source: "https://www.flickr.com/photos/147875007@N03/34006154775" },
+  trees: { file: "/photos/bir/more/trees.jpg", title: "Merry Christmas Forest, Stockholm", author: "Sue Wellington: photography and sketchbooks", ...PDM, source: "https://www.flickr.com/photos/45843037@N03/23759873986" },
+  trekArrive: { file: "/photos/bir/more/trek-arrive.jpg", title: "A photographer capturing view from Mt Fuji", author: "diloz", ...CC_BY_2, source: "https://www.flickr.com/photos/18589149@N06/4879774124" },
+  trekAscend: { file: "/photos/bir/more/trek-ascend.jpg", title: "Pacific Crest National Scenic Trail, California", author: "mypubliclands", ...CC_BY_2, source: "https://www.flickr.com/photos/91981596@N06/35906491624" },
+  trekDiscover: { file: "/photos/bir/more/trek-discover.jpg", title: "20150822_Prescott NF, AZ_R3_Mingus Mountain Picnic Site_001 (US Forest", author: "Prescott NF", ...PDM, source: "https://www.flickr.com/photos/128931870@N08/48650398007" },
+  trekStart: { file: "/photos/bir/more/trek-start.jpg", title: "travel gear.", author: "stevecoutts", ...CC_BY_2, source: "https://www.flickr.com/photos/11679961@N05/3671034436" },
 } satisfies Record<string, PhotoCredit>;
 
 /**
@@ -112,11 +159,78 @@ export const footage = {
   hero: { file: "/videos/bir/hero.mp4", title: "Paragliding in Blackheath NSW Australia at high altitude", author: "skinduptruk", ...CC_BY_3, source: `${COMMONS}Paragliding_in_Blackheath_NSW_Australia_at_high_altitude.webm` },
   above: { file: "/videos/bir/above.mp4", title: "Paragliding through clouds in Blackheath NSW Australia", author: "skinduptruk", ...CC_BY_3, source: `${COMMONS}Paragliding_through_clouds_in_Blackheath_NSW_Australia.webm` },
   bonfire: { file: "/videos/bir/bonfire.mp4", title: "Campfire burning wood logs in the dark", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/campfire-burning-wood-logs-in-the-dark-22730/" },
+  prepare: { file: "/videos/bir/flight-prepare.mp4", title: "Paragliding - Parapendio - Vipavska dolina, Slovenia", author: "Slovely.eu", ...CC_BY_3, source: `${COMMONS}Paragliding_-_Parapendio_-_Vipavska_dolina,_Slovenia.webm` },
+  fly: { file: "/videos/bir/flight-fly.mp4", title: "Fly Golte, fly Slovenia - paragliding tandem Slovenia 9", author: "Nejc Sedovnik", ...CC_BY_3, source: `${COMMONS}Fly_Golte,_fly_Slovenia_-_paragliding_tandem_Slovenia_9.webm` },
+  land: { file: "/videos/bir/flight-land.mp4", title: "Paragliding Slovenija - Vremščica", author: "Aleš Kalin", ...CC_BY_3, source: `${COMMONS}Paragliding_Slovenija_-_Vremščica.webm` },
   warmDrink: { file: "/videos/bir/warm-drink.mp4", title: "People pouring a warm drink around a campfire", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/people-pouring-a-warm-drink-around-a-campfire-513/" },
 } satisfies Record<string, PhotoCredit>;
 
+/** A still slot from a scene photograph. */
+const still = (c: PhotoCredit, alt: string, focus = "50% 50%"): MediaSlot => ({ image: c.file, alt, focus });
+/** A video slot from a clip under /videos/bir/<name>.{webm,mp4} with its poster. */
+const clip = (name: string, alt: string, focus = "50% 50%"): MediaSlot => ({
+  video: `/videos/bir/${name}.mp4`,
+  webm: `/videos/bir/${name}.webm`,
+  image: `/videos/bir/${name}-poster.jpg`,
+  alt,
+  focus,
+});
+
+/**
+ * EVERY SEQUENCE'S FRAMES, IN ORDER. Components index these by stage, so a
+ * sequence can never have a stage without a picture.
+ */
+export const sequences = {
+  route: [
+    still(scenes.routeCity, "A city road at night, streaked with the light trails of traffic"),
+    still(scenes.routeHighway, "An empty expressway under a clear evening sky"),
+    still(scenes.routeHills, "A narrow road bending round a hillside, trucks climbing it"),
+    still(photos.barotView, "Barot: the Uhl running over boulders under forested hills", "50% 55%"),
+  ],
+  dawn: [
+    still(scenes.nightStars, "The Milky Way over a tent glowing orange under the trees"),
+    still(scenes.sunrise, "First light on a range of snow peaks above dark valleys", "50% 60%"),
+    still(scenes.morningRoad, "A road winding through morning mist on a hillside"),
+  ],
+  town: [scenes.townFlags, scenes.townCafe, photos.chokling, scenes.townRoads, scenes.townTravellers, scenes.townColour],
+  flight: [
+    clip("flight-prepare", "Paragliders' wings laid out on a launch meadow, pilots getting ready"),
+    still(scenes.flightEdge, "The edge of a launch meadow, a windsock, and the valley falling away beyond it"),
+    clip("flight-takeoff", "A paraglider's wing filling with air and lifting its pilot off the hill"),
+    clip("flight-fly", "Flying under a paraglider canopy over steep green mountains"),
+    still(photos.aerial, "Bir from the air: terraced fields, winding roads and scattered houses"),
+    clip("flight-land", "Coming in low over green fields to land on the grass"),
+  ],
+  evening: [
+    still(photos.sunset, "A paraglider silhouetted directly across the setting sun in Bir", "50% 55%"),
+    still(scenes.eveMusic, "Friends around a campfire at night"),
+    still(scenes.eveStrangers, "A row of friends silhouetted against a red sky"),
+    still(scenes.eveNotforlong, "People watching the sunset together from a hill"),
+  ],
+  forest: [
+    still(scenes.clouds, "A hiker on a ridge above a sea of cloud"),
+    still(scenes.trees, "Low sun through a pine forest"),
+  ],
+  trek: [
+    still(scenes.trekStart, "Trail kit laid out: boots, layers, bottles, a map"),
+    still(scenes.trekAscend, "A hiker with a big pack on a narrow mountain trail"),
+    still(scenes.trekDiscover, "A picnic spot at the edge of a forest above a wide valley"),
+    still(scenes.trekArrive, "Someone standing on a summit above a sea of cloud"),
+  ],
+  home: [
+    still(scenes.homeMorning, "Morning light through an old window"),
+    still(scenes.homeCoffee, "Coffee on a copper tray"),
+    still(scenes.homeBreakfast, "A breakfast table, pancakes and mugs"),
+    still(scenes.homeViews, "Snow-dusted mountains over a green meadow"),
+    still(scenes.homePhotos, "Someone photographing the view from a rocky ridge"),
+    still(scenes.homePacking, "Backpacks piled in the back of a truck"),
+    still(scenes.homeRoad, "A mountain road curving away"),
+  ],
+};
+
 export const media: Record<
   | "hero"
+  | "landing"
   | "day1"
   | "river"
   | "trail"
@@ -128,6 +242,10 @@ export const media: Record<
   | "lookDown"
   | "social"
   | "socialNight"
+  | "day3"
+  | "day4"
+  | "end"
+  | "final"
   | "sunset"
   | "summit"
   | "lastNight"
@@ -136,7 +254,9 @@ export const media: Record<
 > = {
   // The Bir still shows first and the flying clip fades in over it once it plays.
   hero: { video: footage.hero.file, webm: "/videos/bir/hero.webm", image: photos.hero.file, alt: "Flying a paraglider high above a valley, the canopy overhead and a field of cloud all around", focus: "88% 35%" },
-  day1: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 55%" },
+  /** Where the hero's descent comes down — the valley from above, the first ground you see. */
+  landing: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 60%" },
+  day1: { image: photos.barotUhl.file, alt: "The Uhl valley above Barot, forested slopes running up towards Billing", focus: "50% 50%" },
   river: { image: photos.river.file, alt: "The Uhl river running over boulders at Barot, pine forest on the far bank", focus: "50% 60%" },
   trail: { image: photos.trail.file, alt: "Morning light through a forested gorge above a boulder-strewn stream near Barot", focus: "50% 50%" },
   goldenHour: { image: photos.goldenHour.file, alt: "Snow peaks lit pink and gold by the last of the sun above a dark valley", focus: "50% 45%" },
@@ -149,16 +269,15 @@ export const media: Record<
   socialNight: { image: photos.campfire.file, alt: "Silhouettes around a campfire at dusk under a dark mountain", focus: "60% 70%" },
   sunset: { image: photos.sunset.file, alt: "A paraglider silhouetted directly across the setting sun in Bir", focus: "50% 55%" },
   summit: { image: photos.summit.file, alt: "Stone cairns on a ridgetop on the Hanuman Garh trek, snow peaks behind", focus: "50% 45%" },
+  day3: still(scenes.day3, "Two trekkers on a trail climbing towards snow peaks", "50% 40%"),
+  day4: still(scenes.day4, "A gravel road running through a high, empty valley towards the mountains", "50% 60%"),
+  end: still(scenes.end, "A mountain lit gold at the last of the day", "50% 45%"),
+  final: still(scenes.finalStars, "The Milky Way over a mountain road at night", "50% 40%"),
   lastNight: { video: footage.warmDrink.file, webm: "/videos/bir/warm-drink.webm", image: "/videos/bir/warm-drink-poster.jpg", alt: "Someone pouring a warm drink by a small fire at the water's edge, at dusk", focus: "50% 60%" },
   road: { image: photos.road.file, alt: "A winding mountain road between rock walls and pines, snow peaks ahead", focus: "50% 55%" },
 };
 
-/** The three photographs laid between the words of the Bir strip. */
-export const townPhotos = [
-  { after: 0, ...photos.monastery, alt: "A blue-and-red monastery in Bir under strings of prayer flags" },
-  { after: 2, ...photos.chokling, alt: "The gold and red facade of Chokling Monastery, Bir" },
-  { after: 4, ...photos.street, alt: "A street in Bir, cafés and yellow balconies, someone walking away" },
-] as const;
+
 
 /* ------------------------------------------------------------------ */
 /* section numbering                                                   */
@@ -476,7 +595,7 @@ export const recap = {
     { word: "Mountains.", tone: "#3B4A55", ink: "#EFE9DD", image: photos.flags.file },
     { word: "Trek.", tone: "#2E2119", ink: "#EFE9DD", image: photos.summit.file },
     { word: "Dinner.", tone: "#3A1A0E", ink: "#EFE9DD", image: photos.lastNight.file },
-    { word: "People.", tone: "#EFE9DD", ink: "#101311" },
+    { word: "People.", tone: "#3a2a1f", ink: "#EFE9DD", image: scenes.recapPeople.file },
     { word: "Road.", tone: "#3b464c", ink: "#F1E6D6", image: photos.roadAlt.file },
   ] as { word: string; tone: string; ink: string; image?: string }[]),
 };

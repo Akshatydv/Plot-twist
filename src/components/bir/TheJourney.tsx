@@ -16,9 +16,21 @@ import { Clouds, Focus, MaskLines, Ridge, useCalm } from "./Scenery";
 export function TheJourney() {
   const reduce = useCalm();
   return (
-    <section id="the-journey" data-hud="day1" className="relative overflow-hidden bg-[var(--bir-pine)] px-5 pb-24 pt-16 sm:px-8 sm:pb-32 sm:pt-24 lg:px-14">
+    <section
+      id="the-journey"
+      data-hud="day1"
+      /*
+        Pulled up 100svh over the hero's tail: the hero's frame stays pinned
+        behind this section's first screen, so these words rise over the
+        landing site the descent just came down onto. The ground is clear at
+        the top and becomes pine a screen down. Reduced motion has no descent
+        and no overlap.
+      */
+      className={`relative z-10 overflow-hidden px-5 pb-24 pt-[34svh] sm:px-8 sm:pb-32 lg:px-14 ${reduce ? "bg-[var(--bir-pine)] !pt-16" : "-mt-[100svh]"}`}
+      style={reduce ? undefined : { background: "linear-gradient(to bottom, rgba(15,29,22,0) 0, rgba(15,29,22,0) 60svh, rgba(15,29,22,0.85) 110svh, #0f1d16 140svh)" }}
+    >
       {/* low fog still hanging from the descent */}
-      <Clouds color="rgba(143,177,168,0.14)" banks={3} speed={0.6} className="h-[60%]" />
+      <Clouds color="rgba(143,177,168,0.14)" banks={3} speed={0.6} className="top-[80svh] h-[60%]" />
       <div className="grain pointer-events-none absolute inset-0" />
 
       <div className="relative mx-auto max-w-[1200px]">

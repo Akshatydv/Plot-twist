@@ -3,12 +3,12 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { birIndex, credits, details, finalCta, footage, photos, recap, trip } from "@/content/bir";
+import { birIndex, credits, details, finalCta, footage, media, photos, recap, scenes, trip } from "@/content/bir";
 import { contact } from "@/content/site";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton, SectionLabel } from "../Bits";
 import { Reveal } from "../motion";
-import { Focus, MaskLines, Ridge, Stars, useCalm } from "./Scenery";
+import { Focus, Footage, MaskLines, useCalm } from "./Scenery";
 
 /* ------------------------------------------------------------------ */
 /* the recap                                                           */
@@ -214,36 +214,42 @@ export function TheDetails() {
           </div>
         </Reveal>
 
-        <PhotoCredits />
       </div>
     </section>
   );
 }
 
 /**
- * THE CREDITS — every photograph on the page, its author and its licence.
- * Not decoration: CC BY and BY-SA are only licences on the condition that the
- * author, the source and the licence are named where the work is shown.
+ * THE CREDITS — every photograph and clip on the page, its author and its
+ * licence. Not decoration: CC BY and BY-SA are only licences on the
+ * condition that the author, the source and the licence are named where the
+ * work is shown. Kept small and folded, at the very end, above the footer.
  */
-function PhotoCredits() {
+export function PhotoCredits() {
+  const all = [...Object.values(photos), ...Object.values(scenes), ...Object.values(footage)];
   return (
-    <div className="mt-14 border-t border-[#101311]/10 pt-6">
-      <span className="text-[9px] tracked text-[#101311]/45">{credits.label}</span>
-      <p className="mt-2 max-w-[70ch] text-[0.8rem] leading-[1.5] text-[#101311]/55">{credits.note}</p>
-      <ul className="mt-3 grid gap-x-8 gap-y-1 text-[0.75rem] leading-[1.45] text-[#101311]/55 sm:grid-cols-2">
-        {[...Object.values(photos), ...Object.values(footage)].map((c) => (
-          <li key={c.file}>
-            <a href={c.source} target="_blank" rel="noreferrer" className="underline decoration-[#101311]/20 underline-offset-2 hover:text-[#101311]">
-              {c.title}
-            </a>{" "}
-            — {c.author},{" "}
-            <a href={c.licenseUrl} target="_blank" rel="noreferrer" className="underline decoration-[#101311]/20 underline-offset-2 hover:text-[#101311]">
-              {c.license}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className="bg-[#101311] px-5 py-6 sm:px-8 lg:px-14">
+      <details className="group mx-auto max-w-[1200px] text-[#EFE9DD]/45">
+        <summary className="cursor-pointer list-none text-[9px] font-semibold tracked hover:text-[#EFE9DD]/70">
+          {credits.label} <span className="group-open:hidden">+</span>
+          <span className="hidden group-open:inline">−</span>
+        </summary>
+        <p className="mt-3 max-w-[80ch] text-[0.7rem] leading-[1.5]">{credits.note}</p>
+        <ul className="mt-2 columns-1 gap-8 text-[0.65rem] leading-[1.5] sm:columns-2 lg:columns-3">
+          {all.map((c) => (
+            <li key={c.file} className="break-inside-avoid">
+              <a href={c.source} target="_blank" rel="noreferrer" className="underline decoration-[#EFE9DD]/20 underline-offset-2 hover:text-[#EFE9DD]">
+                {c.title}
+              </a>{" "}
+              — {c.author},{" "}
+              <a href={c.licenseUrl} target="_blank" rel="noreferrer" className="underline decoration-[#EFE9DD]/20 underline-offset-2 hover:text-[#EFE9DD]">
+                {c.license}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    </section>
   );
 }
 
@@ -255,9 +261,8 @@ export function FinalCta() {
   return (
     <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-[#0b1510] px-5 py-24 sm:px-8 lg:px-14">
       <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #05080c 0%, #0b1510 70%)" }} />
-      <Stars />
-      <Ridge name="peaks" fill="#12221c" className="h-[46%]" />
-      <Ridge name="front" fill="#08110c" className="h-[24%]" />
+      <Footage slot={media.final} drift />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#05080c]/85 via-[#05080c]/50 to-[#05080c]/20" />
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="relative">
         <MaskLines

@@ -662,3 +662,44 @@ export function Flames() {
     </div>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* sequences                                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A stack of full-bleed frames, one visible at a time, crossfading as
+ * `active` changes. Only the active frame and its neighbours are mounted, so
+ * a six-clip sequence never has six videos loading at once. Each frame gets
+ * a slow push-in so a still reads as a shot.
+ */
+export function FrameStack({
+  frames,
+  active,
+  className = "",
+  tint,
+}: {
+  frames: MediaSlot[];
+  active: number;
+  className?: string;
+  /** A wash over every frame — for legibility and to hold the section's palette. */
+  tint?: string;
+}) {
+  return (
+    <div className={`absolute inset-0 overflow-hidden ${className}`}>
+      {frames.map((f, i) =>
+        Math.abs(i - active) <= 1 ? (
+          <div
+            key={i}
+            className="absolute inset-0 transition-opacity duration-[900ms] ease-out"
+            style={{ opacity: i === active ? 1 : 0 }}
+            aria-hidden={i !== active}
+          >
+            <Footage slot={f} drift />
+          </div>
+        ) : null,
+      )}
+      {tint && <div className="pointer-events-none absolute inset-0" style={{ background: tint }} />}
+    </div>
+  );
+}

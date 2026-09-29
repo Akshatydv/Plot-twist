@@ -74,4 +74,11 @@ ffmpeg -i hero.mp4 -vframes 1 -q:v 3 hero-poster.jpg
 | `bonfire.mp4/.webm` | THE BONFIRE | [Mixkit](https://mixkit.co/free-stock-video/campfire-burning-wood-logs-in-the-dark-22730/) | Mixkit | [Mixkit Free](https://mixkit.co/license/#videoFree) | 0:00.5–0:10 |
 | `warm-drink.mp4/.webm` | THE LAST NIGHT | [Mixkit](https://mixkit.co/free-stock-video/people-pouring-a-warm-drink-around-a-campfire-513/) | Mixkit | Mixkit Free | 0:04–0:15.5 |
 
-Posters (`*-poster.jpg`) are single frames of the same clips.
+| `flight-prepare.*` | THE FLIGHT · PREPARE | [Commons](https://commons.wikimedia.org/wiki/File:Paragliding_-_Parapendio_-_Vipavska_dolina,_Slovenia.webm) | Slovely.eu | CC BY 3.0 | 0:24–0:29 · wings laid out on the launch; cropped to remove the channel logo |
+| `flight-takeoff.*` | THE FLIGHT · TAKE OFF | same source | Slovely.eu | CC BY 3.0 | 0:28–0:42 · a wing inflating and lifting off; same crop |
+| `flight-fly.*` | THE FLIGHT · FLY | [Commons](https://commons.wikimedia.org/wiki/File:Fly_Golte,_fly_Slovenia_-_paragliding_tandem_Slovenia_9.webm) | Nejc Sedovnik | CC BY 3.0 | 0:12–0:28 · under the canopy over the Alps |
+| `flight-land.*` | THE FLIGHT · LAND | [Commons](https://commons.wikimedia.org/wiki/File:Paragliding_Slovenija_-_Vrem%C5%A1%C4%8Dica.webm) | Aleš Kalin | CC BY 3.0 | 6:28–6:42 · approach and touchdown; cropped to remove the burned-in date stamp |
+
+The flight's other two stages are stills: a launch edge (Flickr, CC BY 2.0)
+and Bir from the air (Commons). Posters (`*-poster.jpg`) are single frames
+of the same clips.

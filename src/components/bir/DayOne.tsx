@@ -9,10 +9,10 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { day1, media } from "@/content/bir";
+import { day1, media, sequences } from "@/content/bir";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
-import { Clouds, Embers, FireGlow, Flames, FogBand, Footage, Kicker, MaskLines, Pines, Ridge, Stars, useCalm } from "./Scenery";
+import { Clouds, Embers, FireGlow, Flames, FogBand, Footage, FrameStack, Kicker, MaskLines, Pines, Ridge, Stars, useCalm } from "./Scenery";
 
 /**
  * DAY 01 — THE ESCAPE. Barot.
@@ -89,8 +89,8 @@ const ROUTE_TALL = {
 };
 
 /**
- * The route draws itself as you scroll, and the land under it changes from
- * city to highway to hills to valley. The van is ON the line — its position
+ * The route draws itself as you scroll, and the frame behind it is a
+ * full-bleed photograph of wherever the van is: city, highway, hills, Barot. The van is ON the line — its position
  * is read from the path itself, so it can never drift off the road.
  */
 function Route() {
@@ -105,12 +105,6 @@ function Route() {
     setReached((r) => (r === n ? r : n));
   });
 
-  // the land, city → valley
-  const city = useTransform(p, [0.05, 0.3], [1, 0]);
-  const highway = useTransform(p, [0.2, 0.35, 0.55, 0.68], [0, 1, 1, 0]);
-  const hills = useTransform(p, [0.5, 0.65, 0.8, 0.9], [0, 1, 1, 0.4]);
-  const valley = useTransform(p, [0.78, 0.95], [0, 1]);
-  const bg = useTransform(p, [0, 0.35, 0.7, 1], ["#17181a", "#1b1f1d", "#12211a", "#0b1510"]);
 
   const shown = reduce ? day1.route.stops.length : reached;
 
@@ -118,25 +112,14 @@ function Route() {
     <section ref={ref} data-hud="day1" className={reduce ? "relative" : "relative h-[280svh]"}>
       <motion.div
         className={`${reduce ? "relative min-h-[100svh]" : "sticky top-0 h-[100svh]"} flex flex-col overflow-hidden px-5 py-16 sm:px-8 lg:px-14`}
-        style={{ background: reduce ? "#0b1510" : bg }}
+        style={{ background: "#0b1510" }}
       >
-        {/* the land */}
-        <div className="absolute inset-x-0 bottom-0 h-[42%]">
-          <motion.div className="absolute inset-0" style={{ opacity: reduce ? 0 : city }}>
-            <CitySkyline />
-          </motion.div>
-          <motion.div className="absolute inset-0" style={{ opacity: reduce ? 0 : highway }}>
-            <Highway />
-          </motion.div>
-          <motion.div className="absolute inset-0" style={{ opacity: reduce ? 0 : hills }}>
-            <Ridge name="hills" fill="#1d3228" className="h-[80%]" />
-            <Ridge name="front" fill="#12231a" className="h-[55%]" />
-          </motion.div>
-          <motion.div className="absolute inset-0" style={{ opacity: reduce ? 1 : valley }}>
-            <Ridge name="peaks" fill="#1a302b" className="h-full" />
-            <Pines name="mid" fill="#0a1812" className="h-[60%]" />
-          </motion.div>
-        </div>
+        {/* the land — a full-bleed photograph per stop, changing as the van passes it */}
+        <FrameStack
+          frames={sequences.route}
+          active={Math.max(0, shown - 1)}
+          tint="linear-gradient(to bottom, rgba(10,12,11,0.72) 0%, rgba(10,12,11,0.35) 38%, rgba(10,12,11,0.35) 62%, rgba(10,12,11,0.85) 100%)"
+        />
         <div className="grain pointer-events-none absolute inset-0" />
 
         <div className="relative z-10">
@@ -219,41 +202,6 @@ function RouteMap({
         </g>
       ))}
       {!reduce && len > 0 && <motion.circle r="7" fill="#EFE9DD" stroke="#101311" strokeWidth="3" cx={vanX} cy={vanY} />}
-    </svg>
-  );
-}
-
-function CitySkyline() {
-  // A band of blocks with lit windows. Deterministic, so SSR and client agree.
-  const blocks = Array.from({ length: 34 }, (_, i) => {
-    const h = 40 + ((i * 37) % 7) * 18 + ((i * 13) % 5) * 8;
-    return { x: i * 48, w: 36 + ((i * 7) % 3) * 6, h };
-  });
-  return (
-    <svg viewBox="0 0 1600 400" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-      {blocks.map((b, i) => (
-        <g key={i}>
-          <rect x={b.x} y={400 - b.h * 1.6} width={b.w} height={b.h * 1.6} fill="#232426" />
-          {Array.from({ length: Math.floor(b.h / 14) }, (_, j) => (
-            <rect key={j} x={b.x + 8 + ((i + j) % 3) * 9} y={400 - b.h * 1.6 + 12 + j * 22} width="4" height="6" fill={(i + j) % 4 ? "#6b5a3d" : "#e8b48a"} opacity="0.7" />
-          ))}
-        </g>
-      ))}
-    </svg>
-  );
-}
-
-function Highway() {
-  return (
-    <svg viewBox="0 0 1600 400" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden>
-      <path d="M0,400 L760,150 L840,150 L1600,400 Z" fill="#1c1e1c" />
-      {[0, 1, 2, 3, 4, 5].map((i) => {
-        const t = i / 6;
-        const y = 150 + Math.pow(t, 1.6) * 250;
-        const h = 6 + t * 30;
-        return <rect key={i} x={797 - t * 6} y={y} width={6 + t * 12} height={h} fill="#e8b48a" opacity={0.6} />;
-      })}
-      <path d="M0,160 Q400,120 800,150 T1600,160 L1600,150 L0,150 Z" fill="#2a2d2a" />
     </svg>
   );
 }
