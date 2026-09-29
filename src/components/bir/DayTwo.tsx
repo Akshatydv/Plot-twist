@@ -9,26 +9,23 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { day2, media, sequences } from "@/content/bir";
+import { day1, day2, media, sequences } from "@/content/bir";
+import { Plate, ValleyScene } from "./DayOne";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
 import { Clouds, FireGlow, Focus, Footage, FrameStack, Glider, Kicker, MaskLines, PrayerFlags, Ridge, useCalm } from "./Scenery";
 
 /**
- * DAY 02 — THE FLIGHT. Bir.
+ * DAY 02 — THE FLIGHT. A day trip out of Bir: Barot, Billing, the circuit.
  *
- * World: free, social, high-energy. Sky blue, prayer-flag colour, cream.
- * Motion: fast and lateral — the only chapter where things move sideways.
- *
- *   the card       → morning sky, flags, tiny gliders already up
- *   the town       → a horizontal drift of what Bir is, scrubbed by scroll
- *   the headline   → YOU DIDN'T COME ALL THIS WAY TO STAY ON THE GROUND.
- *   THE FLIGHT     → six stages, and the scroll IS the flight
- *   social club    → the day slows down
- *   the evening    → SUNSET. MUSIC. STRANGERS. NOT FOR LONG. — one per screen
- *   social night   → the private night
+ *   the card      → Barot valley from the hillside
+ *   morning       → THE RIVER, THE TRAIL (the plates, from DayOne.tsx)
+ *   afternoon     → YOU DIDN'T COME ALL THIS WAY… then THE FLIGHT, six
+ *                   stages, Billing → Bir, and the scroll IS the flight
+ *   evening       → GOLDEN HOUR, landed back in Bir
  */
 export function DayTwo() {
+  const [river, trail, golden] = day1.plates;
   return (
     <div className="relative">
       <DayCard
@@ -38,24 +35,27 @@ export function DayTwo() {
         emoji={day2.emoji}
         name={day2.name}
         place={day2.place}
-        ground="#a9cbe0"
-        ink="#F3EFE6"
-        accent="#F3EFE6"
-        scene={(p) => <SkyScene p={p} />}
+        lines={day2.lines}
+        ground="#0b1510"
+        ink="#EFE9DD"
+        accent="#8FB1A8"
+        scene={(p) => <ValleyScene p={p} />}
         slot={media.day2}
-        tint="linear-gradient(to bottom, rgba(36,82,125,0.35) 0%, rgba(16,19,17,0.15) 40%, rgba(16,19,17,0.65) 100%)"
+        tint="linear-gradient(to bottom, rgba(11,21,16,0.55) 0%, rgba(11,21,16,0.45) 45%, rgba(11,21,16,0.92) 100%)"
       />
-      <Town />
+      {/* morning: Barot */}
+      <Plate plate={river} index={0} />
+      <Plate plate={trail} index={1} />
+      {/* afternoon: up to Billing, and the flight back down to Bir */}
       <FlightHeadline />
       <TheFlight />
-      <SocialClub />
-      <Evening />
-      <SocialNight />
+      {/* evening: landed */}
+      <Plate plate={golden} index={2} />
     </div>
   );
 }
 
-function SkyScene({ p }: { p: MotionValue<number> }) {
+export function SkyScene({ p }: { p: MotionValue<number> }) {
   const g1 = useTransform(p, [0, 1], ["10%", "-40%"]);
   const g2 = useTransform(p, [0, 1], ["60%", "-10%"]);
   return (
@@ -84,14 +84,14 @@ function SkyScene({ p }: { p: MotionValue<number> }) {
 
 const FLAG = ["#2F6DB3", "#C8412F", "#3F8A4F", "#E5B637", "#24527D", "#A95F38"];
 
-function Town() {
+export function Town() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const x = useTransform(p, [0.05, 0.95], ["0%", "-66%"]);
 
   return (
-    <section ref={ref} data-hud="day2" className={reduce ? "relative" : "relative h-[320svh]"}>
+    <section ref={ref} data-hud="day1" className={reduce ? "relative" : "relative h-[320svh]"}>
       <div className={`${reduce ? "relative py-20" : "sticky top-0 h-[100svh]"} flex flex-col justify-center overflow-hidden bg-[#F3EFE6]`}>
         <div className="absolute inset-x-0 top-0">
           <PrayerFlags count={30} sag={30} className="h-16 sm:h-20" y0={8} />
@@ -137,7 +137,7 @@ function Town() {
 
 function FlightHeadline() {
   return (
-    <section data-hud="day2" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#24527D] px-5 py-24 sm:px-8 lg:px-14">
+    <section data-hud="day1" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#24527D] px-5 py-24 sm:px-8 lg:px-14">
       <Clouds color="rgba(255,255,255,0.16)" banks={4} speed={2} />
       {/* real flight, washed into the day's blue so the headline owns the frame */}
       <Footage slot={media.above} />
@@ -201,7 +201,7 @@ function TheFlight() {
   const st = day2.flight.stages[stage];
 
   return (
-    <section ref={ref} data-hud="day2" aria-label="The paragliding flight, Billing to Bir" className="relative h-[640svh]">
+    <section ref={ref} data-hud="day1" aria-label="The paragliding flight, Billing to Bir" className="relative h-[640svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#8fb9d6]">
         {/* a real frame for every stage: launch, edge, take-off, flight, the valley, the landing */}
         <FrameStack frames={sequences.flight} active={stage} />
@@ -273,7 +273,7 @@ function TheFlight() {
 /** Reduced motion: the six stages as a still, readable sequence. */
 function FlightStill({ sref }: { sref: RefObject<HTMLElement | null> }) {
   return (
-    <section ref={sref} data-hud="day2" className="relative bg-[#8fb9d6] px-5 py-20 sm:px-8 lg:px-14">
+    <section ref={sref} data-hud="day1" className="relative bg-[#8fb9d6] px-5 py-20 sm:px-8 lg:px-14">
       <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {day2.flight.stages.map((s) => (
           <li key={s.n}>
@@ -294,10 +294,10 @@ function FlightStill({ sref }: { sref: RefObject<HTMLElement | null> }) {
 /* the social club, the evening, the night                             */
 /* ------------------------------------------------------------------ */
 
-function SocialClub() {
+export function SocialClub() {
   const reduce = useCalm();
   return (
-    <section data-hud="day2" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32 lg:px-14" style={{ background: "linear-gradient(to bottom, #e6eef2 0%, #f1dcc2 55%, #e9b48a 100%)" }}>
+    <section data-hud="day1" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32 lg:px-14" style={{ background: "linear-gradient(to bottom, #e6eef2 0%, #f1dcc2 55%, #e9b48a 100%)" }}>
       <div className="absolute inset-x-0 top-0">
         <PrayerFlags count={20} sag={40} className="h-16 sm:h-24" />
       </div>
@@ -333,7 +333,7 @@ function SocialClub() {
 
 
 /** SUNSET. MUSIC. STRANGERS. NOT FOR LONG. — one word per screen of scroll, sky darkening under it. */
-function Evening() {
+export function Evening() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
@@ -346,7 +346,7 @@ function Evening() {
 
   if (reduce) {
     return (
-      <section ref={ref} data-hud="day2" className="bg-[#1a1a33] px-5 py-24 sm:px-8 lg:px-14">
+      <section ref={ref} data-hud="day1" className="bg-[#1a1a33] px-5 py-24 sm:px-8 lg:px-14">
         {day2.evening.map((w) => (
           <p key={w} className="font-serif text-[clamp(3rem,12vw,9rem)] leading-[0.9] text-[#F3EFE6]">{w}</p>
         ))}
@@ -355,7 +355,7 @@ function Evening() {
   }
 
   return (
-    <section ref={ref} data-hud="day2" className="relative h-[360svh]">
+    <section ref={ref} data-hud="day1" className="relative h-[360svh]">
       <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 sm:px-8 lg:px-14">
         {/* a real photograph per word, the light dropping frame by frame */}
         <FrameStack
@@ -376,39 +376,6 @@ function Evening() {
             {day2.evening[i]}
           </motion.p>
         </AnimatePresence>
-      </div>
-    </section>
-  );
-}
-
-function SocialNight() {
-  const reduce = useCalm();
-  return (
-    <section data-hud="day2" className="relative overflow-hidden bg-[#1a1a33] px-5 pb-28 pt-10 sm:px-8 sm:pb-36 lg:px-14">
-      <Footage slot={media.socialNight} drift />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#1a1a33] via-[#1a1a33]/60 to-[#1a1a33]/30" />
-      <FireGlow className="-bottom-1/3 left-1/2 h-[80%] w-[120%] -translate-x-1/2" intensity={0.7} />
-      <div className="grain pointer-events-none absolute inset-0" />
-      <div className="relative mx-auto max-w-[1200px]">
-        <Kicker color="#E8B48A">{day2.night.kicker}</Kicker>
-        <MaskLines lines={[day2.night.title]} className="mt-5 font-serif text-[clamp(3rem,11vw,8.5rem)] leading-[0.86] tracking-[-0.03em] text-[#F3EFE6]" />
-        <div className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-3">
-          {day2.night.items.map((it, i) => (
-            <motion.span
-              key={it}
-              className="border border-[#F3EFE6]/25 px-4 py-2 text-[12px] font-semibold tracked text-[#F3EFE6]"
-              initial={reduce ? false : { opacity: 0, scale: 0.85 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
-            >
-              {it}
-            </motion.span>
-          ))}
-        </div>
-        <Focus delay={0.4}>
-          <p className="mt-10 max-w-[44ch] font-serif text-[clamp(1.3rem,3vw,1.9rem)] italic leading-[1.25] text-[#F3EFE6]/85">{day2.night.body}</p>
-        </Focus>
       </div>
     </section>
   );

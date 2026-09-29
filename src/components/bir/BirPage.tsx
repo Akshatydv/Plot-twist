@@ -18,9 +18,10 @@ import { Calm } from "./Scenery";
  * THE MOUNTAIN PAGE — Journey 03, Bir × Barot.
  *
  * Goa is a film. Bali is a mystery. Thailand is a gate. This one is a
- * descent: one continuous camera move from the sky above the Dhauladhar,
- * down into Barot, back up over Bir, into the forest, up to a view, and
- * away down the road. The full architecture — every world, every scroll
+ * descent: one continuous camera move from the sky down into Bir, where the
+ * trip lives for three nights — out to Barot and up to Billing, off the hill
+ * and back down over Bir, into the forest, up to a view, and away down the
+ * road. The full architecture — every world, every scroll
  * transition, where footage goes — is in docs/bir-barot-design.md.
  *
  * ─── THE RHYTHM ─────────────────────────────────────────────────────────────

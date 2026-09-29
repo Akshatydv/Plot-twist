@@ -12,18 +12,24 @@ import {
 import { day1, media, sequences } from "@/content/bir";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
+import { Evening, SkyScene, SocialClub, Town } from "./DayTwo";
 import { Clouds, Embers, FireGlow, Flames, FogBand, Footage, FrameStack, Kicker, MaskLines, Pines, Ridge, Stars, useCalm } from "./Scenery";
 
 /**
- * DAY 01 — THE ESCAPE. Barot.
+ * DAY 01 — THE ESCAPE. Arrive in Bir.
  *
- * World: wild, mysterious, intimate. Deep pine, river-grey, one fire.
- * Motion: slow. Everything drifts; nothing snaps.
+ * Bir is home for all three nights, so Day 01 is the town itself:
  *
- *   the card     → you're in a hidden valley at night-ish blue
- *   the route    → DELHI → BAROT, drawn by your scroll, the land changing under it
- *   three plates → THE RIVER / THE TRAIL / GOLDEN HOUR, each opened by a mask
- *   the bonfire  → TONIGHT, WE DISAPPEAR. — seven things lit one at a time
+ *   the card     → prayer flags against the Dhauladhar
+ *   the route    → DELHI → BIR, a full-bleed photograph per stop
+ *   the town     → flags, cafés, monasteries, roads, travellers, colour
+ *   social club  → the first afternoon
+ *   the evening  → SUNSET. MUSIC. STRANGERS. NOT FOR LONG.
+ *   the bonfire  → PLOT TWIST SOCIAL NIGHT — seven things lit one at a time
+ *
+ * Several of these live in DayTwo.tsx (and Day 02 borrows the Barot plates
+ * from here): the sections were reordered when the itinerary moved the stay
+ * to Bir, and moving the code would only have churned it.
  */
 export function DayOne() {
   return (
@@ -36,23 +42,23 @@ export function DayOne() {
         name={day1.name}
         place={day1.place}
         lines={day1.lines}
-        ground="#0b1510"
-        ink="#EFE9DD"
-        accent="#8FB1A8"
-        scene={(p) => <ValleyScene p={p} />}
+        ground="#a9cbe0"
+        ink="#F3EFE6"
+        accent="#F3EFE6"
+        scene={(p) => <SkyScene p={p} />}
         slot={media.day1}
-        tint="linear-gradient(to bottom, rgba(11,21,16,0.55) 0%, rgba(11,21,16,0.45) 45%, rgba(11,21,16,0.92) 100%)"
+        tint="linear-gradient(to bottom, rgba(36,82,125,0.35) 0%, rgba(16,19,17,0.15) 40%, rgba(16,19,17,0.7) 100%)"
       />
       <Route />
-      {day1.plates.map((plate, i) => (
-        <Plate key={plate.key} plate={plate} index={i} />
-      ))}
+      <Town />
+      <SocialClub />
+      <Evening />
       <Bonfire />
     </div>
   );
 }
 
-function ValleyScene({ p }: { p: MotionValue<number> }) {
+export function ValleyScene({ p }: { p: MotionValue<number> }) {
   const far = useTransform(p, [0, 1], ["6%", "-6%"]);
   const mid = useTransform(p, [0, 1], ["14%", "-10%"]);
   const near = useTransform(p, [0, 1], ["26%", "-14%"]);
@@ -71,7 +77,7 @@ function ValleyScene({ p }: { p: MotionValue<number> }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* DELHI → BAROT                                                       */
+/* DELHI → BIR                                                         */
 /* ------------------------------------------------------------------ */
 
 /**
@@ -217,7 +223,7 @@ type PlateCopy = (typeof day1.plates)[number];
  * window and widens to the full frame as it reaches the top — image masking
  * as the transition, not a fade.
  */
-function Plate({ plate, index }: { plate: PlateCopy; index: number }) {
+export function Plate({ plate, index }: { plate: PlateCopy; index: number }) {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "start start"] });
@@ -229,7 +235,7 @@ function Plate({ plate, index }: { plate: PlateCopy; index: number }) {
   const sun = useTransform(q, [0, 1], ["0%", "60%"]);
 
   return (
-    <section ref={ref} data-hud="day1" className="relative h-[100svh] bg-[#0b1510]">
+    <section ref={ref} data-hud="day2" className="relative h-[100svh] bg-[#0b1510]">
       <motion.div className="absolute inset-0 overflow-hidden" style={{ clipPath: reduce ? undefined : clip }}>
         <motion.div className="absolute inset-[-6%]" style={{ y: reduce ? undefined : drift }}>
           <Footage slot={media[plate.key]}>

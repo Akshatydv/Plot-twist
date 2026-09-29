@@ -130,6 +130,7 @@ export function TheDetails() {
               </li>
             ))}
           </ol>
+          <p className="mt-4 max-w-[56ch] font-serif text-[clamp(1.1rem,2.6vw,1.5rem)] italic leading-snug text-[#101311]/70">{details.routeNote}</p>
         </Reveal>
 
         <Reveal delay={0.12}>

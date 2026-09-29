@@ -1,6 +1,15 @@
 # JOURNEY 03 — BIR × BAROT
 ## Visual architecture, written before a line of code
 
+> **Itinerary change (after launch).** The stay moved to **Bir for all three
+> nights**. Day 01 is now Bir itself (route Delhi → Bir, the town, the social
+> club, the evening, the bonfire as the Plot Twist Social Night). Day 02 is a
+> day trip: Barot's river and trail in the morning, Billing and the flight
+> back down to Bir in the afternoon, golden hour on landing. Days 03 and 04
+> are unchanged. Every section and transition below survives — they were
+> reordered, not redrawn. Where this document and the code disagree, the
+> code is right.
+
 > Goa is a film. Bali is a mystery. Thailand is a gate.
 > **Bir × Barot is a descent.**
 

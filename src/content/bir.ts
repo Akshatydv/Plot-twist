@@ -185,7 +185,7 @@ export const sequences = {
     still(scenes.routeCity, "A city road at night, streaked with the light trails of traffic"),
     still(scenes.routeHighway, "An empty expressway under a clear evening sky"),
     still(scenes.routeHills, "A narrow road bending round a hillside, trucks climbing it"),
-    still(photos.barotView, "Barot: the Uhl running over boulders under forested hills", "50% 55%"),
+    still(photos.street, "A street in Bir: cafés, yellow balconies, prayer flags overhead", "50% 55%"),
   ],
   dawn: [
     still(scenes.nightStars, "The Milky Way over a tent glowing orange under the trees"),
@@ -255,13 +255,13 @@ export const media: Record<
   // The Bir still shows first and the flying clip fades in over it once it plays.
   hero: { video: footage.hero.file, webm: "/videos/bir/hero.webm", image: photos.hero.file, alt: "Flying a paraglider high above a valley, the canopy overhead and a field of cloud all around", focus: "88% 35%" },
   /** Where the hero's descent comes down — the valley from above, the first ground you see. */
-  landing: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 60%" },
-  day1: { image: photos.barotUhl.file, alt: "The Uhl valley above Barot, forested slopes running up towards Billing", focus: "50% 50%" },
+  landing: { image: photos.sunsetGliding.file, alt: "Paragliders coming down over Bir at the end of the day", focus: "50% 60%" },
+  day1: { image: photos.flags.file, alt: "Prayer flags strung in front of snow-dusted Dhauladhar peaks above Bir", focus: "50% 60%" },
   river: { image: photos.river.file, alt: "The Uhl river running over boulders at Barot, pine forest on the far bank", focus: "50% 60%" },
   trail: { image: photos.trail.file, alt: "Morning light through a forested gorge above a boulder-strewn stream near Barot", focus: "50% 50%" },
   goldenHour: { image: photos.goldenHour.file, alt: "Snow peaks lit pink and gold by the last of the sun above a dark valley", focus: "50% 45%" },
   bonfire: { video: footage.bonfire.file, webm: "/videos/bir/bonfire.webm", image: photos.bonfire.file, alt: "Flames rising off burning logs in the dark", focus: "50% 60%" },
-  day2: { image: photos.flags.file, alt: "Prayer flags strung in front of snow-dusted Dhauladhar peaks above Bir", focus: "50% 60%" },
+  day2: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 55%" },
   flight: {},
   above: { video: footage.above.file, webm: "/videos/bir/above.webm", image: "/videos/bir/above-poster.jpg", alt: "Gliding past a towering cloud, the sun overhead and the valley far below", focus: "50% 50%" },
   lookDown: { image: photos.aerial.file, alt: "Bir from the air: terraced fields, winding roads and scattered houses", focus: "50% 50%" },
@@ -298,7 +298,10 @@ export const trip = {
   name: "BIR × BAROT",
   length: "3 NIGHTS · 4 DAYS",
   region: "HIMACHAL",
-  route: ["DELHI", "BAROT", "BIR", "DELHI"] as const,
+  route: ["DELHI", "BIR", "DELHI"] as const,
+  /** Where the nights are spent, and where the days go from there. */
+  stay: "Bir, all 3 nights",
+  dayTrips: ["Barot valley", "Billing", "the paragliding circuit"] as const,
   /**
    * ⚠ INTERPRETATION, NOT CONFIRMATION. The brief says "last weekend of
    * November". In 2026 that is Sat 28 – Sun 29; a four-day trip around it is
@@ -323,9 +326,9 @@ export const trip = {
  * launch around 2,400 m, Bir's landing field around 1,400 m.
  */
 export const hud = {
-  hero: { day: "IN FLIGHT", place: "ABOVE THE DHAULADHAR", alt: "± 2,400 M" },
-  day1: { day: "DAY 01", place: "BAROT VALLEY", alt: "± 1,800 M" },
-  day2: { day: "DAY 02", place: "BIR · BILLING", alt: "1,400 → 2,400 M" },
+  hero: { day: "IN FLIGHT", place: "ABOVE BIR", alt: "± 2,400 M" },
+  day1: { day: "DAY 01", place: "BIR", alt: "± 1,400 M" },
+  day2: { day: "DAY 02", place: "BAROT · BILLING", alt: "1,800 → 2,400 M" },
   day3: { day: "DAY 03", place: "THE TRAIL", alt: "ASCENDING" },
   day4: { day: "DAY 04", place: "THE ROAD HOME", alt: "DESCENDING" },
 } as const;
@@ -343,7 +346,7 @@ export const hero = {
   secondary: { label: "WATCH THE JOURNEY", href: "#day-01" },
   scribble: "hold on.",
   /** Crosses the frame during the descent — the first thing the valley says. */
-  descent: ["COMING DOWN", "INTO THE VALLEY"] as const,
+  descent: ["COMING DOWN", "INTO BIR"] as const,
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -354,10 +357,10 @@ export const journey = {
   label: "THE JOURNEY",
   lead: ["WE'RE NOT SELLING", "A 3N/4D HIMACHAL PACKAGE."] as const,
   turn: "We're selling a story you get to live.",
-  body: "Four days. Four completely different worlds. Twenty people who don't know each other yet. A valley, a sky, a mountain and a road — and you, somewhere in the middle of all of it.",
+  body: "Four days. Four completely different worlds. Twenty people who don't know each other yet. One mountain town to come home to every night — and a valley, a sky and a summit to go out and find from it.",
   worlds: [
-    { day: "01", name: "THE ESCAPE", place: "Barot", feel: "wild · quiet · hidden", tone: "#8FB1A8" },
-    { day: "02", name: "THE FLIGHT", place: "Bir", feel: "free · loud · airborne", tone: "#A9CBE0" },
+    { day: "01", name: "THE ESCAPE", place: "Bir", feel: "cafés · flags · strangers", tone: "#A9CBE0" },
+    { day: "02", name: "THE FLIGHT", place: "Barot · Billing", feel: "wild · high · airborne", tone: "#8FB1A8" },
     { day: "03", name: "THE WILD", place: "The trail", feel: "raw · earned · huge", tone: "#D9C7A6" },
     { day: "04", name: "THE WAY HOME", place: "The road", feel: "slow · golden · changed", tone: "#E8B48A" },
   ],
@@ -365,27 +368,27 @@ export const journey = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 02 · day 01 — the escape                                            */
+/* 02 · day 01 — the escape: Bir                                      */
 /* ------------------------------------------------------------------ */
 
 export const day1 = {
   id: "day-01",
   day: "DAY 01",
-  emoji: "🌲",
+  emoji: "🏔️",
   name: "THE ESCAPE",
-  place: "BAROT VALLEY",
-  lines: ["Leave Delhi behind.", "Find the valley nobody told you about."] as const,
+  place: "BIR",
+  lines: ["Leave Delhi behind.", "Wake up in a mountain town that runs on chai and prayer flags."] as const,
 
   route: {
-    kicker: "DELHI → BAROT",
+    kicker: "DELHI → BIR",
     /** The four stops the line passes through. `at` is 0–1 along the route. */
     stops: [
       { name: "DELHI", note: "traffic. noise. deadlines.", at: 0 },
       { name: "THE HIGHWAY", note: "windows down.", at: 0.34 },
       { name: "THE HILLS", note: "phones lose signal.", at: 0.68 },
-      { name: "BAROT", note: "nobody's heard of it. good.", at: 1 },
+      { name: "BIR", note: "home for the next three nights.", at: 1 },
     ],
-    caption: "The city gets smaller. The roads get narrower. The valley gets quieter.",
+    caption: "The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
   },
 
   plates: [
@@ -393,28 +396,28 @@ export const day1 = {
       key: "river" as const,
       kicker: "THE RIVER",
       title: "Cold, loud, glacier-green.",
-      body: "The Uhl runs straight through the valley. You'll hear it before you see it, and you'll hear it all night.",
+      body: "Morning in Barot, an hour from Bir. The Uhl runs straight through the valley — you'll hear it before you see it.",
     },
     {
       key: "trail" as const,
       kicker: "THE TRAIL",
       title: "Pine. Moss. Riverbank.",
-      body: "An afternoon wandering the forest trails along the water. No agenda. No signal. Nobody's in a hurry.",
+      body: "A slow wander along the riverside trails. No agenda. No signal. Then the road climbs to Billing.",
     },
     {
       key: "goldenHour" as const,
       kicker: "GOLDEN HOUR",
       title: "The valley goes gold, then blue.",
-      body: "Somewhere around five the light drops behind the ridge and the whole valley changes colour. Stay for it.",
+      body: "Landed, back in Bir by five. The light drops behind the ridge and the whole valley you just flew over changes colour.",
     },
   ],
 
   bonfire: {
-    kicker: "THE BONFIRE",
+    kicker: "PLOT TWIST SOCIAL NIGHT",
     headline: ["TONIGHT,", "WE DISAPPEAR."] as const,
     /** Lit one at a time as you scroll — never all at once. */
     elements: [
-      { icon: "🔥", word: "Fire", line: "Riverside. Crackling. The centre of everything." },
+      { icon: "🔥", word: "Fire", line: "A bonfire in Bir. Crackling. The centre of everything." },
       { icon: "🌲", word: "Mountains", line: "Black shapes on a blacker sky." },
       { icon: "✨", word: "Fairy lights", line: "Strung between the pines." },
       { icon: "🍷", word: "Drinks", line: "Something warm. Something strong." },
@@ -433,8 +436,8 @@ export const day1 = {
 export const dawnRoad = {
   times: ["23:40", "04:55", "06:20", "07:10"] as const,
   lines: ["The fire goes out.", "The sky goes blue.", "The road goes on.", "Next chapter."] as const,
-  pin: "BIR",
-  from: "BAROT",
+  pin: "BAROT",
+  from: "BIR",
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -446,8 +449,9 @@ export const day2 = {
   day: "DAY 02",
   emoji: "🪂",
   name: "THE FLIGHT",
-  place: "BIR",
-  intro: "The energy changes. A mountain town that runs on cafés, monasteries, prayer flags and people who came for a week and stayed a year.",
+  place: "BAROT · BILLING",
+  lines: ["A day trip out of Bir.", "A hidden valley in the morning. The sky by the afternoon."] as const,
+  intro: "Your base for three nights. A mountain town that runs on cafés, monasteries, prayer flags and people who came for a week and stayed a year.",
 
   /** The horizontal drift strip. Words, not cards. */
   town: [
@@ -461,7 +465,7 @@ export const day2 = {
 
   flight: {
     headline: ["YOU DIDN'T COME", "ALL THIS WAY", "TO STAY ON THE GROUND."] as const,
-    kicker: "THE PARAGLIDING EXPERIENCE",
+    kicker: "BILLING · THE PARAGLIDING CIRCUIT",
     /** The scroll-controlled sequence. One stage per screen of scroll. */
     stages: [
       { n: "01", word: "PREPARE", line: "Harness goes on. Your pilot checks every strap twice." },
@@ -477,7 +481,7 @@ export const day2 = {
   },
 
   social: {
-    kicker: "AFTER THE FLIGHT",
+    kicker: "DAY ONE, AFTER YOU ARRIVE",
     title: ["THE BIR", "SOCIAL CLUB"] as const,
     body: "Slow the day down. Tibetan food, a café crawl, the town on foot — then everyone ends up at the same sunset.",
     items: ["Tibetan food", "Cafés", "Local exploration", "Sunset", "Music", "Drinks", "Games", "Group moments"],
@@ -587,10 +591,10 @@ export const cast = {
 
 export const recap = {
   frames: ([
+    { word: "Bir.", tone: "#24527D", ink: "#F3EFE6", image: photos.monastery.file },
+    { word: "Bonfire.", tone: "#2A120A", ink: "#FFB36B", image: photos.bonfire.file },
     { word: "Barot.", tone: "#0F1D16", ink: "#EFE9DD", image: photos.barotValley.file },
     { word: "River.", tone: "#17302A", ink: "#EFE9DD", image: photos.river.file },
-    { word: "Bonfire.", tone: "#2A120A", ink: "#FFB36B", image: photos.bonfire.file },
-    { word: "Bir.", tone: "#24527D", ink: "#F3EFE6", image: photos.monastery.file },
     { word: "Paragliding.", tone: "#24527D", ink: "#F3EFE6", image: photos.hero.file },
     { word: "Mountains.", tone: "#3B4A55", ink: "#EFE9DD", image: photos.flags.file },
     { word: "Trek.", tone: "#2E2119", ink: "#EFE9DD", image: photos.summit.file },
@@ -622,11 +626,12 @@ export const price = {
 export const inclusions = {
   confirmed: true,
   included: [
-    "Delhi → Barot → Bir → Delhi, by road",
-    "3 nights' stay in the mountains",
-    "Riverside bonfire night in Barot",
-    "Tandem paragliding, Billing → Bir",
-    "Plot Twist Social Night",
+    "Delhi → Bir → Delhi, by road",
+    "3 nights' stay in Bir",
+    "Bir exploration: cafés, monasteries, the town",
+    "Plot Twist Social Night — bonfire, music, dinner",
+    "Day trip to Barot valley",
+    "Billing + tandem paragliding, Billing → Bir",
     "Guided mountain trek + picnic",
     "The Last Night dinner",
     "Plot Twist hosts throughout",
@@ -643,12 +648,14 @@ export const inclusions = {
 
 export const details = {
   label: "THE DETAILS",
-  headline: ["3 NIGHTS · 4 DAYS", "DELHI → BAROT → BIR → DELHI"] as const,
+  headline: ["3 NIGHTS · 4 DAYS", "DELHI → BIR → DELHI"] as const,
+  /** Printed under the route line: where you sleep, where the days go. */
+  routeNote: "Three nights in Bir. A day trip to Barot, Billing and the paragliding circuit.",
   scribble: "the boring bit. read it anyway.",
   basics: [
     { k: "WHEN", v: trip.dates },
     { k: "DEPARTS", v: trip.departure },
-    { k: "HOW LONG", v: "3 nights · 4 days" },
+    { k: "STAY", v: "Bir · 3 nights" },
     { k: "THE CAST", v: trip.group },
     { k: "THE SPLIT", v: "10 girls + 10 guys" },
     { k: "AGES", v: trip.ages },
