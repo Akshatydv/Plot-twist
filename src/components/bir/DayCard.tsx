@@ -2,7 +2,8 @@
 
 import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import { Focus, useCalm } from "./Scenery";
+import type { MediaSlot } from "@/content/bir";
+import { Focus, Footage, useCalm } from "./Scenery";
 
 /**
  * THE CHAPTER CARD — how every day begins.
@@ -27,6 +28,8 @@ export function DayCard({
   ink,
   accent,
   scene,
+  slot,
+  tint,
   className = "",
 }: {
   id: string;
@@ -40,6 +43,10 @@ export function DayCard({
   ink: string;
   accent: string;
   scene: (p: MotionValue<number>) => ReactNode;
+  /** A photograph of this world, laid over the scene and tinted into its palette. */
+  slot?: MediaSlot;
+  /** The wash that pulls a photograph into the day's colours and keeps the title legible. */
+  tint?: string;
   className?: string;
 }) {
   const ref = useRef<HTMLElement>(null);
@@ -47,6 +54,7 @@ export function DayCard({
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const titleY = useTransform(p, [0, 1], ["18%", "-18%"]);
   const letter = useTransform(p, [0.1, 0.5], ["0.2em", "-0.02em"]);
+  const photoY = useTransform(p, [0, 1], ["-8%", "8%"]);
 
   return (
     <section
@@ -57,6 +65,12 @@ export function DayCard({
       style={{ background: ground, color: ink }}
     >
       <div className="absolute inset-0">{scene(p)}</div>
+      {slot?.image && (
+        <motion.div className="absolute inset-[-10%_0]" style={{ y: reduce ? undefined : photoY }}>
+          <Footage slot={slot} drift />
+          <div className="absolute inset-0" style={{ background: tint }} />
+        </motion.div>
+      )}
       <div className="grain pointer-events-none absolute inset-0" />
 
       <motion.div className="relative z-10 w-full" style={{ y: reduce ? undefined : titleY }}>

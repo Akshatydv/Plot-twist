@@ -26,17 +26,24 @@
 /**
  * EVERY PHOTOGRAPHIC SURFACE ON THE PAGE IS A SLOT.
  *
- * Empty (the default), a slot renders the illustrated environment for that
- * scene — generated ridgelines, fog, stars, fire. Filled, the footage plays
- * OVER that environment, which then serves as its poster and its fallback.
+ * Empty, a slot renders the illustrated environment for that scene —
+ * generated ridgelines, fog, stars, fire. Filled, the photograph (or clip)
+ * sits OVER that environment, which stays underneath as its fallback.
  *
- * To go live with real footage: drop the file in public/videos/bir/ (or
- * public/photos/bir/), set the path here, done. The shot list, lengths,
- * framing and encode settings are in public/videos/bir/VIDEOS.md.
+ * ─── WHAT IS FILLED, AND WITH WHAT ──────────────────────────────────────────
+ * Every photograph below was taken IN Bir, Billing or Barot — checked against
+ * its Commons title and description, not guessed from how it looks. Nothing
+ * from Dharamshala, Manali or anywhere else stands in for them. The slots
+ * left empty (golden hour, the bonfire, the last night, the road) are empty
+ * because no licensed frame of THAT moment in THESE places was found, and the
+ * illustration is more honest than a lookalike.
  *
- * Nothing is filled today because no licensed Bir or Barot footage exists in
- * this repo. A stock clip of some other mountain labelled as Bir would be the
- * one invented fact on the page.
+ * All are Creative Commons (BY or BY-SA), which requires credit: `photos`
+ * below is the single list, rendered on the page by <PhotoCredits/> and
+ * mirrored in public/photos/bir/PHOTOS.md. A photo added here without a
+ * credit line is a licence breach, not a style choice.
+ *
+ * Video: none yet. Shot list in public/videos/bir/VIDEOS.md.
  */
 export type MediaSlot = {
   /** An mp4 path under /public. Muted, looped, never autoplayed with sound. */
@@ -45,32 +52,78 @@ export type MediaSlot = {
   image?: string;
   /** Required whenever `video` or `image` is set. Describe the frame, not the brochure. */
   alt?: string;
+  /** CSS object-position for the crop. */
+  focus?: string;
 };
+
+export type PhotoCredit = {
+  file: string;
+  title: string;
+  author: string;
+  license: string;
+  licenseUrl: string;
+  source: string;
+};
+
+const CC_BY_SA_4 = { license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/" };
+const CC_BY_4 = { license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
+const CC_BY_2 = { license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" };
+const COMMONS = "https://commons.wikimedia.org/wiki/File:";
+
+export const photos = {
+  hero: { file: "/photos/bir/hero.jpg", title: "Paragliding at Bir, HP", author: "PanWoyteczek (derivative: UnpetitproleX)", ...CC_BY_SA_4, source: `${COMMONS}Paragliding_at_Bir,_HP.jpg` },
+  barotValley: { file: "/photos/bir/barot-valley.jpg", title: "Barot and Ühl Rivulet", author: "Sanjay Lakhanpal", ...CC_BY_SA_4, source: `${COMMONS}Barot_and_%C3%9Chl_Rivulet.jpg` },
+  river: { file: "/photos/bir/river.jpg", title: "Uhl River at Barot", author: "Timothy Gonsalves", ...CC_BY_SA_4, source: `${COMMONS}Uhl_River_at_Barot_Oct_2017_D72_2280.jpg` },
+  trail: { file: "/photos/bir/trail.jpg", title: "Lamba Dug, Barot", author: "Timothy A. Gonsalves", ...CC_BY_SA_4, source: `${COMMONS}Lamba_Dug_Barot_Himachal_Oct20_R16_04289.jpg` },
+  flags: { file: "/photos/bir/bir-flags.jpg", title: "Bir Billing, Himachal Pradesh", author: "Mansi Gill", ...CC_BY_4, source: `${COMMONS}Bir_billing,_Himchal_pradesh.jpg` },
+  monastery: { file: "/photos/bir/bir-monastery.jpg", title: "Monastery, Bir", author: "Gerd Eichmann", ...CC_BY_SA_4, source: `${COMMONS}Bir-06-Kloster-gje.jpg` },
+  chokling: { file: "/photos/bir/bir-chokling.jpg", title: "Chokling Monastery, Bir", author: "Gannu03", ...CC_BY_SA_4, source: `${COMMONS}Chokling_Monastery,_Bir,_Himachal_Pradesh.jpg` },
+  street: { file: "/photos/bir/bir-street.jpg", title: "Bir Village", author: "Gannu03", ...CC_BY_SA_4, source: `${COMMONS}Bir_Village_05.jpg` },
+  aerial: { file: "/photos/bir/bir-aerial.jpg", title: "An aerial view of Bir", author: "Fredi Bach", ...CC_BY_2, source: `${COMMONS}An_aerial_view_of_Bir,_Kangra_valley_sights_nature_culture_Himachal_Pradesh_India_2015.jpg` },
+  sunsetGliding: { file: "/photos/bir/bir-sunset-gliding.jpg", title: "Sunset gliding in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_gliding_in_Bir,_Himachal_Pradesh.jpg` },
+  sunset: { file: "/photos/bir/bir-sunset.jpg", title: "Sunset in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_in_Bir,_Himachal_Pradesh.jpg` },
+  summit: { file: "/photos/bir/summit.jpg", title: "Hanuman Garh Trek (Bir Billing)", author: "Chhama Rai", ...CC_BY_SA_4, source: `${COMMONS}Hanuman_Garh_Trek,_Himachal_Pradesh_(Bir_Billing,_Kangra).jpg` },
+} satisfies Record<string, PhotoCredit>;
 
 export const media: Record<
   | "hero"
+  | "day1"
   | "river"
   | "trail"
   | "goldenHour"
   | "bonfire"
+  | "day2"
   | "flight"
+  | "lookDown"
   | "social"
+  | "sunset"
   | "summit"
   | "lastNight"
   | "road",
   MediaSlot
 > = {
-  hero: {},
-  river: {},
-  trail: {},
+  hero: { image: photos.hero.file, alt: "Paragliders in the sky above Bir, a sea of cloud and forested ridges below", focus: "55% 40%" },
+  day1: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 55%" },
+  river: { image: photos.river.file, alt: "The Uhl river running over boulders at Barot, pine forest on the far bank", focus: "50% 60%" },
+  trail: { image: photos.trail.file, alt: "Morning light through a forested gorge above a boulder-strewn stream near Barot", focus: "50% 50%" },
   goldenHour: {},
   bonfire: {},
+  day2: { image: photos.flags.file, alt: "Prayer flags strung in front of snow-dusted Dhauladhar peaks above Bir", focus: "50% 60%" },
   flight: {},
-  social: {},
-  summit: {},
+  lookDown: { image: photos.aerial.file, alt: "Bir from the air: terraced fields, winding roads and scattered houses", focus: "50% 50%" },
+  social: { image: photos.sunsetGliding.file, alt: "Two paragliders silhouetted against a hazy orange sunset over Bir", focus: "50% 70%" },
+  sunset: { image: photos.sunset.file, alt: "A paraglider silhouetted directly across the setting sun in Bir", focus: "50% 55%" },
+  summit: { image: photos.summit.file, alt: "Stone cairns on a ridgetop on the Hanuman Garh trek, snow peaks behind", focus: "50% 45%" },
   lastNight: {},
   road: {},
 };
+
+/** The three photographs laid between the words of the Bir strip. */
+export const townPhotos = [
+  { after: 0, ...photos.monastery, alt: "A blue-and-red monastery in Bir under strings of prayer flags" },
+  { after: 2, ...photos.chokling, alt: "The gold and red facade of Chokling Monastery, Bir" },
+  { after: 4, ...photos.street, alt: "A street in Bir, cafés and yellow balconies, someone walking away" },
+] as const;
 
 /* ------------------------------------------------------------------ */
 /* section numbering                                                   */
@@ -379,19 +432,19 @@ export const cast = {
 /* ------------------------------------------------------------------ */
 
 export const recap = {
-  frames: [
-    { word: "Barot.", tone: "#0F1D16", ink: "#8FB1A8" },
-    { word: "River.", tone: "#17302A", ink: "#CFE3DC" },
+  frames: ([
+    { word: "Barot.", tone: "#0F1D16", ink: "#EFE9DD", image: photos.barotValley.file },
+    { word: "River.", tone: "#17302A", ink: "#EFE9DD", image: photos.river.file },
     { word: "Bonfire.", tone: "#2A120A", ink: "#FFB36B" },
-    { word: "Bir.", tone: "#24527D", ink: "#F3EFE6" },
-    { word: "Paragliding.", tone: "#A9CBE0", ink: "#101311" },
-    { word: "Mountains.", tone: "#3B4A55", ink: "#EFE9DD" },
-    { word: "Trek.", tone: "#2E2119", ink: "#D9C7A6" },
+    { word: "Bir.", tone: "#24527D", ink: "#F3EFE6", image: photos.monastery.file },
+    { word: "Paragliding.", tone: "#24527D", ink: "#F3EFE6", image: photos.hero.file },
+    { word: "Mountains.", tone: "#3B4A55", ink: "#EFE9DD", image: photos.flags.file },
+    { word: "Trek.", tone: "#2E2119", ink: "#EFE9DD", image: photos.summit.file },
     { word: "Dinner.", tone: "#3A1A0E", ink: "#E8B48A" },
     { word: "People.", tone: "#EFE9DD", ink: "#101311" },
     { word: "Road.", tone: "#F1E6D6", ink: "#5D6B73" },
-  ],
-} as const;
+  ] as { word: string; tone: string; ink: string; image?: string }[]),
+};
 
 /* ------------------------------------------------------------------ */
 /* the details                                                         */
@@ -462,6 +515,11 @@ export const finalCta = {
   primary: { label: "I'M IN", href: "#apply" },
   secondary: { label: "VIEW THE JOURNEY", href: "#day-01" },
   scribble: "see you in the mountains.",
+} as const;
+
+export const credits = {
+  label: "PHOTOGRAPHS",
+  note: "Every photograph on this page was taken in Bir, Billing or Barot, and is used under Creative Commons. Thank you to:",
 } as const;
 
 export const sticky = {

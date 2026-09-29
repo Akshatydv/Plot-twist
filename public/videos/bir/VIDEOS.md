@@ -1,13 +1,12 @@
 # Journey 03 — Bir × Barot: the footage slots
 
-**Nothing in this folder is live yet.** The page ships on its illustrated
-environments (generated ridgelines, fog, fire, stars — see
-`src/components/bir/Scenery.tsx`), and every one of them is a *slot* that
-real footage drops into.
+**No video is live yet.** Twelve licensed *photographs* of Bir and Barot now
+fill most slots (see `public/photos/bir/PHOTOS.md`); the rest still run on
+the illustrated environments in `src/components/bir/Scenery.tsx`. Every slot
+takes a clip the same way it takes a still.
 
-No licensed Bir or Barot footage exists in this repo. Stock clips of some
-other mountain range labelled as Bir would be the one invented fact on an
-otherwise honest page, so none were used.
+Stock clips of some other mountain range labelled as Bir would be the one
+invented fact on an otherwise honest page, so none were used.
 
 ## How to go live
 

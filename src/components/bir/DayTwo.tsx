@@ -9,7 +9,8 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { day2, media } from "@/content/bir";
+import { day2, media, townPhotos } from "@/content/bir";
+import Image from "next/image";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
 import { Clouds, FireGlow, Focus, Footage, Glider, Kicker, MaskLines, PanRidge, PrayerFlags, Ridge, useCalm } from "./Scenery";
@@ -39,9 +40,11 @@ export function DayTwo() {
         name={day2.name}
         place={day2.place}
         ground="#a9cbe0"
-        ink="#101311"
-        accent="#24527D"
+        ink="#F3EFE6"
+        accent="#F3EFE6"
         scene={(p) => <SkyScene p={p} />}
+        slot={media.day2}
+        tint="linear-gradient(to bottom, rgba(36,82,125,0.35) 0%, rgba(16,19,17,0.15) 40%, rgba(16,19,17,0.65) 100%)"
       />
       <Town />
       <FlightHeadline />
@@ -86,10 +89,10 @@ function Town() {
   const ref = useRef<HTMLElement>(null);
   const reduce = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
-  const x = useTransform(p, [0.05, 0.95], ["0%", "-72%"]);
+  const x = useTransform(p, [0.05, 0.95], ["0%", "-78%"]);
 
   return (
-    <section ref={ref} data-hud="day2" className={reduce ? "relative" : "relative h-[260svh]"}>
+    <section ref={ref} data-hud="day2" className={reduce ? "relative" : "relative h-[320svh]"}>
       <div className={`${reduce ? "relative py-20" : "sticky top-0 h-[100svh]"} flex flex-col justify-center overflow-hidden bg-[#F3EFE6]`}>
         <div className="absolute inset-x-0 top-0">
           <PrayerFlags count={30} sag={30} className="h-16 sm:h-20" y0={8} />
@@ -105,17 +108,32 @@ function Town() {
           className={`relative mt-10 flex gap-10 px-5 sm:gap-16 sm:px-8 lg:px-14 ${reduce ? "flex-wrap" : "w-max"}`}
           style={{ x: reduce ? undefined : x }}
         >
-          {day2.town.map((t, i) => (
-            <li key={t.word} className="flex shrink-0 items-end gap-5">
-              <span aria-hidden className="mb-3 block h-[clamp(5rem,16vw,11rem)] w-2 sm:w-3" style={{ background: FLAG[i % FLAG.length] }} />
-              <span>
-                <span className="block whitespace-nowrap font-serif text-[clamp(3rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.02em] text-[var(--bir-char)]">
-                  {t.word}
+          {day2.town.flatMap((t, i) => {
+            const word = (
+              <li key={t.word} className="flex shrink-0 items-end gap-5">
+                <span aria-hidden className="mb-3 block h-[clamp(5rem,16vw,11rem)] w-2 sm:w-3" style={{ background: FLAG[i % FLAG.length] }} />
+                <span>
+                  <span className="block whitespace-nowrap font-serif text-[clamp(3rem,11vw,8.5rem)] leading-[0.9] tracking-[-0.02em] text-[var(--bir-char)]">
+                    {t.word}
+                  </span>
+                  <span className="mt-2 block font-hand text-[1.35rem] leading-none text-[var(--bir-char)]/55">{t.note}</span>
                 </span>
-                <span className="mt-2 block font-hand text-[1.35rem] leading-none text-[var(--bir-char)]/55">{t.note}</span>
-              </span>
-            </li>
-          ))}
+              </li>
+            );
+            const ph = townPhotos.find((x) => x.after === i);
+            if (!ph) return [word];
+            return [
+              word,
+              <li key={ph.file} className="relative shrink-0 self-center">
+                <div
+                  className="relative h-[clamp(11rem,34vw,20rem)] w-[clamp(8.5rem,26vw,15rem)] overflow-hidden bg-[#d9d2c3] shadow-[0_14px_30px_rgba(16,19,17,0.18)]"
+                  style={{ rotate: `${[-3, 2, -2][townPhotos.indexOf(ph)]}deg` }}
+                >
+                  <Image src={ph.file} alt={ph.alt} fill sizes="(max-width: 640px) 40vw, 240px" className="bir-grade object-cover" />
+                </div>
+              </li>,
+            ];
+          })}
         </motion.ul>
       </div>
     </section>
@@ -215,7 +233,9 @@ function TheFlight() {
 
           {/* look down: the valley floor, top-down */}
           <motion.div className="absolute inset-0" style={{ opacity: below, scale: belowScale }}>
-            <ValleyFloor />
+            <Footage slot={media.lookDown}>
+              <ValleyFloor />
+            </Footage>
           </motion.div>
 
           {/* the launch */}
@@ -367,7 +387,9 @@ function SocialClub() {
       <div className="absolute inset-x-0 top-0">
         <PrayerFlags count={20} sag={40} className="h-16 sm:h-24" />
       </div>
-      <Footage slot={media.social} className="opacity-90 [mask-image:linear-gradient(to_left,#000_30%,transparent_80%)]" />
+      <Footage slot={media.social} className="[mask-image:linear-gradient(to_left,#000_35%,transparent_85%)]" />
+      {/* a paper wash behind the copy so it reads over the sunset on a phone */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#f1e6d6]/90 via-[#f1e6d6]/55 to-transparent sm:via-[#f1e6d6]/30" />
       <div className="grain pointer-events-none absolute inset-0 opacity-60" />
       <div className="relative mx-auto max-w-[1200px]">
         <Kicker color="#A95F38">{day2.social.kicker}</Kicker>
@@ -409,6 +431,7 @@ function Evening() {
     setI((c) => (c === k ? c : k));
   });
   const l1 = useTransform(p, [0.15, 0.3], [0, 1]);
+  const sunO = useTransform(p, [0, 0.2, 0.3], [1, 1, 0]);
   const l2 = useTransform(p, [0.4, 0.55], [0, 1]);
   const l3 = useTransform(p, [0.65, 0.8], [0, 1]);
 
@@ -426,6 +449,11 @@ function Evening() {
     <section ref={ref} data-hud="day2" className="relative h-[360svh]">
       <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden px-5 sm:px-8 lg:px-14">
         <div className="absolute inset-0" style={{ background: DUSK[0] }} />
+        {/* SUNSET. is the real one — Bir, a glider crossing the sun */}
+        <motion.div className="absolute inset-0" style={{ opacity: sunO }}>
+          <Footage slot={media.sunset} drift />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a33]/70 via-transparent to-[#e9b48a]/20" />
+        </motion.div>
         <motion.div className="absolute inset-0" style={{ background: DUSK[1], opacity: l1 }} />
         <motion.div className="absolute inset-0" style={{ background: DUSK[2], opacity: l2 }} />
         <motion.div className="absolute inset-0" style={{ background: DUSK[3], opacity: l3 }} />

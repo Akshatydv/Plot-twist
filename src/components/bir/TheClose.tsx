@@ -2,7 +2,8 @@
 
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { birIndex, details, finalCta, recap, trip } from "@/content/bir";
+import Image from "next/image";
+import { birIndex, credits, details, finalCta, photos, recap, trip } from "@/content/bir";
 import { contact } from "@/content/site";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton, SectionLabel } from "../Bits";
@@ -43,6 +44,21 @@ export function Recap() {
   return (
     <section ref={ref} aria-label="The journey, in ten frames" className="relative h-[320svh]">
       <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden transition-colors duration-300" style={{ background: f.tone }}>
+        <AnimatePresence>
+          {f.image && (
+            <motion.div
+              key={f.image}
+              className="absolute inset-0"
+              initial={{ opacity: 0, scale: 1.12 }}
+              animate={{ opacity: 1, scale: 1.02 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Image src={f.image} alt="" fill sizes="100vw" className="bir-grade object-cover" />
+              <div className="absolute inset-0" style={{ background: `${f.tone}8c` }} />
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className="grain pointer-events-none absolute inset-0" />
         <AnimatePresence mode="popLayout">
           <motion.p
@@ -197,8 +213,37 @@ export function TheDetails() {
             </div>
           </div>
         </Reveal>
+
+        <PhotoCredits />
       </div>
     </section>
+  );
+}
+
+/**
+ * THE CREDITS — every photograph on the page, its author and its licence.
+ * Not decoration: CC BY and BY-SA are only licences on the condition that the
+ * author, the source and the licence are named where the work is shown.
+ */
+function PhotoCredits() {
+  return (
+    <div className="mt-14 border-t border-[#101311]/10 pt-6">
+      <span className="text-[9px] tracked text-[#101311]/45">{credits.label}</span>
+      <p className="mt-2 max-w-[70ch] text-[0.8rem] leading-[1.5] text-[#101311]/55">{credits.note}</p>
+      <ul className="mt-3 grid gap-x-8 gap-y-1 text-[0.75rem] leading-[1.45] text-[#101311]/55 sm:grid-cols-2">
+        {Object.values(photos).map((c) => (
+          <li key={c.file}>
+            <a href={c.source} target="_blank" rel="noreferrer" className="underline decoration-[#101311]/20 underline-offset-2 hover:text-[#101311]">
+              {c.title}
+            </a>{" "}
+            — {c.author},{" "}
+            <a href={c.licenseUrl} target="_blank" rel="noreferrer" className="underline decoration-[#101311]/20 underline-offset-2 hover:text-[#101311]">
+              {c.license}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 

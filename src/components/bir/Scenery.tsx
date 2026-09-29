@@ -357,6 +357,8 @@ export function Footage({
   className = "",
   mediaClassName = "",
   eager = false,
+  drift = false,
+  sizes = "100vw",
 }: {
   slot: MediaSlot;
   children?: ReactNode;
@@ -364,6 +366,9 @@ export function Footage({
   mediaClassName?: string;
   /** The hero only: mount immediately rather than on approach. */
   eager?: boolean;
+  /** A slow push-in on a still, so a photograph still feels like a shot. */
+  drift?: boolean;
+  sizes?: string;
 }) {
   const wrap = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
@@ -397,9 +402,11 @@ export function Footage({
           src={slot.image}
           alt={slot.alt ?? ""}
           fill
-          sizes="100vw"
+          sizes={sizes}
           priority={eager}
-          className={`object-cover ${mediaClassName}`}
+          quality={80}
+          className={`bir-grade object-cover ${drift ? "bir-kenburns" : ""} ${mediaClassName}`}
+          style={{ objectPosition: slot.focus }}
         />
       )}
       {wantsVideo && near && (
@@ -414,7 +421,8 @@ export function Footage({
           preload={eager ? "auto" : "none"}
           aria-label={slot.alt}
           onPlaying={() => setReady(true)}
-          className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"} ${mediaClassName}`}
+          className={`bir-grade absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"} ${mediaClassName}`}
+          style={{ objectPosition: slot.focus }}
         />
       )}
     </div>

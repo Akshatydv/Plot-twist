@@ -40,6 +40,8 @@ export function DayOne() {
         ink="#EFE9DD"
         accent="#8FB1A8"
         scene={(p) => <ValleyScene p={p} />}
+        slot={media.day1}
+        tint="linear-gradient(to bottom, rgba(11,21,16,0.55) 0%, rgba(11,21,16,0.45) 45%, rgba(11,21,16,0.92) 100%)"
       />
       <Route />
       {day1.plates.map((plate, i) => (

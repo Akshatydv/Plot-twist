@@ -74,22 +74,17 @@ export const JOURNEY_03: JourneyConfig = {
   story: { frames: [] },
 
   /**
-   * No licensed Bir or Barot photography exists in this repo yet, so the
-   * scraps borrow Journey 00's frames (the same stop-gap Journey 02 ran
-   * before it had its own). Replace with this journey's own photographs —
-   * see public/videos/bir/VIDEOS.md for the shot list — and log them in a
-   * PHOTOS.md alongside.
+   * Three of this journey's own photographs — Barot, Bir, the trek — so no
+   * frame is shared with another journey. Credits and licences are in
+   * content/bir.ts → `photos` (rendered on the page) and public/photos/bir/PHOTOS.md.
+   * Places, not people: nobody in them is on this trip.
    */
   casting: {
     stamp: "CASTING — JOURNEY 03",
     photos: [
-      {
-        src: "/photos/goa/people.jpg",
-        alt: "A large group of friends crowded together at night, laughing and celebrating",
-        note: "the group chat, irl",
-      },
-      { src: "/photos/goa/escape.jpg", alt: "A clifftop view over hazy water", note: "day 03" },
-      { src: "/photos/goa/unexpected.jpg", alt: "A surfboard propped against a cafe wall", note: "no filter" },
+      { src: "/photos/bir/bir-sunset-gliding.jpg", alt: "Two paragliders against an orange sunset over Bir", note: "day 02, 6pm" },
+      { src: "/photos/bir/river.jpg", alt: "The Uhl river running over boulders at Barot", note: "day 01" },
+      { src: "/photos/bir/summit.jpg", alt: "Stone cairns on a ridgetop above Bir, snow peaks behind", note: "earned it" },
     ],
   },
 

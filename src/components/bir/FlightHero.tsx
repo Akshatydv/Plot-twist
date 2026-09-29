@@ -57,7 +57,7 @@ export function FlightHero() {
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[var(--bir-pine)]">
         {/* ── the camera ── */}
         <motion.div className="absolute inset-0" style={{ scale: m(sceneScale), y: m(sceneY), transformOrigin: "50% 80%" }}>
-          <Footage slot={media.hero} eager>
+          <Footage slot={media.hero} eager drift>
             {/* sky: high-altitude morning, cold at the top and warm at the haze line */}
             <div
               className="absolute inset-0"
@@ -87,6 +87,8 @@ export function FlightHero() {
 
             <Clouds color="rgba(255,255,255,0.5)" banks={2} speed={4} className="top-[-10%]" />
           </Footage>
+          {/* over the photograph: live cloud, so a still frame still moves like flight */}
+          {media.hero.image && <Clouds color="rgba(255,255,255,0.28)" banks={3} speed={2.4} className="top-[10%]" />}
         </motion.div>
 
         {/* legibility: the type sits bottom-left, over the darkest ground */}
