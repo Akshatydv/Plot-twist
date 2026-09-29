@@ -38,3 +38,7 @@ casting-out/
 ads-out/
 ads-assets/
 casting-assets/
+
+# the Bir × Barot dossier build output (make-bir-dossier.js)
+dossiers/
+.bir-dossier-built.html

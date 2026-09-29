@@ -1,0 +1,20 @@
+{
+  "_README": "Data for the two trust pages of the Bir × Barot dossier. Everything here must be REAL: real photos from real trips, real words from real people (with their permission), real creators who actually travelled. Empty lists are fine — the pages print a clearly marked slot for each missing item and the PDF filename gets a -DRAFT suffix, so an unfinished dossier can't be sent by accident. Photos go in bir-dossier-assets/.",
+
+  "price": null,
+
+  "glimpses": [
+    { "photo": "founder-03.jpg", "caption": "worth the boat.", "where": "on the founder's own travels" },
+    { "photo": "founder-01.jpg", "caption": "hanoi, no plan.", "where": "Hanoi, on the founder's own trip" },
+    { "photo": "founder-02.jpg", "caption": "kuala lumpur, 1am.", "where": "Kuala Lumpur, on the founder's own trip" }
+  ],
+  "glimpseSlots": 8,
+
+  "reviews": [],
+  "reviewSlots": 3,
+  "_reviewShape": { "quote": "What they actually said, word for word.", "name": "First name + initial, or full name with permission", "trip": "Which trip, e.g. Journey 00 · Goa · Oct 2026", "photo": "optional file in bir-dossier-assets/" },
+
+  "creators": [],
+  "creatorSlots": 4,
+  "_creatorShape": { "name": "Their name", "handle": "@handle", "trip": "Which trip they came on", "photo": "file in bir-dossier-assets/", "line": "optional: one line they said about it" }
+}

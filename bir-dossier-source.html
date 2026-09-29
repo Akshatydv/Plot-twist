@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plot Twist — Journey 03 · Bir × Barot · The Dossier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   PLOT TWIST — JOURNEY 03 · BIR × BAROT · THE DOSSIER
+   A4 print source, rendered by make-bir-dossier.js (headless Chromium).
+
+   The Goa dossier's system, in the Bir page's world: every day gets its own
+   drawn object instead of a timeline — a town map, an altitude profile, a
+   topo map, a postcard — so four days never read as four copies of one page.
+
+   HONESTY RULE. Every claim traces to src/content/bir.ts. No invented
+   price, discount, deadline, review, creator or traveller count. The two
+   trust pages (Glimpses, The People) are filled ONLY from
+   bir-dossier-data.json; an empty slot prints as a marked blank and the
+   file is named -DRAFT until every slot is real.
+
+   PERFORMANCE: no filter:blur, no blend modes. Grain is a tiled SVG; glows
+   are radial-gradients. (Blur took the Goa PDF from 2.7MB to 29MB.)
+   ========================================================================== */
+:root{
+  --char:#101311; --bone:#efe9dd; --stone:#a59d8f;
+  --pine:#0f1d16; --moss:#2c4436; --river:#8fb1a8; --fire:#e8793a; --ember:#ffb36b;
+  --sky:#a9cbe0; --skyd:#24527d;
+  --earth:#2e2119; --clay:#a95f38; --trail:#d9c7a6;
+  --dawn:#f1e6d6; --peach:#e8b48a; --slate:#5d6b73;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --hand:'Caveat',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4;margin:0}
+html,body{width:210mm}
+body{font-family:var(--sans);color:var(--char);background:var(--dawn);
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:210mm;height:297mm;overflow:hidden;page-break-after:always;break-after:page}
+.page:last-child{page-break-after:auto;break-after:auto}
+.bg{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:50;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='3' height='3' fill='%23000' opacity='.5'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23000' opacity='.5'/%3E%3C/svg%3E");
+  background-size:3px 3px}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-weight:400}
+
+/* ---------- type ---------- */
+.k{font-size:6.4pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase}
+.serif{font-family:var(--serif)}
+.it{font-family:var(--serif);font-style:italic}
+.hand{font-family:var(--hand)}
+.h{font-family:var(--serif);line-height:.86;letter-spacing:-.02em}
+.slate{display:flex;align-items:center;gap:4mm;font-size:6.8pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase}
+.slate .bar{height:1px;width:14mm;background:currentColor;opacity:.5}
+
+/* ---------- furniture shared by every page ---------- */
+.spine{position:absolute;left:0;top:0;bottom:0;width:3mm;background:var(--accent);z-index:40}
+.pfoot{position:absolute;left:16mm;right:16mm;bottom:6.5mm;display:flex;justify-content:space-between;
+  align-items:baseline;font-size:5.6pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;z-index:40}
+.pfoot .no{font-family:var(--serif);font-size:11pt;letter-spacing:0}
+.tnote{position:absolute;font-family:var(--hand);font-size:11pt;line-height:1.15;z-index:30}
+.pol{position:absolute;background:#fbf7ef;padding:1.6mm 1.6mm 6mm;box-shadow:1.4mm 1.6mm 0 0 rgba(0,0,0,.35);z-index:20}
+.pol img{display:block;width:100%;object-fit:cover}
+.pol .cap{position:absolute;left:0;right:0;bottom:1.2mm;text-align:center;font-family:var(--hand);font-size:10pt;color:rgba(16,19,17,.66)}
+.tape{position:absolute;width:20mm;height:6mm;background:rgba(241,230,214,.8);clip-path:polygon(2% 8%,98% 0,100% 88%,4% 100%);z-index:21}
+.addon{margin-top:1.2mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;text-transform:uppercase;color:var(--ember)}
+
+/* ============ P1 · COVER ============ */
+.cover{background:#0b1510;color:var(--bone);--accent:var(--fire)}
+.cover .bg{background-position:55% 40%}
+.cover .scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,14,12,.72) 0%,rgba(8,14,12,.3) 24%,rgba(8,14,12,.06) 44%,rgba(8,14,12,.22) 62%,rgba(6,10,9,.86) 82%,rgba(5,8,7,.97) 100%)}
+.cover .in{position:relative;height:100%;padding:15mm 16mm 16mm;display:flex;flex-direction:column;z-index:10}
+.cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cover .logo{height:12mm}
+.cover .imprint{text-align:right;font-size:6pt;letter-spacing:.3em;font-weight:700;color:rgba(239,233,221,.7);line-height:1.9;text-transform:uppercase}
+.cover h1{margin-top:12mm;font-family:var(--serif);font-weight:400;font-size:92pt;line-height:.8;letter-spacing:-.03em}
+.cover h1 i{font-size:50pt;color:var(--ember);padding:0 2mm;vertical-align:.18em}
+.cover .dates{margin-top:6mm;display:flex;align-items:center;gap:5mm}
+.cover .dates .d{font-size:8.6pt;letter-spacing:.32em;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.cover .dates .rule{flex:1;height:1px;background:rgba(239,233,221,.4)}
+.cover .line{margin-top:6mm;font-size:12pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.cover .support{margin-top:3mm;font-family:var(--serif);font-style:italic;font-size:17pt;color:var(--peach)}
+.cover .aside{position:absolute;right:16mm;top:150mm;transform:rotate(-4deg);text-align:right;font-family:var(--hand);font-size:15pt;line-height:1.15;color:#fff}
+.cover .chapters{margin-top:auto;border-top:1px solid rgba(239,233,221,.3);padding-top:4.5mm;display:grid;grid-template-columns:repeat(4,1fr);gap:4mm}
+.cover .chapters .n{font-size:6pt;letter-spacing:.3em;font-weight:700;color:var(--ember)}
+.cover .chapters .t{margin-top:1.4mm;font-family:var(--serif);font-size:15pt;line-height:.95}
+.cover .chapters .p{margin-top:1mm;font-size:6.6pt;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,233,221,.6)}
+.cover .facts{margin-top:6mm;font-size:7pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;line-height:2.1;color:rgba(239,233,221,.78)}
+.cover .facts b{color:var(--bone)}
+.cover .priceRow{margin-top:6mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm}
+.cover .price{font-family:var(--serif);font-size:24pt;line-height:.9}
+.cover .price small{display:block;margin-top:2mm;font-family:var(--sans);font-size:6.4pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.6)}
+.cta{display:inline-block;background:var(--bone);color:var(--char);padding:4mm 7mm;font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;box-shadow:2.4mm 2.4mm 0 0 var(--fire);white-space:nowrap}
+
+/* ============ P2 · PREMISE ============ */
+.p2{background:var(--dawn);--accent:var(--moss);padding:14mm 16mm 18mm;display:flex;flex-direction:column}
+.p2 .thread{position:absolute;inset:0;width:210mm;height:297mm;pointer-events:none}
+.p2 h2{margin-top:5mm;font-size:31pt;max-width:170mm}
+.p2 h2 em{font-style:italic;color:var(--clay)}
+.p2 .lede{margin-top:5mm;font-family:var(--serif);font-size:14pt;line-height:1.3;max-width:132mm;color:rgba(16,19,17,.88)}
+.p2 .lede b{font-weight:400;font-style:italic;color:var(--clay)}
+.formula{margin-top:7mm}
+.formula .grid{margin-top:5mm;display:grid;grid-template-columns:1fr 1fr;column-gap:12mm}
+.formula .f .rule{width:13mm;height:2.5px;background:currentColor}
+.formula .f h4{margin-top:3mm;font-family:var(--serif);font-weight:400;font-size:17pt;line-height:.95;color:var(--char)}
+.formula .f p{margin-top:2mm;font-size:8.3pt;line-height:1.48;color:rgba(16,19,17,.7)}
+.formula .f1{color:var(--fire);padding-left:3mm}
+.formula .f2{color:var(--skyd);margin-top:9mm;padding-left:9mm}
+.formula .f3{color:var(--moss);margin-top:6mm;max-width:66mm}
+.formula .f4{color:var(--clay);margin-top:5mm;padding-left:9mm}
+.fit{margin-top:7mm}
+.fit h3{font-family:var(--serif);font-weight:400;font-size:21pt}
+.fit ul{margin-top:4mm;list-style:none}
+.fit li{position:relative;padding-left:8mm;font-family:var(--hand);font-size:14pt;line-height:1.32;color:rgba(16,19,17,.88)}
+.fit li svg{position:absolute;left:0;top:1mm;width:5mm;height:5mm}
+.fit .flip{margin-top:5mm}
+.fit .flip .v{margin-top:1.4mm;font-family:var(--hand);font-size:16pt;color:var(--clay);transform:rotate(-1.2deg);display:inline-block}
+.note{margin-top:auto;padding-top:6mm;display:flex;gap:8mm;align-items:flex-start}
+.note .pic{flex:0 0 27mm;position:relative;transform:rotate(-2.5deg);background:#fbf7ef;padding:1.6mm;box-shadow:1.4mm 1.4mm 0 0 rgba(16,19,17,.2)}
+.note .pic img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.note .v{margin-top:2.5mm;font-family:var(--serif);font-size:11.5pt;line-height:1.32;color:rgba(16,19,17,.86)}
+.note .sig{margin-top:3mm;font-family:var(--hand);font-size:16pt;color:var(--clay);transform:rotate(-2deg);display:inline-block}
+.note .marks{margin-top:2mm;font-size:5.8pt;letter-spacing:.26em;font-weight:700;color:rgba(16,19,17,.45)}
+
+/* ============ P3 · THE WAY IN — ticket + the whole trip on one line ============ */
+.p3{background:#0a0f14;color:var(--bone);--accent:var(--peach)}
+.p3 .bg{height:130mm;bottom:auto;background-position:50% 60%}
+.p3 .veil{position:absolute;left:0;right:0;top:0;height:132mm;background:linear-gradient(180deg,rgba(10,15,20,.6) 0%,rgba(10,15,20,.35) 40%,rgba(10,15,20,.9) 88%,#0a0f14 100%)}
+.p3 .mast{position:absolute;left:16mm;right:16mm;top:15mm;z-index:10}
+.p3 .mast h2{margin-top:3mm;font-size:46pt}
+.p3 .mast h2 em{color:var(--peach)}
+.p3 .mast .tag{margin-top:4mm;font-family:var(--serif);font-style:italic;font-size:14pt;max-width:110mm;color:rgba(239,233,221,.86)}
+/* the ticket */
+.ticket{position:absolute;left:16mm;right:16mm;top:84mm;height:46mm;display:flex;z-index:10;filter:none}
+.ticket .main{flex:1;background:var(--bone);color:var(--char);padding:5mm 6mm;position:relative}
+.ticket .stub{flex:0 0 40mm;background:var(--peach);color:var(--char);padding:5mm 5mm;border-left:1.4px dashed rgba(16,19,17,.5);position:relative}
+.ticket .main::after,.ticket .stub::before{content:"";position:absolute;width:6mm;height:6mm;border-radius:50%;background:#0a0f14}
+.ticket .main::after{right:-3mm;top:-3mm}.ticket .stub::before{left:-3mm;bottom:-3mm}
+.ticket .row{display:flex;gap:8mm;align-items:flex-end}
+.ticket .city{font-family:var(--serif);font-size:30pt;line-height:.9}
+.ticket .arrow{font-size:14pt;padding-bottom:1.5mm;color:var(--clay)}
+.ticket .grid{margin-top:4mm;display:grid;grid-template-columns:repeat(4,auto);gap:1.4mm 7mm;justify-content:start}
+.ticket .grid .kk{font-size:5.4pt;letter-spacing:.24em;font-weight:700;color:rgba(16,19,17,.5)}
+.ticket .grid .vv{font-size:8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.ticket .stub .big{font-family:var(--serif);font-size:24pt;line-height:.9;margin-top:2mm}
+.ticket .stub .hand{font-size:12pt;margin-top:2mm;color:rgba(16,19,17,.7)}
+/* the trip on one line */
+.p3 .mapk{position:absolute;left:16mm;top:146mm;z-index:10}
+.p3 .map{position:absolute;inset:0;width:210mm;height:297mm;z-index:5}
+.p3 .lbl{position:absolute;z-index:10}
+.p3 .lbl .n{font-size:5.8pt;letter-spacing:.28em;font-weight:700;color:var(--peach)}
+.p3 .lbl .t{margin-top:1mm;font-family:var(--serif);font-size:14pt;line-height:.95}
+.p3 .lbl .d{margin-top:1mm;font-size:7pt;line-height:1.4;color:rgba(239,233,221,.7);max-width:44mm}
+.p3 .home{position:absolute;z-index:10;left:95mm;top:200mm;width:20mm;text-align:center}
+.p3 .home .t{font-family:var(--serif);font-size:22pt}
+.p3 .home .d{font-size:5.6pt;letter-spacing:.24em;font-weight:700;color:var(--peach);margin-top:1mm}
+.p3 .foot{position:absolute;left:16mm;right:16mm;top:266mm;display:flex;justify-content:space-between;align-items:flex-end;z-index:10}
+.p3 .foot .v{font-family:var(--serif);font-size:20pt;line-height:1}
+.p3 .foot .v em{color:var(--peach)}
+
+/* ============ DAY PAGES — shared ============ */
+.day .mast{position:absolute;left:16mm;right:16mm;top:15mm;z-index:10}
+.day .mast h2{margin-top:3mm;font-size:52pt;font-weight:400}
+.day .mast .place{margin-top:2mm;font-size:8pt;letter-spacing:.3em;font-weight:700}
+.day .mast .tag{margin-top:4mm;font-family:var(--serif);font-style:italic;font-size:14.5pt;line-height:1.2;max-width:118mm}
+.stn{position:absolute;z-index:12;width:52mm}
+.stn .w{font-size:5.8pt;letter-spacing:.28em;font-weight:700}
+.stn .t{margin-top:1.2mm;font-family:var(--serif);font-size:14pt;line-height:.95}
+.stn .d{margin-top:1.2mm;font-size:7.4pt;line-height:1.4}
+.stn.r{text-align:right}
+.chip{display:inline-block;margin-top:1.4mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;text-transform:uppercase;padding:.8mm 1.6mm;border:1px solid currentColor}
+
+/* ---- P4 · DAY 01 · BIR · THE TOWN MAP ---- */
+.p4{background:#12202c;color:var(--bone);--accent:var(--sky)}
+.p4 .bg{height:118mm;bottom:auto;background-position:50% 65%}
+.p4 .veil{position:absolute;left:0;right:0;top:0;height:120mm;background:linear-gradient(180deg,rgba(14,28,40,.62) 0%,rgba(14,28,40,.3) 45%,rgba(18,32,44,.85) 85%,#12202c 100%)}
+.p4 .mast .place{color:var(--sky)}
+.p4 .mast .tag{color:rgba(239,233,221,.9)}
+.p4 .map{position:absolute;inset:0;width:210mm;height:297mm;z-index:6}
+.p4 .stn .w{color:var(--sky)}
+.p4 .stn .d{color:rgba(239,233,221,.74)}
+.p4 .night{position:absolute;left:16mm;right:16mm;top:222mm;z-index:12;display:grid;grid-template-columns:1.1fr 1fr;gap:10mm;align-items:end}
+.p4 .night .k{color:var(--ember)}
+.p4 .night h3{margin-top:2mm;font-family:var(--serif);font-weight:400;font-size:27pt;line-height:.9}
+.p4 .night h3 em{color:var(--ember)}
+.p4 .night .els{font-size:7.4pt;line-height:1.7;color:rgba(239,233,221,.8)}
+.p4 .night .els b{color:var(--bone);font-weight:700}
+.p4 .glow{position:absolute;left:-30mm;bottom:-40mm;width:140mm;height:120mm;background:radial-gradient(ellipse,rgba(232,121,58,.32) 0%,rgba(232,121,58,0) 70%)}
+
+/* ---- P5 · DAY 02 · BAROT → BILLING → BIR · THE ALTITUDE PROFILE ---- */
+.p5{background:#0d1a14;color:var(--bone);--accent:var(--river)}
+.p5 .bg{height:112mm;bottom:auto;background-position:50% 55%}
+.p5 .veil{position:absolute;left:0;right:0;top:0;height:114mm;background:linear-gradient(180deg,rgba(10,20,16,.66) 0%,rgba(10,20,16,.28) 45%,rgba(13,26,20,.88) 86%,#0d1a14 100%)}
+.p5 .mast .place{color:var(--river)}
+.p5 .mast .tag{color:rgba(239,233,221,.9)}
+.p5 .prof{position:absolute;inset:0;width:210mm;height:297mm;z-index:6}
+.p5 .stn .w{color:var(--river)}
+.p5 .stn .d{color:rgba(239,233,221,.74)}
+.p5 .stn.fly .w{color:var(--ember)}
+.p5 .log{position:absolute;right:16mm;top:214mm;width:66mm;z-index:12;background:rgba(239,233,221,.94);color:var(--char);padding:4mm 5mm;box-shadow:1.6mm 1.6mm 0 0 var(--fire);transform:rotate(1.2deg)}
+.p5 .log .k{color:var(--clay)}
+.p5 .log .row{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(16,19,17,.25);padding:1.3mm 0;font-size:7.2pt}
+.p5 .log .row b{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:6.4pt}
+.p5 .log .hand{margin-top:2mm;font-size:12pt;color:rgba(16,19,17,.66)}
+.p5 .pay{position:absolute;left:16mm;top:218mm;width:102mm;z-index:12}
+.p5 .pay h3{font-family:var(--serif);font-weight:400;font-size:25pt;line-height:.9}
+.p5 .pay h3 em{color:var(--ember)}
+.p5 .pay p{margin-top:3mm;font-size:7.6pt;line-height:1.45;color:rgba(239,233,221,.72);max-width:92mm}
+
+/* ---- P6 · DAY 03 · THE TRAIL · TOPO + THE SLIP ---- */
+.p6{background:var(--earth);color:var(--bone);--accent:var(--trail)}
+.p6 .bg{height:104mm;bottom:auto;background-position:50% 40%}
+.p6 .veil{position:absolute;left:0;right:0;top:0;height:106mm;background:linear-gradient(180deg,rgba(46,33,25,.6) 0%,rgba(46,33,25,.24) 45%,rgba(46,33,25,.9) 88%,var(--earth) 100%)}
+.p6 .mast .place{color:var(--trail)}
+.p6 .mast .tag{color:rgba(239,233,221,.92)}
+.p6 .topo{position:absolute;inset:0;width:210mm;height:297mm;z-index:6}
+.p6 .stn .w{color:var(--peach)}
+.p6 .stn .d{color:rgba(239,233,221,.74)}
+.p6 .earned{position:absolute;right:16mm;top:112mm;text-align:right;z-index:12}
+.p6 .earned .v{font-family:var(--serif);font-size:24pt;line-height:.9}
+.p6 .earned .v em{color:var(--peach)}
+.p6 .last{position:absolute;left:16mm;top:198mm;width:88mm;z-index:12}
+.p6 .last .k{color:var(--ember)}
+.p6 .last h3{margin-top:2mm;font-family:var(--serif);font-weight:400;font-size:27pt;line-height:.9}
+.p6 .last .seq{margin-top:3mm;font-size:6.4pt;letter-spacing:.2em;font-weight:700;text-transform:uppercase;color:var(--trail);line-height:1.8}
+.p6 .last p{margin-top:2.5mm;font-size:7.6pt;line-height:1.45;color:rgba(239,233,221,.74)}
+.slip{position:absolute;right:15mm;top:200mm;width:74mm;z-index:14;background:#fbf7ef;color:var(--char);padding:5mm 5.5mm 6mm;transform:rotate(-2.2deg);box-shadow:1.6mm 2mm 0 0 rgba(0,0,0,.4);clip-path:polygon(0 2%,6% 0,14% 2%,24% 0,36% 1.6%,48% 0,60% 2%,72% 0,84% 1.4%,94% 0,100% 2%,100% 100%,0 100%)}
+.slip .k{color:var(--clay)}
+.slip h4{margin-top:1.6mm;font-family:var(--serif);font-weight:400;font-size:19pt;line-height:.95}
+.slip .lines{margin-top:4mm}
+.slip .lines div{height:7mm;border-bottom:1px dotted rgba(16,19,17,.45)}
+.slip .hand{margin-top:3mm;font-size:12pt;color:rgba(16,19,17,.62)}
+.slip .small{margin-top:1.4mm;font-size:5.6pt;letter-spacing:.18em;font-weight:700;color:rgba(16,19,17,.42);text-transform:uppercase}
+
+/* ---- P7 · DAY 04 · THE WAY HOME · THE POSTCARD ---- */
+.p7{background:var(--dawn);color:var(--char);--accent:var(--peach)}
+.p7 .mast .place{color:var(--clay)}
+.p7 .mast .tag{color:rgba(16,19,17,.8)}
+.card{position:absolute;left:16mm;right:16mm;top:84mm;height:114mm;z-index:10;display:grid;grid-template-columns:1fr 1fr;box-shadow:2mm 2.4mm 0 0 rgba(16,19,17,.18);transform:rotate(-1deg)}
+.card .front{position:relative;background-size:cover;background-position:50% 60%}
+.card .front .sign{position:absolute;left:5mm;bottom:5mm;font-family:var(--serif);font-size:24pt;line-height:.88;color:#fff}
+.card .front .sign em{color:var(--peach)}
+.card .back{background:#fbf7ef;padding:6mm 6mm 5mm;position:relative;display:flex;flex-direction:column}
+.card .back .stamp{position:absolute;right:5mm;top:5mm;width:19mm;height:23mm;border:1.4px dashed rgba(16,19,17,.35);display:flex;align-items:center;justify-content:center;text-align:center;font-size:5.4pt;letter-spacing:.18em;font-weight:700;color:var(--clay)}
+.card .back .post{position:absolute;right:15mm;top:17mm;width:24mm;height:24mm;border-radius:50%;border:1.2px solid rgba(169,95,56,.6);display:flex;align-items:center;justify-content:center;text-align:center;font-size:5.2pt;letter-spacing:.14em;font-weight:700;color:rgba(169,95,56,.85);transform:rotate(-12deg);line-height:1.5}
+.card .back .msg{margin-top:26mm;font-family:var(--hand);font-size:14.5pt;line-height:1.25;color:rgba(16,19,17,.84)}
+.card .back .to{margin-top:auto;border-top:1px solid rgba(16,19,17,.2)}
+.card .back .to div{border-bottom:1px solid rgba(16,19,17,.2);height:6.4mm;font-family:var(--hand);font-size:12pt;padding-top:.6mm;color:rgba(16,19,17,.7)}
+.p7 .moments{position:absolute;left:16mm;right:16mm;top:210mm;display:grid;grid-template-columns:repeat(6,1fr);gap:3mm;z-index:10}
+.p7 .moments .m{border-top:1px solid rgba(16,19,17,.25);padding-top:2.4mm}
+.p7 .moments .m .n{font-size:5.4pt;letter-spacing:.24em;font-weight:700;color:var(--clay)}
+.p7 .moments .m .t{margin-top:1.2mm;font-family:var(--serif);font-size:12pt;line-height:1}
+.p7 .end{position:absolute;left:16mm;right:16mm;top:238mm;text-align:center;z-index:10}
+.p7 .end .v{font-family:var(--serif);font-size:24pt;line-height:.95}
+.p7 .end .a{margin-top:3mm;font-size:8pt;letter-spacing:.3em;font-weight:700;color:var(--clay)}
+
+/* ============ P8 · GLIMPSES ============ */
+.p8{background:#16140f;color:var(--bone);--accent:var(--ember)}
+.p8 .mast{position:absolute;left:16mm;right:16mm;top:15mm}
+.p8 .mast h2{margin-top:3mm;font-size:44pt}
+.p8 .mast h2 em{color:var(--ember)}
+.p8 .mast .tag{margin-top:4mm;font-family:var(--serif);font-style:italic;font-size:14pt;max-width:130mm;color:rgba(239,233,221,.84)}
+.strip{position:absolute;left:0;right:0;background:#0b0a08;padding:6mm 0}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:3mm;background-image:repeating-linear-gradient(90deg,rgba(239,233,221,.8) 0 3mm,transparent 3mm 7mm)}
+.strip::before{top:1.4mm}.strip::after{bottom:1.4mm}
+.strip .row{display:flex;gap:3.5mm;padding:0 12mm}
+.fr{flex:1;position:relative;aspect-ratio:3/4;background:#1f1c16;overflow:hidden}
+.fr img{width:100%;height:100%;object-fit:cover;display:block}
+.fr .cap{position:absolute;left:0;right:0;bottom:0;padding:6mm 2.4mm 2mm;background:linear-gradient(0deg,rgba(0,0,0,.7),transparent);font-family:var(--hand);font-size:11pt;color:#fff}
+.fr .no{position:absolute;left:2mm;top:1.6mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;color:var(--ember)}
+.fr.slot{border:1.4px dashed rgba(239,233,221,.35);background:transparent;display:flex;align-items:center;justify-content:center;text-align:center;padding:4mm}
+.fr.slot span{font-size:5.6pt;letter-spacing:.2em;font-weight:700;line-height:1.7;color:rgba(239,233,221,.45);text-transform:uppercase}
+.p8 .wh{position:absolute;left:16mm;right:16mm;font-size:6.4pt;line-height:1.5;color:rgba(239,233,221,.55)}
+.p8 .quote{position:absolute;left:16mm;right:16mm;top:236mm}
+.p8 .quote .v{font-family:var(--serif);font-size:21pt;line-height:1.08;max-width:150mm}
+.p8 .quote .v em{color:var(--ember)}
+.p8 .quote .sig{margin-top:3mm;font-family:var(--hand);font-size:15pt;color:var(--ember)}
+
+/* ============ P9 · THE PEOPLE ============ */
+.p9{background:var(--dawn);color:var(--char);--accent:var(--clay);padding:15mm 16mm 18mm}
+.p9 h2{margin-top:3mm;font-size:42pt}
+.p9 h2 em{color:var(--clay)}
+.p9 .tag{margin-top:4mm;font-family:var(--serif);font-style:italic;font-size:14pt;max-width:140mm;color:rgba(16,19,17,.8)}
+.revs{margin-top:9mm;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6mm}
+.rev{position:relative;padding:5mm 4.5mm 5mm;background:#fbf7ef;box-shadow:1.4mm 1.6mm 0 0 rgba(16,19,17,.14);min-height:74mm;display:flex;flex-direction:column}
+.rev:nth-child(2){transform:translateY(7mm) rotate(.8deg)}
+.rev:nth-child(3){transform:rotate(-.8deg)}
+.rev .qm{font-family:var(--serif);font-size:42pt;line-height:.6;color:var(--clay);height:9mm}
+.rev .q{font-family:var(--serif);font-size:12.5pt;line-height:1.26}
+.rev .who{margin-top:auto;padding-top:4mm;display:flex;gap:3mm;align-items:center}
+.rev .who img{width:10mm;height:10mm;border-radius:50%;object-fit:cover}
+.rev .who .n{font-size:7.6pt;font-weight:700}
+.rev .who .t{font-size:5.8pt;letter-spacing:.18em;font-weight:700;color:rgba(16,19,17,.5);text-transform:uppercase;margin-top:.6mm}
+.rev.slot,.cr.slot{background:transparent;box-shadow:none;border:1.4px dashed rgba(16,19,17,.3);align-items:center;justify-content:center;text-align:center}
+.slot .sl{font-size:5.8pt;letter-spacing:.2em;font-weight:700;line-height:1.8;color:rgba(16,19,17,.42);text-transform:uppercase}
+.crh{margin-top:20mm;display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid rgba(16,19,17,.2);padding-top:4mm}
+.crh h3{font-family:var(--serif);font-weight:400;font-size:22pt}
+.crs{margin-top:5mm;display:grid;grid-template-columns:repeat(4,1fr);gap:5mm}
+.cr{position:relative;text-align:center;padding:4mm 2mm 4mm;min-height:52mm;display:flex;flex-direction:column;align-items:center}
+.cr .face{width:24mm;height:24mm;border-radius:50%;overflow:hidden;background:#e3d6c3;border:1.4mm solid #fbf7ef;box-shadow:0 0 0 1px rgba(16,19,17,.15)}
+.cr .face img{width:100%;height:100%;object-fit:cover}
+.cr .n{margin-top:2.6mm;font-family:var(--serif);font-size:13pt;line-height:1}
+.cr .hd{margin-top:1mm;font-size:6.6pt;font-weight:700;color:var(--clay)}
+.cr .t{margin-top:1mm;font-size:5.6pt;letter-spacing:.16em;font-weight:700;color:rgba(16,19,17,.48);text-transform:uppercase}
+.cr .l{margin-top:1.6mm;font-family:var(--hand);font-size:11pt;line-height:1.1;color:rgba(16,19,17,.72)}
+.promise{position:absolute;left:16mm;right:16mm;bottom:17mm;display:grid;grid-template-columns:repeat(4,1fr);gap:6mm}
+.promise .p .rule{width:10mm;height:2px;background:var(--clay)}
+.promise .p .t{margin-top:2mm;font-family:var(--serif);font-size:12.5pt;line-height:1}
+.promise .p .d{margin-top:1.4mm;font-size:6.8pt;line-height:1.42;color:rgba(16,19,17,.66)}
+
+/* ============ P10 · THE DAMAGE · THE PAYOFF ============ */
+.p10{background:var(--dawn);color:var(--char);--accent:var(--fire);display:flex;flex-direction:column}
+.p10 .body{flex:1;padding:13mm 16mm 4mm}
+.p10 .head{display:flex;justify-content:space-between;align-items:flex-end;gap:8mm}
+.p10 .amt{margin-top:2mm;font-family:var(--serif);font-size:40pt;line-height:.85}
+.p10 .per{margin-top:2mm;font-size:6.2pt;letter-spacing:.3em;font-weight:700;color:rgba(16,19,17,.5)}
+.p10 .where{text-align:right;font-size:6.8pt;letter-spacing:.24em;font-weight:700;line-height:2;color:rgba(16,19,17,.6);text-transform:uppercase}
+.p10 .where b{color:var(--char)}
+.p10 .route{margin-top:6mm;display:flex;align-items:center;gap:3mm;font-size:7pt;letter-spacing:.24em;font-weight:700}
+.p10 .route i{flex:1;height:1px;background:rgba(16,19,17,.25)}
+.p10 .route .dot{width:2.2mm;height:2.2mm;border-radius:50%;background:var(--fire)}
+.p10 .cols{margin-top:7mm;display:grid;grid-template-columns:1.15fr 1fr;gap:10mm}
+.p10 ul{list-style:none;margin-top:2.6mm}
+.p10 li{display:flex;gap:2.4mm;font-size:7.8pt;line-height:1.3;padding:1.1mm 0;border-bottom:1px solid rgba(16,19,17,.1)}
+.p10 li .m{flex:0 0 3mm;font-weight:700}
+.p10 .in li .m{color:var(--moss)}
+.p10 .out li{color:rgba(16,19,17,.62)}
+.p10 .out li .m{color:var(--fire)}
+.p10 .how{margin-top:7mm;border-top:1px solid rgba(16,19,17,.22);padding-top:5mm}
+.p10 .how .steps{margin-top:3mm;display:grid;grid-template-columns:repeat(3,1fr);gap:6mm}
+.p10 .how .s .n{font-family:var(--serif);font-size:22pt;line-height:.8;color:var(--clay)}
+.p10 .how .s .t{margin-top:1.6mm;font-size:8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.p10 .how .s .d{margin-top:1.2mm;font-size:7pt;line-height:1.42;color:rgba(16,19,17,.66)}
+.p10 .safe{margin-top:6mm;display:grid;grid-template-columns:1.1fr 1fr;gap:10mm}
+.p10 .safe .t{margin-top:1.6mm;font-size:6.6pt;line-height:1.5;color:rgba(16,19,17,.62)}
+.p10 .safe .t b{color:rgba(16,19,17,.82)}
+.p10 .finale{flex:0 0 66mm;position:relative;overflow:hidden;background:#05080c;color:var(--bone)}
+.p10 .finale .bg{background-position:50% 35%}
+.p10 .finale .veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,8,12,.94) 0%,rgba(5,8,12,.72) 55%,rgba(5,8,12,.4) 100%)}
+.p10 .finale .in{position:relative;height:100%;padding:8mm 16mm 6mm;display:flex;flex-direction:column}
+.p10 .fm{display:flex;justify-content:space-between;align-items:flex-start;gap:8mm}
+.p10 .fm h2{font-size:32pt;line-height:.9}
+.p10 .fm h2 em{color:var(--ember)}
+.p10 .fm .know{margin-top:3mm;font-family:var(--serif);font-style:italic;font-size:11.5pt;line-height:1.3;color:var(--peach)}
+.imin{display:inline-block;margin-top:2mm;padding:4mm 8mm;background:var(--fire);color:var(--char);font-family:var(--serif);font-size:22pt;line-height:1;transform:rotate(-1.8deg);box-shadow:2.4mm 2.4mm 0 0 var(--bone);position:relative}
+.imin::before,.imin::after{content:"";position:absolute;width:3mm;height:3mm;border-radius:50%;background:#05080c;top:50%;margin-top:-1.5mm}
+.imin::before{left:-1.5mm}.imin::after{right:-1.5mm}
+.p10 .fmsg{margin-top:3.5mm;font-family:var(--hand);font-size:12.5pt;color:rgba(239,233,221,.8);text-align:right}
+.p10 .ffoot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid rgba(239,233,221,.2);padding-top:3mm}
+.p10 .ffoot .big{font-family:var(--serif);font-size:15pt}
+.p10 .ffoot .sub{margin-top:1mm;font-size:5.6pt;letter-spacing:.26em;font-weight:700;color:rgba(239,233,221,.55)}
+.p10 .credits{font-size:4.4pt;line-height:1.45;color:rgba(239,233,221,.4);max-width:110mm;text-align:right}
+.draft{position:fixed;top:4mm;left:50%;transform:translateX(-50%);z-index:999;background:#ff2e2e;color:#fff;font-size:5.6pt;letter-spacing:.2em;font-weight:700;padding:1mm 3mm;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<!-- ================= P1 · COVER ================= -->
+<section class="page cover grain">
+  <div class="bg" style="background-image:url('bir-dossier-assets/hero.jpg')"></div>
+  <div class="scrim"></div>
+  <div class="spine"></div>
+  <div class="aside">three nights in the mountains.<br>one very good plot.</div>
+  <div class="in">
+    <div class="top">
+      <img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist">
+      <div class="imprint">JOURNEY 03<br>THE DOSSIER</div>
+    </div>
+    <h1>BIR<i>×</i>BAROT</h1>
+    <div class="dates"><span class="d">20&ndash;24 NOVEMBER 2026</span><span class="rule"></span><span class="d">HIMACHAL</span></div>
+    <div class="line">ESCAPE THE ORDINARY.</div>
+    <p class="support">A town, a valley, a sky and a summit.</p>
+
+    <div class="chapters">
+      <div><div class="n">DAY 01</div><div class="t">The Escape</div><div class="p">Bir</div></div>
+      <div><div class="n">DAY 02</div><div class="t">The Flight</div><div class="p">Barot · Billing</div></div>
+      <div><div class="n">DAY 03</div><div class="t">The Wild</div><div class="p">The trail</div></div>
+      <div><div class="n">DAY 04</div><div class="t">The Way Home</div><div class="p">The road</div></div>
+    </div>
+    <div class="facts"><b>20 PEOPLE</b> &middot; 3 NIGHTS IN BIR &middot; 4 DAYS &middot; DELHI &rarr; BIR &rarr; DELHI<br>10 GIRLS &middot; 10 GUYS &middot; 18&ndash;30 &middot; APPLICATION ONLY</div>
+    <div class="priceRow">
+      <div class="price">{{PRICE_BIG}}<small>{{PRICE_SMALL}}</small></div>
+      <a class="cta" href="{{WA}}">JOIN THE JOURNEY &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= P2 · THE PREMISE ================= -->
+<section class="page p2 grain">
+  <div class="spine"></div>
+  <svg class="thread" viewBox="0 0 595 842" fill="none" aria-hidden="true">
+    <path d="M110 262 C 190 268, 170 310, 270 316 C 370 322, 316 352, 410 366 C 462 374, 452 406, 390 426 C 320 448, 196 446, 136 468 C 90 484, 64 516, 56 562 C 48 616, 48 672, 58 712 C 64 738, 74 752, 90 762" stroke="#a95f38" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="7 6" opacity=".32"/>
+    <circle cx="110" cy="262" r="3.2" fill="#e8793a" opacity=".6"/>
+  </svg>
+  <div class="slate" style="color:rgba(16,19,17,.55)"><span>01</span><span class="bar"></span><span>THE PREMISE</span></div>
+  <h2 class="h">YOU COULD JUST GO TO THE MOUNTAINS.<br><em>Or you could make a plot out of it.</em></h2>
+  <p class="lede">Anyone can book a hill station.<br>The hard part is finding the right people to be up there with.<br><b>That&rsquo;s where Plot Twist comes in.</b></p>
+
+  <div class="formula">
+    <div class="k" style="color:rgba(16,19,17,.42)">THE PLOT TWIST FORMULA</div>
+    <div class="grid">
+      <div class="f f1"><div class="rule"></div><h4>10/10 energy</h4><p>Good stories. Big personalities. People who say yes before they know the plan.</p></div>
+      <div class="f f2"><div class="rule"></div><h4>One base, three nights</h4><p>Bir, the whole time. Unpack once. Every day goes out from there and comes home to a fire.</p></div>
+      <div class="f f3"><div class="rule"></div><h4>Curated experiences</h4><p>A hidden valley, a tandem flight off a mountain, a trek to a view — each one a different world.</p></div>
+      <div class="f f4"><div class="rule"></div><h4>20 people</h4><p>Small enough to become a family. Big enough to never run out of stories.</p></div>
+    </div>
+  </div>
+
+  <div class="fit">
+    <h3>You&rsquo;ll fit right in if&hellip;</h3>
+    <ul>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 13 L9 20 L21 3" stroke="#2c4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>you&rsquo;d run off a hill if someone counted to three.</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 13 L9 20 L21 3" stroke="#2c4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>you&rsquo;d trade a lie-in for a sunrise. once, at least.</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 13 L9 20 L21 3" stroke="#2c4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>strangers become friends by the second bonfire.</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 13 L9 20 L21 3" stroke="#2c4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>you collect stories, not just places.</li>
+      <li><svg viewBox="0 0 24 24" fill="none"><path d="M3 13 L9 20 L21 3" stroke="#2c4436" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>you pack a warm jacket and a sense of humour.</li>
+    </ul>
+    <div class="flip"><div class="k" style="color:rgba(16,19,17,.45)">IF YOU NEED EVERYTHING TO GO ACCORDING TO PLAN&hellip;</div><div class="v">you may have opened the wrong dossier.</div></div>
+  </div>
+
+  <div class="note">
+    <div class="pic"><img src="bir-dossier-assets/founder-02.jpg" alt=""></div>
+    <div>
+      <div class="k" style="color:rgba(16,19,17,.45)">A NOTE FROM THE GUY WHO STARTED THIS</div>
+      <p class="v">Seven-plus countries, solo trips, group trips, too many late nights — and somewhere along the way I realised the best part of travelling was almost never the place. It was the people, the plans that changed, the stories that came out of nowhere. Plot Twist is my attempt to put more of those trips into the world.</p>
+      <div class="sig">&mdash; Akshat</div>
+      <div class="marks">FOUNDER &middot; 7+ COUNTRIES &middot; ON EVERY TRIP</div>
+    </div>
+  </div>
+  <div class="pfoot" style="color:rgba(16,19,17,.42)"><span>PLOT TWIST &middot; JOURNEY 03 &middot; BIR &times; BAROT</span><span class="no">02</span></div>
+</section>
+
+<!-- ================= P3 · THE WAY IN ================= -->
+<section class="page p3 grain">
+  <div class="bg" style="background-image:url('bir-dossier-assets/route-city.jpg')"></div>
+  <div class="veil"></div>
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.7)"><span>FRI 20 NOV</span><span class="bar"></span><span>THE WAY IN</span></div>
+    <h2 class="h">Leave the city<br><em>tonight.</em></h2>
+    <p class="tag">You leave Delhi after dark. You wake up in the mountains.</p>
+  </div>
+
+  <div class="ticket">
+    <div class="main">
+      <div class="k" style="color:rgba(16,19,17,.5)">PLOT TWIST &middot; JOURNEY 03 &middot; ONE WAY UP</div>
+      <div class="row" style="margin-top:2.5mm"><div class="city">Delhi</div><div class="arrow">&rarr;</div><div class="city">Bir</div></div>
+      <div class="grid">
+        <div class="kk">DEPARTS</div><div class="kk">ARRIVES</div><div class="kk">BY</div><div class="kk">SEAT</div>
+        <div class="vv">Fri 20 Nov &middot; night</div><div class="vv">Sat 21 Nov &middot; morning</div><div class="vv">Road, overnight</div><div class="vv">01 of 20</div>
+      </div>
+    </div>
+    <div class="stub">
+      <div class="k">RETURN</div>
+      <div class="big">Tue 24</div>
+      <div class="k" style="margin-top:1mm;color:rgba(16,19,17,.6)">BACK IN DELHI &middot; EVENING</div>
+      <div class="hand">keep this. you&rsquo;ll want it.</div>
+    </div>
+  </div>
+
+  <div class="mapk"><div class="k" style="color:var(--peach)">THE WHOLE TRIP, ON ONE LINE</div></div>
+  <svg class="map" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+    <!-- Delhi → overnight → Bir, drawn with a wobble -->
+    <path d="M24 184 C 40 178, 52 196, 66 190 C 78 185, 84 200, 97 206" stroke="#e8b48a" stroke-width=".7" stroke-dasharray="1.6 1.6" stroke-linecap="round"/>
+    <circle cx="24" cy="184" r="2.2" fill="#efe9dd"/>
+    <!-- Bir: home, three nights -->
+    <circle cx="105" cy="207" r="11" fill="none" stroke="#e8b48a" stroke-width=".5" opacity=".5"/>
+    <circle cx="105" cy="207" r="14.5" fill="none" stroke="#e8b48a" stroke-width=".3" opacity=".3"/>
+    <circle cx="105" cy="207" r="3" fill="#e8793a"/>
+    <!-- day 02 loop: Barot, Billing, flight home -->
+    <path d="M110 198 C 122 172, 150 164, 168 170" stroke="#8fb1a8" stroke-width=".7" stroke-linecap="round"/>
+    <circle cx="168" cy="170" r="1.8" fill="#8fb1a8"/>
+    <path d="M168 170 C 176 182, 172 196, 160 202" stroke="#8fb1a8" stroke-width=".7" stroke-linecap="round"/>
+    <circle cx="160" cy="202" r="1.8" fill="#a9cbe0"/>
+    <path d="M160 202 C 148 214, 128 216, 114 211" stroke="#a9cbe0" stroke-width=".6" stroke-dasharray="3 2" stroke-linecap="round"/>
+    <!-- day 03 trek spur -->
+    <path d="M101 216 C 94 226, 102 232, 94 240 C 88 246, 90 250, 84 253" stroke="#d9c7a6" stroke-width=".7" stroke-dasharray="1 1.4" stroke-linecap="round"/>
+    <path d="M82 255 l2 -4 l2 4 z" fill="#d9c7a6"/>
+    <!-- day 04 home -->
+    <path d="M97 210 C 80 222, 50 214, 30 190" stroke="#e8b48a" stroke-width=".4" stroke-dasharray="1 2" opacity=".6" stroke-linecap="round"/>
+  </svg>
+  <div class="lbl" style="left:16mm;top:190mm"><div class="n">FRI 20 &middot; NIGHT</div><div class="t">Delhi</div><div class="d">The overnight road up.</div></div>
+  <div class="home"><div class="t">Bir</div><div class="d">HOME &middot; 3 NIGHTS</div></div>
+  <div class="lbl" style="left:118mm;top:150mm"><div class="n">SAT 21 &middot; DAY 01</div><div class="t">Bir, on foot</div><div class="d">Cafés, monasteries, the landing field, the first fire.</div></div>
+  <div class="lbl" style="left:171mm;top:163mm;width:28mm"><div class="n">SUN 22</div><div class="t">Barot</div></div>
+  <div class="lbl" style="left:164mm;top:205mm;width:34mm"><div class="n">SUN 22 &middot; PM</div><div class="t">Billing</div><div class="d">Then fly home.</div></div>
+  <div class="lbl" style="left:40mm;top:238mm"><div class="n">MON 23 &middot; DAY 03</div><div class="t">The trail</div><div class="d">Up to a view you earn.</div></div>
+  <div class="tnote" style="right:16mm;top:238mm;transform:rotate(-3deg);color:rgba(239,233,221,.6);text-align:right">unpack once.<br>everything else is a day trip.</div>
+  <div class="foot">
+    <div class="v">4 days. 3 nights. <em>1 base.</em></div>
+    <div class="k" style="color:rgba(239,233,221,.55)">TUE 24 &middot; BACK IN DELHI BY EVENING</div>
+  </div>
+  <div class="pfoot" style="color:rgba(239,233,221,.4)"><span>FRI 20 NOV &middot; THE WAY IN</span><span class="no">03</span></div>
+</section>
+
+<!-- ================= P4 · DAY 01 · BIR · THE TOWN MAP ================= -->
+<section class="page day p4 grain">
+  <div class="bg" style="background-image:url('bir-dossier-assets/bir-flags.jpg')"></div>
+  <div class="veil"></div>
+  <div class="glow"></div>
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.72)"><span>SAT 21 NOV</span><span class="bar"></span><span>DAY 01</span></div>
+    <h2 class="h">The Escape</h2>
+    <div class="place">BIR</div>
+    <p class="tag">Wake up in a mountain town that runs on chai and prayer flags.</p>
+  </div>
+
+  <!-- the town, drawn: streets that don't sit true, six stops, one fire -->
+  <svg class="map" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+    <path d="M22 132 C 60 128, 70 146, 104 142 C 140 138, 150 152, 188 150" stroke="rgba(239,233,221,.16)" stroke-width="3.2" stroke-linecap="round"/>
+    <path d="M60 116 C 64 140, 58 170, 70 196" stroke="rgba(239,233,221,.12)" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M146 120 C 140 150, 156 176, 148 208" stroke="rgba(239,233,221,.12)" stroke-width="2.4" stroke-linecap="round"/>
+    <!-- prayer-flag strings over the lanes -->
+    <path d="M40 124 Q 58 131 76 124" stroke="rgba(239,233,221,.4)" stroke-width=".3"/>
+    <g opacity=".85"><rect x="44" y="125.6" width="2" height="2.4" fill="#2F6DB3"/><rect x="49" y="127.2" width="2" height="2.4" fill="#F3EFE6"/><rect x="54" y="128" width="2" height="2.4" fill="#C8412F"/><rect x="59" y="128" width="2" height="2.4" fill="#3F8A4F"/><rect x="64" y="127.2" width="2" height="2.4" fill="#E5B637"/><rect x="69" y="125.6" width="2" height="2.4" fill="#2F6DB3"/></g>
+    <!-- the day's route -->
+    <path d="M34 146 C 48 156, 62 150, 76 158 C 92 166, 96 146, 116 150 C 136 154, 150 138, 164 150 C 178 162, 168 184, 150 190 C 130 196, 112 186, 98 198" stroke="#a9cbe0" stroke-width=".8" stroke-dasharray="2 1.6" stroke-linecap="round"/>
+    <g fill="#12202c" stroke="#a9cbe0" stroke-width=".7">
+      <circle cx="34" cy="146" r="2.3"/><circle cx="76" cy="158" r="2.3"/><circle cx="116" cy="150" r="2.3"/><circle cx="164" cy="150" r="2.3"/><circle cx="150" cy="190" r="2.3"/>
+    </g>
+    <circle cx="98" cy="198" r="3.4" fill="#e8793a"/><circle cx="98" cy="198" r="7" stroke="#e8793a" stroke-width=".4" opacity=".6"/>
+  </svg>
+  <div class="stn" style="left:16mm;top:151mm;width:46mm"><div class="w">MORNING</div><div class="t">Arrive. Unpack. Chai.</div><div class="d">Check in — this is home for three nights.</div></div>
+  <div class="stn" style="left:62mm;top:162mm;width:44mm"><div class="w">LATE MORNING</div><div class="t">The café lane</div><div class="d">Long breakfasts. Longer conversations.</div></div>
+  <div class="stn" style="left:98mm;top:122mm;width:46mm"><div class="w">AFTERNOON</div><div class="t">Monasteries</div><div class="d">Gold roofs, quiet halls, the Tibetan colony on foot.</div></div>
+  <div class="stn r" style="right:14mm;top:118mm;width:40mm"><div class="w">GOLDEN HOUR</div><div class="t">The landing field</div><div class="d">Watch the gliders come in. Tomorrow that&rsquo;s you.</div></div>
+  <div class="stn r" style="left:58mm;top:193mm;width:34mm"><div class="w" style="color:var(--ember)">NIGHT</div><div class="t">The first fire</div></div>
+
+  <div class="pol" style="right:16mm;top:160mm;width:34mm;transform:rotate(3deg)"><img src="bir-dossier-assets/town-cafe.jpg" style="aspect-ratio:1/1" alt=""><div class="cap">long ones. lazy ones.</div></div>
+  <div class="pol" style="right:54mm;top:180mm;width:26mm;transform:rotate(-4deg)"><img src="bir-dossier-assets/bir-monastery.jpg" style="aspect-ratio:1/1" alt=""><div class="cap">gold roofs.</div></div>
+
+  <div class="night">
+    <div>
+      <div class="k">PLOT TWIST SOCIAL NIGHT</div>
+      <h3>Sunset. Music. Strangers.<br><em>Not for long.</em></h3>
+    </div>
+    <div class="els"><b>Fire</b> &middot; a bonfire, the centre of everything<br><b>Fairy lights</b> &middot; strung between the pines<br><b>Music</b> &middot; low, then not so low<br><b>Dinner</b> &middot; around the fire, with strangers<br><b>Stars</b> &middot; more than you&rsquo;ve seen in years<br><span class="addon">DRINKS: YOURS &middot; ALCOHOL NOT INCLUDED</span></div>
+  </div>
+  <div class="tnote" style="left:16mm;top:208mm;transform:rotate(-2deg);color:var(--peach)">no one&rsquo;s checking their phone.</div>
+  <div class="pfoot" style="color:rgba(239,233,221,.4)"><span>SAT 21 NOV &middot; DAY 01 &middot; THE ESCAPE &middot; BIR</span><span class="no">04</span></div>
+</section>
+
+<!-- ============ P5 · DAY 02 · BAROT · BILLING · THE ALTITUDE PROFILE ============ -->
+<section class="page day p5 grain">
+  <div class="bg" style="background-image:url('bir-dossier-assets/barot-valley.jpg')"></div>
+  <div class="veil"></div>
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.72)"><span>SUN 22 NOV</span><span class="bar"></span><span>DAY 02</span></div>
+    <h2 class="h">The Flight</h2>
+    <div class="place">BAROT &middot; BILLING &middot; THE PARAGLIDING CIRCUIT</div>
+    <p class="tag">A hidden valley in the morning. The sky by the afternoon.</p>
+  </div>
+
+  <!-- the day as altitude: up the valley, up to the launch, then the glide -->
+  <svg class="prof" viewBox="0 0 210 297" fill="none" aria-hidden="true">
+    <line x1="16" y1="200" x2="194" y2="200" stroke="rgba(239,233,221,.18)" stroke-width=".3"/>
+    <line x1="16" y1="176" x2="194" y2="176" stroke="rgba(239,233,221,.1)" stroke-width=".25" stroke-dasharray="1 2"/>
+    <line x1="16" y1="152" x2="194" y2="152" stroke="rgba(239,233,221,.1)" stroke-width=".25" stroke-dasharray="1 2"/>
+    <path d="M16 200 L16 196 C 30 194, 38 180, 56 178 C 70 176, 78 180, 90 177 C 104 172, 110 150, 128 138 L 134 136" stroke="rgba(239,233,221,.9)" stroke-width=".8" stroke-linecap="round" fill="none"/>
+    <path d="M16 200 L16 196 C 30 194, 38 180, 56 178 C 70 176, 78 180, 90 177 C 104 172, 110 150, 128 138 L 134 136 L 134 200 Z" fill="rgba(143,177,168,.12)"/>
+    <!-- the glide: dashed, long, falling -->
+    <path d="M134 136 C 150 132, 160 150, 170 164 C 178 176, 184 188, 192 196" stroke="#ffb36b" stroke-width=".9" stroke-dasharray="2.6 2" stroke-linecap="round"/>
+    <g fill="#0d1a14" stroke="#8fb1a8" stroke-width=".7"><circle cx="16" cy="196" r="2.2"/><circle cx="56" cy="178" r="2.2"/><circle cx="90" cy="177" r="2.2"/></g>
+    <circle cx="134" cy="136" r="2.8" fill="#ffb36b"/>
+    <circle cx="192" cy="196" r="2.8" fill="#e8793a"/>
+    <!-- a glider, drawn small on the glide -->
+    <path d="M160 142 Q 166 137 172 142 L 171 143.4 Q 166 139.6 161 143.4 Z" fill="#e8793a"/>
+    <line x1="162" y1="143" x2="166" y2="150" stroke="#efe9dd" stroke-width=".2"/><line x1="170" y1="143" x2="166" y2="150" stroke="#efe9dd" stroke-width=".2"/>
+    <circle cx="166" cy="151" r=".9" fill="#efe9dd"/>
+  </svg>
+  <div class="k" style="position:absolute;left:16mm;top:203mm;color:rgba(239,233,221,.4);z-index:12">ALTITUDE, ROUGHLY &middot; ± 1,400 M &rarr; ± 2,400 M &rarr; ± 1,400 M</div>
+  <div class="stn" style="left:16mm;top:122mm;width:40mm"><div class="w">MORNING</div><div class="t">Out of Bir</div><div class="d">A day trip. Back tonight.</div></div>
+  <div class="stn" style="left:44mm;top:150mm;width:46mm"><div class="w">BAROT</div><div class="t">The river</div><div class="d">The Uhl, cold and loud and glacier-green.</div></div>
+  <div class="stn" style="left:78mm;top:182mm;width:44mm"><div class="w">MIDDAY</div><div class="t">The trail</div><div class="d">Pine. Moss. Riverbank. No signal.</div></div>
+  <div class="stn fly" style="left:104mm;top:112mm;width:46mm"><div class="w">AFTERNOON · BILLING</div><div class="t">The edge</div><div class="d">Harness on. Three steps. Four.</div></div>
+  <div class="stn fly r" style="right:16mm;top:120mm;width:30mm"><div class="w">THE GLIDE</div><div class="t">Back to Bir</div><div class="d">Land on the grass you watched yesterday.</div></div>
+
+  <div class="pol" style="left:124mm;top:62mm;width:30mm;transform:rotate(3deg)"><img src="bir-dossier-assets/river.jpg" style="aspect-ratio:1/1" alt=""><div class="cap">glacier-green.</div></div>
+  <div class="pol" style="right:16mm;top:60mm;width:28mm;transform:rotate(-3deg)"><img src="bir-dossier-assets/flight-takeoff-poster.jpg" style="aspect-ratio:1/1" alt=""><div class="cap">three steps.</div></div>
+
+  <div class="pay">
+    <h3>You didn&rsquo;t come all this way<br><em>to stay on the ground.</em></h3>
+    <p>Tandem — a certified pilot flies, you just run when they say run. Then golden hour, landed, back in Bir, and the valley you just flew over changes colour.</p>
+  </div>
+  <div class="log">
+    <div class="k">FLIGHT LOG</div>
+    <div class="row"><b>From</b><span>Billing launch</span></div>
+    <div class="row"><b>To</b><span>Bir landing field</span></div>
+    <div class="row"><b>Type</b><span>Tandem, certified pilot</span></div>
+    <div class="row"><b>Duration</b><span>the wind decides</span></div>
+    <div class="row"><b>Screaming</b><span>allowed</span></div>
+    <div class="hand">in the plot. not an add-on.</div>
+  </div>
+  <div class="pfoot" style="color:rgba(239,233,221,.4)"><span>SUN 22 NOV &middot; DAY 02 &middot; THE FLIGHT &middot; BAROT &middot; BILLING</span><span class="no">05</span></div>
+</section>
+
+<!-- ============ P6 · DAY 03 · THE TRAIL · TOPO + THE SLIP ============ -->
+<section class="page day p6 grain">
+  <div class="bg" style="background-image:url('bir-dossier-assets/day3.jpg')"></div>
+  <div class="veil"></div>
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.72)"><span>MON 23 NOV</span><span class="bar"></span><span>DAY 03</span></div>
+    <h2 class="h">The Wild</h2>
+    <div class="place">THE TRAIL</div>
+    <p class="tag">Leave the road. Find the trail.</p>
+  </div>
+  <svg class="topo" viewBox="0 0 210 297" fill="none" aria-hidden="true">{{TOPO}}</svg>
+  <div class="stn" style="left:16mm;top:176mm;width:40mm"><div class="w">START</div><div class="t">Trail kit</div><div class="d">Everyone gets theirs.</div></div>
+  <div class="stn" style="left:52mm;top:136mm;width:44mm"><div class="w">ASCEND</div><div class="t">Forest, then sky</div><div class="d">Small group challenges on the way up.</div></div>
+  <div class="stn" style="left:110mm;top:183mm;width:44mm"><div class="w">DISCOVER</div><div class="t">The picnic</div><div class="d">Hidden viewpoints. Lunch with a view.</div></div>
+  <div class="stn r" style="right:16mm;top:150mm;width:36mm"><div class="w" style="color:var(--ember)">ARRIVE</div><div class="t">Everyone, together</div></div>
+  <div class="earned"><div class="v">Some views<br><em>have to be earned.</em></div></div>
+
+  <div class="last">
+    <div class="k">THE LAST NIGHT</div>
+    <h3>One long table.</h3>
+    <div class="seq">Hot shower &rarr; warm clothes &rarr; sunset &rarr; dinner &rarr; fire</div>
+    <p>Candles, a bonfire, music, and twenty people who are very much not strangers any more. Then, the ritual.</p>
+  </div>
+  <div class="slip">
+    <div class="k">A PLOT TWIST RITUAL</div>
+    <h4>Leave it behind.</h4>
+    <div class="lines"><div></div><div></div><div></div></div>
+    <div class="hand">work. stress. a bad week. a situationship. whatever.</div>
+    <div class="small">write it here, or on the night. it goes in the fire. nobody reads it.</div>
+  </div>
+  <div class="pol" style="left:16mm;top:250mm;width:30mm;transform:rotate(-3deg)"><img src="bir-dossier-assets/last-night.jpg" style="aspect-ratio:4/3" alt=""><div class="cap">the long table</div></div>
+  <div class="tnote" style="left:54mm;top:262mm;transform:rotate(-2deg);color:var(--trail)">nobody gets left behind.</div>
+  <div class="pfoot" style="color:rgba(239,233,221,.4)"><span>MON 23 NOV &middot; DAY 03 &middot; THE WILD</span><span class="no">06</span></div>
+</section>
+
+<!-- ============ P7 · DAY 04 · THE WAY HOME · THE POSTCARD ============ -->
+<section class="page day p7 grain">
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(16,19,17,.5)"><span>TUE 24 NOV</span><span class="bar"></span><span>DAY 04</span></div>
+    <h2 class="h">The Way Home</h2>
+    <div class="place">BIR &rarr; DELHI</div>
+    <p class="tag">Slow morning. Last views. The road. Back in Delhi by evening.</p>
+  </div>
+  <div class="card">
+    <div class="front" style="background-image:url('bir-dossier-assets/day4.jpg')"><div class="sign">Greetings<br><em>from the plot.</em></div></div>
+    <div class="back">
+      <div class="stamp">20 PEOPLE<br>ONE<br>STAMP</div>
+      <div class="post">BIR<br>24 NOV 26<br>HIMACHAL</div>
+      <div class="msg">Wish you were here.<br>Actually &mdash; you will be.<br>Four days ago we&rsquo;d never met.<br>Now there&rsquo;s a group chat called something unrepeatable.</div>
+      <div class="to"><div>To: whoever you were before this trip</div><div></div></div>
+    </div>
+  </div>
+  <div class="moments">
+    <div class="m"><div class="n">01</div><div class="t">Slow morning</div></div>
+    <div class="m"><div class="n">02</div><div class="t">Coffee</div></div>
+    <div class="m"><div class="n">03</div><div class="t">Last views</div></div>
+    <div class="m"><div class="n">04</div><div class="t">Final photos</div></div>
+    <div class="m"><div class="n">05</div><div class="t">Packing up</div></div>
+    <div class="m"><div class="n">06</div><div class="t">The road</div></div>
+  </div>
+  <div class="end">
+    <div class="v">Every good journey has an end.</div>
+    <div class="a">BUT YOU DON&rsquo;T GO HOME THE SAME.</div>
+  </div>
+  <div class="tnote" style="right:16mm;top:200mm;transform:rotate(-3deg);color:var(--clay)">the mountains get smaller in the back window.</div>
+  <div class="pfoot" style="color:rgba(16,19,17,.42)"><span>TUE 24 NOV &middot; DAY 04 &middot; THE WAY HOME</span><span class="no">07</span></div>
+</section>
+
+<!-- ================= P8 · GLIMPSES ================= -->
+<section class="page p8 grain">
+  <div class="spine"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.6)"><span>08</span><span class="bar"></span><span>GLIMPSES</span></div>
+    <h2 class="h">From the plots<br><em>before this one.</em></h2>
+    <p class="tag">Not stock. Not staged. Frames from the trips that turned into Plot Twist.</p>
+  </div>
+  <div class="strip" style="top:82mm"><div class="row">{{GLIMPSES_A}}</div></div>
+  <div class="strip" style="top:152mm"><div class="row">{{GLIMPSES_B}}</div></div>
+  <div class="wh" style="top:223mm">{{GLIMPSE_NOTES}}</div>
+  <div class="quote">
+    <div class="v">The best part of travelling was almost never the place.<br><em>It was who was there.</em></div>
+    <div class="sig">&mdash; the whole idea, in one line</div>
+  </div>
+  <div class="pfoot" style="color:rgba(239,233,221,.4)"><span>GLIMPSES &middot; FROM OUR PREVIOUS TRIPS</span><span class="no">08</span></div>
+</section>
+
+<!-- ================= P9 · THE PEOPLE ================= -->
+<section class="page p9 grain">
+  <div class="spine"></div>
+  <div class="slate" style="color:rgba(16,19,17,.5)"><span>09</span><span class="bar"></span><span>THE PEOPLE WHO&rsquo;VE BEEN</span></div>
+  <h2 class="h">Don&rsquo;t take<br><em>our word for it.</em></h2>
+  <p class="tag">In their words, not ours — unedited, and shared with their permission.</p>
+  <div class="revs">{{REVIEWS}}</div>
+  <div class="crh"><h3>They travelled with us.</h3><div class="k" style="color:rgba(16,19,17,.45)">CREATORS ON PAST PLOTS</div></div>
+  <div class="crs">{{CREATORS}}</div>
+  <div class="promise">
+    <div class="p"><div class="rule"></div><div class="t">Curated people</div><div class="d">20 isn&rsquo;t random. A real person reads every application.</div></div>
+    <div class="p"><div class="rule"></div><div class="t">Hosts throughout</div><div class="d">Plot Twist hosts are on the trip, not just on the phone.</div></div>
+    <div class="p"><div class="rule"></div><div class="t">Clear details</div><div class="d">You know the number and what&rsquo;s in and out before you commit.</div></div>
+    <div class="p"><div class="rule"></div><div class="t">Someone to call</div><div class="d">A real conversation first, then a direct contact for the whole trip.</div></div>
+  </div>
+  <div class="pfoot" style="color:rgba(16,19,17,.42)"><span>REVIEWS &middot; CREATORS &middot; WHY TRUST US</span><span class="no">09</span></div>
+</section>
+
+<!-- ================= P10 · THE DAMAGE · THE PAYOFF ================= -->
+<section class="page p10 grain">
+  <div class="spine"></div>
+  <div class="body">
+    <div class="head">
+      <div><div class="k" style="color:rgba(16,19,17,.5)">THE DAMAGE</div><div class="amt">{{PRICE_BIG}}</div><div class="per">{{PRICE_SMALL}}</div></div>
+      <div class="where">BIR &times; BAROT<br><b>20&ndash;24 NOVEMBER 2026</b><br>3 NIGHTS IN BIR &middot; 4 DAYS</div>
+    </div>
+    <div class="route"><span>DELHI</span><i></i><span class="dot"></span><span>BIR &middot; 3 NIGHTS</span><i></i><span>BAROT &middot; BILLING</span><i></i><span>THE TRAIL</span><i></i><span>DELHI</span></div>
+    <div class="cols">
+      <div class="in"><div class="k" style="color:var(--moss)">IN THE PLOT</div><ul>{{INCLUDED}}</ul></div>
+      <div class="out"><div class="k" style="color:var(--fire)">YOU SORT</div><ul>{{EXCLUDED}}</ul></div>
+    </div>
+    <div class="how">
+      <div class="k" style="color:rgba(16,19,17,.5)">HOW YOU GET ONE OF THE 20</div>
+      <div class="steps">
+        <div class="s"><div class="n">01</div><div class="t">Apply</div><div class="d">Three short questions at plotwist.in. Under three minutes.</div></div>
+        <div class="s"><div class="n">02</div><div class="t">A real conversation</div><div class="d">A person reads it. Shortlisted means a call, not an auto-reply.</div></div>
+        <div class="s"><div class="n">03</div><div class="t">Your seat</div><div class="d">Confirm, and you&rsquo;re in the group chat. The plot starts there.</div></div>
+      </div>
+    </div>
+    <div class="safe">
+      <div><div class="k" style="color:rgba(16,19,17,.45)">THE BORING BUT IMPORTANT BIT</div><div class="t">Paragliding is tandem, with certified pilots, and runs only when the weather allows — the pilots make that call. Follow host, pilot and guide instructions on the flight and the trek. November nights in Bir are cold: pack warm. Tell the team anything we should know.</div></div>
+      <div><div class="k" style="color:rgba(16,19,17,.45)">JUST SO WE&rsquo;RE CLEAR</div><div class="t"><b>Timings are indicative.</b> The plot moves at the group&rsquo;s pace, and the mountains get a vote. Exact stay confirmed on booking.</div></div>
+    </div>
+  </div>
+  <div class="finale">
+    <div class="bg" style="background-image:url('bir-dossier-assets/final-stars.jpg')"></div>
+    <div class="veil"></div>
+    <div class="in">
+      <div class="fm">
+        <div><h2 class="h">Your next plot twist<br><em>starts here.</em></h2><div class="know">You know the dates.<br>You know the plot.<br>You know you&rsquo;re one of the 20.</div></div>
+        <div style="text-align:right"><a class="imin" href="{{WA}}">I&rsquo;M IN &rarr;</a><div class="fmsg">Message us. We&rsquo;ll take it from here.</div></div>
+      </div>
+      <div class="ffoot">
+        <div><div class="big">Do it for the plot.</div><div class="sub">@PLOTTWIST.SOCIAL &middot; PLOTWIST.IN/JOURNEY/03</div></div>
+        <div class="credits">{{CREDITS}}</div>
+      </div>
+    </div>
+  </div>
+</section>
+{{DRAFT}}
+</body>
+</html>
