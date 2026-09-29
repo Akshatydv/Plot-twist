@@ -1,9 +1,16 @@
 # Journey 03 — Bir × Barot: photography provenance
 
-Twelve photographs, all from **Wikimedia Commons**, all **Creative Commons**
-(BY 2.0, BY 4.0 or BY-SA 4.0). Every one was checked against its Commons
-title and description to be **in Bir, Billing or Barot** — no other Himachal
-town stands in for them. Two Dharamshala paragliding frames and one otherwise
+Two sets, kept apart on purpose.
+
+**Place photographs (12)** — anything the page shows *as* Bir, Billing or
+Barot. All from **Wikimedia Commons**, all **Creative Commons** (BY 2.0,
+BY 4.0 or BY-SA 4.0), each checked against its Commons title and description
+to be **in Bir, Billing or Barot** — no other Himachal town stands in for them.
+
+**Moment photographs (7)** — golden hour, the fires, the last night, the
+road. Chosen for the moment rather than the place, on the site owner's
+instruction, and never captioned or alt-texted as Bir or Barot. Listed in
+their own table below. Two Dharamshala paragliding frames and one otherwise
 good Bir shot with a burned-in watermark were rejected on exactly that basis.
 
 ## What the licences require — and where it's done
@@ -37,13 +44,23 @@ right size per screen.
 | `bir-sunset.jpg` | [Sunset in Bir, Himachal Pradesh.jpg](https://commons.wikimedia.org/wiki/File:Sunset_in_Bir,_Himachal_Pradesh.jpg) | PulkitPithvaWiki | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | “SUNSET.” |
 | `summit.jpg` | [Hanuman Garh Trek, Himachal Pradesh (Bir Billing, Kangra).jpg](https://commons.wikimedia.org/wiki/File:Hanuman_Garh_Trek,_Himachal_Pradesh_(Bir_Billing,_Kangra).jpg) | Chhama Rai | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) | SOME VIEWS HAVE TO BE EARNED · recap “Trek.” · cast scrap |
 
-## What is still illustrated, and why
+## Moment photographs — not Bir or Barot
 
-GOLDEN HOUR (Barot), THE BONFIRE, THE LAST NIGHT and THE ROAD HOME have no
-photograph because no licensed frame of *that* moment in *these* places was
-found. A lookalike from somewhere else would be the one invented fact on the
-page. Real trip photography replaces them — same slots, see
-`public/videos/bir/VIDEOS.md`.
+Found through Openverse (Flickr, WordPress Photo Directory), downloaded at
+Flickr's 1600–2048px sizes.
+
+| file | source | author | licence | slot | what it actually is |
+| --- | --- | --- | --- | --- | --- |
+| `golden-hour.jpg` | [Flickr](https://www.flickr.com/photos/73700351@N03/6742605245) | India Untravelled | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | GOLDEN HOUR plate | Kinner Kailash from Kalpa — Himachal, but Kinnaur, not Barot |
+| `bonfire.jpg` | [Flickr](https://www.flickr.com/photos/33143245@N02/7390704632) | SurFeRGiRL30 | CC BY 2.0 | bonfire poster · recap “Bonfire.” | a fire pit at night |
+| `campfire.jpg` | [Flickr](https://www.flickr.com/photos/40882383@N03/9194201298) | US Forest Service, Northern Region | CC BY 2.0 | SOCIAL NIGHT · print 3 | a campfire under a mountain in the US northern Rockies region, figures in silhouette |
+| `embers.jpg` | [Flickr](https://www.flickr.com/photos/59800091@N04/6263334396) | Kitty Terwolbeck | CC BY 2.0 | print 2 | burning logs, close |
+| `last-night.jpg` | [Flickr](https://www.flickr.com/photos/77742560@N06/14583973531) | shankar s. | CC BY 2.0 | print 1 · recap “Dinner.” | tables under string lights at a night market |
+| `road.jpg` | [WordPress Photo Directory](https://wordpress.org/photos/photo/9666995a9b/) | shirishpoudel07 | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | THE ROAD HOME | a winding Himalayan road, snow peaks ahead |
+| `road-alt.jpg` | [WordPress Photo Directory](https://wordpress.org/photos/photo/6216a2a5a7/) | Vishnu Chandra | CC0 | recap “Road.” | a road through tea gardens |
+
+One more was shortlisted and rejected: *Friends 'Round the Fire*, because the
+faces in it are identifiable and nobody in it is on this trip.
 
 Nobody in any of these photographs is on this trip, and none of the copy
 implies they are.

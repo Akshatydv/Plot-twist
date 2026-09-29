@@ -394,6 +394,18 @@ export function Footage({
     return () => io.disconnect();
   }, [wantsVideo, near]);
 
+  // The hero's clip is server-rendered and autoplays before hydration, so its
+  // first `playing` event can fire before React is listening. Check the
+  // element itself, and listen natively, rather than trusting onPlaying alone.
+  useEffect(() => {
+    const v = vid.current;
+    if (!v || !near) return;
+    const on = () => setReady(true);
+    if (!v.paused && v.readyState >= 3) on();
+    v.addEventListener("playing", on);
+    return () => v.removeEventListener("playing", on);
+  }, [near]);
+
   return (
     <div ref={wrap} className={`absolute inset-0 overflow-hidden ${className}`}>
       {children}
@@ -412,7 +424,6 @@ export function Footage({
       {wantsVideo && near && (
         <video
           ref={vid}
-          src={slot.video}
           poster={slot.image}
           muted
           loop
@@ -423,7 +434,10 @@ export function Footage({
           onPlaying={() => setReady(true)}
           className={`bir-grade absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"} ${mediaClassName}`}
           style={{ objectPosition: slot.focus }}
-        />
+        >
+          {slot.webm && <source src={slot.webm} type="video/webm" />}
+          <source src={slot.video} type="video/mp4" />
+        </video>
       )}
     </div>
   );

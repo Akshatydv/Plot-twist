@@ -148,6 +148,9 @@ function FlightHeadline() {
   return (
     <section data-hud="day2" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#24527D] px-5 py-24 sm:px-8 lg:px-14">
       <Clouds color="rgba(255,255,255,0.16)" banks={4} speed={2} />
+      {/* real flight, washed into the day's blue so the headline owns the frame */}
+      <Footage slot={media.above} />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#16304d]/85 via-[#24527D]/55 to-[#24527D]/20" />
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="relative">
         <Kicker color="#A9CBE0">{day2.flight.kicker}</Kicker>
@@ -480,6 +483,8 @@ function SocialNight() {
   const reduce = useCalm();
   return (
     <section data-hud="day2" className="relative overflow-hidden bg-[#1a1a33] px-5 pb-28 pt-10 sm:px-8 sm:pb-36 lg:px-14">
+      <Footage slot={media.socialNight} drift />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#1a1a33] via-[#1a1a33]/60 to-[#1a1a33]/30" />
       <FireGlow className="-bottom-1/3 left-1/2 h-[80%] w-[120%] -translate-x-1/2" intensity={0.7} />
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-[1200px]">

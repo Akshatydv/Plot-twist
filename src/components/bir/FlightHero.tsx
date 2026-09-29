@@ -88,7 +88,7 @@ export function FlightHero() {
             <Clouds color="rgba(255,255,255,0.5)" banks={2} speed={4} className="top-[-10%]" />
           </Footage>
           {/* over the photograph: live cloud, so a still frame still moves like flight */}
-          {media.hero.image && <Clouds color="rgba(255,255,255,0.28)" banks={3} speed={2.4} className="top-[10%]" />}
+          {media.hero.image && !media.hero.video && <Clouds color="rgba(255,255,255,0.28)" banks={3} speed={2.4} className="top-[10%]" />}
         </motion.div>
 
         {/* legibility: the type sits bottom-left, over the darkest ground */}

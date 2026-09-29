@@ -9,6 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
+import Image from "next/image";
 import { day3, intoForest, media } from "@/content/bir";
 import { Note } from "../Bits";
 import { contourRings, trekProfile } from "./art";
@@ -421,6 +422,9 @@ function LastNight() {
               transition={{ duration: 0.9, delay: i * 0.15, ease: [0.22, 1, 0.36, 1] }}
             >
               <div className="relative aspect-square overflow-hidden" style={{ background: `radial-gradient(80% 80% at 50% 70%, ${ph.tone} 0%, #2a150b 70%, #0d0704 100%)` }}>
+                {ph.image && (
+                  <Image src={ph.image} alt="" fill sizes="260px" className="object-cover [filter:saturate(1.15)_contrast(1.1)_sepia(0.15)]" />
+                )}
                 {/* flash bloom + bokeh */}
                 <span className="absolute left-1/2 top-[40%] h-1/2 w-1/2 -translate-x-1/2 rounded-full bg-[#fff2d8]/20 blur-2xl" aria-hidden />
                 {[12, 34, 58, 76, 88].map((x, k) => (

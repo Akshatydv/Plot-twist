@@ -154,6 +154,8 @@ function RoadHome() {
         </Footage>
         <div className="grain pointer-events-none absolute inset-0 opacity-50" />
 
+        {/* a paper wash across the top so the caption reads over a photograph too */}
+        {media.road.image && <div className="pointer-events-none absolute inset-x-0 top-0 z-[5] h-[45%] bg-gradient-to-b from-[#F1E6D6]/85 to-transparent" />}
         {/* over the pale sky, not the road — slate on paper stays legible */}
         <div className="absolute inset-x-0 top-0 z-10 px-5 pt-16 sm:px-8 sm:pt-20 lg:px-14">
           <p className="max-w-[30ch] font-serif text-[clamp(1.4rem,3.6vw,2.4rem)] italic leading-[1.1] text-[#3b464c]">{day4.road.note}</p>

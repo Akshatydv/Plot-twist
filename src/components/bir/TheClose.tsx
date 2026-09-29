@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { birIndex, credits, details, finalCta, photos, recap, trip } from "@/content/bir";
+import { birIndex, credits, details, finalCta, footage, photos, recap, trip } from "@/content/bir";
 import { contact } from "@/content/site";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton, SectionLabel } from "../Bits";
@@ -231,7 +231,7 @@ function PhotoCredits() {
       <span className="text-[9px] tracked text-[#101311]/45">{credits.label}</span>
       <p className="mt-2 max-w-[70ch] text-[0.8rem] leading-[1.5] text-[#101311]/55">{credits.note}</p>
       <ul className="mt-3 grid gap-x-8 gap-y-1 text-[0.75rem] leading-[1.45] text-[#101311]/55 sm:grid-cols-2">
-        {Object.values(photos).map((c) => (
+        {[...Object.values(photos), ...Object.values(footage)].map((c) => (
           <li key={c.file}>
             <a href={c.source} target="_blank" rel="noreferrer" className="underline decoration-[#101311]/20 underline-offset-2 hover:text-[#101311]">
               {c.title}

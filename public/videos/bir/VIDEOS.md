@@ -1,12 +1,22 @@
 # Journey 03 — Bir × Barot: the footage slots
 
-**No video is live yet.** Twelve licensed *photographs* of Bir and Barot now
-fill most slots (see `public/photos/bir/PHOTOS.md`); the rest still run on
-the illustrated environments in `src/components/bir/Scenery.tsx`. Every slot
-takes a clip the same way it takes a still.
+**Four clips are live** (table at the bottom). None of them is Bir or
+Barot — they were chosen for the *moment* on the site owner's instruction,
+and none is captioned as the place. Real Bir tandem footage replaces the hero
+clip the day it exists; same slot, same two files.
 
-Stock clips of some other mountain range labelled as Bir would be the one
-invented fact on an otherwise honest page, so none were used.
+Every clip ships twice: **VP9 WebM** (offered first) and **H.264 MP4**, both
+silent 16s-or-shorter loops, cross-faded end-into-start so the seam doesn't
+jump. That trim and re-encode is the only edit.
+
+### Licences checked, one by one
+
+Mixkit publishes two licences, and the one that matters is per clip. Its
+*Restricted* licence is **personal use only**, and every Mixkit paragliding
+clip — plus the best-looking bonfire and Himalaya clips — is Restricted.
+None of those is used. The two Mixkit clips below are under its *Free*
+licence (commercial use, no attribution required). The flying footage is
+CC BY 3.0 from Wikimedia Commons and must stay credited.
 
 ## How to go live
 
@@ -57,6 +67,11 @@ ffmpeg -i hero.mp4 -vframes 1 -q:v 3 hero-poster.jpg
 
 ## Provenance
 
-| file | source | licence | notes |
-| --- | --- | --- | --- |
-| — | — | — | nothing yet |
+| file | slot | source | author | licence | source window |
+| --- | --- | --- | --- | --- | --- |
+| `hero.mp4/.webm` | HERO | [Commons](https://commons.wikimedia.org/wiki/File:Paragliding_in_Blackheath_NSW_Australia_at_high_altitude.webm) | skinduptruk | [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/) | 0:08–0:26 · paraglider over NSW, Australia |
+| `above.mp4/.webm` | YOU DIDN'T COME ALL THIS WAY | [Commons](https://commons.wikimedia.org/wiki/File:Paragliding_through_clouds_in_Blackheath_NSW_Australia.webm) | skinduptruk | CC BY 3.0 | 5:48–6:06 · through cloud, NSW |
+| `bonfire.mp4/.webm` | THE BONFIRE | [Mixkit](https://mixkit.co/free-stock-video/campfire-burning-wood-logs-in-the-dark-22730/) | Mixkit | [Mixkit Free](https://mixkit.co/license/#videoFree) | 0:00.5–0:10 |
+| `warm-drink.mp4/.webm` | THE LAST NIGHT | [Mixkit](https://mixkit.co/free-stock-video/people-pouring-a-warm-drink-around-a-campfire-513/) | Mixkit | Mixkit Free | 0:04–0:15.5 |
+
+Posters (`*-poster.jpg`) are single frames of the same clips.

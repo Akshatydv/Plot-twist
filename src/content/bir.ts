@@ -31,23 +31,30 @@
  * sits OVER that environment, which stays underneath as its fallback.
  *
  * ─── WHAT IS FILLED, AND WITH WHAT ──────────────────────────────────────────
- * Every photograph below was taken IN Bir, Billing or Barot — checked against
- * its Commons title and description, not guessed from how it looks. Nothing
- * from Dharamshala, Manali or anywhere else stands in for them. The slots
- * left empty (golden hour, the bonfire, the last night, the road) are empty
- * because no licensed frame of THAT moment in THESE places was found, and the
- * illustration is more honest than a lookalike.
+ * Two kinds of image, and the difference matters:
  *
- * All are Creative Commons (BY or BY-SA), which requires credit: `photos`
- * below is the single list, rendered on the page by <PhotoCredits/> and
- * mirrored in public/photos/bir/PHOTOS.md. A photo added here without a
- * credit line is a licence breach, not a style choice.
+ *   PLACE photographs — anything shown AS Bir, Billing or Barot (the hero
+ *   still, the day cards, the river, the town, the aerial, the summit) — were
+ *   taken there, checked against their Commons title and description.
  *
- * Video: none yet. Shot list in public/videos/bir/VIDEOS.md.
+ *   MOMENT images — golden hour, the fires, the last night, the road, and
+ *   both flying clips — are chosen for the moment, not the map, on the site
+ *   owner's instruction. None is captioned or alt-texted as Bir or Barot.
+ *   The hero clip is a paraglider over New South Wales; the golden hour is
+ *   Kinner Kailash from Kalpa, elsewhere in Himachal.
+ *
+ * Licences: Creative Commons BY / BY-SA (credit required), CC0 and the
+ * Mixkit Free licence (credit not required, given anyway). `photos` and
+ * `footage` below are the single lists, rendered on the page by
+ * <PhotoCredits/> and mirrored in public/photos/bir/PHOTOS.md and
+ * public/videos/bir/VIDEOS.md. An image added without a credit line is a
+ * licence breach, not a style choice.
  */
 export type MediaSlot = {
-  /** An mp4 path under /public. Muted, looped, never autoplayed with sound. */
+  /** An mp4 (H.264) path under /public. Muted, looped, never autoplayed with sound. */
   video?: string;
+  /** The same clip as VP9 WebM, offered first — smaller, and plays where H.264 isn't licensed. */
+  webm?: string;
   /** A still. Used alone, or as the video's poster. */
   image?: string;
   /** Required whenever `video` or `image` is set. Describe the frame, not the brochure. */
@@ -68,6 +75,9 @@ export type PhotoCredit = {
 const CC_BY_SA_4 = { license: "CC BY-SA 4.0", licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/" };
 const CC_BY_4 = { license: "CC BY 4.0", licenseUrl: "https://creativecommons.org/licenses/by/4.0/" };
 const CC_BY_2 = { license: "CC BY 2.0", licenseUrl: "https://creativecommons.org/licenses/by/2.0/" };
+const CC_BY_3 = { license: "CC BY 3.0", licenseUrl: "https://creativecommons.org/licenses/by/3.0/" };
+const CC0 = { license: "CC0", licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/" };
+const MIXKIT = { license: "Mixkit Free License", licenseUrl: "https://mixkit.co/license/#videoFree" };
 const COMMONS = "https://commons.wikimedia.org/wiki/File:";
 
 export const photos = {
@@ -83,6 +93,26 @@ export const photos = {
   sunsetGliding: { file: "/photos/bir/bir-sunset-gliding.jpg", title: "Sunset gliding in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_gliding_in_Bir,_Himachal_Pradesh.jpg` },
   sunset: { file: "/photos/bir/bir-sunset.jpg", title: "Sunset in Bir", author: "PulkitPithvaWiki", ...CC_BY_SA_4, source: `${COMMONS}Sunset_in_Bir,_Himachal_Pradesh.jpg` },
   summit: { file: "/photos/bir/summit.jpg", title: "Hanuman Garh Trek (Bir Billing)", author: "Chhama Rai", ...CC_BY_SA_4, source: `${COMMONS}Hanuman_Garh_Trek,_Himachal_Pradesh_(Bir_Billing,_Kangra).jpg` },
+  // ── moment photographs: not Bir or Barot, never labelled as them ──
+  goldenHour: { file: "/photos/bir/golden-hour.jpg", title: "Mt Kailash, as seen from Kalpa", author: "India Untravelled", ...CC_BY_2, source: "https://www.flickr.com/photos/73700351@N03/6742605245" },
+  bonfire: { file: "/photos/bir/bonfire.jpg", title: "Bonfire", author: "SurFeRGiRL30", ...CC_BY_2, source: "https://www.flickr.com/photos/33143245@N02/7390704632" },
+  campfire: { file: "/photos/bir/campfire.jpg", title: "Meadow Creek Campfire", author: "US Forest Service, Northern Region", ...CC_BY_2, source: "https://www.flickr.com/photos/40882383@N03/9194201298" },
+  embers: { file: "/photos/bir/embers.jpg", title: "Warmth in the night", author: "Kitty Terwolbeck", ...CC_BY_2, source: "https://www.flickr.com/photos/59800091@N04/6263334396" },
+  lastNight: { file: "/photos/bir/last-night.jpg", title: "Dinner under the lights", author: "shankar s.", ...CC_BY_2, source: "https://www.flickr.com/photos/77742560@N06/14583973531" },
+  road: { file: "/photos/bir/road.jpg", title: "A winding mountain road", author: "shirishpoudel07", ...CC0, source: "https://wordpress.org/photos/photo/9666995a9b/" },
+  roadAlt: { file: "/photos/bir/road-alt.jpg", title: "A road through the tea gardens", author: "Vishnu Chandra", ...CC0, source: "https://wordpress.org/photos/photo/6216a2a5a7/" },
+} satisfies Record<string, PhotoCredit>;
+
+/**
+ * THE FOOTAGE. Each file is a 16s (or shorter) silent loop cut from the
+ * source and cross-faded end-into-start so the seam doesn't jump — a trim
+ * and a re-encode, both permitted by the licences below. No other edit.
+ */
+export const footage = {
+  hero: { file: "/videos/bir/hero.mp4", title: "Paragliding in Blackheath NSW Australia at high altitude", author: "skinduptruk", ...CC_BY_3, source: `${COMMONS}Paragliding_in_Blackheath_NSW_Australia_at_high_altitude.webm` },
+  above: { file: "/videos/bir/above.mp4", title: "Paragliding through clouds in Blackheath NSW Australia", author: "skinduptruk", ...CC_BY_3, source: `${COMMONS}Paragliding_through_clouds_in_Blackheath_NSW_Australia.webm` },
+  bonfire: { file: "/videos/bir/bonfire.mp4", title: "Campfire burning wood logs in the dark", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/campfire-burning-wood-logs-in-the-dark-22730/" },
+  warmDrink: { file: "/videos/bir/warm-drink.mp4", title: "People pouring a warm drink around a campfire", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/people-pouring-a-warm-drink-around-a-campfire-513/" },
 } satisfies Record<string, PhotoCredit>;
 
 export const media: Record<
@@ -94,28 +124,33 @@ export const media: Record<
   | "bonfire"
   | "day2"
   | "flight"
+  | "above"
   | "lookDown"
   | "social"
+  | "socialNight"
   | "sunset"
   | "summit"
   | "lastNight"
   | "road",
   MediaSlot
 > = {
-  hero: { image: photos.hero.file, alt: "Paragliders in the sky above Bir, a sea of cloud and forested ridges below", focus: "55% 40%" },
+  // The Bir still shows first and the flying clip fades in over it once it plays.
+  hero: { video: footage.hero.file, webm: "/videos/bir/hero.webm", image: photos.hero.file, alt: "Flying a paraglider high above a valley, the canopy overhead and a field of cloud all around", focus: "88% 35%" },
   day1: { image: photos.barotValley.file, alt: "Barot seen from the hillside: the green reservoir, the village and pine-covered slopes", focus: "50% 55%" },
   river: { image: photos.river.file, alt: "The Uhl river running over boulders at Barot, pine forest on the far bank", focus: "50% 60%" },
   trail: { image: photos.trail.file, alt: "Morning light through a forested gorge above a boulder-strewn stream near Barot", focus: "50% 50%" },
-  goldenHour: {},
-  bonfire: {},
+  goldenHour: { image: photos.goldenHour.file, alt: "Snow peaks lit pink and gold by the last of the sun above a dark valley", focus: "50% 45%" },
+  bonfire: { video: footage.bonfire.file, webm: "/videos/bir/bonfire.webm", image: photos.bonfire.file, alt: "Flames rising off burning logs in the dark", focus: "50% 60%" },
   day2: { image: photos.flags.file, alt: "Prayer flags strung in front of snow-dusted Dhauladhar peaks above Bir", focus: "50% 60%" },
   flight: {},
+  above: { video: footage.above.file, webm: "/videos/bir/above.webm", image: "/videos/bir/above-poster.jpg", alt: "Gliding past a towering cloud, the sun overhead and the valley far below", focus: "50% 50%" },
   lookDown: { image: photos.aerial.file, alt: "Bir from the air: terraced fields, winding roads and scattered houses", focus: "50% 50%" },
   social: { image: photos.sunsetGliding.file, alt: "Two paragliders silhouetted against a hazy orange sunset over Bir", focus: "50% 70%" },
+  socialNight: { image: photos.campfire.file, alt: "Silhouettes around a campfire at dusk under a dark mountain", focus: "60% 70%" },
   sunset: { image: photos.sunset.file, alt: "A paraglider silhouetted directly across the setting sun in Bir", focus: "50% 55%" },
   summit: { image: photos.summit.file, alt: "Stone cairns on a ridgetop on the Hanuman Garh trek, snow peaks behind", focus: "50% 45%" },
-  lastNight: {},
-  road: {},
+  lastNight: { video: footage.warmDrink.file, webm: "/videos/bir/warm-drink.webm", image: "/videos/bir/warm-drink-poster.jpg", alt: "Someone pouring a warm drink by a small fire at the water's edge, at dusk", focus: "50% 60%" },
+  road: { image: photos.road.file, alt: "A winding mountain road between rock walls and pines, snow peaks ahead", focus: "50% 55%" },
 };
 
 /** The three photographs laid between the words of the Bir strip. */
@@ -378,9 +413,9 @@ export const day3 = {
     /** The disposable-camera date burned into each print — Day 03 under the reading of `trip.dates`. */
     stamp: "11 29 '26",
     polaroids: [
-      { caption: "the long table", tone: "#E8793A" },
-      { caption: "someone brought a guitar", tone: "#A95F38" },
-      { caption: "3 days ago we'd never met", tone: "#D9C7A6" },
+      { caption: "the long table", tone: "#E8793A", image: photos.lastNight.file },
+      { caption: "someone brought a guitar", tone: "#A95F38", image: photos.embers.file },
+      { caption: "3 days ago we'd never met", tone: "#D9C7A6", image: photos.campfire.file },
     ],
   },
   ritual: {
@@ -435,14 +470,14 @@ export const recap = {
   frames: ([
     { word: "Barot.", tone: "#0F1D16", ink: "#EFE9DD", image: photos.barotValley.file },
     { word: "River.", tone: "#17302A", ink: "#EFE9DD", image: photos.river.file },
-    { word: "Bonfire.", tone: "#2A120A", ink: "#FFB36B" },
+    { word: "Bonfire.", tone: "#2A120A", ink: "#FFB36B", image: photos.bonfire.file },
     { word: "Bir.", tone: "#24527D", ink: "#F3EFE6", image: photos.monastery.file },
     { word: "Paragliding.", tone: "#24527D", ink: "#F3EFE6", image: photos.hero.file },
     { word: "Mountains.", tone: "#3B4A55", ink: "#EFE9DD", image: photos.flags.file },
     { word: "Trek.", tone: "#2E2119", ink: "#EFE9DD", image: photos.summit.file },
-    { word: "Dinner.", tone: "#3A1A0E", ink: "#E8B48A" },
+    { word: "Dinner.", tone: "#3A1A0E", ink: "#EFE9DD", image: photos.lastNight.file },
     { word: "People.", tone: "#EFE9DD", ink: "#101311" },
-    { word: "Road.", tone: "#F1E6D6", ink: "#5D6B73" },
+    { word: "Road.", tone: "#3b464c", ink: "#F1E6D6", image: photos.roadAlt.file },
   ] as { word: string; tone: string; ink: string; image?: string }[]),
 };
 
@@ -518,8 +553,8 @@ export const finalCta = {
 } as const;
 
 export const credits = {
-  label: "PHOTOGRAPHS",
-  note: "Every photograph on this page was taken in Bir, Billing or Barot, and is used under Creative Commons. Thank you to:",
+  label: "PHOTOGRAPHS & FOOTAGE",
+  note: "The photographs of Bir, Billing and Barot were taken there. The fires, the golden hour, the road and the flying footage are from elsewhere in the mountains — chosen for the moment, not the map. Thank you to:",
 } as const;
 
 export const sticky = {
