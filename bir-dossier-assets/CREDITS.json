@@ -1,0 +1,17 @@
+{
+  "_README": "Photographs used ONLY by the dossier (the website's are credited in src/content/bir.ts, which make-bir-dossier.js also reads). Every one is CC BY 2.0 or CC BY-SA 4.0, licence checked on its source page. 'bir: true' means the photo really is Bir / Billing.",
+  "photos": [
+    { "file": "fb-valley-wide.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/17091317628", "bir": true },
+    { "file": "fb-fields-aerial.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/17278603421", "bir": true },
+    { "file": "fb-town-square.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34262098470", "bir": true },
+    { "file": "fb-landing-field.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34263001060", "bir": true },
+    { "file": "fb-launch-yellow.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34263542760", "bir": true },
+    { "file": "fb-in-flight.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/16658752023", "bir": true },
+    { "file": "fb-dhauladhar.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/17091268128", "bir": true },
+    { "file": "fb-dhauladhar-cloud.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/17071530507", "bir": true },
+    { "file": "fb-forest-trail.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34607245706", "bir": true },
+    { "file": "fb-meadow.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34647156155", "bir": true },
+    { "file": "fb-aerial.jpg", "title": "Bir, India - XC Paragliding", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/17279069175", "bir": true },
+    { "file": "fb-glider.jpg", "title": "Bir Paragliding & Hiking 2017", "author": "Fredi Bach", "licence": "CC BY 2.0", "source": "https://www.flickr.com/photos/26144976@N07/34608036946", "bir": true }
+  ]
+}
