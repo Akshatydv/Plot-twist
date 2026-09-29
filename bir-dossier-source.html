@@ -210,7 +210,9 @@ h1,h2,h3,h4{font-weight:400}
 .card .back .to div{border-bottom:1px solid rgba(16,19,17,.2);height:5.4mm;font-family:var(--hand);font-size:10.5pt;padding-top:.4mm;color:rgba(16,19,17,.7)}
 
 /* ============ P8 · GLIMPSES ============ */
-.prints{position:absolute;left:14mm;right:14mm;top:74mm;height:112mm;z-index:10;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm}
+.prints{position:absolute;left:14mm;right:14mm;top:74mm;height:112mm;z-index:10;display:grid;grid-template-columns:repeat(6,1fr);gap:5mm}
+.prints .fr{grid-column:span 2}.prints .fr.wide{grid-column:span 4}
+.more .fr.wide{grid-column:span 1}
 .fr{position:relative;background:#fbf7ef;padding:2mm 2mm 9mm;box-shadow:1.4mm 2mm 4mm rgba(0,0,0,.5)}
 .fr:nth-child(1){transform:rotate(-2deg)}.fr:nth-child(2){transform:translateY(5mm) rotate(1.4deg)}.fr:nth-child(3){transform:rotate(-.8deg)}
 .fr img{display:block;width:100%;height:100%;object-fit:cover}
@@ -218,8 +220,9 @@ h1,h2,h3,h4{font-weight:400}
 .fr .no{position:absolute;left:3.6mm;top:3.4mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;color:#fff;background:rgba(0,0,0,.45);padding:.6mm 1.2mm}
 .fr.slot{background:rgba(239,233,221,.04);box-shadow:none;border:1.4px dashed rgba(239,233,221,.35);display:flex;align-items:center;justify-content:center;text-align:center;padding:3mm}
 .fr.slot span{font-size:5.4pt;letter-spacing:.2em;font-weight:700;line-height:1.7;color:rgba(239,233,221,.5);text-transform:uppercase}
-.more{position:absolute;left:14mm;right:14mm;top:204mm;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);gap:3.4mm;height:30mm}
-.more .fr{transform:none;padding:1.4mm 1.4mm 5mm}
+.more{position:absolute;left:14mm;right:14mm;top:202mm;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:38mm;gap:3.4mm}
+.more .fr{transform:none;padding:1.4mm 1.4mm 5.6mm;height:38mm;overflow:hidden}
+.more .fr.slot{padding:3mm}
 .more .fr .cap{font-size:9.5pt;bottom:.6mm}
 .wh{position:absolute;left:14mm;right:14mm;top:193mm;font-size:6pt;line-height:1.5;color:rgba(239,233,221,.6);z-index:10}
 

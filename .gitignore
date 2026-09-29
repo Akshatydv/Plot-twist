@@ -42,3 +42,6 @@ casting-assets/
 # the Bir × Barot dossier build output (make-bir-dossier.js)
 dossiers/
 .bir-dossier-built.html
+
+# personal photos of travellers and creators: kept out of the public repo
+bir-dossier-assets/people/

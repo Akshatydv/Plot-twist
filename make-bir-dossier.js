@@ -52,20 +52,29 @@ const included = listFrom('included').map((s) => `<li><span class="m">✓</span>
 const excluded = listFrom('excluded').map((s) => `<li><span class="m">×</span>${esc(s)}</li>`).join('');
 
 /* ---------------- glimpses ---------------- */
+// Six columns of big prints (a portrait takes two, a "wide" one four), then a
+// strip of five small frames. Empty places print as marked slots.
 const gAll = [...DATA.glimpses];
-const gSlots = Math.max(DATA.glimpseSlots || 8, gAll.length);
+const STRIP = 5;
+let half = 0;
+for (let used = 0; used < 6; half++) {
+  const span = gAll[half] && gAll[half].shape === 'wide' ? 4 : 2;
+  if (used + span > 6) break;
+  used += span;
+}
+const gSlots = Math.max(half + STRIP, gAll.length);
 const frames = [];
 for (let i = 0; i < gSlots; i++) {
   const g = gAll[i];
   const no = String(i + 1).padStart(2, '0');
+  const big = i < half;
   if (g) {
-    frames.push(`<div class="fr"><img src="bir-dossier-assets/${esc(g.photo)}" alt=""><span class="no">${no}</span><div class="cap">${esc(g.caption)}</div></div>`);
+    frames.push(`<div class="fr${big && g.shape === 'wide' ? ' wide' : ''}"><img src="bir-dossier-assets/${esc(g.photo)}" alt=""><span class="no">${no}</span><div class="cap">${esc(g.caption)}</div></div>`);
   } else {
     draft = true;
-    frames.push(`<div class="fr slot"><span>${no}<br>A REAL PHOTO${i < 3 ? '<br>' : ' '}FROM A PAST${i < 3 ? '<br>' : ' '}PLOT TWIST TRIP</span></div>`);
+    frames.push(`<div class="fr slot"><span>${no}<br>A REAL PHOTO${big ? '<br>' : ' '}FROM A PAST${big ? '<br>' : ' '}PLOT TWIST TRIP</span></div>`);
   }
 }
-const half = 3; // three big prints, then the strip
 const glimpseNotes = gAll.length
   ? gAll.map((g, i) => `${String(i + 1).padStart(2, '0')} · ${esc(g.where)}`).join('&nbsp;&nbsp;&nbsp;')
   : '';
@@ -89,7 +98,7 @@ const creators = [];
 for (let i = 0; i < cSlots; i++) {
   const c = DATA.creators[i];
   if (c) {
-    creators.push(`<div class="cr"><div class="face">${c.photo ? `<img src="bir-dossier-assets/${esc(c.photo)}" alt="">` : ''}</div><div class="n">${esc(c.name)}</div><div class="hd">${esc(c.handle)}</div><div class="t">${esc(c.trip)}</div>${c.line ? `<div class="l">${esc(c.line)}</div>` : ''}</div>`);
+    creators.push(`<div class="cr"><div class="face">${c.photo ? `<img src="bir-dossier-assets/${esc(c.photo)}" alt="">` : ''}</div><div class="n">${esc(c.name)}</div>${c.handle ? `<div class="hd">${esc(c.handle)}</div>` : ''}${c.trip ? `<div class="t">${esc(c.trip)}</div>` : ''}${c.line ? `<div class="l">${esc(c.line)}</div>` : ''}</div>`);
   } else {
     draft = true;
     creators.push(`<div class="cr slot"><div class="ring"></div><div class="sl">A CREATOR<br>WHO ACTUALLY<br>TRAVELLED WITH US</div></div>`);
@@ -119,7 +128,7 @@ for (const c of EXTRA) {
   series.set(key, (series.get(key) || 0) + 1);
 }
 for (const [key, n] of series) credits.unshift(n > 1 ? `${key}, ${n} photographs` : key);
-for (const m of SOURCE.matchAll(/bir-dossier-assets\/([\w.-]+\.(?:jpg|png))/g)) {
+for (const m of (SOURCE + JSON.stringify(DATA).replace(/"photo":"/g, '"photo":"bir-dossier-assets/')).matchAll(/bir-dossier-assets\/([\w./-]+\.(?:jpg|png))/g)) {
   if (!fs.existsSync(path.join(ROOT, 'bir-dossier-assets', m[1]))) throw new Error(`Missing asset: ${m[1]}`);
 }
 const creditLine = 'PHOTOGRAPHS: ' + [...new Set(credits)].join(' · ') + ' · Founder photographs: Akshat. Not every photograph is of Bir or Barot; where a place is named, it is.';
