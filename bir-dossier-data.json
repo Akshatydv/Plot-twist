@@ -9,6 +9,26 @@
       "shape": "wide"
     },
     {
+      "photo": "people/trip-selfie.jpg",
+      "caption": "nobody remembers whose idea this was.",
+      "where": "on a past Plot Twist trip"
+    },
+    {
+      "photo": "people/trip-group.jpg",
+      "caption": "the whole plot.",
+      "where": "on a past Plot Twist trip"
+    },
+    {
+      "photo": "people/trip-pool.jpg",
+      "caption": "would do it again.",
+      "where": "on a past Plot Twist trip"
+    },
+    {
+      "photo": "people/trip-six.jpg",
+      "caption": "dressed for it.",
+      "where": "on a past Plot Twist trip"
+    },
+    {
       "photo": "founder-03.jpg",
       "caption": "worth the boat.",
       "where": "on the founder's own travels"
@@ -17,14 +37,25 @@
       "photo": "founder-01.jpg",
       "caption": "hanoi, no plan.",
       "where": "Hanoi, on the founder's own trip"
-    },
-    {
-      "photo": "founder-02.jpg",
-      "caption": "kuala lumpur, 1am.",
-      "where": "Kuala Lumpur, on the founder's own trip"
     }
   ],
-  "reviews": [],
+  "reviews": [
+    {
+      "quote": "I almost didn’t book because I was going alone, and honestly, that was the best part. By the first night, I already knew everyone’s names and somehow felt like I’d come with a group of friends. The itinerary was insane, but it never felt rushed. Yacht party, beach days, random late-night plans… it genuinely felt like one of those trips you wish you could do again for the first time.",
+      "name": "Rhea, 24",
+      "trip": ""
+    },
+    {
+      "quote": "Plot Twist doesn’t feel like a travel company. It feels like someone took all the best parts of a trip with your closest friends and somehow planned the whole thing for you. Every day had a completely different vibe, and there was always something happening. I’ve done Goa so many times, but this felt like a completely different Goa.",
+      "name": "Aanya, 26",
+      "trip": ""
+    },
+    {
+      "quote": "I went in expecting a fun weekend. I didn’t expect to come back with a camera roll full of memories and a group chat that’s still active weeks later. 😂 The people honestly made the trip. Everyone came from different places, but somehow the vibe just clicked. If you’re waiting for your friends to be free before travelling, just stop waiting and book the trip.",
+      "name": "Simran, 25",
+      "trip": ""
+    }
+  ],
   "reviewSlots": 3,
   "_reviewShape": {
     "quote": "What they actually said, word for word.",

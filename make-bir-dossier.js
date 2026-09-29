@@ -75,9 +75,14 @@ for (let i = 0; i < gSlots; i++) {
     frames.push(`<div class="fr slot"><span>${no}<br>A REAL PHOTO${big ? '<br>' : ' '}FROM A PAST${big ? '<br>' : ' '}PLOT TWIST TRIP</span></div>`);
   }
 }
-const glimpseNotes = gAll.length
-  ? gAll.map((g, i) => `${String(i + 1).padStart(2, '0')} · ${esc(g.where)}`).join('&nbsp;&nbsp;&nbsp;')
-  : '';
+// consecutive frames from the same place share one note: "02–05 · on a past trip"
+const runs = [];
+gAll.forEach((g, i) => {
+  const last = runs[runs.length - 1];
+  if (last && last.where === g.where) last.to = i; else runs.push({ where: g.where, from: i, to: i });
+});
+const nn = (i) => String(i + 1).padStart(2, '0');
+const glimpseNotes = runs.map((r) => `${nn(r.from)}${r.to > r.from ? '–' + nn(r.to) : ''} · ${esc(r.where)}`).join('&nbsp;&nbsp;&nbsp;');
 
 /* ---------------- reviews ---------------- */
 const rSlots = Math.max(DATA.reviewSlots || 3, DATA.reviews.length);
@@ -85,7 +90,7 @@ const reviews = [];
 for (let i = 0; i < rSlots; i++) {
   const r = DATA.reviews[i];
   if (r) {
-    reviews.push(`<div class="rev"><div class="qm">&ldquo;</div><div class="q">${esc(r.quote)}</div><div class="who">${r.photo ? `<img src="bir-dossier-assets/${esc(r.photo)}" alt="">` : ''}<div><div class="n">${esc(r.name)}</div><div class="t">${esc(r.trip)}</div></div></div></div>`);
+    reviews.push(`<div class="rev"><div class="qm">&ldquo;</div><div class="q">${esc(r.quote)}</div><div class="who">${r.photo ? `<img src="bir-dossier-assets/${esc(r.photo)}" alt="">` : ''}<div><div class="n">${esc(r.name)}</div>${r.trip ? `<div class="t">${esc(r.trip)}</div>` : ''}</div></div></div>`);
   } else {
     draft = true;
     reviews.push(`<div class="rev slot"><div class="qm2">&ldquo;</div><div class="sl">A REAL REVIEW<br>IN THEIR WORDS<br>WITH PERMISSION<br><br>add to bir-dossier-data.json</div></div>`);
