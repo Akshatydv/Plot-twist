@@ -359,40 +359,64 @@ export function Footage({
   eager = false,
   drift = false,
   sizes = "100vw",
+  still = false,
 }: {
   slot: MediaSlot;
   children?: ReactNode;
   className?: string;
   mediaClassName?: string;
-  /** The hero only: mount immediately rather than on approach. */
+  /** The hero only: mount immediately and never unmount. */
   eager?: boolean;
-  /** A slow push-in on a still, so a photograph still feels like a shot. */
+  /** A slow push-in on a still, so a photograph still feels like a shot. Desktop only. */
   drift?: boolean;
   sizes?: string;
+  /** Show the poster only, never the clip — for frames waiting off-stage in a FrameStack. */
+  still?: boolean;
 }) {
   const wrap = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
   const reduce = useCalm();
   const [near, setNear] = useState(eager);
+  const [visible, setVisible] = useState(eager);
   const [ready, setReady] = useState(false);
-  const wantsVideo = Boolean(slot.video) && !reduce;
+  const hasMedia = Boolean(slot.image || slot.video);
+  const wantsVideo = Boolean(slot.video) && !reduce && !still;
 
+  /*
+    MEMORY IS THE CONSTRAINT, NOT BANDWIDTH.
+
+    This page has ~60 full-screen photographs and clips. Every decoded image
+    and every video decoder is held in memory for as long as it is in the
+    DOM, and iOS Safari kills a tab ("A problem repeatedly occurred") well
+    before a desktop would notice. So media is MOUNTED only within about a
+    screen of the viewport and UNMOUNTED again once it is further away, and a
+    clip PLAYS only while it is actually on screen. The hero is exempt.
+  */
   useEffect(() => {
     const el = wrap.current;
-    if (!el || !wantsVideo) return;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) setNear(true);
-        const v = vid.current;
-        if (!v) return;
-        if (e.isIntersecting) v.play().catch(() => {});
-        else v.pause();
-      },
-      { rootMargin: "100% 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [wantsVideo, near]);
+    if (!el || !hasMedia) return;
+    // the hero stays mounted (it is the first paint), but still pauses off screen
+    const nearIo = eager ? null : new IntersectionObserver(([e]) => setNear(e.isIntersecting), { rootMargin: "120% 0px" });
+    const seenIo = new IntersectionObserver(([e]) => setVisible(e.intersectionRatio >= 0.25), { threshold: [0, 0.25] });
+    nearIo?.observe(el);
+    seenIo.observe(el);
+    return () => {
+      nearIo?.disconnect();
+      seenIo.disconnect();
+    };
+  }, [hasMedia, eager]);
+
+  // leaving the neighbourhood drops the clip, so the next arrival fades in again
+  useEffect(() => {
+    if (!near) setReady(false);
+  }, [near]);
+
+  useEffect(() => {
+    const v = vid.current;
+    if (!v) return;
+    if (visible) v.play().catch(() => {});
+    else v.pause();
+  }, [visible, near, wantsVideo]);
 
   // The hero's clip is server-rendered and autoplays before hydration, so its
   // first `playing` event can fire before React is listening. Check the
@@ -404,19 +428,20 @@ export function Footage({
     if (!v.paused && v.readyState >= 3) on();
     v.addEventListener("playing", on);
     return () => v.removeEventListener("playing", on);
-  }, [near]);
+  }, [near, wantsVideo]);
 
   return (
     <div ref={wrap} className={`absolute inset-0 overflow-hidden ${className}`}>
-      {children}
-      {slot.image && (!wantsVideo || !ready) && (
+      {/* the illustration is only the fallback: never paint it under a real frame */}
+      {!hasMedia && children}
+      {near && slot.image && (!wantsVideo || !ready) && (
         <Image
           src={slot.image}
           alt={slot.alt ?? ""}
           fill
           sizes={sizes}
           priority={eager}
-          quality={80}
+          quality={75}
           className={`bir-grade object-cover ${drift ? "bir-kenburns" : ""} ${mediaClassName}`}
           style={{ objectPosition: slot.focus }}
         />
@@ -428,8 +453,8 @@ export function Footage({
           muted
           loop
           playsInline
-          autoPlay
-          preload={eager ? "auto" : "none"}
+          autoPlay={visible}
+          preload={eager ? "auto" : "metadata"}
           aria-label={slot.alt}
           onPlaying={() => setReady(true)}
           className={`bir-grade absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${ready ? "opacity-100" : "opacity-0"} ${mediaClassName}`}
@@ -670,7 +695,8 @@ export function Flames() {
 /**
  * A stack of full-bleed frames, one visible at a time, crossfading as
  * `active` changes. Only the active frame and its neighbours are mounted, so
- * a six-clip sequence never has six videos loading at once. Each frame gets
+ * a six-clip sequence never has six videos loading at once — and only the
+ * active one is ever a video; the next waits as its poster. Each frame gets
  * a slow push-in so a still reads as a shot.
  */
 export function FrameStack({
@@ -688,14 +714,14 @@ export function FrameStack({
   return (
     <div className={`absolute inset-0 overflow-hidden ${className}`}>
       {frames.map((f, i) =>
-        Math.abs(i - active) <= 1 ? (
+        i === active || i === active + 1 ? (
           <div
             key={i}
             className="absolute inset-0 transition-opacity duration-[900ms] ease-out"
             style={{ opacity: i === active ? 1 : 0 }}
             aria-hidden={i !== active}
           >
-            <Footage slot={f} drift />
+            <Footage slot={f} drift still={i !== active} />
           </div>
         ) : null,
       )}

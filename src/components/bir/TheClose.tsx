@@ -44,21 +44,19 @@ export function Recap() {
   return (
     <section ref={ref} aria-label="The journey, in ten frames" className="relative h-[320svh]">
       <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden transition-colors duration-300" style={{ background: f.tone }}>
-        <AnimatePresence>
-          {f.image && (
-            <motion.div
-              key={f.image}
-              className="absolute inset-0"
-              initial={{ opacity: 0, scale: 1.12 }}
-              animate={{ opacity: 1, scale: 1.02 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Image src={f.image} alt="" fill sizes="100vw" className="bir-grade object-cover" />
-              <div className="absolute inset-0" style={{ background: `${f.tone}8c` }} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* one image at a time — the old frame is replaced, never kept around to fade */}
+        {f.image && (
+          <motion.div
+            key={f.image}
+            className="absolute inset-0"
+            initial={{ opacity: 0.4, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1.02 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Image src={f.image} alt="" fill sizes="100vw" quality={70} className="bir-grade object-cover" />
+            <div className="absolute inset-0" style={{ background: `${f.tone}8c` }} />
+          </motion.div>
+        )}
         <div className="grain pointer-events-none absolute inset-0" />
         <AnimatePresence mode="popLayout">
           <motion.p

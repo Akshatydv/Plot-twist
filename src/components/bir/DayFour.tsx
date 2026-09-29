@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
-import Image from "next/image";
 import { day4, media, sequences } from "@/content/bir";
 
 /** The same sunrise the Day 01→02 transition uses: one morning, seen twice. */
@@ -110,7 +109,7 @@ function Moments() {
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#e3d6c3] sm:w-[58%]">
                 {ph?.image && (
-                  <Image src={ph.image} alt={ph.alt ?? ""} fill sizes="(max-width: 640px) 100vw, 640px" className="bir-grade object-cover [filter:saturate(0.8)_sepia(0.12)]" style={{ objectPosition: ph.focus }} />
+                  <Footage slot={ph} sizes="(max-width: 640px) 100vw, 640px" />
                 )}
               </div>
               <p className={`font-serif text-[clamp(1.8rem,5.5vw,4rem)] italic leading-none text-[#3b464c] ${i % 2 ? "sm:text-right" : ""}`}>{m}</p>

@@ -1100,3 +1100,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .bir-kenburns { animation: none; }
 }
+
+/* PHONES: no per-image filters and no endless push-ins. Each one promotes a
+   full-screen image to its own GPU layer at 3x resolution, and with dozens
+   of them on this page that is what runs iOS Safari out of memory. */
+@media (max-width: 767px) {
+  .bir .bir-kenburns { animation: none; }
+  .bir .bir-grade { filter: none; }
+  .bir .bir-drift { will-change: auto; }
+}

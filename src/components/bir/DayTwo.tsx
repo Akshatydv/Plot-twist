@@ -10,7 +10,6 @@ import {
   type MotionValue,
 } from "framer-motion";
 import { day2, media, sequences } from "@/content/bir";
-import Image from "next/image";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
 import { Clouds, FireGlow, Focus, Footage, FrameStack, Glider, Kicker, MaskLines, PrayerFlags, Ridge, useCalm } from "./Scenery";
@@ -116,7 +115,7 @@ function Town() {
                 key={t.word}
                 className="relative h-[min(58svh,560px)] w-[min(76vw,440px)] shrink-0 overflow-hidden bg-[#d9d2c3] shadow-[0_18px_40px_rgba(16,19,17,0.22)]"
               >
-                <Image src={ph.file} alt={ph.title} fill sizes="(max-width: 640px) 76vw, 440px" className="bir-grade bir-kenburns object-cover" />
+                <Footage slot={{ image: ph.file, alt: ph.title }} sizes="(max-width: 640px) 76vw, 440px" drift />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#101311]/85 via-[#101311]/15 to-transparent" />
                 <span aria-hidden className="absolute left-0 top-0 h-full w-2 sm:w-3" style={{ background: FLAG[i % FLAG.length] }} />
                 <div className="absolute inset-x-0 bottom-0 p-5 sm:p-7">

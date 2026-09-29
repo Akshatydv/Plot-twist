@@ -64,7 +64,8 @@ export function DayCard({
       className={`relative flex min-h-[100svh] items-center overflow-hidden px-5 py-24 sm:px-8 lg:px-14 ${className}`}
       style={{ background: ground, color: ink }}
     >
-      <div className="absolute inset-0">{scene(p)}</div>
+      {/* the drawn scene is the fallback — skipped entirely under a photograph */}
+      {!slot?.image && <div className="absolute inset-0">{scene(p)}</div>}
       {slot?.image && (
         <motion.div className="absolute inset-[-10%_0]" style={{ y: reduce ? undefined : photoY }}>
           <Footage slot={slot} drift />
