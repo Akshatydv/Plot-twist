@@ -39,7 +39,7 @@ let draft = false;
 
 /* ---------------- price ---------------- */
 const price = DATA.price
-  ? { big: esc(DATA.price), small: 'FROM &middot; PER PERSON' }
+  ? { big: esc(DATA.price), small: 'PER PERSON' }
   : { big: 'Announced soon', small: 'ASK US FOR THE NUMBER BEFORE IT&rsquo;S PUBLIC' };
 
 /* ---------------- inclusions, straight from bir.ts ---------------- */

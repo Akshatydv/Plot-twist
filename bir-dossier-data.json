@@ -1,11 +1,11 @@
 {
   "_README": "Data for the two trust pages of the Bir × Barot dossier. Everything here must be REAL: real photos from real trips, real words from real people (with their permission), real creators who actually travelled. Empty lists are fine — the pages print a clearly marked slot for each missing item and the PDF filename gets a -DRAFT suffix, so an unfinished dossier can't be sent by accident. Photos go in bir-dossier-assets/.",
-  "price": null,
+  "price": "₹7,999",
   "glimpses": [
     {
-      "photo": "people/trip-golden-bridge.jpg",
-      "caption": "somehow everyone became friends.",
-      "where": "Golden Bridge, Da Nang, on a past trip",
+      "photo": "people/trip-group.jpg",
+      "caption": "the whole plot.",
+      "where": "on a past Plot Twist trip",
       "shape": "wide"
     },
     {
@@ -14,9 +14,9 @@
       "where": "on a past Plot Twist trip"
     },
     {
-      "photo": "people/trip-group.jpg",
-      "caption": "the whole plot.",
-      "where": "on a past Plot Twist trip"
+      "photo": "people/trip-golden-bridge.jpg",
+      "caption": "everyone became friends.",
+      "where": "Golden Bridge, Da Nang, on a past trip"
     },
     {
       "photo": "people/trip-pool.jpg",
