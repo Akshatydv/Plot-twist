@@ -10,6 +10,7 @@
      src/content/bir.ts        inclusions and photo credits, read directly so
                                the dossier can never disagree with the website
      bir-dossier-assets/CREDITS.json   credits for the photos only the dossier uses
+     (photos are resized for phone at build time with sharp; see "image weight")
 
    ─── THE DRAFT RULE ────────────────────────────────────────────────────────
    Any empty glimpse / review / creator slot prints as a marked blank, a red
@@ -161,11 +162,35 @@ let html = SOURCE
   .replace('{{DRAFT}}', draft ? 'draft' : '');
 if (/\{\{[A-Z_]+\}\}/.test(html)) throw new Error('Unfilled placeholder: ' + html.match(/\{\{[A-Z_]+\}\}/)[0]);
 
+/* ---------------- image weight ----------------
+   The photographs in bir-dossier-assets are kept at full size; the PDF gets
+   copies sized for a phone screen and A4 print (about 1100 px on the long
+   side, JPEG quality 58). That takes the file from ~13 MB to a few MB, which is
+   what makes it open instantly on mobile. */
+const OPT = path.join(ROOT, '.bir-dossier-opt');
+const sharp = require('sharp'); // ships with Next.js, so it is already in node_modules
+// Full-bleed backgrounds (.ph) get one size, every smaller frame (tiles,
+// polaroids, prints, faces) a smaller one: no 1000 px photo inside a 45 mm tile.
+const SIZES = { big: { px: 1000, q: 56 }, small: { px: 640, q: 60 } };
+html = html.replace(/<div class="ph"[^>]*>/g, (tag) => tag.replaceAll('bir-dossier-assets/', '.bir-dossier-opt/big/'));
+html = html.replaceAll('bir-dossier-assets/', '.bir-dossier-opt/small/');
+const wanted = new Map(); // "big/x.jpg" -> [variant, rel]
+for (const m of html.matchAll(/\.bir-dossier-opt\/(big|small)\/([\w./-]+\.(?:jpg|png))/g)) wanted.set(`${m[1]}/${m[2]}`, [m[1], m[2]]);
+const optimised = Promise.all([...wanted.values()].map(async ([variant, rel]) => {
+  const src = path.join(ROOT, 'bir-dossier-assets', rel);
+  const dst = path.join(OPT, variant, rel);
+  fs.mkdirSync(path.dirname(dst), { recursive: true });
+  if (rel.endsWith('.png')) return void (await sharp(src).resize({ width: 420, withoutEnlargement: true }).png({ compressionLevel: 9, palette: true }).toFile(dst));
+  const { px, q } = SIZES[variant];
+  await sharp(src).resize({ width: px, height: px, fit: 'inside', withoutEnlargement: true }).jpeg({ quality: q, mozjpeg: true }).toFile(dst);
+}));
+
 fs.mkdirSync(OUTDIR, { recursive: true });
 const built = path.join(ROOT, '.bir-dossier-built.html');
 fs.writeFileSync(built, html);
 
 (async () => {
+  await optimised;
   let chromium;
   try { ({ chromium } = require('playwright')); } catch {
     ({ chromium } = require(require('child_process').execSync('npm root -g').toString().trim() + '/playwright'));
@@ -186,6 +211,7 @@ fs.writeFileSync(built, html);
   }
   await browser.close();
   fs.unlinkSync(built);
+  fs.rmSync(OPT, { recursive: true, force: true });
   // one PDF page per .page, or something overflowed onto a page of its own
   const printed = (fs.readFileSync(out, 'latin1').match(/\/Type\s*\/Page[^s]/g) || []).length;
   if (printed !== pages) throw new Error(`PDF has ${printed} pages but the source has ${pages}: something overflowed`);

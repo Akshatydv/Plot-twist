@@ -45,3 +45,5 @@ dossiers/
 
 # personal photos of travellers and creators: kept out of the public repo
 bir-dossier-assets/people/
+.bir-dossier-opt/
+.bir-dossier-built.html
