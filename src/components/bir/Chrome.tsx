@@ -118,9 +118,8 @@ const DAYS = [
  * THE DAY RAIL — the film's running caption, on every screen size: a thin
  * vertical line down the right edge with one stop per day. The line fills as
  * the trip goes on, the current day's stop grows, and a caption beside it
- * says which day and where. On a phone the caption shows for a moment when
- * the day changes and then folds back to the rail, so it never sits on top of
- * the copy; on desktop it stays, with the altitude.
+ * says which day and where — always visible while the days scroll by (on
+ * desktop it adds the altitude).
  *
  * Tapping a stop jumps to that day's title card. Set in `mix-blend-difference`
  * so it stays legible over pine, sky, paper and fire without a background.
@@ -132,7 +131,6 @@ const DAYS = [
  */
 export function Hud() {
   const [key, setKey] = useState<HudKey | null>(null);
-  const [peek, setPeek] = useState(false);
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-hud]"));
@@ -156,14 +154,6 @@ export function Hud() {
     };
   }, []);
 
-  // on a phone, show the caption briefly whenever the day changes
-  useEffect(() => {
-    if (!key || key === "hero") return;
-    setPeek(true);
-    const t = setTimeout(() => setPeek(false), 2400);
-    return () => clearTimeout(t);
-  }, [key]);
-
   const active = DAYS.findIndex((d) => d.key === key);
   const show = active >= 0;
   const h = show ? hud[DAYS[active].key] : null;
@@ -180,7 +170,7 @@ export function Hud() {
           className="pointer-events-none fixed right-2 top-1/2 z-30 flex -translate-y-1/2 items-center gap-3 text-white mix-blend-difference sm:right-4 lg:right-6 lg:gap-5"
         >
           {/* the caption */}
-          <div className={`text-right transition-opacity duration-500 lg:opacity-100 ${peek ? "opacity-100" : "opacity-0"}`}>
+          <div className="text-right">
             <AnimatePresence mode="wait">
               <motion.div key={key} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35 }}>
                 <span className="block text-[9px] font-semibold tracked lg:text-[10px]">{h.day}</span>
