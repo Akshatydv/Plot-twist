@@ -6,9 +6,9 @@ Render: `node make-bir-carousel.js` → `dossiers/carousel/bir-barot-01.png … 
 
 Launching: Bir × Barot. 🏔️
 
-Three nights in Bir. A day by the river in Barot valley. A tandem flight off Billing that lands you back in town. A trek to a view you earn. Bonfires, stars and 20 people who won't be strangers for long.
+Three nights in Bir. Café hopping, monasteries and a bonfire party on night one. A day trip to Barot's waterfalls and river, then party night. A guided trek to a view you earn. And 20 people who won't be strangers for long.
 
-Transfers from Delhi, stays, paragliding, the trek and two dinners: all in.
+Tempo Traveller from Delhi, stays, the Barot trip, the trek and two party nights: all in. Paragliding at Billing is an optional add-on.
 
 📅 20–24 November · Delhi → Bir → Delhi
 💸 ₹7,999 per person · 3N/4D

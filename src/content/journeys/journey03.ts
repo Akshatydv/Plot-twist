@@ -45,7 +45,7 @@ export const JOURNEY_03: JourneyConfig = {
   seo: {
     title: "Bir Billing + Barot Group Trip, Nov 2026 | Plot Twist",
     description:
-      "20–24 Nov 2026. Twenty strangers, three nights in Bir: Barot, Billing, tandem paragliding, a mountain trek, two bonfire nights. Not a tour, a story.",
+      "20–24 Nov 2026 · ₹7,999. Twenty strangers, three nights in Bir: cafés, monasteries, Barot's waterfalls, a guided trek, two party nights. Not a tour, a story.",
     startDate: "2026-11-20",
     endDate: "2026-11-24",
     destination: "Bir Billing & Barot, Himachal Pradesh, India",

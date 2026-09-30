@@ -299,7 +299,7 @@ export const trip = {
   route: ["DELHI", "BIR", "DELHI"] as const,
   /** Where the nights are spent, and where the days go from there. */
   stay: "Bir, all 3 nights",
-  dayTrips: ["Barot valley", "Billing", "the paragliding circuit"] as const,
+  dayTrips: ["Barot valley", "Billing (paragliding, optional add-on)"] as const,
   /**
    * CONFIRMED by the site owner. Overnight from Delhi on Fri 20 Nov, in Bir
    * on the morning of Sat 21 (Day 01), back in Delhi by the evening of Tue 24
@@ -358,7 +358,7 @@ export const journey = {
   body: "Four days. Four completely different worlds. Twenty people who don't know each other yet. One mountain town to come home to every night — and a valley, a sky and a summit to go out and find from it.",
   worlds: [
     { day: "01", name: "THE ESCAPE", place: "Bir", feel: "cafés · flags · strangers", tone: "#A9CBE0" },
-    { day: "02", name: "THE FLIGHT", place: "Barot · Billing", feel: "wild · high · airborne", tone: "#8FB1A8" },
+    { day: "02", name: "THE FLIGHT", place: "Barot · Billing", feel: "waterfalls · river · sky", tone: "#8FB1A8" },
     { day: "03", name: "THE WILD", place: "The trail", feel: "raw · earned · huge", tone: "#D9C7A6" },
     { day: "04", name: "THE WAY HOME", place: "The road", feel: "slow · golden · changed", tone: "#E8B48A" },
   ],
@@ -382,11 +382,11 @@ export const day1 = {
     /** The four stops the line passes through. `at` is 0–1 along the route. */
     stops: [
       { name: "DELHI", note: "traffic. noise. deadlines.", at: 0 },
-      { name: "THE HIGHWAY", note: "windows down.", at: 0.34 },
+      { name: "THE HIGHWAY", note: "a comfy Tempo Traveller. windows down.", at: 0.34 },
       { name: "THE HILLS", note: "phones lose signal.", at: 0.68 },
       { name: "BIR", note: "home for the next three nights.", at: 1 },
     ],
-    caption: "The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
+    caption: "Overnight in a comfortable Tempo Traveller. The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
   },
 
   plates: [
@@ -394,19 +394,19 @@ export const day1 = {
       key: "river" as const,
       kicker: "THE RIVER",
       title: "Cold, loud, glacier-green.",
-      body: "Morning in Barot, an hour from Bir. The Uhl runs straight through the valley — you'll hear it before you see it.",
+      body: "A day trip to Barot, an hour from Bir. Waterfalls, and the Uhl running straight through the valley — you'll hear it before you see it.",
     },
     {
       key: "trail" as const,
       kicker: "THE TRAIL",
       title: "Pine. Moss. Riverbank.",
-      body: "A slow wander along the riverside trails. No agenda. No signal. Then the road climbs to Billing.",
+      body: "A slow wander along the riverside trails, then lunch in Barot. No agenda. No signal. Then the road climbs to Billing.",
     },
     {
       key: "goldenHour" as const,
       kicker: "GOLDEN HOUR",
       title: "The valley goes gold, then blue.",
-      body: "Landed, back in Bir by five. The light drops behind the ridge and the whole valley you just flew over changes colour.",
+      body: "Back in Bir by evening. The light drops behind the ridge, the valley changes colour — and then it's party night.",
     },
   ],
 
@@ -448,7 +448,7 @@ export const day2 = {
   emoji: "🪂",
   name: "THE FLIGHT",
   place: "BAROT · BILLING",
-  lines: ["A day trip out of Bir.", "A hidden valley in the morning. The sky by the afternoon."] as const,
+  lines: ["A day trip to Barot.", "Waterfalls, the river, lunch in the valley. The sky, if you want it."] as const,
   intro: "Your base for three nights. A mountain town that runs on cafés, monasteries, prayer flags and people who came for a week and stayed a year.",
 
   /** The horizontal drift strip. Words, not cards. */
@@ -463,7 +463,7 @@ export const day2 = {
 
   flight: {
     headline: ["YOU DIDN'T COME", "ALL THIS WAY", "TO STAY ON THE GROUND."] as const,
-    kicker: "BILLING · THE PARAGLIDING CIRCUIT",
+    kicker: "BILLING · PARAGLIDING · OPTIONAL ADD-ON",
     /** The scroll-controlled sequence. One stage per screen of scroll. */
     stages: [
       { n: "01", word: "PREPARE", line: "Harness goes on. Your pilot checks every strap twice." },
@@ -474,15 +474,15 @@ export const day2 = {
       { n: "06", word: "LAND", line: "Grass, a running landing, and a grin you won't lose all day." },
     ],
     path: { from: "BILLING", to: "BIR", fromAlt: 2400, toAlt: 1400 },
-    note: "Tandem — a certified pilot flies, you just have to run when they say run.",
+    note: "An optional add-on, not included in the price. Tandem — a certified pilot flies, you just have to run when they say run.",
     scribble: "you're allowed to scream.",
   },
 
   social: {
     kicker: "DAY ONE, AFTER YOU ARRIVE",
     title: ["THE BIR", "SOCIAL CLUB"] as const,
-    body: "Slow the day down. Tibetan food, a café crawl, the town on foot — then everyone ends up at the same sunset.",
-    items: ["Tibetan food", "Cafés", "Local exploration", "Sunset", "Music", "Drinks", "Games", "Group moments"],
+    body: "Slow the day down. Café hopping, the monasteries, Tibetan food, the town on foot — then everyone ends up at the same sunset.",
+    items: ["Café hopping", "Monasteries", "Tibetan food", "Sunset", "Music", "Drinks", "Games", "Group moments"],
   },
 
   evening: ["SUNSET.", "MUSIC.", "STRANGERS.", "NOT FOR LONG."] as const,
@@ -491,7 +491,7 @@ export const day2 = {
     kicker: "PLOT TWIST",
     title: "SOCIAL NIGHT",
     items: ["Dinner", "Music", "Games", "Drinks", "Bonfire"],
-    body: "Not a hotel dinner. A private night for twenty people who, as of this morning, had jumped off a mountain together.",
+    body: "Not a hotel dinner. A private party night for twenty people who, as of this morning, had spent the day by a river together.",
   },
 } as const;
 
@@ -514,7 +514,7 @@ export const day3 = {
   name: "THE WILD",
   headline: ["LEAVE THE ROAD.", "FIND THE TRAIL."] as const,
   challenge: {
-    kicker: "THE MOUNTAIN CHALLENGE",
+    kicker: "THE MOUNTAIN CHALLENGE · A GUIDED TREK IN BIR",
     beats: [
       { word: "START", lines: ["Everyone receives their trail kit."] },
       { word: "ASCEND", lines: ["Forest.", "Mountains.", "Small group challenges."] },
@@ -624,13 +624,13 @@ export const price = {
 export const inclusions = {
   confirmed: true,
   included: [
-    "Delhi → Bir → Delhi, by road",
+    "Delhi → Bir → Delhi in a comfortable Tempo Traveller",
     "3 nights' stay in Bir",
-    "Bir exploration: cafés, monasteries, the town",
-    "Plot Twist Social Night — bonfire, music, dinner",
-    "Day trip to Barot valley",
-    "Billing + tandem paragliding, Billing → Bir",
-    "Guided mountain trek + picnic",
+    "Bir exploration: café hopping, monasteries, sunset",
+    "Plot Twist Social Night — bonfire party, music, dinner",
+    "Day trip to Barot valley — waterfalls, the river",
+    "Party night back in Bir",
+    "Guided trek in Bir + picnic",
     "The Last Night dinner",
     "Plot Twist hosts throughout",
   ] as string[],
@@ -638,7 +638,8 @@ export const inclusions = {
     "Alcohol and personal drinks",
     "Additional meals",
     "Shopping and personal expenses",
-    "Optional add-ons",
+    "Paragliding at Billing (optional add-on)",
+    "Other optional add-ons",
     "Travel insurance where desired or required",
   ] as string[],
   pending: "We're finalising the full included / not-included list. Ask us and we'll send it.",
@@ -648,7 +649,7 @@ export const details = {
   label: "THE DETAILS",
   headline: ["3 NIGHTS · 4 DAYS", "DELHI → BIR → DELHI"] as const,
   /** Printed under the route line: where you sleep, where the days go. */
-  routeNote: "Three nights in Bir. A day trip to Barot, Billing and the paragliding circuit.",
+  routeNote: "Three nights in Bir. A day trip to Barot. Paragliding at Billing as an optional add-on.",
   scribble: "the boring bit. read it anyway.",
   basics: [
     { k: "WHEN", v: trip.dates },
