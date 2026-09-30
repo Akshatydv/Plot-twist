@@ -62,7 +62,7 @@ h1,h2,h3,h4{font-weight:400}
 .pfoot{position:absolute;left:14mm;right:14mm;bottom:6mm;display:flex;justify-content:space-between;align-items:baseline;
   font-size:5.4pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.5);z-index:40}
 .pfoot .no{font-family:var(--serif);font-size:11pt;letter-spacing:0;color:rgba(239,233,221,.75)}
-.shadow{text-shadow:0 .4mm 2.4mm rgba(0,0,0,.45)}
+.shadow{} /* no text-shadow: Chromium prints it as a translucent box that PDF viewers show */
 
 /* ---------- shared day furniture ---------- */
 .mast{position:absolute;left:14mm;right:14mm;top:14mm;z-index:10}
@@ -200,7 +200,7 @@ h1,h2,h3,h4{font-weight:400}
 .card{position:absolute;width:120mm;height:78mm;z-index:14;display:grid;grid-template-columns:1fr 1fr;box-shadow:2mm 2.6mm 5mm rgba(0,0,0,.45);transform:rotate(-2deg)}
 .card .front{position:relative;background-size:cover;background-position:50% 50%}
 .card .front::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 45%)}
-.card .front .sign{position:absolute;z-index:2;left:4mm;bottom:4mm;font-family:var(--serif);font-size:19pt;line-height:.88;color:#fff;text-shadow:0 .4mm 2mm rgba(0,0,0,.5)}
+.card .front .sign{position:absolute;z-index:2;left:4mm;bottom:4mm;font-family:var(--serif);font-size:19pt;line-height:.88;color:#fff}
 .card .front .sign em{color:var(--peach)}
 .card .back{background:#fbf7ef;color:var(--char);padding:5mm 5mm 4mm;position:relative;display:flex;flex-direction:column}
 .card .back .stamp{position:absolute;right:4mm;top:4mm;width:15mm;height:18mm;border:1.2px dashed rgba(16,19,17,.35);display:flex;align-items:center;justify-content:center;text-align:center;font-size:4.6pt;letter-spacing:.16em;font-weight:700;color:var(--clay);line-height:1.5}
