@@ -382,11 +382,11 @@ export const day1 = {
     /** The four stops the line passes through. `at` is 0–1 along the route. */
     stops: [
       { name: "DELHI", note: "traffic. noise. deadlines.", at: 0 },
-      { name: "THE HIGHWAY", note: "a comfy Tempo Traveller. windows down.", at: 0.34 },
+      { name: "THE HIGHWAY", note: "a comfy Traveller. windows down.", at: 0.34 },
       { name: "THE HILLS", note: "phones lose signal.", at: 0.68 },
       { name: "BIR", note: "home for the next three nights.", at: 1 },
     ],
-    caption: "Overnight in a comfortable Tempo Traveller. The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
+    caption: "Overnight in a comfortable Traveller. The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
   },
 
   plates: [
@@ -624,7 +624,7 @@ export const price = {
 export const inclusions = {
   confirmed: true,
   included: [
-    "Delhi → Bir → Delhi in a comfortable Tempo Traveller",
+    "Delhi → Bir → Delhi in a comfortable Traveller",
     "3 nights' stay in Bir",
     "Bir exploration: café hopping, monasteries, sunset",
     "Plot Twist Social Night — bonfire party, music, dinner",
