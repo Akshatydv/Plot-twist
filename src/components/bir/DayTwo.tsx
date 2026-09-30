@@ -137,7 +137,7 @@ export function Town() {
 
 function FlightHeadline() {
   return (
-    <section data-hud="day1" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#24527D] px-5 py-24 sm:px-8 lg:px-14">
+    <section data-hud="day2" className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#24527D] px-5 py-24 sm:px-8 lg:px-14">
       <Clouds color="rgba(255,255,255,0.16)" banks={4} speed={2} />
       {/* real flight, washed into the day's blue so the headline owns the frame */}
       <Footage slot={media.above} />
@@ -201,7 +201,7 @@ function TheFlight() {
   const st = day2.flight.stages[stage];
 
   return (
-    <section ref={ref} data-hud="day1" aria-label="The paragliding flight, Billing to Bir" className="relative h-[640svh]">
+    <section ref={ref} data-hud="day2" aria-label="The paragliding flight, Billing to Bir" className="relative h-[640svh]">
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#8fb9d6]">
         {/* a real frame for every stage: launch, edge, take-off, flight, the valley, the landing */}
         <FrameStack frames={sequences.flight} active={stage} />
@@ -273,7 +273,7 @@ function TheFlight() {
 /** Reduced motion: the six stages as a still, readable sequence. */
 function FlightStill({ sref }: { sref: RefObject<HTMLElement | null> }) {
   return (
-    <section ref={sref} data-hud="day1" className="relative bg-[#8fb9d6] px-5 py-20 sm:px-8 lg:px-14">
+    <section ref={sref} data-hud="day2" className="relative bg-[#8fb9d6] px-5 py-20 sm:px-8 lg:px-14">
       <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {day2.flight.stages.map((s) => (
           <li key={s.n}>

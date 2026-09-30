@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { hud, sticky } from "@/content/bir";
+import { day1, day2, day3, day4, hud, sticky } from "@/content/bir";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { useCalm } from "./Scenery";
 
@@ -107,17 +107,32 @@ export function JoinCta() {
 
 type HudKey = keyof typeof hud;
 
+const DAYS = [
+  { key: "day1", id: day1.id },
+  { key: "day2", id: day2.id },
+  { key: "day3", id: day3.id },
+  { key: "day4", id: day4.id },
+] as const;
+
 /**
- * THE HUD — the film's running caption: which day, which place, roughly how
- * high. Right edge, vertically centred — the one strip no section puts copy in. Desktop only (on a phone each world's title card does this job), and
- * set in `mix-blend-difference` so it stays legible over pine, sky, paper
- * and fire without a background of its own.
+ * THE DAY RAIL — the film's running caption, on every screen size: a thin
+ * vertical line down the right edge with one stop per day. The line fills as
+ * the trip goes on, the current day's stop grows, and a caption beside it
+ * says which day and where. On a phone the caption shows for a moment when
+ * the day changes and then folds back to the rail, so it never sits on top of
+ * the copy; on desktop it stays, with the altitude.
+ *
+ * Tapping a stop jumps to that day's title card. Set in `mix-blend-difference`
+ * so it stays legible over pine, sky, paper and fire without a background.
+ * Hidden over the hero (the flight is not a day yet) and once the story is
+ * over (the cast, recap, details and form are not a place).
  *
  * Driven by `data-hud` on each section and one IntersectionObserver keyed to
  * the middle of the viewport.
  */
 export function Hud() {
   const [key, setKey] = useState<HudKey | null>(null);
+  const [peek, setPeek] = useState(false);
 
   useEffect(() => {
     const els = Array.from(document.querySelectorAll<HTMLElement>("[data-hud]"));
@@ -130,7 +145,6 @@ export function Hud() {
       { rootMargin: "-50% 0px -50% 0px" },
     );
     els.forEach((el) => io.observe(el));
-    // leave the HUD once the story is over — the cast, recap, details and form are not a place
     const end = document.getElementById("casting");
     const endIo = new IntersectionObserver(([e]) => {
       if (e.isIntersecting || e.boundingClientRect.top < 0) setKey(null);
@@ -142,19 +156,69 @@ export function Hud() {
     };
   }, []);
 
-  const h = key ? hud[key] : null;
+  // on a phone, show the caption briefly whenever the day changes
+  useEffect(() => {
+    if (!key || key === "hero") return;
+    setPeek(true);
+    const t = setTimeout(() => setPeek(false), 2400);
+    return () => clearTimeout(t);
+  }, [key]);
+
+  const active = DAYS.findIndex((d) => d.key === key);
+  const show = active >= 0;
+  const h = show ? hud[DAYS[active].key] : null;
 
   return (
-    <div aria-hidden className="pointer-events-none fixed right-6 top-1/2 z-30 hidden -translate-y-1/2 text-right text-white mix-blend-difference lg:block">
-      <AnimatePresence mode="wait">
-        {h && (
-          <motion.div key={key} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.4 }}>
-            <span className="block text-[10px] font-semibold tracked">{h.day}</span>
-            <span className="mt-1 block font-serif text-[1.35rem] leading-none">{h.place}</span>
-            <span className="mt-1 block text-[9px] tracked opacity-70">{h.alt}</span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <AnimatePresence>
+      {show && h && (
+        <motion.nav
+          aria-label="Days of the journey"
+          initial={{ opacity: 0, x: 12 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 12 }}
+          transition={{ duration: 0.4 }}
+          className="pointer-events-none fixed right-2 top-1/2 z-30 flex -translate-y-1/2 items-center gap-3 text-white mix-blend-difference sm:right-4 lg:right-6 lg:gap-5"
+        >
+          {/* the caption */}
+          <div className={`text-right transition-opacity duration-500 lg:opacity-100 ${peek ? "opacity-100" : "opacity-0"}`}>
+            <AnimatePresence mode="wait">
+              <motion.div key={key} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.35 }}>
+                <span className="block text-[9px] font-semibold tracked lg:text-[10px]">{h.day}</span>
+                <span className="mt-1 block font-serif text-[1.05rem] leading-none lg:text-[1.35rem]">{h.place}</span>
+                <span className="mt-1 hidden text-[9px] tracked opacity-70 lg:block">{h.alt}</span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* the rail */}
+          <ol className="relative flex flex-col items-center gap-5 py-1 lg:gap-7">
+            <span aria-hidden className="absolute bottom-2 top-2 left-1/2 w-px -translate-x-1/2 bg-white/35" />
+            <motion.span
+              aria-hidden
+              className="absolute top-2 left-1/2 w-px origin-top -translate-x-1/2 bg-white"
+              style={{ bottom: 8 }}
+              animate={{ scaleY: active / (DAYS.length - 1) }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            />
+            {DAYS.map((d, i) => (
+              <li key={d.key} className="relative">
+                <a
+                  href={`#${d.id}`}
+                  aria-label={`${hud[d.key].day} · ${hud[d.key].place}`}
+                  aria-current={i === active ? "step" : undefined}
+                  className="pointer-events-auto -my-1.5 flex h-6 w-6 items-center justify-center"
+                >
+                  <span
+                    className={`block rounded-full bg-white transition-all duration-500 ${
+                      i === active ? "h-3 w-3" : i < active ? "h-1.5 w-1.5" : "h-1.5 w-1.5 opacity-40"
+                    }`}
+                  />
+                </a>
+              </li>
+            ))}
+          </ol>
+        </motion.nav>
+      )}
+    </AnimatePresence>
   );
 }

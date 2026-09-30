@@ -14,7 +14,7 @@
  * experience named day by day.
  *
  * One thing has NOT been supplied and is modelled honestly:
- *   - the PRICE → `price.confirmed: false`, renders "announced soon".
+ *   - the PRICE → ₹7,999 per person (`price.confirmed: true`).
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -608,9 +608,9 @@ export const recap = {
 
 /** Same shape and same honesty as goa.price. Flip when the number exists. */
 export const price = {
-  confirmed: false,
-  amount: "",
-  note: "",
+  confirmed: true,
+  amount: "₹7,999",
+  note: "Per person · 3 nights, 4 days · Delhi to Delhi",
   pending: "ANNOUNCED SOON",
   pendingNote: "Ask us for the number before it's public.",
 } as const;
@@ -684,6 +684,6 @@ export const credits = {
 export const sticky = {
   label: "JOIN THE JOURNEY",
   href: "#apply",
-  meta: "BIR × BAROT · NOV 2026",
+  meta: "BIR × BAROT · ₹7,999",
   line: "twenty seats.",
 } as const;
