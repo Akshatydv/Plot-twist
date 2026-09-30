@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Plot Twist — Journey 03 · Bir × Barot · Instagram carousel</title>
+<title>Plot Twist — Bir × Barot · Instagram carousel</title>
 <link href="bir-dossier-assets/fonts/fonts.css" rel="stylesheet">
 <style>
 /* ============================================================================
-   PLOT TWIST — JOURNEY 03 · BIR × BAROT · INSTAGRAM CAROUSEL (1080 × 1350)
+   PLOT TWIST — BIR × BAROT · INSTAGRAM CAROUSEL (1080 × 1350)
    Rendered to PNG by make-bir-carousel.js.
 
    The grammar: one photograph per slide, full bleed. A small wordmark top
@@ -27,13 +27,17 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 .slide{position:relative;width:1080px;height:1350px;overflow:hidden;background:#0b0f0d}
 .ph{position:absolute;inset:0;background-size:cover;background-position:50% 50%}
 .sc{position:absolute;inset:0;pointer-events:none}
-.mark{position:absolute;top:84px;left:0;right:0;text-align:center;font-weight:700;font-size:26px;letter-spacing:.42em;padding-left:.42em;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.35);z-index:5}
+.top{position:absolute;top:56px;left:64px;right:64px;height:104px;display:flex;align-items:center;justify-content:space-between;z-index:6}
+.top .logo{height:104px;width:auto;filter:drop-shadow(0 2px 14px rgba(0,0,0,.35))}
+.top .mid{position:absolute;left:50%;transform:translateX(-50%);font-weight:700;font-size:23px;letter-spacing:.4em;padding-left:.4em;white-space:nowrap;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.top .date{font-weight:700;font-size:23px;letter-spacing:.22em;white-space:nowrap;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.4)}
 
 /* the headline */
 .hl{position:absolute;left:84px;right:84px;z-index:5;font-weight:700;text-transform:uppercase;letter-spacing:-.035em;line-height:.93;font-size:104px;color:#fff;
   text-shadow:0 4px 40px rgba(0,0,0,.35)}
 .hl em{font-family:var(--serif);font-style:italic;font-weight:400;text-transform:none;letter-spacing:-.01em;font-size:1.16em;line-height:.8;color:#fff}
 .hl.c{text-align:center}
+.launch{position:absolute;left:0;right:0;text-align:center;z-index:5;font-family:var(--serif);font-style:italic;font-size:112px;line-height:1;color:#fff;text-shadow:0 4px 34px rgba(0,0,0,.5)}
 .sub{position:absolute;left:84px;right:84px;z-index:5;font-family:var(--serif);font-style:italic;font-size:44px;line-height:1.18;color:rgba(255,255,255,.92);text-shadow:0 2px 24px rgba(0,0,0,.45)}
 .sub.c{text-align:center}
 
@@ -50,8 +54,11 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
   -webkit-backdrop-filter:blur(26px) saturate(1.25);backdrop-filter:blur(26px) saturate(1.25);box-shadow:0 30px 80px rgba(0,0,0,.25)}
 .card h3{font-weight:700;font-size:68px;letter-spacing:-.03em;text-align:center;color:#fff}
 .card h3 em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:0;font-size:1.12em}
-.card ul{list-style:none;margin-top:40px}
-.card li{position:relative;padding-left:44px;font-size:36px;line-height:1.62;color:#fff}
+.card ul{list-style:none;margin-top:30px}
+.card li{position:relative;padding-left:44px;font-size:33px;line-height:1.55;color:#fff}
+.total{margin-top:30px;padding-top:26px;border-top:1.5px solid rgba(255,255,255,.3);display:flex;justify-content:space-between;align-items:baseline}
+.total span{font-weight:700;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.total b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:76px;line-height:1;color:var(--ember)}
 .card li::before{content:"";position:absolute;left:6px;top:.72em;width:12px;height:12px;border-radius:50%;background:var(--ember)}
 .tag{position:absolute;left:50%;top:-32px;transform:translateX(-50%) rotate(-3deg);background:var(--bone);color:#1d5a52;padding:14px 34px;font-weight:700;font-size:34px;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.25)}
 .row{padding:34px 40px;text-align:center;border-top:1.5px solid rgba(255,255,255,.26)}
@@ -67,11 +74,11 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <!-- 01 · THE LAUNCH -->
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/hero.jpg');background-position:62% 45%"></div>
-  <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.38) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 55%,rgba(0,0,0,.42) 100%),radial-gradient(ellipse 70% 38% at 50% 50%,rgba(0,0,0,.22),rgba(0,0,0,0))"></div>
-  <div class="mark">PLOT TWIST</div>
-  <div class="pill" style="top:370px;padding:14px 28px;font-size:24px;font-weight:700;letter-spacing:.24em">JOURNEY 03 &middot; NOW BOARDING</div>
-  <div class="hl c" style="top:470px;font-size:176px;line-height:.86">BIR <em style="color:var(--ember)">×</em><br>BAROT</div>
-  <div class="sub c" style="top:830px">Three nights in the mountains.<br>One very good plot.</div>
+  <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.38) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 55%,rgba(0,0,0,.42) 100%),radial-gradient(ellipse 75% 34% at 50% 45%,rgba(0,0,0,.38),rgba(0,0,0,0))"></div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
+  <div class="launch" style="top:360px">Launching</div>
+  <div class="hl c" style="top:492px;font-size:176px;line-height:.86">BIR <em style="color:var(--ember)">×</em><br>BAROT</div>
+  <div class="sub c" style="top:852px">Three nights in the mountains.<br>One very good plot.</div>
   <div class="swipe" style="bottom:120px">Swipe to see the whole story &rarr;</div>
 </section>
 
@@ -79,7 +86,7 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/bir-sunset.jpg');background-position:50% 50%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 70%,rgba(0,0,0,.3) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="hl" style="top:230px">Run off<br>a mountain.<br><em>Land</em> in<br>a valley.</div>
   <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="#ff6b5b"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>Billing &rarr; Bir &middot; tandem paragliding</div>
 </section>
@@ -88,7 +95,7 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/barot-valley.jpg');background-position:44% 50%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.12) 34%,rgba(0,0,0,0) 60%,rgba(0,0,0,.35) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="hl c" style="top:230px">A valley<br>your feed<br><em>hasn&rsquo;t</em> found yet.</div>
   <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="#ff6b5b"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>Barot valley, Himachal</div>
 </section>
@@ -97,25 +104,25 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/bir-flags.jpg');background-position:58% 50%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(6,14,28,.62) 0%,rgba(6,14,28,.5) 30%,rgba(6,14,28,.12) 50%,rgba(0,0,0,0) 62%,rgba(0,0,0,.25) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="hl" style="top:200px;font-size:96px">Chai.<br>Prayer flags.<br><em>Nowhere</em><br>to be.</div>
   <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="#ff6b5b"/><circle cx="12" cy="10" r="2.6" fill="#fff"/></svg>Bir, Himachal Pradesh</div>
 </section>
 
 <!-- 05 · THE TREK -->
 <section class="slide">
-  <div class="ph" style="background-image:url('public/photos/bir/summit.jpg');background-position:40% 50%"></div>
+  <div class="ph" style="background-image:url('carousel-assets/jalsu-trail.jpg');background-position:78% 50%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.42) 0%,rgba(0,0,0,.1) 32%,rgba(0,0,0,0) 60%,rgba(0,0,0,.4) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="hl c" style="top:230px">Some views<br>have to be<br><em>earned.</em></div>
-  <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="#fff"/></svg>Guided trek &middot; Hanuman Garh, Bir</div>
+  <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M2 20 L9 8 L13 14 L16 10 L22 20 Z" fill="#fff"/></svg>Guided trek &middot; the Dhauladhars near Bir</div>
 </section>
 
 <!-- 06 · THE NIGHTS -->
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/more/night-stars.jpg');background-position:46% 50%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,0) 65%,rgba(0,0,0,.35) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="hl" style="top:230px">Bonfire.<br>Stars.<br>Strangers.<br><em style="color:var(--ember)">Not for long.</em></div>
   <div class="pill" style="bottom:130px"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2 1-3.5 2-4.5 0 2 1 3 2 3 0-3-1-6 1-9.5z" fill="#ffb36b"/></svg>Plot Twist Social Night</div>
 </section>
@@ -124,18 +131,21 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <section class="slide">
   <div class="ph" style="background-image:url('carousel-assets/bir-valley-wide.jpg');background-position:50% 55%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.4) 0%,rgba(0,0,0,.22) 40%,rgba(0,0,0,.3) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
-  <div class="card" style="top:300px;width:860px;padding:64px 70px 58px">
-    <h3>Top <em>highlights</em></h3>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
+  <div class="card" style="top:220px;width:900px;padding:54px 66px 50px">
+    <h3>What&rsquo;s <em>included</em></h3>
     <ul>
-      <li>Three nights in Bir</li>
-      <li>Cafés, monasteries &amp; the Tibetan colony</li>
-      <li>Day trip to Barot valley</li>
+      <li>Delhi &harr; Bir transfers, both ways</li>
+      <li>3 nights&rsquo; stay in Bir</li>
       <li>Tandem paragliding, Billing &rarr; Bir</li>
+      <li>Barot valley day trip &amp; the Uhl river</li>
       <li>Guided mountain trek + picnic</li>
-      <li>Plot Twist Social Night</li>
-      <li>The Last Night: one long table</li>
+      <li>Cafés, monasteries &amp; the Tibetan colony</li>
+      <li>Social Night: bonfire, music, dinner</li>
+      <li>The Last Night: one long table, dinner</li>
+      <li>Plot Twist hosts, start to finish</li>
     </ul>
+    <div class="total"><span>All of this</span><b>&#8377;7,999</b></div>
   </div>
   <div class="swipe" style="bottom:120px">Swipe &rarr;</div>
 </section>
@@ -144,14 +154,14 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 <section class="slide">
   <div class="ph" style="background-image:url('public/photos/bir/bir-sunset-gliding.jpg');background-position:50% 0%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,.05) 30%,rgba(0,0,0,.1) 60%,rgba(0,0,0,.35) 100%)"></div>
-  <div class="mark">PLOT TWIST</div>
+  <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid">TRAVEL DIFFERENTLY</div><div class="date">20&ndash;24 NOV</div></div>
   <div class="card" style="top:250px;width:720px;background:rgba(70,34,12,.26)">
     <div class="tag">Save the date</div>
     <div class="row" style="padding-top:60px"><div class="big">20th &ndash; 24th Nov</div><div class="sm">Delhi &rarr; Bir &rarr; Delhi</div></div>
     <div class="row"><div class="big">&#8377;7,999</div><div class="sm">per person &middot; 3N / 4D</div></div>
     <div class="row"><div class="big">20 people</div><div class="sm">application only</div></div>
   </div>
-  <div class="btn" style="top:850px">DM &ldquo;BIR&rdquo; TO APPLY</div>
+  <div class="btn" style="top:850px;font-size:28px;padding:26px 48px">COMMENT &lsquo;BIR&rsquo; TO REQUEST YOUR INVITE</div>
 </section>
 
 </body>

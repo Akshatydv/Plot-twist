@@ -1,5 +1,5 @@
 /* ============================================================================
-   make-bir-carousel.js — render the Journey 03 (Bir × Barot) Instagram
+   make-bir-carousel.js — render the Bir × Barot Instagram
    carousel from carousel-source.html.
 
      node make-bir-carousel.js   → dossiers/carousel/bir-barot-01.png … 08.png
