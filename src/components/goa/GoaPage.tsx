@@ -64,7 +64,7 @@ export function GoaPage() {
           Deliberately NOT a Goa-specific reinterpretation: this is the master
           Cast concept for every trip, and it already adapts itself per journey
           through JourneyProvider (the stamp and the three photo scraps come
-          from journey00.ts).
+          from journey1.ts).
 
           `compact` keeps it from becoming a standalone page section between
           the premise and the four chapters — see the note on WhatsATen. The

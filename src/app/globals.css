@@ -134,7 +134,7 @@ body {
 
 
 /* ================================================================== */
-/* JOURNEY 02 — EDC THAILAND                                           */
+/* JOURNEY 3 — EDC THAILAND                                            */
 /*                                                                     */
 /* Scoped under `.edc`. Nothing here can reach the Goa or Bali pages:  */
 /* they never carry the class.                                         */
@@ -971,7 +971,7 @@ body {
 }
 
 /* ================================================================== */
-/* JOURNEY 03 — BIR × BAROT                                            */
+/* JOURNEY 2 — BIR × BAROT                                             */
 /*                                                                     */
 /* Scoped under .bir exactly as the festival page is scoped under      */
 /* .edc: nothing here can reach another journey. The four worlds and   */
@@ -1108,4 +1108,125 @@ body {
   .bir .bir-kenburns { animation: none; }
   .bir .bir-grade { filter: none; }
   .bir .bir-drift { will-change: auto; }
+}
+
+/* ================================================================== */
+/* THE BRAND HOMEPAGE — components/home/                               */
+/*                                                                     */
+/* Every class is `home-` prefixed, so nothing here reaches a journey  */
+/* page. Everything that moves forever (reels, drift, the wall) is     */
+/* switched OFF under reduced motion rather than sped up by the global */
+/* rule above — a 0.001ms infinite loop is a strobe, not a still.       */
+/* ================================================================== */
+
+/* the slow push-in on a reel's live still */
+.home-push {
+  animation: home-push 9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+}
+@keyframes home-push {
+  from { transform: scale(1.02); }
+  to { transform: scale(1.14); }
+}
+
+/* the REC light */
+.home-rec { animation: home-rec 1.6s steps(2, jump-none) infinite; }
+@keyframes home-rec {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+/* the moments wall — columns drifting in opposite directions */
+.home-col {
+  animation: home-col-up 80s linear infinite;
+  will-change: transform;
+}
+.home-col--down { animation-name: home-col-down; }
+.home-col:hover { animation-play-state: paused; }
+@keyframes home-col-up {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(0, -50%, 0); }
+}
+@keyframes home-col-down {
+  from { transform: translate3d(0, -50%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+.home-still,
+.home-still * { animation: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .home-push,
+  .home-rec,
+  .home-col { animation: none !important; }
+}
+
+/* ================================================================== */
+/* JOURNEY 4 — SRI LANKA. components/srilanka/                         */
+/*                                                                     */
+/* Scoped under .sl exactly as Bir is scoped under .bir. One palette   */
+/* per world (see `chapters` in content/srilanka.ts); these are the    */
+/* constants the worlds share. Rationale: docs/sri-lanka-design.md.    */
+/* ================================================================== */
+.sl {
+  --sl-ink: #07090a;
+  --sl-bone: #f4ede1;
+  --sl-jungle: #0c2219;
+  --sl-moss: #1f4d3a;
+  --sl-tea: #7fc48a;
+  --sl-saffron: #f2a23a;
+  --sl-ember: #ff6a3d;
+  --sl-hibiscus: #ff4f6d;
+  --sl-violet: #2a1640;
+  --sl-gold: #f6d7a0;
+  --sl-sand: #f7efe2;
+  --sl-lagoon: #3fd0bf;
+  --sl-deep: #062b33;
+  --sl-dusk: #c9a7ff;
+  /* the shared journey menu's night tone reads this */
+  --edc-hot: var(--sl-saffron);
+  background: var(--sl-ink);
+  color: var(--sl-bone);
+}
+
+/* the floating-sunset bob: slow, small, never in step */
+.sl-bob {
+  animation: sl-bob 6s ease-in-out infinite;
+}
+@keyframes sl-bob {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.6deg); }
+  50% { transform: translate3d(0, -10px, 0) rotate(0.6deg); }
+}
+
+/* the departure board's flap */
+.sl-flap {
+  animation: sl-flap 0.09s steps(1) infinite;
+}
+@keyframes sl-flap {
+  50% { opacity: 0.55; }
+}
+
+/* the secret's lock shiver */
+.sl-shake {
+  animation: sl-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+@keyframes sl-shake {
+  20%, 80% { transform: translate3d(-3px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+/* a horizontal reel's scrollbar, hidden: the reel is driven by the page scroll */
+.sl-reel::-webkit-scrollbar { display: none; }
+.sl-reel { scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sl-bob,
+  .sl-flap { animation: none !important; }
+}
+
+/* PHONES: the same memory guard Bir needs — no per-image filters and no
+   endless push-ins on dozens of full-screen frames. */
+@media (max-width: 767px) {
+  .sl .bir-kenburns { animation: none; }
+  .sl .bir-grade { filter: none; }
 }

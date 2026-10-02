@@ -1,7 +1,7 @@
 /**
- * JOURNEY 03 — BIR × BAROT.
+ * JOURNEY 2 — BIR × BAROT.
  *
- * Written against the contract in types.ts, the same way journey02.ts was.
+ * Written against the contract in types.ts, the same way journey3.ts was.
  *
  * ─── WHY THIS FILE LOOKS THIN ───────────────────────────────────────────────
  * This journey renders the "bir" page variant, and ALL of its copy lives in
@@ -29,12 +29,12 @@ import { brand } from "@/content/site";
 import { DEFAULT_REWARD_WEIGHTS, REWARD_POOL } from "@/content/rewards";
 import type { JourneyConfig } from "./types";
 
-export const JOURNEY_03: JourneyConfig = {
-  id: "JOURNEY 03",
-  slug: "03",
-  displayName: "Journey 03",
+export const JOURNEY_2: JourneyConfig = {
+  id: "JOURNEY 2",
+  slug: "2",
+  displayName: "Journey 2 · Bir × Barot",
   /** The mountain page. Bir × Barot is the headline of its own hero. */
-  nav: { label: "BIR × BAROT", kicker: "JOURNEY 03 · NOV 2026" },
+  nav: { label: "BIR × BAROT", kicker: "JOURNEY 2 · NOV 2026" },
   campaignId: "journey03_launch",
   /**
    * The hero states Bir, Barot and Himachal outright, so naming them here
@@ -62,7 +62,7 @@ export const JOURNEY_03: JourneyConfig = {
 
   /** Unused by the bir variant (its hero is FlightHero). Kept destination-free. */
   hero: {
-    eyebrow: "JOURNEY 03 — 20 SEATS, AGES 18–30",
+    eyebrow: "JOURNEY 2 — 20 SEATS, AGES 18–30",
     sideNote: { big: ["20 PEOPLE.", "ONE SKY."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/escape.jpg",
@@ -71,7 +71,7 @@ export const JOURNEY_03: JourneyConfig = {
     },
   },
 
-  /** Empty on purpose — see journey02.ts. The bir page tells its story through the four days. */
+  /** Empty on purpose — see journey3.ts. The bir page tells its story through the four days. */
   story: { frames: [] },
 
   /**
@@ -81,7 +81,7 @@ export const JOURNEY_03: JourneyConfig = {
    * Places, not people: nobody in them is on this trip.
    */
   casting: {
-    stamp: "CASTING — JOURNEY 03",
+    stamp: "CASTING — JOURNEY 2",
     photos: [
       { src: "/photos/bir/bir-sunset-gliding.jpg", alt: "Two paragliders against an orange sunset over Bir", note: "day 02, 6pm" },
       { src: "/photos/bir/river.jpg", alt: "The Uhl river running over boulders at Barot", note: "day 01" },
@@ -175,11 +175,11 @@ export const JOURNEY_03: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 03. You're going up — and the other 19 seats are still open.",
+  solvedBody: "Journey 2. You're going up — and the other 19 seats are still open.",
 
   rewards: {
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 03",
+    envelopeMark: "JOURNEY 2",
   },
 };

@@ -1,5 +1,5 @@
 /**
- * BIR × BAROT — JOURNEY 03'S PAGE.
+ * BIR × BAROT — JOURNEY 2'S PAGE.
  *
  * All copy for the "bir" page variant lives here, the same way Goa's lives in
  * content/goa.ts and Thailand's in content/thailand.ts. Components read; they
@@ -304,7 +304,7 @@ export const trip = {
    * CONFIRMED by the site owner. Overnight from Delhi on Fri 20 Nov, in Bir
    * on the morning of Sat 21 (Day 01), back in Delhi by the evening of Tue 24
    * (Day 04). The three nights in Bir are the 21st, 22nd and 23rd. Must agree
-   * with seo.startDate / endDate in journeys/journey03.ts.
+   * with seo.startDate / endDate in journeys/journey2.ts.
    */
   dates: "20–24 NOV 2026",
   datesNote: "Leave Delhi Fri 20 Nov, night · in Bir Sat 21 morning · back in Delhi Tue 24, evening.",
@@ -336,7 +336,7 @@ export const hud = {
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  kicker: "PLOT TWIST — JOURNEY 03",
+  kicker: "PLOT TWIST — JOURNEY 2",
   title: ["BIR", "BAROT"] as const,
   line: "ESCAPE THE ORDINARY.",
   meta: "3 NIGHTS · 4 DAYS · HIMACHAL",

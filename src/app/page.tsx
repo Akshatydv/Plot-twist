@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 import { JourneyPage } from "@/components/JourneyPage";
-import { DEFAULT_JOURNEY } from "@/content/journeys";
+import { HomePage } from "@/components/home/HomePage";
+import { DEFAULT_JOURNEY, HOMEPAGE_OWNS_ROOT } from "@/content/journeys";
+import { homeMeta } from "@/content/home";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { journeyGraph } from "@/lib/seo/schema";
 
 /**
- * The root URL always renders the default journey (see DEFAULT_JOURNEY) —
- * moving it would break every existing link and QR code. Every other journey
- * lives at /journey/<slug>; the default's own slug redirects here so the two
- * URLs never compete for the same canonical.
+ * The root URL renders the default journey (see DEFAULT_JOURNEY) — moving it
+ * would break every existing link and QR code. Every other journey lives at
+ * /journey/<slug>; the default's own slug redirects here so the two URLs never
+ * compete for the same canonical.
+ *
+ * THE EXCEPTION is HOMEPAGE_OWNS_ROOT in content/journeys/index.ts. Flipped,
+ * "/" becomes the brand homepage and the default journey moves to its own
+ * /journey/<slug> with nothing else to edit.
  */
 
 /**
@@ -21,6 +27,14 @@ import { journeyGraph } from "@/lib/seo/schema";
  * promoted to the root.
  */
 export function generateMetadata(): Metadata {
+  if (HOMEPAGE_OWNS_ROOT) {
+    return {
+      title: homeMeta.title,
+      description: homeMeta.description,
+      openGraph: { title: homeMeta.title, description: homeMeta.description },
+      twitter: { title: homeMeta.title, description: homeMeta.description },
+    };
+  }
   const seo = DEFAULT_JOURNEY.seo;
   if (!seo) return {};
   return {
@@ -32,6 +46,8 @@ export function generateMetadata(): Metadata {
 }
 
 export default function Page() {
+  if (HOMEPAGE_OWNS_ROOT) return <HomePage />;
+
   return (
     <>
       {DEFAULT_JOURNEY.seo && (

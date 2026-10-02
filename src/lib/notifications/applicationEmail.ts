@@ -35,7 +35,65 @@ const SUNSET_ON_DARK = "#ffa470";
 const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const SERIF = "Georgia, 'Times New Roman', serif";
 
-export const SUBJECT = "\u{1F3AC} Someone just auditioned for the plot.";
+/* ------------------------------------------------------------------ */
+/* WHICH JOURNEY — the one thing the inbox has to say at a glance       */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Every application used to arrive with the same subject ("Someone just
+ * auditioned for the plot.") and the journey buried in a 10px corner label as
+ * a raw id. With three journeys taking applications at once, the person
+ * reading the inbox could not tell Goa from Bir from Thailand without opening
+ * each one.
+ *
+ * So the journey now leads: it is in the SUBJECT, in a coloured banner across
+ * the masthead, in the preview line and in the plain-text version. Each
+ * journey has its own colour so a list of them is recognisable before a word
+ * is read.
+ *
+ * `accent` sits on the dark masthead (light enough to read there); `deep` sits
+ * on the white body, where the same pale colour would fail contrast — the same
+ * split the sectionLabel note below describes.
+ */
+const JOURNEY_COLOURS: Record<string, { accent: string; deep: string }> = {
+  "JOURNEY 1": { accent: "#ff4f87", deep: "#d63a6e" }, // Goa — the brand pink
+  "JOURNEY 2": { accent: "#7fe0d6", deep: "#1f8a7a" }, // Bir × Barot — mountain teal
+  "JOURNEY 3": { accent: "#b98cff", deep: "#7a3fe0" }, // Thailand / EDC — the festival violet
+  "JOURNEY 4": { accent: "#3fd0bf", deep: "#0b7f74" }, // Sri Lanka — lagoon
+  BALI: { accent: SUNSET_ON_DARK, deep: SUNSET },
+};
+
+export type JourneyMark = {
+  /** "Journey 1 · Goa" — what a person reads. Falls back to the raw id if the journey is unknown. */
+  name: string;
+  /** "GOA" — the place, for the banner. */
+  place: string;
+  accent: string;
+  deep: string;
+  /** EDC takes a pre-registration, not an application — the email should not call it one. */
+  kind: "application" | "pre-registration";
+  /** True for a journey that still runs the clue hunt, so "clues found" means something. */
+  hasHunt: boolean;
+};
+
+export function journeyMark(app: StoredApplication): JourneyMark {
+  const journey = journeyById(app.journey);
+  const colours = JOURNEY_COLOURS[journey?.id ?? ""] ?? { accent: SUNSET_ON_DARK, deep: SUNSET };
+  return {
+    name: journey?.displayName ?? app.journey,
+    place: (journey?.nav?.label ?? journey?.destination.name ?? app.journey).toUpperCase(),
+    ...colours,
+    kind: journey?.pageVariant === "edc" ? "pre-registration" : "application",
+    // "mystery" is the default variant, and the only one with a hunt.
+    hasHunt: !journey?.pageVariant || journey.pageVariant === "mystery",
+  };
+}
+
+/** "🎬 New application · Journey 1 · Goa" — the journey is the second thing the admin reads. */
+export function subjectFor(app: StoredApplication): string {
+  const m = journeyMark(app);
+  return `\u{1F3AC} New ${m.kind} · ${m.name}`;
+}
 
 /** Every value here is applicant-supplied, so nothing goes in unescaped. */
 function esc(value: string) {
@@ -108,13 +166,34 @@ function theirCase(app: StoredApplication): Field[] {
   }));
 }
 
-function theHunt(app: StoredApplication): Field[] {
-  return [
-    { label: "Clues found", value: `${app.clue_progress}/${TOTAL_CLUES}` },
-    { label: "Destination guess", value: app.destination_guess || "Never guessed" },
-    { label: "Reward", value: describeReward(app) },
-    { label: "Journey", value: app.journey },
-  ];
+/**
+ * WHICH JOURNEY, and — only where there is one — how the hunt went.
+ *
+ * Goa, Bir × Barot and Thailand have no clue hunt, so "Clues found 0/5" and
+ * "Never guessed" were noise on every one of their emails. They now get the
+ * journey and, if the applicant somehow carried a reward, the reward. A journey
+ * that does run a hunt keeps the full block.
+ */
+function theJourney(app: StoredApplication): { title: string; fields: Field[] } {
+  const m = journeyMark(app);
+  const journeyField: Field = { label: "Journey", value: m.name };
+
+  if (m.hasHunt) {
+    return {
+      title: "The hunt",
+      fields: [
+        { label: "Clues found", value: `${app.clue_progress}/${TOTAL_CLUES}` },
+        { label: "Destination guess", value: app.destination_guess || "Never guessed" },
+        { label: "Reward", value: describeReward(app) },
+        journeyField,
+      ],
+    };
+  }
+
+  return {
+    title: "The journey",
+    fields: app.reward_id ? [journeyField, { label: "Reward", value: describeReward(app) }] : [journeyField],
+  };
 }
 
 function attribution(app: StoredApplication): Field[] {
@@ -201,18 +280,23 @@ function answerBlocks(fields: Field[]) {
 
 export function renderApplicationEmailHtml(app: StoredApplication, caseUrl: string) {
   const submitted = filedAt(app);
+  const mark = journeyMark(app);
+  const journeyBlock = theJourney(app);
+  const heading = mark.kind === "pre-registration" ? "New pre-registration" : "New cast member";
+  // The clue count only means something on a journey that has a hunt.
+  const preview = mark.hasHunt ? ` &mdash; ${app.clue_progress}/${TOTAL_CLUES} clues found.` : ".";
 
   return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>New cast member</title>
+<title>${esc(heading)} &middot; ${esc(mark.name)}</title>
 </head>
 <body style="margin:0;padding:0;background:${SAND};">
   <!-- Inbox preview line. Never rendered in the body itself. -->
   <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">
-    ${esc(app.name)}, ${esc(String(app.age))}, ${esc(app.city)} &mdash; ${app.clue_progress}/${TOTAL_CLUES} clues found.
+    ${esc(mark.name)} &mdash; ${esc(app.name)}, ${esc(String(app.age))}, ${esc(app.city)}${preview}
   </div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${SAND};">
@@ -220,16 +304,26 @@ export function renderApplicationEmailHtml(app: StoredApplication, caseUrl: stri
       <td align="center" style="padding:28px 14px 44px;">
         <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;border-collapse:collapse;">
 
+          <!-- the journey's colour, edge to edge: the first thing the eye lands on -->
+          <tr>
+            <td bgcolor="${mark.accent}" style="background:${mark.accent};height:8px;font-size:0;line-height:0;">&nbsp;</td>
+          </tr>
+
           <!-- masthead -->
           <tr>
             <td style="background:${DUSK};padding:22px 26px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
                   <td style="font-family:${SANS};font-size:10px;font-weight:700;letter-spacing:3px;color:${SUNSET_ON_DARK};text-transform:uppercase;">The Casting Room</td>
-                  <td align="right" style="font-family:${SANS};font-size:10px;letter-spacing:2px;color:rgba(255,241,220,0.55);text-transform:uppercase;">${esc(app.journey)}</td>
+                  <td align="right" style="font-family:${SANS};font-size:10px;letter-spacing:2px;color:rgba(255,241,220,0.55);text-transform:uppercase;">${esc(mark.place)}</td>
                 </tr>
                 <tr>
-                  <td colspan="2" style="padding-top:12px;font-family:${SANS};font-size:32px;font-weight:800;letter-spacing:-0.5px;line-height:1.05;color:${SAND};text-transform:uppercase;">New cast member</td>
+                  <td colspan="2" style="padding-top:14px;">
+                    <span style="display:inline-block;background:${mark.accent};color:${INK};font-family:${SANS};font-size:13px;font-weight:800;letter-spacing:2.6px;padding:8px 14px;text-transform:uppercase;">${esc(mark.name)}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top:14px;font-family:${SANS};font-size:32px;font-weight:800;letter-spacing:-0.5px;line-height:1.05;color:${SAND};text-transform:uppercase;">${esc(heading)}</td>
                 </tr>
                 <tr>
                   <td colspan="2" style="padding-top:8px;font-family:${SERIF};font-style:italic;font-size:15px;color:rgba(255,241,220,0.68);">Filed ${esc(submitted)} IST</td>
@@ -246,8 +340,8 @@ ${sectionLabel("The applicant", PINK)}
 ${fieldRows(theBasics(app))}
 ${sectionLabel("Their case", PINK)}
 ${answerBlocks(theirCase(app))}
-${sectionLabel("The hunt", TROPIC)}
-${fieldRows(theHunt(app))}
+${sectionLabel(journeyBlock.title, mark.deep)}
+${fieldRows(journeyBlock.fields)}
 ${sectionLabel("Attribution", SUNSET)}
 ${fieldRows(attribution(app))}
 
@@ -295,12 +389,17 @@ ${fieldRows(attribution(app))}
 export function renderApplicationEmailText(app: StoredApplication, caseUrl: string) {
   const line = (f: Field) => `  ${f.label.padEnd(20)}${f.value}`;
   const rule = "  ----------------------------------------";
+  const mark = journeyMark(app);
+  const journeyBlock = theJourney(app);
 
   return [
     "THE CASTING ROOM",
     "",
-    "NEW CAST MEMBER",
-    `Filed ${filedAt(app)} IST — ${app.journey}`,
+    // The journey first, before anything else — this is the line the admin scans for.
+    `>>> ${mark.name.toUpperCase()} <<<`,
+    "",
+    mark.kind === "pre-registration" ? "NEW PRE-REGISTRATION" : "NEW CAST MEMBER",
+    `Filed ${filedAt(app)} IST`,
     "",
     "THE APPLICANT",
     rule,
@@ -315,9 +414,9 @@ export function renderApplicationEmailText(app: StoredApplication, caseUrl: stri
       ...f.value.split("\n").map((l) => `      ${l}`),
       "",
     ]),
-    "THE HUNT",
+    journeyBlock.title.toUpperCase(),
     rule,
-    ...theHunt(app).map(line),
+    ...journeyBlock.fields.map(line),
     "",
     "ATTRIBUTION",
     rule,

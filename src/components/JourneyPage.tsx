@@ -18,6 +18,7 @@ import { DestinationGuess } from "@/components/mystery/DestinationGuess";
 import { GoaPage } from "@/components/goa/GoaPage";
 import { EdcPage } from "@/components/edc/EdcPage";
 import { BirPage } from "@/components/bir/BirPage";
+import { SriLankaPage } from "@/components/srilanka/SriLankaPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
@@ -71,6 +72,17 @@ export function JourneyPage({ journey }: { journey: JourneyConfig }) {
       <JourneyProvider journey={journey}>
         <PlotProvider>
           <BirPage />
+        </PlotProvider>
+      </JourneyProvider>
+    );
+  }
+
+  /* THE ISLAND PAGE — Journey 4. Same wrapper contract as the three above. */
+  if (journey.pageVariant === "srilanka") {
+    return (
+      <JourneyProvider journey={journey}>
+        <PlotProvider>
+          <SriLankaPage />
         </PlotProvider>
       </JourneyProvider>
     );

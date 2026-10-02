@@ -17,7 +17,7 @@ import { ImageResponse } from "next/og";
  * Deliberately: no price, and no date in the headline. The preview poses the
  * question; the page answers it.
  */
-export const alt = "The plot found you. — Plot Twist, Journey 00, Goa";
+export const alt = "The plot found you. — Plot Twist, Journey 1, Goa";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -60,7 +60,7 @@ export default function InviteOpengraphImage() {
               color: "rgba(255,241,220,0.62)",
             }}
           >
-            JOURNEY 00 · GOA
+            JOURNEY 1 · GOA
           </div>
         </div>
 

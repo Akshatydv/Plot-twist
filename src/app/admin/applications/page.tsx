@@ -2,16 +2,22 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { getApplicationCounts, listApplications } from "@/lib/adminApplications";
 import { APPLICATION_STATUSES, JOURNEYS, type ApplicationStatus } from "@/lib/applications";
+import { journeyById } from "@/content/journeys";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 
 export const dynamic = "force-dynamic";
 
 /**
- * "JOURNEY 00" → "00". The column header already says Journey; repeating the
+ * "JOURNEY 1" → "1". The column header already says Journey; repeating the
  * word in every row would cost the width the table doesn't have.
+ *
+ * An old id ("JOURNEY 00", on a row the renumber migration hasn't reached yet)
+ * is resolved to its journey first, so it reads "1" rather than "00". Retired
+ * Bali stays "BALI".
  */
 function journeyShort(journey: string) {
-  return journey.replace(/^JOURNEYs+/i, "");
+  const current = journeyById(journey)?.id ?? journey;
+  return current.replace(/^JOURNEY\s+/i, "");
 }
 
 type SearchParams = {

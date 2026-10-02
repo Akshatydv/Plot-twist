@@ -63,7 +63,13 @@ export type LadderRung = {
  * photographic surface a slot that falls back to a generated landscape. See
  * components/bir/BirPage.tsx and docs/bir-barot-design.md.
  */
-export type JourneyPageVariant = "mystery" | "reveal" | "edc" | "bir";
+/**
+ * "srilanka" is the fifth: Journey 4, Sri Lanka over New Year's Eve. A film
+ * in seven worlds — one per day — with a video hero, a chapter navigator and
+ * a countdown to midnight at its centre. See components/srilanka/SriLankaPage.tsx
+ * and docs/sri-lanka-design.md.
+ */
+export type JourneyPageVariant = "mystery" | "reveal" | "edc" | "bir" | "srilanka";
 
 export type JourneyConfig = {
   /** The stored id. Written to every application row and every analytics event. */
@@ -88,7 +94,7 @@ export type JourneyConfig = {
    *
    * The build-time invariant in index.ts cannot catch this: it guards clue and
    * hero copy, not navigation. It is a judgement call, and it is deliberately
-   * one field so it can be reversed in one word (see JOURNEY_01, where the
+   * one field so it can be reversed in one word (see JOURNEY_BALI, where the
    * trade-off is spelled out).
    */
   nav?: {
@@ -106,7 +112,7 @@ export type JourneyConfig = {
    * know where it's going?". That was correct while every journey was a
    * mystery, and it is what a shared link should still say for one.
    *
-   * It is also why /journey/02 could not rank for anything. Nothing in its
+   * It is also why /journey/3 (formerly /journey/02) could not rank for anything. Nothing in its
    * head named EDC, Thailand, Phuket or 2026, so the one page on this site
    * with genuine search demand behind it was invisible for all of it — and
    * two pages sharing a title and description are duplicates to a crawler.
@@ -139,10 +145,29 @@ export type JourneyConfig = {
     endDate?: string;
     /** Plain place name, e.g. "Phuket, Thailand". */
     destination?: string;
+    /**
+     * A /public path for this page's social card. Optional: without it the
+     * share falls back to the site's generated card. Only a photograph the
+     * page itself shows, so the card never promises a frame the page lacks.
+     */
+    image?: string;
   };
 
   /** Which page composition this journey renders. Defaults to "mystery". */
   pageVariant?: JourneyPageVariant;
+
+  /**
+   * RETIRED — taken off the public site without deleting it.
+   *
+   * A retired journey keeps its id, its slug, its storage key and its code, so
+   * every application row, analytics event and admin filter that references it
+   * keeps working. What it loses is everything public: it is not in the masthead
+   * menu, the sitemap or the homepage, and its URL sends visitors home instead
+   * of rendering a page nobody should be applying to.
+   *
+   * Un-retiring is deleting this one line.
+   */
+  retired?: boolean;
   /**
    * The campaign parameter this journey's ads should use. Not forced onto
    * visitors — UTMs still win — but it documents the intended value in one

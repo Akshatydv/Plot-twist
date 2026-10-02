@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Caveat, DM_Sans, Instrument_Serif, Permanent_Marker } from "next/font/google";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { homeMeta } from "@/content/home";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteGraph } from "@/lib/seo/schema";
 import "./globals.css";
@@ -13,8 +14,8 @@ const instrument = Instrument_Serif({ subsets: ["latin"], weight: "400", variabl
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://plotwist.in";
 
-const TITLE = "Plot Twist — 20 People. One Trip. 10/10s Only.";
-const DESCRIPTION = "You've found the plot. But do you know where it's going?";
+const TITLE = homeMeta.title;
+const DESCRIPTION = homeMeta.description;
 
 /**
  * Nothing here names the destination — a shared link has to pose the question,

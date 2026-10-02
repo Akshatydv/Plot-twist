@@ -3,7 +3,7 @@
 import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
-import { DEFAULT_JOURNEY, journeyBySlug } from "@/content/journeys";
+import { DEFAULT_JOURNEY, HOMEPAGE_OWNS_ROOT, journeyBySlug } from "@/content/journeys";
 
 declare global {
   interface Window {
@@ -74,7 +74,9 @@ export function GoogleAnalytics() {
  * is simply omitted for those, rather than carrying a stale value.
  */
 function journeyIdForPath(pathname: string): string | undefined {
-  if (pathname === "/") return DEFAULT_JOURNEY.id;
+  // "/" is the brand homepage now, which belongs to no single journey —
+  // tagging it Journey 00 would credit every homepage visit to Goa.
+  if (pathname === "/") return HOMEPAGE_OWNS_ROOT ? undefined : DEFAULT_JOURNEY.id;
   const match = pathname.match(/^\/journey\/([^/]+)/);
   if (!match) return undefined;
   return journeyBySlug(match[1])?.id ?? undefined;

@@ -38,7 +38,7 @@ export default function Page() {
         lede={g.lede}
         sections={g.sections}
         cta={g.cta}
-        ctaHref="/journey/02"
+        ctaHref="/journey/3"
         disclaimer={g.disclaimer}
       />
     </>

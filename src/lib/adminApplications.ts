@@ -1,6 +1,7 @@
 import "server-only";
 import { serviceRoleClient } from "./supabase/serviceRole";
 import { APPLICATION_STATUSES, type ApplicationStatus, type StoredApplication } from "./applications";
+import { journeyIdAliases } from "@/content/journeys";
 
 /**
  * ADMIN DATA ACCESS — the only place in the app that reads applicant
@@ -36,7 +37,9 @@ export async function listApplications(filters: ApplicationFilters): Promise<App
   let query = client.from(TABLE).select("id,name,instagram,age,city,submitted_at,status,journey");
 
   if (filters.status && filters.status !== "ALL") query = query.eq("status", filters.status);
-  if (filters.journey) query = query.eq("journey", filters.journey);
+  // Matches the journey's current id AND its old ones, so the filter is right
+  // both before and after supabase/migrations/20260930000000_renumber_journeys.sql.
+  if (filters.journey) query = query.in("journey", journeyIdAliases(filters.journey));
 
   const term = sanitiseSearchTerm(filters.q ?? "");
   if (term) query = query.or(`name.ilike.%${term}%,instagram.ilike.%${term}%`);
@@ -54,7 +57,7 @@ async function countWhere(status?: ApplicationStatus, journey?: string) {
   const client = serviceRoleClient();
   let q = client.from(TABLE).select("id", { count: "exact", head: true });
   if (status) q = q.eq("status", status);
-  if (journey) q = q.eq("journey", journey);
+  if (journey) q = q.in("journey", journeyIdAliases(journey));
   const { count, error } = await q;
   if (error) throw error;
   return count ?? 0;

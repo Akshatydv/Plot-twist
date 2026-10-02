@@ -1,18 +1,18 @@
 import { ImageResponse } from "next/og";
-import { brand, hero } from "@/content/site";
+import { brand } from "@/content/site";
+import { homeHero } from "@/content/home";
 
 /**
  * The social preview, generated at build time from the same copy as the page.
  *
- * Deliberately: no photograph of the destination, no place name, nothing that
- * reads as a generic travel ad. It's the hook and the withheld answer —
- * exactly what the hero says — so a shared link still poses the question.
+ * The brand card for the homepage: the line, the promise, the handle. No
+ * photograph and no place name — it stands for every journey, not one.
  *
  * Built with plain layout primitives rather than the site's fonts: Satori
  * would need each font file fetched and embedded, which is a lot of weight
  * for one static image. The palette and the composition carry the brand.
  */
-export const alt = "PLOT TWIST — You've found the plot. But do you know where it's going?";
+export const alt = "PLOT TWIST — Travel differently. Curated journeys, unexpected people.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -48,17 +48,17 @@ export default function OpengraphImage() {
             {brand.name}
           </div>
           <div style={{ display: "flex", fontSize: 20, letterSpacing: "0.22em", opacity: 0.75, paddingTop: 12 }}>
-            {hero.eyebrow}
+            CURATED JOURNEYS
           </div>
         </div>
 
         {/* the hook */}
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div style={{ display: "flex", fontSize: 86, fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1 }}>
-            YOU&apos;VE FOUND THE PLOT.
+            TRAVEL DIFFERENTLY.
           </div>
           <div style={{ display: "flex", fontSize: 40, marginTop: 22, opacity: 0.9 }}>
-            {hero.sub}
+            {homeHero.support}
           </div>
           {/* the underline mark, straightened into a bar for Satori */}
           <div style={{ display: "flex", width: 320, height: 10, background: "#FF4F87", marginTop: 26 }} />

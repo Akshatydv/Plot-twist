@@ -2,13 +2,39 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Plot Twist — Journey 00 · Goa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Caveat:wght@500;700&family=Permanent+Marker&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<title>Plot Twist — Journey · Goa</title>
 <style>
+/* Self-hosted locally (pdf-fonts/*.woff2), not linked to Google Fonts.
+   The live CDN fetch sometimes doesn't resolve before print-to-pdf snapshots
+   the page, and every family on every page silently falls back to a system
+   font when that happens (Comic Sans / Segoe UI / Arial Narrow). Screenshot-
+   based renders (make-carousel2.js, proof scripts) never hit this — only
+   print-to-pdf does — which is also why the final PDF for this file is built
+   by rasterizing each page rather than printing live text; see
+   _flatten-main.js. */
+@font-face{font-family:'Anton';font-style:normal;font-weight:400;
+  src:url('pdf-fonts/anton.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;
+  src:url('pdf-fonts/dmsans.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:500;
+  src:url('pdf-fonts/dmsans.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;
+  src:url('pdf-fonts/dmsans.woff2') format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:400;
+  src:url('pdf-fonts/caveat.woff2') format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:500;
+  src:url('pdf-fonts/caveat.woff2') format('woff2')}
+@font-face{font-family:'Caveat';font-style:normal;font-weight:700;
+  src:url('pdf-fonts/caveat.woff2') format('woff2')}
+@font-face{font-family:'Permanent Marker';font-style:normal;font-weight:400;
+  src:url('pdf-fonts/permanentmarker.woff2') format('woff2')}
+@font-face{font-family:'Instrument Serif';font-style:normal;font-weight:400;
+  src:url('pdf-fonts/instrumentserif.woff2') format('woff2')}
+@font-face{font-family:'Instrument Serif';font-style:italic;font-weight:400;
+  src:url('pdf-fonts/instrumentserif-italic.woff2') format('woff2')}
+
 /* ============================================================================
-   PLOT TWIST — JOURNEY 00 · GOA · THE DOSSIER
+   PLOT TWIST — JOURNEY · GOA · THE DOSSIER
    A4 print source. Rendered with headless Chrome --print-to-pdf.
 
    HONESTY RULE FOR ANYONE EDITING THIS FILE
@@ -760,6 +786,79 @@ body{font-family:var(--sans);color:var(--ink);background:var(--sand);
 .p7d .ffoot .hand{font-family:var(--hand);font-size:12pt;color:rgba(255,233,168,.7);
   text-align:right;transform:rotate(-1.5deg)}
 
+/* ---- P8 · MEET THE CAST ---------------------------------------------------
+   Trust doesn't come from an adjective, it comes from a name and a face. This
+   page names four of the twenty by name, in the exact voice their own reveal
+   posts already established (see cast-members.js) — nothing invented here,
+   just reprinted onto paper. Akshat sits with the other three rather than
+   apart from them, because "the founder is coming too" is itself a trust
+   signal — the person who started this is still showing up to it. ---------- */
+.p8{padding:14mm 16mm 16mm;display:flex;flex-direction:column;overflow:hidden}
+.p8 .head{position:relative}
+.p8 h2{font-family:var(--display);font-size:27pt;line-height:.88;text-transform:uppercase;
+  letter-spacing:-.01em;max-width:160mm}
+.p8 h2 .hi{color:var(--pink)}
+.p8 .lede{margin-top:5mm;font-family:var(--serif);font-size:12.5pt;line-height:1.34;
+  max-width:150mm;color:rgba(26,13,10,.82)}
+
+.cast{margin-top:12mm;display:grid;grid-template-columns:1fr 1fr;column-gap:16mm;row-gap:15mm}
+.cast .card{display:flex;gap:8mm;align-items:flex-start}
+.cast .pic{flex:0 0 42mm;position:relative;transform:rotate(-2.2deg)}
+.cast .card.r .pic{transform:rotate(2.2deg)}
+.cast .pic .pin{position:relative;background:#fffaf2;padding:2.2mm 2.2mm 2.6mm;
+  box-shadow:2mm 2mm 0 0 rgba(43,15,28,.2)}
+.cast .pic img{width:100%;aspect-ratio:1/1.1;object-fit:cover;display:block}
+.cast .info{flex:1;padding-top:2mm}
+.cast .info .n{font-size:6.6pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.4)}
+.cast .info .name{margin-top:1.2mm;font-family:var(--display);font-size:19pt;text-transform:uppercase;
+  letter-spacing:.01em;line-height:1}
+.cast .info .id{margin-top:2.4mm;font-family:var(--serif);font-style:italic;font-size:10.5pt;
+  line-height:1.32;color:var(--pink);max-width:56mm}
+.cast .info ul{margin-top:4mm;list-style:none}
+.cast .info li{position:relative;padding-left:4.5mm;font-size:8.4pt;line-height:1.55;
+  color:rgba(26,13,10,.72);margin-bottom:1.4mm}
+.cast .info li::before{content:"\2014";position:absolute;left:0;top:0;color:var(--pink)}
+
+.cast .more{margin-top:8mm;text-align:center;font-family:var(--hand);
+  font-size:14.5pt;color:rgba(26,13,10,.55)}
+
+.p8 .card3{margin-top:auto;align-self:center;width:150mm;transform:rotate(-1deg)}
+
+/* ---- P9 · PREVIOUS PLOTS · THE ARCHIVE -------------------------------------
+   Real photographs from real earlier trips, arranged as a scrapbook rather
+   than a gallery grid, because a gallery grid reads as marketing and a
+   scrapbook reads as evidence. No location is claimed for any of them — same
+   rule as the Instagram archive this borrows its photographs from. ---------- */
+.p9{padding:14mm 16mm 12mm;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.p9 .head{position:relative;max-width:150mm}
+.p9 h2{font-family:var(--display);font-size:27pt;line-height:.88;text-transform:uppercase;
+  letter-spacing:-.01em}
+.p9 h2 .hi{color:var(--pink)}
+.p9 .lede{margin-top:5mm;font-family:var(--serif);font-size:12.5pt;line-height:1.34;
+  max-width:148mm;color:rgba(26,13,10,.82)}
+
+.scrap{position:relative;flex:1;min-height:0;margin-top:6mm}
+.scrap .ph{position:absolute;background:#f7eeda;padding:2mm 2mm 2.6mm;
+  box-shadow:0 5mm 9mm rgba(26,10,16,.28),0 1mm 2.4mm rgba(26,10,16,.2)}
+.scrap .ph i{display:block;background-size:cover;background-position:center 42%}
+.scrap .ph .cap{margin-top:1.6mm;font-family:var(--hand);font-weight:700;font-size:9pt;
+  line-height:1.08;color:#b6335f}
+.scrap .ph::before{content:"";position:absolute;width:11mm;height:3.6mm;
+  background:rgba(255,241,220,.75);box-shadow:0 .5mm .8mm rgba(0,0,0,.25);
+  left:50%;top:-2mm;transform:translateX(-50%) rotate(-4deg)}
+.scrap .ph.tr::before{left:auto;right:-2.4mm;top:3.6mm;transform:rotate(60deg)}
+.scrap .ph.tl::before{left:-2.6mm;top:4mm;transform:rotate(-60deg)}
+
+.trust{margin-top:6mm;border-top:1px solid rgba(26,13,10,.2);padding-top:5mm;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:10mm}
+.trust .t{max-width:110mm}
+.trust .k{font-size:6pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;
+  color:rgba(26,13,10,.45)}
+.trust .v{margin-top:1.8mm;font-size:8pt;line-height:1.5;color:rgba(26,13,10,.72)}
+.trust .addr{text-align:right;font-size:6.6pt;letter-spacing:.14em;line-height:1.9;
+  text-transform:uppercase;color:rgba(26,13,10,.55);white-space:nowrap}
+
 </style>
 </head>
 <body>
@@ -778,7 +877,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--sand);
   <div class="inner">
     <div class="top">
       <img class="logo" src="pdf-assets/logo.png" alt="Plot Twist">
-      <div class="imprint">JOURNEY 00<br>THE DOSSIER</div>
+      <div class="imprint">JOURNEY - GOA<br>THE DOSSIER</div>
     </div>
 
     <h1>GOA</h1>
@@ -915,7 +1014,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--sand);
   </div>
 
   <div class="pfoot" style="color:rgba(26,13,10,.42)">
-    <span>PLOT TWIST &middot; JOURNEY 00 &middot; GOA</span><span class="no">02</span></div>
+    <span>PLOT TWIST &middot; JOURNEY &middot; GOA</span><span class="no">02</span></div>
 </section>
 
 <!-- ============= PAGE 3 · SATURDAY 17 · THE DAY DIAL ============= -->
@@ -1281,7 +1380,7 @@ body{font-family:var(--sans);color:var(--ink);background:var(--sand);
   <!-- the frame -->
   <div class="barT"></div>
   <div class="barB"></div>
-  <div class="edge"><span>PLOT TWIST &middot; JOURNEY 00</span><span>THE LAST DAY</span></div>
+  <div class="edge"><span>PLOT TWIST &middot; JOURNEY - GOA</span><span>THE LAST DAY</span></div>
 
   <div class="mast">
     <div class="chapSlate" style="color:rgba(255,241,220,.72)"><span>TUE 20 OCT</span><span class="bar"></span><span>CHAPTER 04</span></div>
@@ -1320,7 +1419,152 @@ body{font-family:var(--sans);color:var(--ink);background:var(--sand);
     <span>TUESDAY 20 OCT &middot; CHAPTER 04 &middot; THE HANGOVER CLUB</span><span class="no">06</span></div>
 </section>
 
-<!-- ============= PAGE 7 · THE DAMAGE · THE PAYOFF ============= -->
+<!-- ============= PAGE 7 · MEET THE CAST ============= -->
+<section class="page paper grain p8" style="--accent:var(--pink)">
+  <div class="spine"></div>
+
+  <div class="chapSlate" style="color:rgba(26,13,10,.55)"><span>05</span><span class="bar"></span><span>THE CAST</span></div>
+
+  <div class="head">
+    <h2>YOU&rsquo;LL BE TRAVELLING<br><span class="hi">WITH THEM.</span></h2>
+    <p class="lede">This trip isn&rsquo;t just twenty strangers. It&rsquo;s a cast &mdash;
+      and part of that cast is content creators you&rsquo;ve very likely scrolled past
+      before, now confirmed to actually be in Goa with you. Same villa. Same yacht.
+      Same four days. Not a paid cameo &mdash; they&rsquo;re in it the whole time.</p>
+  </div>
+
+  <div class="cast">
+    <div class="card">
+      <div class="pic"><div class="pin"><img src="cast-assets/tamanna/hero.jpg" alt="Tamanna"></div>
+        <span class="tape dark" style="left:6mm;top:-2mm;transform:rotate(-6deg)"></span></div>
+      <div class="info">
+        <div class="n">CREATOR</div>
+        <div class="name">Tamanna</div>
+        <div class="id">the fun kind of trouble.</div>
+        <ul>
+          <li>the fits are genuinely unmatched.</li>
+          <li>she makes every photo better.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card r">
+      <div class="pic"><div class="pin"><img src="cast-assets/tiya/hero.jpg" alt="Tiya"></div>
+        <span class="tape dark" style="left:6mm;top:-2mm;transform:rotate(5deg)"></span></div>
+      <div class="info">
+        <div class="n">CREATOR</div>
+        <div class="name">Tiya</div>
+        <div class="id">makes everywhere look like a film.</div>
+        <ul>
+          <li>her camera roll is a mood board.</li>
+          <li>nobody has ever caught her at a bad angle.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="pic"><div class="pin"><img src="cast-assets/saniya/clean/SANIYA_CLEAN_02_4x5.jpg" alt="Saniya"></div>
+        <span class="tape dark" style="left:6mm;top:-2mm;transform:rotate(-4deg)"></span></div>
+      <div class="info">
+        <div class="n">CREATOR</div>
+        <div class="name">Saniya</div>
+        <div class="id">flew in from Boston. didn&rsquo;t need convincing.</div>
+        <ul>
+          <li>milan, barcelona, and now a beach in north goa.</li>
+          <li>the outfits arrived a week early.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card r">
+      <div class="pic"><div class="pin"><img src="cast-board/src/akshat.jpg" alt="Akshat"></div>
+        <span class="tape dark" style="left:6mm;top:-2mm;transform:rotate(6deg)"></span></div>
+      <div class="info">
+        <div class="n">FOUNDER</div>
+        <div class="name">Akshat</div>
+        <div class="id">started Plot Twist. still shows up for every trip.</div>
+        <ul>
+          <li>will 100% add one more stop to the itinerary.</li>
+          <li>builds the playlist personally.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="more">+ 16 more, being cast right now.</div>
+
+  <div class="card3">
+    <div class="k">WHAT THIS ACTUALLY MEANS</div>
+    <div class="t">YOU&rsquo;RE IN<br>THEIR STORY TOO.</div>
+    <div class="d">Whatever they post from this trip &mdash; you&rsquo;re in the background
+      of it. The pool, the yacht, the group photo. That&rsquo;s not a marketing line,
+      that&rsquo;s just what happens when you spend four days with the same twenty people.</div>
+    <div class="h">might want to look good on day one.</div>
+  </div>
+
+  <div class="pfoot" style="color:rgba(26,13,10,.42)">
+    <span>PLOT TWIST &middot; JOURNEY &middot; GOA</span><span class="no">07</span></div>
+</section>
+
+<!-- ============= PAGE 8 · PREVIOUS PLOTS · THE ARCHIVE ============= -->
+<section class="page paper grain p9" style="--accent:var(--sunset)">
+  <div class="spine"></div>
+
+  <div class="chapSlate" style="color:rgba(26,13,10,.55)"><span>06</span><span class="bar"></span><span>PROOF, NOT PROMISES</span></div>
+
+  <div class="head">
+    <h2>WE&rsquo;VE DONE THIS<br><span class="hi">BEFORE.</span></h2>
+    <p class="lede">This is our actual camera roll, not a stock library. People who came on
+      earlier Plot Twist trips, having exactly the kind of chaos we&rsquo;re hoping for in
+      Goa. Half of us don&rsquo;t even remember who took some of these &mdash; we just know
+      they happened.</p>
+  </div>
+
+  <div class="scrap">
+    <div class="ph tr" style="left:96mm;top:2mm;width:70mm;transform:rotate(1.6deg);z-index:14">
+      <i style="height:58mm;background-image:url('archive/mirror.jpg')"></i>
+      <div class="cap">nobody remembers whose idea this was.</div>
+    </div>
+    <div class="ph tl" style="left:0mm;top:16mm;width:58mm;transform:rotate(-3deg);z-index:12">
+      <i style="height:46mm;background-image:url('archive/pool.jpg')"></i>
+    </div>
+    <div class="ph" style="left:68mm;top:66mm;width:36mm;transform:rotate(4.5deg);z-index:17">
+      <i style="height:44mm;background-image:url('archive/couple.jpg')"></i>
+    </div>
+    <div class="ph" style="left:110mm;top:74mm;width:62mm;transform:rotate(-2.2deg);z-index:15">
+      <i style="height:52mm;background-image:url('archive/guys.jpg')"></i>
+    </div>
+    <div class="ph tl" style="left:2mm;top:78mm;width:54mm;transform:rotate(2.4deg);z-index:13">
+      <i style="height:42mm;background-image:url('archive/bridge.jpg')"></i>
+      <div class="cap">somehow everyone became friends.</div>
+    </div>
+    <div class="ph tr" style="left:64mm;top:118mm;width:46mm;transform:rotate(-2.6deg);z-index:18">
+      <i style="height:38mm;background-image:url('archive/girls.jpg')"></i>
+    </div>
+    <div class="ph" style="left:128mm;top:124mm;width:42mm;transform:rotate(5deg);z-index:16">
+      <i style="height:46mm;background-image:url('archive/mirror2.jpg')"></i>
+    </div>
+    <div class="ph tl" style="left:6mm;top:132mm;width:48mm;transform:rotate(-1.8deg);z-index:11">
+      <i style="height:38mm;background-image:url('archive/path.jpg')"></i>
+      <div class="cap">would do it again.</div>
+    </div>
+  </div>
+
+  <div class="trust">
+    <div class="t">
+      <div class="k">WHO YOU&rsquo;RE ACTUALLY BOOKING WITH</div>
+      <div class="v">A small team, not a call centre. Every application is read by a real
+        person &mdash; and if you have a question before you apply, someone here will
+        actually answer it.</div>
+    </div>
+    <div class="addr">PLOT TWIST<br>PLOT NO. 127, MAIN NAJAFGARH ROAD<br>DELHI 110041</div>
+  </div>
+
+  <div class="pfoot" style="color:rgba(26,13,10,.42)">
+    <span>PLOT TWIST &middot; JOURNEY &middot; GOA</span><span class="no">08</span></div>
+</section>
+
+<!-- ============= PAGE 9 · THE DAMAGE · THE PAYOFF ============= -->
 <section class="page grain p7d">
   <div class="spine"></div>
 

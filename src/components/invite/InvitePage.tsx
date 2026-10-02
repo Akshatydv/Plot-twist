@@ -102,7 +102,7 @@ export function InvitePage() {
 
         <div className="relative flex min-h-[100svh] flex-col items-center px-7 pb-12 pt-12 text-center">
           <Logo className="text-[15px]" />
-          <p className="tracked mt-3 text-[10px] font-bold text-sand/70">JOURNEY 00 — GOA</p>
+          <p className="tracked mt-3 text-[10px] font-bold text-sand/70">JOURNEY 1 — GOA</p>
 
           <div className="mt-auto">
             <Reveal>
@@ -151,7 +151,7 @@ export function InvitePage() {
             <div className="p-6">
               <div className="flex items-baseline justify-between text-[8px] font-bold uppercase tracking-[0.24em]">
                 <span>PLOT TWIST</span>
-                <span className="text-ink/50">JOURNEY 00 · GOA</span>
+                <span className="text-ink/50">JOURNEY 1 · GOA</span>
               </div>
 
               <div
@@ -429,7 +429,7 @@ function Stamp() {
         <textPath href="#inv-arc-t" startOffset="50%" textAnchor="middle">PLOT TWIST</textPath>
       </text>
       <text fontFamily="var(--font-anton)" fontSize="6.6" fill="#00a9c7" letterSpacing="1.6">
-        <textPath href="#inv-arc-b" startOffset="50%" textAnchor="middle">JOURNEY 00</textPath>
+        <textPath href="#inv-arc-b" startOffset="50%" textAnchor="middle">JOURNEY 1</textPath>
       </text>
       <text x="30" y="29" fontFamily="var(--font-anton)" fontSize="12" fill="#00a9c7"
             textAnchor="middle" dominantBaseline="middle">GOA</text>

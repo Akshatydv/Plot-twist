@@ -11,7 +11,7 @@
  *    never pass through here. Call sites send ordinals, counts, outcomes and
  *    configured ids. `Props` is typed narrowly and every call site is
  *    reviewed against it. Destination names are not sent either — a journey
- *    is identified by `journey_id` ("JOURNEY 00"), never by where it goes,
+ *    is identified by `journey_id` ("JOURNEY 1"), never by where it goes,
  *    so no analytics vendor ever learns the answer to the mystery.
  *
  * 2. NOTHING BLOCKS FIRST PAINT. No provider script is loaded by this module;
@@ -52,6 +52,13 @@ export const PLOT_EVENTS = {
   applicationStarted: "application_started",
   applicationStep: "application_step_completed",
   applicationSubmitted: "application_submitted",
+
+  /**
+   * The brand homepage's one conversion: a click into a journey page. Carries
+   * `journey_id` of the journey entered (never its destination name) and
+   * `from`, the homepage section it was entered from.
+   */
+  enterJourney: "enter_journey",
 
   openInstagram: "open_instagram",
   /** The tea cup. Fires on the click that actually leaves for WhatsApp — never on merely opening the note. */

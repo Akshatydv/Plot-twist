@@ -14,7 +14,7 @@ create table if not exists applications (
   answer_1          text        not null,
   answer_2          text        not null,
   answer_3          text        not null,
-  journey           text        not null default 'JOURNEY 01',
+  journey           text        not null default 'JOURNEY 1',
   clue_progress     smallint    not null default 0,
   destination_guess text,
   -- Which Plot Twist reward they were assigned on solving. Null if they

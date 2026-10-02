@@ -11,7 +11,7 @@ import "server-only";
  * dispatcher in notifyApplication.ts only knows about NotificationChannel.
  */
 
-import { SUBJECT, renderApplicationEmailHtml, renderApplicationEmailText } from "./applicationEmail";
+import { subjectFor, renderApplicationEmailHtml, renderApplicationEmailText } from "./applicationEmail";
 import type { ApplicationNotification, ChannelResult, NotificationChannel } from "./types";
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";
@@ -56,7 +56,7 @@ export const emailChannel: NotificationChannel = {
     const payload = {
       from: sender(),
       to,
-      subject: SUBJECT,
+      subject: subjectFor(application),
       html: renderApplicationEmailHtml(application, caseUrl),
       text: renderApplicationEmailText(application, caseUrl),
       // Lets a human reply straight into the thread without exposing anything.

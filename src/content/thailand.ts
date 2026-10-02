@@ -1,5 +1,5 @@
 /**
- * EDC THAILAND — JOURNEY 02'S PAGE.
+ * EDC THAILAND — JOURNEY 3'S PAGE.
  *
  * Same contract as content/goa.ts: all copy lives here, components read it,
  * components never hold words.
@@ -10,7 +10,7 @@
  *
  *   1. THE FESTIVAL'S OWN FACTS — dates and city. VERIFIED, and sourced in
  *      `festival.source`. See the note on `festival` before changing them.
- *   2. PLOT TWIST'S OWN FACTS. Confirmed so far: the trip dates (16–22 Dec
+ *   2. PLOT TWIST'S OWN FACTS. Confirmed so far: the trip dates (15–21 Dec
  *      2026) and its length (7D/6N). Still unconfirmed and therefore still
  *      rendering an honest "not announced yet": the price, the inclusions,
  *      the stay, and the day-by-day itinerary.
@@ -93,7 +93,7 @@ export function edcIndex(key: EdcSectionKey): string {
  * official-hotel partner resort named in the press release — that is a
  * different thing and is not stated anywhere on this page.
  *
- * These are EDC's dates, not Plot Twist's trip dates — the trip runs 16–22
+ * These are EDC's dates, not Plot Twist's trip dates — the trip runs 15–21
  * December and lives in `TRIP.dates` below. The festival's three nights sit
  * inside that window; the two sets are related but neither is derived from the
  * other, so edit them independently and re-check that they still agree.
@@ -282,16 +282,24 @@ export const TRIP = {
    * THE TRIP'S OWN DATES. Confirmed by the site owner, 11 September 2026.
    *
    * ─── THEY AGREE WITH EVERYTHING ELSE, AND THAT WAS CHECKED ────────────────
-   * 16–22 December is seven days and six nights, which is what `days` already
-   * said. The festival's own three nights — 18, 19 and 20 December — sit
-   * INSIDE that window, leaving 16, 17 and 21 as the other three. So the
+   * 15–21 December is seven days and six nights, which is what `days` already
+   * said. The six nights are 15–20; the 21st is a departure day and has no
+   * night. The festival's own three nights — 18, 19 and 20 December — are the
+   * LAST three, which leaves 15, 16 and 17 as the other three. So the
    * "3 nights EDC / 3 nights the island" split in `shape` is not a rounding:
    * it is exactly what these dates produce.
+   *
+   * ─── WHY THIS IS BETTER THAN THE 16–22 IT REPLACES ────────────────────────
+   * Under 16–22 the three non-festival nights were 16, 17 and 21 — a split
+   * run, with one stranded night AFTER the festival. Under 15–21 they are
+   * consecutive and they all sit BEFORE it, so the trip has an actual shape:
+   * three nights of Thailand building to three nights of EDC, then you fly
+   * home. The page's whole escalation depends on that being true.
    *
    * If any of these four values is ever edited, re-check the other three. The
    * whole page's arithmetic rests on them lining up.
    */
-  dates: { confirmed: true, value: "16–22 DECEMBER 2026", short: "DEC 16–22" },
+  dates: { confirmed: true, value: "15–21 DECEMBER 2026", short: "DEC 15–21" },
   /** The split that carries the argument: 3 nights of festival, 3 of Thailand. */
   nights: { festival: "3 NIGHTS", rest: "3 NIGHTS" },
 } as const;
@@ -533,7 +541,7 @@ export const shape = {
     {
       k: "3 NIGHTS",
       v: "THE ISLAND",
-      d: "16–17 and 21 December. Water, longtails, night markets, and the last quiet day anyone gets before the gates open.",
+      d: "15–17 December. Krabi, Railay, Phi Phi and Maya Bay — water, longtails and night markets, and the last quiet day anyone gets before the gates open.",
       accent: "#FF7FA8",
     },
     {
@@ -544,9 +552,18 @@ export const shape = {
     },
   ],
   /** Renders at full contrast. The whole point of the section. */
+  /**
+   * This block used to read "DAY-BY-DAY — NOT PUBLIC YET". The day-by-day is
+   * now published (see `week` below), so the stamp had to change or the page
+   * would be withholding something a visitor can read two sections later.
+   *
+   * It was not deleted, because the slot is doing structural work: it is the
+   * hand-off from the summary into the week itself. It now points DOWN the
+   * page instead of pointing at a form.
+   */
   withheld: {
-    stamp: "DAY-BY-DAY — NOT PUBLIC YET",
-    line: "We're not publishing the itinerary while the trip is still being built. Pre-register and you'll get it before it goes anywhere else.",
+    stamp: "THE FULL WEEK — PUBLISHED BELOW",
+    line: "Seven days, start to finish, is further down this page. Nothing is hidden behind the form — the form is only how you get a seat when twenty of them open.",
   },
 } as const;
 
@@ -643,7 +660,7 @@ export const lineup = {
  * component Goa and Bali run, deliberately NOT reinterpreted for this page.
  * It is the master Cast concept for every journey, it already renders on a
  * dark surface with sand type, and its stamp and photo scraps come from
- * journey02.ts through JourneyProvider.
+ * journey3.ts through JourneyProvider.
  *
  * Its placement is the point: it lands immediately after THE DROP, so the
  * loudest moment on the page is followed by twenty faces. Festival → people,
@@ -789,44 +806,329 @@ export const plot = {
 } as const;
 
 /* ------------------------------------------------------------------ */
+/* the week — seven chapters                                           */
+/* ------------------------------------------------------------------ */
+
+/**
+ * THE WEEK. Confirmed itinerary, published by the site owner 27 September 2026.
+ *
+ * ─── THIS IS NOT A DAY-BY-DAY TABLE, AND THE DATA SHAPE ENFORCES THAT ───────
+ * There is no `activities: string[]` on these objects, because the moment one
+ * exists somebody renders it as bullets and the section becomes the itinerary
+ * grid this page spent its whole design avoiding. Each chapter gets ONE
+ * paragraph of prose and one `beat` — a single short line that lands alone.
+ * If a day needs bullets to be understood, the prose is wrong.
+ *
+ * ─── THE SPLIT IS THE STRUCTURE ─────────────────────────────────────────────
+ * Chapters 01–03 render BEFORE THE DROP. Chapters 04–07 render after it. That
+ * is not a layout convenience: THE DROP is this page's "and then…", and the
+ * three festival nights have to arrive on the far side of it, or the page
+ * reveals its own climax inside an itinerary list three sections early.
+ * `phase` carries the split so both mounts come from one array — see
+ * components/edc/TheWeek.tsx.
+ *
+ * ─── EVERY CHAPTER IS A FULL-BLEED PHOTOGRAPH ───────────────────────────────
+ * The first build of this section had no photography at all: seven gradient
+ * surfaces with type laid on them. It was defensible on page-weight grounds
+ * and it was wrong. The Goa page — the benchmark this whole page is measured
+ * against — works because THE BACKGROUND IS THE SECTION: you are put inside
+ * each day rather than shown a caption describing it. Seven gradients cannot
+ * do that, and the days all felt like the same day in different tints.
+ *
+ * So each chapter now carries a `scene`, exactly as Goa's chapters do: a
+ * photograph, two focal points (one for phones), a scrim tuned so it is
+ * darkest where that chapter's copy actually sits, and alt text.
+ *
+ * ─── `wash` IS THE TROPICAL-TO-ELECTRIC ARC ─────────────────────────────────
+ * The stock photographs arrive in seven unrelated colour worlds — green
+ * lasers, orange pyro, turquoise sea. Left alone they would look like seven
+ * stock photographs, which is the single easiest way to look cheap.
+ *
+ * `wash` is how far each frame is pulled into the page's violet: 0 keeps the
+ * photograph as shot, 1 takes it fully into the palette. It runs 0 → 0.12 →
+ * 0.5 → 0.86 → 0.92 → 0.9 → 0, which is the arc stated as a number. Krabi and
+ * Phi Phi stay tropical because they ARE tropical; day 03 is half-washed
+ * because it is the hinge; the three nights are almost entirely the page's own
+ * violet and magenta; and the morning after drops back to zero, because the
+ * point of that chapter is that the colour comes back.
+ *
+ * It is applied as greyscale plus a multiply ramp rather than a hue rotation —
+ * forcing a hue onto blown stage lamps clips them yellow-green, which is a
+ * lesson this project has already paid for once. See components/edc/DayScene.tsx.
+ *
+ * ─── ACCURACY NOTES, LEFT HERE ON PURPOSE ───────────────────────────────────
+ * MAYA BAY: chapter 02 names it and does NOT say anyone swims in it. Maya Bay
+ * reopened under restrictions and the swimming in that bay is not the
+ * free-for-all the photographs imply, so the swimming is attributed to "the
+ * stops nobody photographs" instead — true, and it still sells the day. If the
+ * ground operator confirms otherwise this can be loosened. It must not be
+ * tightened in the other direction by guesswork.
+ *
+ * NO HOTEL IS NAMED. "4-star" is confirmed; which properties is not. A named
+ * hotel here would be the one invented fact on an otherwise sourced page.
+ *
+ * NO ARRIVAL OR DEPARTURE TIMES. Flights are not included in the trip, so
+ * every traveller's day 01 and day 07 start at a different hour.
+ */
+export const week = {
+  label: "THE WEEK",
+  /**
+   * NOT "SEVEN DAYS. SEVEN WORLDS.", which is what this said first. THE SHAPE
+   * sits directly above and its headline is "SEVEN DAYS. SIX NIGHTS." — two
+   * consecutive h2s opening on the same two words read as a copy-paste error
+   * rather than as a motif. Only the second line was worth keeping.
+   */
+  headline: ["ONE WEEK.", "SEVEN WORLDS."],
+  sub: "Every day on this trip is a different film. Here is all of it.",
+  annotation: "no bullet points. sorry.",
+  /** Rendered above chapter 04, on the far side of THE DROP. */
+  nightsIntro: {
+    stamp: "AND THEN — THREE NIGHTS",
+    line: "Three days of Thailand were the setup. This is the thing they were setting up.",
+  },
+  chapters: [
+    {
+      id: "arrival",
+      phase: "before",
+      n: "01",
+      date: "15 DECEMBER",
+      kicker: "THE ARRIVAL",
+      title: "WELCOME TO THE PLOT TWIST",
+      body: "Land in Phuket and keep moving — the road to Krabi runs past limestone the size of office blocks. Railay at sunset, which you reach by boat because there is no road to it. Then the first night with the crew, which is where twenty strangers stop being twenty strangers.",
+      beat: "Land. Switch off. Let's go.",
+      where: "PHUKET → KRABI → RAILAY",
+      accent: "#FFC9A8",
+      scene: {
+        poster: "/photos/thailand/days/day-01.jpg",
+        alt: "A limestone sea stack off a Krabi beach at low sun, one wooden longtail boat moored in shallow green water",
+        focal: "50% 46%",
+        focalMobile: "44% 42%",
+        /* Content sits bottom-left, so the scrim is weighted there and the sky
+           is left almost untouched — this is the last frame on the page that
+           gets to look like daylight. */
+        scrim:
+          "linear-gradient(160deg, rgba(10,4,20,0.10) 0%, rgba(10,4,20,0.18) 42%, rgba(10,4,20,0.78) 78%, rgba(6,2,12,0.95) 100%)",
+        /* 0 = the photograph as shot. 1 = fully in the page's violet.
+           This is the tropical-to-electric arc; see the note above. */
+        wash: 0,
+      },
+    },
+    {
+      id: "islands",
+      phase: "before",
+      n: "02",
+      date: "16 DECEMBER",
+      kicker: "ISLAND MODE",
+      title: "PHI PHI, BUT MAKE IT A DAY",
+      body: "Out on the water before the day boats arrive. Phi Phi, and Maya Bay — the one you have already seen a hundred times and will still look at properly — and then the stops nobody photographs, which is where everyone actually gets in the water. Back late. Out later.",
+      beat: "Island hopping, but make it chaotic.",
+      where: "PHI PHI · MAYA BAY",
+      accent: "#9FE8DA",
+      scene: {
+        poster: "/photos/thailand/days/day-02.jpg",
+        alt: "An aerial view of the Phi Phi islands: limestone cliffs, dense green, and turquoise water with small boats",
+        focal: "50% 52%",
+        focalMobile: "56% 50%",
+        scrim:
+          "linear-gradient(180deg, rgba(8,3,18,0.44) 0%, rgba(8,3,18,0.12) 34%, rgba(8,3,18,0.62) 74%, rgba(6,2,12,0.94) 100%)",
+        wash: 0.12,
+      },
+    },
+    {
+      id: "loading",
+      phase: "before",
+      n: "03",
+      date: "17 DECEMBER",
+      kicker: "THE CALM BEFORE THE STORM",
+      title: "PHUKET LOADING…",
+      body: "Back across to Phuket, into the stay for the rest of the week, and then an afternoon that is deliberately empty. Pool, beach, sleep, whatever you need. Nobody sensible walks into three nights of EDC already tired.",
+      beat: "Tomorrow, we enter another universe.",
+      where: "KRABI → PHUKET",
+      accent: "#FF9EC6",
+      scene: {
+        poster: "/photos/thailand/days/day-03.jpg",
+        alt: "A resort pool at dusk under tall palms, windows lit warm against a pink and blue sky",
+        focal: "50% 54%",
+        focalMobile: "52% 48%",
+        scrim:
+          "linear-gradient(180deg, rgba(8,3,18,0.52) 0%, rgba(8,3,18,0.26) 30%, rgba(8,3,18,0.74) 70%, rgba(5,2,11,0.97) 100%)",
+        /* The hinge. Half-washed, because this is the day the page stops being
+           a beach holiday and starts being a festival. */
+        wash: 0.5,
+      },
+    },
+    {
+      id: "night-one",
+      phase: "after",
+      n: "04",
+      date: "18 DECEMBER",
+      kicker: "NIGHT 01",
+      title: "THE FIRST DROP",
+      body: "Gates at Rhythm Park. The walk in, the first time a mainstage that size is in front of you rather than on a screen, and the specific silence of twenty people realising at the same moment that this is actually happening.",
+      beat: "Nothing is ever the first time twice.",
+      where: "RHYTHM PARK, LAGUNA PHUKET",
+      accent: "#FF2E7E",
+      scene: {
+        poster: "/photos/thailand/days/day-04.jpg",
+        alt: "A single searchlight beam cutting through heavy haze above a curved stage truss studded with lights",
+        focal: "50% 62%",
+        focalMobile: "50% 68%",
+        scrim:
+          "linear-gradient(180deg, rgba(5,2,11,0.58) 0%, rgba(5,2,11,0.22) 34%, rgba(5,2,11,0.76) 72%, rgba(5,2,11,0.97) 100%)",
+        wash: 0.86,
+      },
+    },
+    {
+      id: "night-two",
+      phase: "after",
+      n: "05",
+      date: "19 DECEMBER",
+      kicker: "NIGHT 02",
+      title: "NO LOOKING BACK",
+      body: "Night two is the one nobody warns you about. The site makes sense now, the crew has split into the people chasing the mainstage and the people who found the small stage and will not leave it, and everyone has stopped checking the time.",
+      beat: "The crew is fully in.",
+      where: "SIX STAGES",
+      accent: "#FF2E7E",
+      scene: {
+        poster: "/photos/thailand/days/day-05.jpg",
+        alt: "A fan of laser beams filling the dark above a crowd, two heads silhouetted in the foreground",
+        focal: "50% 44%",
+        focalMobile: "50% 40%",
+        scrim:
+          "linear-gradient(180deg, rgba(5,2,11,0.40) 0%, rgba(5,2,11,0.14) 38%, rgba(5,2,11,0.70) 74%, rgba(5,2,11,0.96) 100%)",
+        wash: 0.92,
+      },
+    },
+    {
+      id: "night-three",
+      phase: "after",
+      n: "06",
+      date: "20 DECEMBER",
+      kicker: "NIGHT 03",
+      title: "ONE LAST DANCE",
+      body: "The last night of the festival and the last night of the trip, which is a great deal to put inside one evening. Everybody knows it while it is still happening. That is exactly why it is the night people describe badly for years afterwards.",
+      beat: "Three nights. One festival. Zero normal plans.",
+      where: "THE FINAL NIGHT",
+      accent: "#FF2E7E",
+      scene: {
+        poster: "/photos/thailand/days/day-06.jpg",
+        alt: "Rows of pyrotechnic fountains firing across a festival mainstage above a crowd with their hands up",
+        focal: "50% 48%",
+        focalMobile: "50% 44%",
+        /* Heaviest scrim in the set. The source frame was shot with a bright
+           overcast sky behind the rig, and this is the last night of the trip
+           — an overcast afternoon at the top of the frame would undo it. */
+        scrim:
+          "linear-gradient(180deg, rgba(5,2,11,0.80) 0%, rgba(5,2,11,0.34) 36%, rgba(5,2,11,0.78) 72%, rgba(5,2,11,0.98) 100%)",
+        wash: 0.9,
+      },
+    },
+    {
+      id: "morning-after",
+      phase: "after",
+      n: "07",
+      date: "21 DECEMBER",
+      kicker: "THE MORNING AFTER",
+      title: "NOBODY SAYS MUCH AT BREAKFAST",
+      body: "A slow breakfast, a checkout, and a transfer to the airport. Numbers get swapped that were never going to be swapped on day one. Then everyone goes back to their actual lives, which will feel strange for about a week.",
+      beat: "Seven days. Four destinations. Three festival nights. Twenty people who started as strangers.",
+      where: "PHUKET → HOME",
+      accent: "#D6CFE6",
+      scene: {
+        poster: "/photos/thailand/days/day-07.jpg",
+        alt: "An empty tropical beach early in the morning, footprints in wet sand and a calm sea under broken cloud",
+        focal: "50% 56%",
+        focalMobile: "56% 58%",
+        /* The lightest scrim on the page. Every chapter before this one got
+           darker than the last; this is where somebody turns the lights on. */
+        scrim:
+          "linear-gradient(180deg, rgba(10,8,20,0.30) 0%, rgba(10,8,20,0.06) 30%, rgba(8,5,16,0.55) 72%, rgba(6,3,13,0.92) 100%)",
+        wash: 0,
+      },
+    },
+  ],
+  /** The last line of the section, and of the trip. It sits alone. */
+  signoff: "UNTIL THE NEXT PLOT TWIST.",
+} as const;
+
+export type WeekChapter = (typeof week.chapters)[number];
+
+/* ------------------------------------------------------------------ */
 /* 07 — the pass                                                       */
 /* ------------------------------------------------------------------ */
 
 /**
- * THE PRICE.
+ * THE PRICE. Confirmed and published by the site owner, 27 September 2026.
  *
- * `confirmed: false`. Goa's price is public because it ran on Journey 00's
- * performance creative; nothing equivalent exists for this trip, and EDC
- * Thailand ticket tiers are not Plot Twist's to quote. So this renders "NOT
- * ANNOUNCED YET" with a way to ask, exactly as Goa's did before its number
- * was confirmed. Flip the flag; change nothing else.
+ * ─── THE ONE THING THIS BLOCK EXISTS TO PREVENT ─────────────────────────────
+ * A visitor reading "₹59,999" next to the words EDC THAILAND will assume the
+ * festival ticket is in it. It is not. That assumption is the single most
+ * expensive misunderstanding this page can create — it ends in a refund
+ * conversation and a screenshot — so the exclusion is not left to the
+ * inclusions list further down the section. It is stated in `note`, directly
+ * under the number, where the number is read.
+ *
+ * It is also the honest position rather than merely the safe one: Plot Twist
+ * does not resell EDC tickets and marking one up would make this the ticket
+ * agency the whole page disclaims being. We curate the trip; EDC sells the
+ * ticket, at EDC's price.
+ *
+ * `pending` and `pendingNote` are kept even though nothing renders them now.
+ * If this trip is ever pulled back to teaser posture, flipping `confirmed`
+ * restores the old behaviour with no second edit — which is how it got
+ * published this cleanly in the first place.
  */
 export const price = {
-  confirmed: false,
-  amount: "",
-  note: "",
+  confirmed: true,
+  amount: "₹59,999",
+  note: "Per person. The EDC Thailand festival pass is not included — you buy it from the organiser, at their price.",
   pending: "NOT ANNOUNCED YET",
-  /*
-    Deliberately NOT "ask us for the number". While this page is a teaser
-    there is no number to ask for, and inviting the question would generate a
-    conversation we cannot finish. It says when instead of what.
-  */
   pendingNote: "Pre-register and you'll hear it first.",
 } as const;
 
 /**
- * INCLUSIONS / EXCLUSIONS.
+ * INCLUSIONS / EXCLUSIONS. Confirmed by the site owner, 27 September 2026.
  *
- * `confirmed: false`. Nothing about what this trip covers has been decided —
- * critically, WHETHER THE EDC TICKET ITSELF IS INCLUDED is not settled, and
- * that is the single most consequential thing a visitor would assume. It is
- * therefore called out by name in the pending copy rather than left to
- * inference.
+ * ─── THE EXCLUSION LIST IS THE IMPORTANT ONE ────────────────────────────────
+ * Most travel pages bury exclusions. Here the first excluded line is the
+ * festival pass, stated before flights, because it is the thing a visitor is
+ * most likely to have already assumed they were buying. Putting it anywhere
+ * other than first would be a choice to let the assumption survive a scan.
+ *
+ * ─── WHAT IS NOT ON EITHER LIST, AND WHY ────────────────────────────────────
+ * Nothing here was inferred from what a trip like this "usually" includes.
+ * Meals, room occupancy, snorkelling gear and airport-shuttle timings are all
+ * things a reader would expect to find and are all absent, because they were
+ * not in the confirmed brief and a plausible guess printed as a fact is still
+ * an invented fact. Two specifically:
+ *
+ *   ROOM OCCUPANCY. "4-star stays" is confirmed; whether ₹59,999 is a twin-
+ *   share rate is not. Twin sharing is the industry default and would be the
+ *   easy assumption to print — and if it is wrong it is a pricing error, not
+ *   a copy error. It stays off the page until it is confirmed.
+ *
+ *   THE FESTIVAL SHUTTLE. Phrased as a conditional — "if the organiser sells
+ *   them" — because an official EDC Thailand shuttle for the 2026 edition is
+ *   not something this project has verified. The conditional is true whether
+ *   or not the shuttle exists; an announcement of one would not be.
  */
 export const inclusions = {
-  confirmed: false,
-  included: [] as string[],
-  excluded: [] as string[],
+  confirmed: true,
+  included: [
+    "Six nights across Krabi and Phuket, in 4-star stays",
+    "All ground transport in Thailand, airport transfers included",
+    "Phi Phi and Maya Bay by boat, and the Railay Beach evening",
+    "Curated experiences through the week, planned and run by us",
+    "Plot Twist hosts with the crew for all seven days",
+    "The welcome night, and the nights out that follow it",
+  ],
+  excluded: [
+    "The EDC Thailand 3-day festival pass — bought from the organiser, at the organiser's price",
+    "Flights to and from Thailand",
+    "Visa and travel insurance",
+    "Meals outside the planned experiences",
+    "Anything the festival sells separately, including shuttles if the organiser sells them",
+  ],
   pending:
     "Nothing is on sale yet, so there is no included / not-included list to publish — including whether the festival ticket is part of it. Pre-registering costs nothing and commits you to nothing.",
 } as const;
@@ -834,8 +1136,19 @@ export const inclusions = {
 export const pass = {
   index: edcIndex("pass"),
   label: "THE PASS",
-  headline: ["WHAT WE CAN", "TELL YOU YET."],
-  annotation: "more of this soon.",
+  /**
+   * This read "WHAT WE CAN / TELL YOU YET." with the note "more of this soon."
+   * while the price and the inclusions were both withheld. Both are published
+   * now, so that headline had become a promise the section immediately breaks
+   * — it sat directly above a number and two full lists.
+   *
+   * The replacement puts the exclusion in the headline rather than leaving it
+   * to the NOT INCLUDED column further down. The festival pass not being in
+   * the price is the one thing a reader must not miss, and a headline is read
+   * by people who will never reach a list.
+   */
+  headline: ["WHAT IT COSTS.", "AND WHAT IT DOESN'T."],
+  annotation: "read this bit properly.",
   /** The credential header — deliberately reads as machine print. */
   credential: {
     holder: "BEARER",
@@ -919,7 +1232,7 @@ export const gatesOpen = {
  *
  * ─── WHERE IT GOES ──────────────────────────────────────────────────────────
  * The same /api/applications endpoint and the same table as every other
- * journey, tagged JOURNEY 02 — one store, one admin, no second system to keep
+ * journey, tagged JOURNEY 3 — one store, one admin, no second system to keep
  * in sync. That endpoint requires three answers, so it is sent `marker`
  * below rather than three invented sentences: it is plainly a system note in
  * the admin, not words put in an applicant's mouth. If pre-registration
@@ -1035,7 +1348,7 @@ export const soundDesk = {
  */
 export const crew = {
   /** Reads as the visitor opening the conversation, not filing a ticket. */
-  prefill: "Hey Plot Twist 👀 about Journey 02...",
+  prefill: "Hey Plot Twist 👀 about Journey 3...",
   headline: ["ASK", "THE CREW"],
   sub: ["Talk to the humans", "running this →"],
   channel: "CH 02",
@@ -1079,11 +1392,11 @@ export const faq = {
     },
     {
       q: "Are festival tickets included?",
-      a: "Not announced yet. What is in and what is not is still being built, and we would rather say that than publish a list we have to walk back. The pre-registration list hears the moment it is settled.",
+      a: "No, and that is deliberate rather than an oversight. The ₹59,999 covers the trip; the EDC Thailand 3-day pass you buy from the organiser at the organiser's price. We do not resell festival tickets and we do not mark them up — we would rather you paid EDC directly than paid us a margin to stand in the queue for you.",
     },
     {
       q: "What does it cost?",
-      a: "Not announced yet, and there is no deposit, no payment and nothing to commit to at this stage. A teaser that quotes a number is not a teaser.",
+      a: "₹59,999 per person for the seven days, plus your own flights and your own EDC pass. Pre-registering still costs nothing and commits you to nothing — there is no deposit at this stage, because the twenty seats are not open yet.",
     },
     {
       q: "Does pre-registering book me a seat?",
@@ -1091,7 +1404,7 @@ export const faq = {
     },
     {
       q: "When is the trip, and how long is it?",
-      a: `Seven days and six nights, ${TRIP.dates}. The festival itself runs ${festival.dates} at ${festival.ground}, which sits inside that window — the trip is deliberately longer than the festival, because the other four days are the point.`,
+      a: `Seven days and six nights, ${TRIP.dates.value}. The festival itself runs ${festival.dates} at ${festival.ground}, which sits inside that window — the trip is deliberately longer than the festival, because the other four days are the point.`,
     },
     {
       q: "Who else is going?",
@@ -1099,13 +1412,13 @@ export const faq = {
     },
     {
       q: "Where is the day-by-day itinerary?",
-      a: "Not public while the trip is still being built. We publish the shape — seven days, six nights, three of them the festival — and the detail lands with the pre-registration list before it lands anywhere else.",
+      a: "On this page, all seven days of it. Krabi and Railay on the 15th, Phi Phi and Maya Bay on the 16th, across to Phuket on the 17th, then the three festival nights and a slow morning on the 21st. Nothing is held back behind the form.",
     },
   ],
 } as const;
 
 export const wristband = {
-  label: "JOURNEY 02 · EDC THAILAND",
+  label: "JOURNEY 3 · EDC THAILAND",
   serial: "PT—02",
   idle: "TAP TO FASTEN",
   fastened: "ON. THAT'S PERMANENT.",

@@ -487,7 +487,7 @@ export const footer = {
   instagram: brand.instagram,
   instagramUrl: brand.instagramUrl,
   signature: brand.signature,
-  legal: `© ${new Date().getFullYear()} Plot Twist. Destination undisclosed.`,
+  legal: `© ${new Date().getFullYear()} Plot Twist.`,
   /** Draft pages — see the DRAFT banner on each route. Real routes, not dead links. */
   legalLinks: [
     { label: "Privacy", href: "/privacy" },

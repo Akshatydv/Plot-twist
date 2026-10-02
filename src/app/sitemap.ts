@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { DEFAULT_JOURNEY, JOURNEYS } from "@/content/journeys";
+import { HOMEPAGE_OWNS_ROOT, JOURNEYS, journeyOwnsRoot } from "@/content/journeys";
 import { edcAloneGuide } from "@/content/guides/edcThailandAlone";
 import { soloFestivalGuide } from "@/content/guides/soloFestivalTrips";
 
@@ -29,12 +29,18 @@ const GUIDES = [edcAloneGuide, soloFestivalGuide];
  * one field here that is supposed to mean something.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const journeys = JOURNEYS.map((j) => ({
-    url: j.id === DEFAULT_JOURNEY.id ? SITE_URL : `${SITE_URL}/journey/${j.slug}`,
+  const journeys = JOURNEYS.filter((j) => !j.retired).map((j) => ({
+    url: journeyOwnsRoot(j) ? SITE_URL : `${SITE_URL}/journey/${j.slug}`,
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
-    priority: j.id === DEFAULT_JOURNEY.id ? 1 : 0.9,
+    priority: journeyOwnsRoot(j) ? 1 : 0.9,
   }));
+
+  // The brand homepage is listed only once it owns "/". Until then /home is a
+  // noindexed preview and has no business in the sitemap.
+  const home = HOMEPAGE_OWNS_ROOT
+    ? [{ url: SITE_URL, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 1 }]
+    : [];
 
   const guides = GUIDES.map((g) => ({
     url: `${SITE_URL}/${g.slug}`,
@@ -43,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...journeys, ...guides];
+  return [...home, ...journeys, ...guides];
 }

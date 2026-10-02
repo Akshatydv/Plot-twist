@@ -1,10 +1,10 @@
 /**
- * JOURNEY 01 — BALI.
+ * BALI — RETIRED (was JOURNEY 01).
  *
  * The approved master. Every value here was lifted verbatim out of
  * content/site.ts, content/mystery.ts and content/rewards.ts when the journey
  * layer was introduced; nothing about this journey changed. If you are
- * reading this to build Journey 02, copy journey00.ts instead — it is the
+ * reading this to build Journey 02, copy journey1.ts instead — it is the
  * one written against the contract rather than extracted from history.
  *
  * The storage key is deliberately still `plottwist.plot.v3`: renaming it
@@ -15,10 +15,12 @@ import { brand } from "@/content/site";
 import { DEFAULT_REWARD_WEIGHTS, REWARD_POOL } from "@/content/rewards";
 import type { JourneyConfig } from "./types";
 
-export const JOURNEY_01: JourneyConfig = {
-  id: "JOURNEY 01",
-  slug: "01",
-  displayName: "Journey 01",
+export const JOURNEY_BALI: JourneyConfig = {
+  id: "BALI",
+  slug: "bali",
+  displayName: "Bali (retired)",
+  /** Off the public site for now — see `retired` in types.ts. */
+  retired: true,
   /**
    * ─── THIS ONE IS A DELIBERATE TRADE-OFF, NOT AN OVERSIGHT ──────────────────
    * Journey 01 runs the MYSTERY variant: its destination is withheld, and a

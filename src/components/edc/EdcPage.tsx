@@ -6,6 +6,8 @@ import { GateHero } from "./GateHero";
 import { GateCrossing } from "./GateCrossing";
 import { ThePremise } from "./ThePremise";
 import { TheShape } from "./TheShape";
+import { TheWeek } from "./TheWeek";
+import { WeekNav } from "./WeekNav";
 import { TheDrop } from "./TheDrop";
 import { TheLineup } from "./TheLineup";
 import { BeyondTheGates } from "./BeyondTheGates";
@@ -51,7 +53,7 @@ import { CrewRadio } from "./CrewRadio";
  * No clue tracker, no clue cards, no guess box, no reward envelope. All of it
  * still exists and still runs on Journey 01; this page simply doesn't mount
  * it — same posture as the Goa page. Journey 02's own parked hunt lives in
- * content/journeys/journey02.ts and is ready if the variant is ever flipped.
+ * content/journeys/journey3.ts and is ready if the variant is ever flipped.
  *
  * There is also NO accommodation section. Goa has one; this trip's stay is
  * not decided, and a stock hotel photograph standing in for it would be the
@@ -138,6 +140,20 @@ export function EdcPage() {
           <ThePremise />
           <TheShape />
 
+        {/*
+          THE WEEK, FIRST HALF — days 01, 02 and 03.
+
+          THE SHAPE says the trip is seven days and what the split is; this
+          says what actually happens on each of the first three. It sits
+          between them and THE DROP so the page climbs: summary → the three
+          days of Thailand → and then.
+
+          Chapter 03 ends on "tomorrow, we enter another universe", and the
+          very next thing on the page is THE DROP. That adjacency is the
+          reason the itinerary is split in two at all — see TheWeek.tsx.
+        */}
+        <TheWeek phase="before" />
+
         {/* ── the peak ── */}
         <TheDrop />
 
@@ -156,8 +172,24 @@ export function EdcPage() {
         <TheLineup />
 
         {/*
+          THE WEEK, SECOND HALF — the three festival nights, then the morning
+          after, then the sign-off.
+
+          It lands here rather than directly after THE DROP because THE LINEUP
+          is the proof for the claim the drop just made, and the three nights
+          read completely differently once you have seen whose names are on
+          them. Drop → who is playing → what each of those three nights is.
+
+          This half also carries the end of the trip, so the last thing before
+          the casting board is everyone going home. That is deliberate: the
+          board then opens on who gets to come, which is the question the
+          sign-off has just made someone want the answer to.
+        */}
+        <TheWeek phase="after" />
+
+        {/*
           THE CAST — the shared casting board, in compact mode, immediately
-          after the peak. Its stamp and photo scraps come from journey02.ts
+          after the peak. Its stamp and photo scraps come from journey3.ts
           through JourneyProvider; only the composition line and the bridge
           are passed in, so the component stays journey-agnostic.
         */}
@@ -222,7 +254,7 @@ export function EdcPage() {
           possible way to make someone think they had one.
 
           See components/edc/PreRegister.tsx. It writes to the same table and
-          the same admin, tagged JOURNEY 02.
+          the same admin, tagged JOURNEY 3.
         */}
           {/*
             THE FAQ, immediately before the ask. Every question in it is an
@@ -237,6 +269,21 @@ export function EdcPage() {
           <PreRegister />
         </div>
         <Footer tone="night" />
+
+        {/*
+          THE WEEK NAVIGATOR — the house pattern this page was missing.
+
+          Sri Lanka pins `01 / 07 · THE ESCAPE · 29 DEC` while you move through
+          its worlds; a visitor who has seen that page should find the same
+          object in the same place here. It mounts INSIDE `.edc` for the reason
+          Sri Lanka's does inside `.sl`: the fixed chrome then inherits the
+          page's own colour tokens instead of the site defaults.
+
+          It only appears once you are inside the week, so the hero and the gate
+          stay clear of page furniture. See WeekNav.tsx for why it holds its
+          last chapter across the gap where THE DROP splits the seven in two.
+        */}
+        <WeekNav />
       </main>
 
       {/*

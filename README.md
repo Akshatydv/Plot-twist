@@ -602,8 +602,8 @@ order, identical set of 292 distinct class strings, zero divergence.
 ```
 src/content/journeys/
   types.ts       the contract
-  journey01.ts   Bali   — extracted verbatim, unchanged
-  journey00.ts   Goa
+  journey-bali.ts Bali  — extracted verbatim, unchanged
+  journey1.ts    Goa
   index.ts       the registry + build-time invariants
 ```
 
@@ -628,7 +628,7 @@ Components read destination content from `useJourney()` rather than importing
 it. There is **no `if (journey === …)` anywhere in the tree**.
 
 > **Adding Journey 02 is one file plus one line in `JOURNEYS`.** This was
-> verified, not assumed: a throwaway `journey02.ts` was added, the build
+> verified, not assumed: a throwaway `journey3.ts` was added, the build
 > produced a working `/journey/02` with no component, route or sitemap change,
 > and the probe was removed.
 
@@ -676,10 +676,10 @@ single strongest signal on the card.
 
 ### Analytics
 
-Every event carries `journey_id` (`"JOURNEY 00"`), attached centrally in
+Every event carries `journey_id` (`"JOURNEY 1"`), attached centrally in
 `lib/analytics.ts` rather than at forty call sites. Destination names are never
 sent, so no vendor learns the answer to the mystery. Verified with a stub
-provider: `clue_discovered { clue_number: 1, total: 5, journey_id: "JOURNEY 00" }`.
+provider: `clue_discovered { clue_number: 1, total: 5, journey_id: "JOURNEY 1" }`.
 
 ### Verifying
 

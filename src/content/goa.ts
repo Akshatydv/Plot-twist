@@ -1,11 +1,11 @@
 /**
- * GOA — JOURNEY 00'S REVEAL PAGE.
+ * GOA — JOURNEY 1'S REVEAL PAGE.
  *
  * All copy for the "reveal" page variant lives here, the same way every other
  * word on this site lives in content/. Components read; they never hold copy.
  *
  * ─── WHAT THIS FILE IS NOT ──────────────────────────────────────────────────
- * It is not a replacement for journeys/journey00.ts. That file still holds the
+ * It is not a replacement for journeys/journey1.ts. That file still holds the
  * full clue ladder, the three cards and the reward odds, untouched and parked.
  * This file is the transparent page that runs INSTEAD of the hunt, for now.
  *
@@ -165,8 +165,8 @@ export const premise = {
  * six traits, grading and interaction are not duplicated into this file.
  *
  * The board already adapts itself to this journey without any content below:
- * its stamp ("CASTING — JOURNEY 00") and its three photo scraps come from
- * journeys/journey00.ts via JourneyProvider.
+ * its stamp ("CASTING — JOURNEY 1") and its three photo scraps come from
+ * journeys/journey1.ts via JourneyProvider.
  *
  * The only thing this page adds is the composition line — who the twenty
  * actually are — which the shared component takes as a prop rather than
@@ -174,7 +174,7 @@ export const premise = {
  */
 export const cast = {
   /**
-   * The bridge under the CASTING — JOURNEY 00 stamp. Overrides
+   * The bridge under the CASTING — JOURNEY 1 stamp. Overrides
    * `casting.bridge` from site.ts, which is Journey 01's wording — see the
    * `bridge` prop on WhatsATen.
    */

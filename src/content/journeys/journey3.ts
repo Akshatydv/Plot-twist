@@ -1,7 +1,7 @@
 /**
- * JOURNEY 02 — EDC THAILAND.
+ * JOURNEY 3 — EDC THAILAND.
  *
- * Written against the contract in types.ts, the same way journey00.ts was.
+ * Written against the contract in types.ts, the same way journey1.ts was.
  *
  * ─── WHY THIS FILE LOOKS THIN ───────────────────────────────────────────────
  * This journey renders the "edc" page variant, and ALL of its copy lives in
@@ -14,7 +14,7 @@
  * The clue ladder, the three cards, the flight scramble and the reward odds
  * below are UNUSED by the edc variant, and they are deliberately real rather
  * than filler. If this journey is ever flipped to "mystery", the hunt works
- * on the first try. Same posture as journey00.ts.
+ * on the first try. Same posture as journey1.ts.
  *
  * Every factual claim in the ladder was verified before it was written:
  *   rung 01  Thailand is the only Southeast Asian country never colonised by
@@ -35,12 +35,12 @@ import { brand } from "@/content/site";
 import { DEFAULT_REWARD_WEIGHTS, REWARD_POOL } from "@/content/rewards";
 import type { JourneyConfig } from "./types";
 
-export const JOURNEY_02: JourneyConfig = {
-  id: "JOURNEY 02",
-  slug: "02",
-  displayName: "Journey 02",
+export const JOURNEY_3: JourneyConfig = {
+  id: "JOURNEY 3",
+  slug: "3",
+  displayName: "Journey 3 · Thailand",
   /** The festival page. EDC Thailand is the headline of its own hero. */
-  nav: { label: "EDC THAILAND", kicker: "JOURNEY 02 · DEC 18–20, 2026" },
+  nav: { label: "EDC THAILAND", kicker: "JOURNEY 3 · DEC 18–20, 2026" },
   campaignId: "journey02_launch",
   /** The festival page. See components/edc/EdcPage.tsx. */
   /**
@@ -56,11 +56,14 @@ export const JOURNEY_02: JourneyConfig = {
   seo: {
     title: "EDC Thailand 2026 — 7-Day Group Trip from India | Plot Twist",
     description:
-      "Twenty strangers, one crew, seven days built around EDC Thailand in Phuket, 16–22 Dec 2026. Not a tour and not a ticket agent — pre-register to hear first.",
-    /** Confirmed trip window — the same 16–22 December 2026 as TRIP.dates in
+      "Twenty strangers, one crew, seven days built around EDC Thailand in Phuket, 15–21 Dec 2026. Not a tour and not a ticket agent — pre-register to hear first.",
+    /** Confirmed trip window — the same 15–21 December 2026 as TRIP.dates in
      *  content/thailand.ts. These two must agree; change both or neither. */
-    startDate: "2026-12-16",
-    endDate: "2026-12-22",
+    startDate: "2026-12-15",
+    endDate: "2026-12-21",
+    /** Four stops, not one. `destination` is a single string in the schema
+     *  helper, so it names the arrival city and the route is carried by the
+     *  itinerary content rather than crammed in here. */
     destination: "Phuket, Thailand",
   },
 
@@ -80,7 +83,7 @@ export const JOURNEY_02: JourneyConfig = {
    * must not need a second edit.
    */
   hero: {
-    eyebrow: "JOURNEY 02 — 20 SEATS, AGES 18–30",
+    eyebrow: "JOURNEY 3 — 20 SEATS, AGES 18–30",
     sideNote: { big: ["20 PEOPLE.", "ONE MAINSTAGE."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/plot.jpg",
@@ -118,7 +121,7 @@ export const JOURNEY_02: JourneyConfig = {
    * NOBODY IN THEM IS ON THIS TRIP, and the notes are careful not to imply it.
    */
   casting: {
-    stamp: "CASTING — JOURNEY 02",
+    stamp: "CASTING — JOURNEY 3",
     photos: [
       {
         src: "/photos/thailand/cast-01.jpg",
@@ -228,11 +231,11 @@ export const JOURNEY_02: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 02. That was the easy half — the other 19 seats are still open.",
+  solvedBody: "Journey 3. That was the easy half — the other 19 seats are still open.",
 
   rewards: {
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 02",
+    envelopeMark: "JOURNEY 3",
   },
 };

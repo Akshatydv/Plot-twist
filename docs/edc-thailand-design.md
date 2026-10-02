@@ -1,4 +1,4 @@
-# JOURNEY 02 — EDC THAILAND
+# JOURNEY 3 — EDC THAILAND
 ## Design direction, written before a line of code
 
 > **READ THIS FIRST — the page moved on after this document was written.**
@@ -25,8 +25,8 @@
 
 ## 0. WHAT THE EXISTING SITE ACTUALLY IS
 
-Read first: `content/site.ts`, `content/goa.ts`, `content/journeys/journey00.ts` (Goa),
-`content/journeys/journey01.ts` (Bali), `components/goa/*`, `components/Bits.tsx`,
+Read first: `content/site.ts`, `content/goa.ts`, `content/journeys/journey1.ts` (Goa),
+`content/journeys/journey-bali.ts` (Bali), `components/goa/*`, `components/Bits.tsx`,
 `components/Brush.tsx`, `app/globals.css`.
 
 **Two destination pages exist, and they are two *variants*, not two designs.**
@@ -360,7 +360,7 @@ below, whose bridge reads *"The lineup gets announced. The cast gets picked."*
 The **shared `WhatsATen` casting board, unchanged**, in `compact` mode. It already renders
 on a dark magenta radial with `text-sand`, so it drops into this page with no restyling —
 and that's the right call: the Cast board is the master concept across every journey and
-must not be reinterpreted per destination. Only its stamp (`CASTING — JOURNEY 02`), its
+must not be reinterpreted per destination. Only its stamp (`CASTING — JOURNEY 3`), its
 three photo scraps and its bridge line are per-journey.
 
 Bridge copy: **"20 PEOPLE. ONE CREW. ONE FESTIVAL."** / *"The lineup's announced. The

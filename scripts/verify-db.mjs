@@ -73,7 +73,7 @@ const probe = {
   answer_1: "x".repeat(45),
   answer_2: "x".repeat(45),
   answer_3: "x".repeat(45),
-  journey: "JOURNEY 01",
+  journey: "JOURNEY 1",
   clue_progress: 0,
 };
 
@@ -89,7 +89,7 @@ if (ins.error) {
   check(missing.length === 0, "all 20 expected columns exist", missing.length ? `missing: ${missing}` : "");
   check(extra.length === 0, "no unexpected columns", extra.length ? `extra: ${extra}` : "");
   check(row.status === "PENDING", "status defaults to PENDING", `got ${row.status}`);
-  check(row.journey === "JOURNEY 01", "journey defaults correctly");
+  check(row.journey === "JOURNEY 1", "journey defaults correctly");
   check(typeof row.id === "string" && row.id.length === 36, "id is a generated uuid");
   check(Boolean(row.submitted_at), "submitted_at auto-populates");
 }
@@ -133,7 +133,7 @@ if (!dupe.error) await admin.from("applications").delete().eq("id", dupe.data.id
 // same handle, different journey must be allowed
 const otherJourney = await admin
   .from("applications")
-  .insert({ ...probe, journey: "JOURNEY 02" })
+  .insert({ ...probe, journey: "JOURNEY 3" })
   .select()
   .single();
 check(!otherJourney.error, "same handle allowed on a different journey", otherJourney.error?.message ?? "");

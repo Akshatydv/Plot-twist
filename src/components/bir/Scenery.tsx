@@ -360,6 +360,7 @@ export function Footage({
   drift = false,
   sizes = "100vw",
   still = false,
+  mounted = false,
 }: {
   slot: MediaSlot;
   children?: ReactNode;
@@ -372,11 +373,18 @@ export function Footage({
   sizes?: string;
   /** Show the poster only, never the clip — for frames waiting off-stage in a FrameStack. */
   still?: boolean;
+  /**
+   * Mount the media straight away, without the hero's priority preload. For
+   * frames inside a horizontally-pinned reel: they sit beside the viewport in
+   * an overflow-hidden track, where an IntersectionObserver can never see them
+   * coming, so lazy mounting would pop them in late.
+   */
+  mounted?: boolean;
 }) {
   const wrap = useRef<HTMLDivElement>(null);
   const vid = useRef<HTMLVideoElement>(null);
   const reduce = useCalm();
-  const [near, setNear] = useState(eager);
+  const [near, setNear] = useState(eager || mounted);
   const [visible, setVisible] = useState(eager);
   const [ready, setReady] = useState(false);
   const hasMedia = Boolean(slot.image || slot.video);
@@ -396,7 +404,7 @@ export function Footage({
     const el = wrap.current;
     if (!el || !hasMedia) return;
     // the hero stays mounted (it is the first paint), but still pauses off screen
-    const nearIo = eager ? null : new IntersectionObserver(([e]) => setNear(e.isIntersecting), { rootMargin: "120% 0px" });
+    const nearIo = eager || mounted ? null : new IntersectionObserver(([e]) => setNear(e.isIntersecting), { rootMargin: "120% 0px" });
     const seenIo = new IntersectionObserver(([e]) => setVisible(e.intersectionRatio >= 0.25), { threshold: [0, 0.25] });
     nearIo?.observe(el);
     seenIo.observe(el);
@@ -404,7 +412,7 @@ export function Footage({
       nearIo?.disconnect();
       seenIo.disconnect();
     };
-  }, [hasMedia, eager]);
+  }, [hasMedia, eager, mounted]);
 
   // leaving the neighbourhood drops the clip, so the next arrival fades in again
   useEffect(() => {

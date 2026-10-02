@@ -1,4 +1,4 @@
-# JOURNEY 03 — BIR × BAROT
+# JOURNEY 2 — BIR × BAROT
 ## Visual architecture, written before a line of code
 
 > **Itinerary change (after launch).** The stay moved to **Bir for all three

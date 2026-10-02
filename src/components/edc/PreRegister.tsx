@@ -29,7 +29,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
  *
  * ─── WHERE IT GOES ──────────────────────────────────────────────────────────
  * The same POST /api/applications endpoint and the same table as every other
- * journey, tagged JOURNEY 02 through JourneyProvider. One store, one admin, no
+ * journey, tagged JOURNEY 3 through JourneyProvider. One store, one admin, no
  * second system to keep in sync.
  *
  * That endpoint requires three answers, and this form does not ask three

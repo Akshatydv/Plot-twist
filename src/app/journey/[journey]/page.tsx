@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 import { JourneyPage } from "@/components/JourneyPage";
-import { DEFAULT_JOURNEY, JOURNEYS, journeyBySlug } from "@/content/journeys";
+import { JOURNEYS, journeyBySlug, journeyOwnsRoot } from "@/content/journeys";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { journeyGraph } from "@/lib/seo/schema";
 import { faq } from "@/content/thailand";
 
 /**
- * /journey/00, /journey/01, /journey/02 …
+ * /journey/1, /journey/2, /journey/3 … (old slugs redirect: see next.config.ts)
  *
  * Statically generated from the registry, so adding a journey adds a route
  * with no file change here.
@@ -55,15 +55,18 @@ export async function generateMetadata({
   const base: Metadata = { alternates: { canonical: path }, openGraph: { url: path } };
   if (!config?.seo) return base;
 
-  const { title, description } = config.seo;
+  const { title, description, image } = config.seo;
+  // A journey with its own card photograph shares that; otherwise the site's
+  // generated card (app/opengraph-image.tsx) is inherited as before.
+  const images = image ? [{ url: image, width: 2000, height: 1333, alt: title }] : undefined;
   return {
     ...base,
     title,
     description,
     // Restated on both social cards: a share of the EDC page should say what
     // it is, not repeat the site's generic line.
-    openGraph: { ...base.openGraph, title, description },
-    twitter: { title, description },
+    openGraph: { ...base.openGraph, title, description, ...(images && { images }) },
+    twitter: { title, description, ...(images && { card: "summary_large_image" as const, images: [image!] }) },
   };
 }
 
@@ -72,10 +75,14 @@ export default async function Page({ params }: { params: Promise<{ journey: stri
 
   // The default journey owns "/". Serving it here too would be the same page
   // on two URLs, so this one hands over rather than duplicating it.
-  if (slug === DEFAULT_JOURNEY.slug) redirect("/");
-
+  // (Unless the brand homepage owns "/" — see HOMEPAGE_OWNS_ROOT.)
   const journey = journeyBySlug(slug);
   if (!journey) notFound();
+  if (journeyOwnsRoot(journey)) redirect("/");
+  // A retired journey has no page. Old links (an ad, a QR code, a saved tab)
+  // land on the homepage rather than on a 404 or an application nobody is
+  // running. See `retired` in content/journeys/types.ts.
+  if (journey.retired) redirect("/");
 
   return (
     <>

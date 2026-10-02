@@ -1,5 +1,5 @@
 /**
- * JOURNEY 00 — GOA.
+ * JOURNEY 1 — GOA.
  *
  * The first plot. Positioned as the journey that came before Journey 01, not
  * as a pilot: a visitor is joining a real Plot Twist journey, and the
@@ -38,12 +38,12 @@ import { brand } from "@/content/site";
 import { DEFAULT_REWARD_WEIGHTS, REWARD_POOL } from "@/content/rewards";
 import type { JourneyConfig } from "./types";
 
-export const JOURNEY_00: JourneyConfig = {
-  id: "JOURNEY 00",
-  slug: "00",
-  displayName: "Journey 00",
+export const JOURNEY_1: JourneyConfig = {
+  id: "JOURNEY 1",
+  slug: "1",
+  displayName: "Journey 1 · Goa",
   /** The reveal page — Goa is stated in its own hero, so naming it costs nothing. */
-  nav: { label: "GOA", kicker: "JOURNEY 00 · OCTOBER 2026" },
+  nav: { label: "GOA", kicker: "JOURNEY 1 · OCTOBER 2026" },
   campaignId: "journey00_launch",
   /**
    * Goa is stated outright — see content/goa.ts for the page this renders.
@@ -77,7 +77,7 @@ export const JOURNEY_00: JourneyConfig = {
   },
 
   hero: {
-    eyebrow: "JOURNEY 00 — 20 SEATS, AGES 18–30",
+    eyebrow: "JOURNEY 1 — 20 SEATS, AGES 18–30",
     /** The only place the prequel framing appears. Same slot, same type, different words. */
     sideNote: { big: ["20 PEOPLE.", "THE FIRST PLOT."], invite: "COME GET CAST." },
     photo: {
@@ -148,7 +148,7 @@ export const JOURNEY_00: JourneyConfig = {
   },
 
   casting: {
-    stamp: "CASTING — JOURNEY 00",
+    stamp: "CASTING — JOURNEY 1",
     photos: [
       {
         src: "/photos/goa/people.jpg",
@@ -294,7 +294,7 @@ export const JOURNEY_00: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 00. The first plot — and 15 of the seats are still open.",
+  solvedBody: "Journey 1. The first plot — and 15 of the seats are still open.",
 
   rewards: {
     // The same eight rewards, drawn from the same table. This is one reward
@@ -303,6 +303,6 @@ export const JOURNEY_00: JourneyConfig = {
     // and submitted with this journey's id, both of which the server checks.
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 00",
+    envelopeMark: "JOURNEY 1",
   },
 };

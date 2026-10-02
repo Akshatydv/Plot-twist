@@ -32,7 +32,7 @@ export default function TermsPage() {
           <section>
             <h2 className="font-display text-[13px] tracked text-sand">APPLYING ISN'T BOOKING</h2>
             <p className="mt-2">
-              Submitting an application is a request to be considered for Journey 01. It does not
+              Submitting an application is a request to be considered for a Plot Twist journey. It does not
               reserve a spot, does not charge you anything, and does not guarantee selection. Selection
               is manual — a real person reads every application.
             </p>
@@ -50,9 +50,9 @@ export default function TermsPage() {
           <section>
             <h2 className="font-display text-[13px] tracked text-sand">THE REWARD</h2>
             <p className="mt-2">
-              Solving the destination mystery unlocks one reward from a fixed pool, assigned once and
-              not re-rolled. Rewards are tied to Journey 01 and have no cash-equivalent value beyond
-              what's stated at the time they're honoured.
+              Where a journey runs a destination mystery, solving it unlocks one reward from a fixed pool,
+              assigned once and not re-rolled. Rewards are tied to the journey they were earned on and
+              have no cash-equivalent value beyond what's stated at the time they're honoured.
             </p>
           </section>
 

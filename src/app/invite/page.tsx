@@ -11,7 +11,7 @@ import { InvitePage } from "@/components/invite/InvitePage";
  * NOINDEX, and kept out of the sitemap. An invitation that turns up in a
  * search result is not an invitation — it has to arrive from someone.
  */
-const TITLE = "The plot found you. — Plot Twist · Journey 00";
+const TITLE = "The plot found you. — Plot Twist · Journey 1";
 const DESCRIPTION =
   "This isn't a group trip. It's a plot we're writing together. Goa, 17–20 October 2026. Twenty people.";
 
