@@ -56,7 +56,7 @@ export const JOURNEY_3: JourneyConfig = {
   seo: {
     title: "EDC Thailand 2026 — 7-Day Group Trip from India | Plot Twist",
     description:
-      "Thailand × EDC: seven days, six nights built around EDC Thailand — Phuket, Krabi, Phi Phi, Maya Bay. 15–21 Dec 2026, from ₹44,999 early bird. Book your spot.",
+      "Thailand × EDC: seven days, six nights built around EDC Thailand — Phuket, Krabi, Phi Phi, Maya Bay. 15–21 Dec 2026. ₹74,999 early bird with the EDC 3-day GA ticket included.",
     /** Confirmed trip window — the same 15–21 December 2026 as TRIP.dates in
      *  content/thailand.ts. These two must agree; change both or neither. */
     startDate: "2026-12-15",

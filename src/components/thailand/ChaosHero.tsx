@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { hero } from "@/content/chaos";
 import { useCalm } from "../bir/Scenery";
+import { bookLink } from "@/content/thailand-ops";
 
 /**
  * 00 · THE HERO — THE VIDEO IS THE HERO.
@@ -167,12 +168,14 @@ export function ChaosHero() {
               transition={{ duration: 0.9, delay: 1.55 }}
             >
               <a
-                href="#pre-register"
+                href={bookLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex min-h-[48px] touch-manipulation items-center gap-3 border border-sand/70 px-6 py-3.5 text-[12px] font-semibold tracked text-sand transition-colors hover:bg-sand hover:text-[#08060B]"
               >
                 {hero.cta}
-                <span aria-hidden className="transition-transform group-hover:translate-y-1">
-                  ↓
+                <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                  →
                 </span>
               </a>
             </motion.div>

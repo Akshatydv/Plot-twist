@@ -1100,8 +1100,8 @@ export type WeekChapter = (typeof week.chapters)[number];
  */
 export const price = {
   confirmed: true,
-  amount: "₹44,999",
-  note: "Early bird, per person, until 15 October. ₹49,999 from 16 Oct; ₹54,999 from 16 Nov. The EDC Thailand 3-day pass and flights are additional — the pass at official MRP, nothing added.",
+  amount: "₹74,999",
+  note: "Early bird, per person, until 15 October — EDC Thailand 3-day GA ticket included. ₹79,999 from 16 Oct; ₹84,999 from 16 Nov. Flights are additional.",
   /**
    * THE ALL-IN NUMBER, AND WHY IT IS STATED.
    *
@@ -1113,8 +1113,8 @@ export const price = {
    * `allIn` is the figure to quote; `passNote` is the sentence that stops it
    * reading as a package price.
    */
-  allIn: "Same trip at every price. Book early, save ₹10,000.",
-  passNote: "From ₹44,999 for the trip. The EDC pass at official MRP on top. We add nothing to the ticket.",
+  allIn: "The trip doesn't change. The price does.",
+  passNote: "₹74,999 early bird, with the EDC 3-day GA ticket included. Only flights are additional.",
   pending: "NOT ANNOUNCED YET",
   pendingNote: "Pre-register and you'll hear it first.",
 } as const;
@@ -1157,11 +1157,11 @@ export const inclusions = {
     "A Phuket adventure experience",
     "Planned group experiences all week",
     "Group transfers to and from EDC on all three nights",
+    "EDC Thailand 3-day GA ticket",
     "A dedicated Plot Twist trip leader, on the trip with you",
     "A curated group of 16*",
   ],
   excluded: [
-    "The EDC Thailand 3-day festival pass — at official MRP; buy it yourself or we can help you book it",
     "Flights to and from Thailand",
     "Visa and travel insurance",
     "Meals outside the planned experiences",
@@ -1213,7 +1213,7 @@ export const pass = {
    * See the affiliation rule at the top of this file.
    */
   disclaimer:
-    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. We do not resell festival tickets. Where we help a traveller book their pass it is bought at official MRP and we add nothing to it. The hero video is festival footage from EDC Thailand's own trailer and belongs to its makers, not to us. The photography is licensed stock and does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
+    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. The package price includes a standard EDC Thailand 3-day GA ticket. The hero video is festival footage from EDC Thailand's own trailer and belongs to its makers, not to us. The photography is licensed stock and does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
   price,
   inclusions,
 } as const;
@@ -1283,8 +1283,8 @@ export const preRegister = {
   headline: ["GET INTO", "THE PLOT."],
   sub: "Leave your details and we'll message you to confirm. ₹15,000 holds your spot — or WhatsApp us on +91 70655 55549.",
   reassure: [
-    "Early bird ₹44,999 until 15 October · ₹49,999 from 16 Oct · ₹54,999 from 16 Nov.",
-    "₹15,000 to confirm. Balance by 2 December. EDC ticket and flights additional.",
+    "₹74,999 early bird until 15 October — EDC ticket included · ₹79,999 from 16 Oct · ₹84,999 from 16 Nov.",
+    "₹15,000 to confirm. Balance by 2 December. Flights additional.",
   ],
   fields: {
     name: { label: "NAME", placeholder: "what people call you" },
@@ -1426,15 +1426,15 @@ export const faq = {
   items: [
     {
       q: "Is this an official EDC Thailand package?",
-      a: "No. Plot Twist is an independent travel company and is not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events. We run a trip that happens to be built around their festival, and we can help you book your pass. Anything to do with the festival itself — lineup, entry, rules — is theirs, not ours.",
+      a: "No. Plot Twist is an independent travel company and is not a partner, sponsor, organiser or affiliate of EDC, EDC Thailand or Insomniac Events. We run a trip built around their festival, and your 3-day GA ticket is included in the package. Anything to do with the festival itself — lineup, entry, rules — is theirs, not ours.",
     },
     {
       q: "Are festival tickets included?",
-      a: "No — the pass sits on top of the trip price, at official MRP, with nothing added by us. We do not mark festival tickets up: you pay official MRP for an EDC ticket, and you pay us for the week around it. You can buy the pass yourself, or we can help you book it — either way the price is the same.",
+      a: "Yes. A standard EDC Thailand 3-day GA ticket is included in the package price. Flights are the only big thing that's additional.",
     },
     {
       q: "What does it cost?",
-      a: "It depends on when you book — same trip at every price. Early bird ₹44,999 per person until 15 October, ₹49,999 from 16 October to 15 November, and ₹54,999 from 16 November. That covers the stays, the transfers, the boat day, the experiences and the trip leader. The EDC 3-day pass is on top at official MRP, and flights are your own. ₹15,000 confirms your spot; the balance is due by 2 December.",
+      a: "It depends on when you book — same trip at every price. Early bird ₹74,999 per person until 15 October, ₹79,999 from 16 October to 15 November, and ₹84,999 from 16 November. That covers the stays, the transfers, the boat day, the experiences, the trip leader — and the EDC Thailand 3-day GA ticket. Flights are your own. ₹15,000 confirms your spot; the balance is due by 2 December.",
     },
     {
       q: "How do I book?",

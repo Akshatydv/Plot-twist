@@ -41,7 +41,7 @@ export const atAGlance = {
     { k: "STAYS", v: "PREMIUM HOTELS" },
     { k: "BREAKFAST", v: "INCLUDED EVERY DAY" },
     { k: "MOVING", v: "PREMIUM GROUP TRANSFERS" },
-    { k: "FESTIVAL", v: `EDC · ${festival.dates.toUpperCase()}` },
+    { k: "FESTIVAL", v: `EDC · ${festival.dates.toUpperCase()} · GA TICKET INCLUDED` },
     { k: "THE CREW", v: "16* + A PLOT TWIST TRIP LEADER" },
   ],
   caveat: "*The final group size can vary and is not guaranteed.",
@@ -127,8 +127,8 @@ export const dayLog = {
       afternoon: "Check in, shower, pool, eat, rest. Then get ready.",
       evening: `Gates at ${festival.ground}. EDC night 01.`,
       meals: "Breakfast",
-      included: ["Breakfast", "Premium group transfer, Krabi → Phuket", "Group transfers to and from EDC", "Hotel in Phuket"],
-      notIncluded: "EDC pass: bought separately, at official MRP",
+      included: ["Breakfast", "Premium group transfer, Krabi → Phuket", "EDC 3-day GA ticket", "Group transfers to and from EDC", "Hotel in Phuket"],
+      notIncluded: "Flights (if you're flying in or out today)",
       note: "The festival is the organiser's event. Entry, bag rules and timings are theirs.",
     },
     {
@@ -142,7 +142,7 @@ export const dayLog = {
       evening: "EDC night 02.",
       meals: "Breakfast",
       included: ["Breakfast", "Curated Phuket exploration", "Group transfers to and from EDC", "Hotel in Phuket"],
-      notIncluded: "EDC pass: bought separately, at official MRP",
+      notIncluded: "Flights (if you're flying in or out today)",
     },
     {
       n: "06",
@@ -155,7 +155,7 @@ export const dayLog = {
       evening: "EDC night 03. The last night of the festival and of the trip.",
       meals: "Breakfast",
       included: ["Breakfast", "A Phuket adventure experience", "Group transfers to and from EDC", "Hotel in Phuket"],
-      notIncluded: "EDC pass: bought separately, at official MRP",
+      notIncluded: "Flights (if you're flying in or out today)",
     },
     {
       n: "07",
@@ -204,7 +204,7 @@ export const festivalGuide = {
   organiser: {
     k: "WHAT EDC DECIDES",
     items: [
-      "Your festival pass, at official MRP. Buy it yourself, or we can help you book it",
+      "Entry with your 3-day GA ticket (included in the trip)",
       "Gate times, entry and re-entry",
       "What you can and cannot bring in",
       "The lineup, the stages and the schedule",
@@ -252,11 +252,11 @@ export const practicalFaq = [
   },
   {
     q: "How do we get to and from EDC?",
-    a: "The trip moves the group to and from the festival on all three nights. The festival pass itself is separate, at official MRP, and you can buy it yourself, or we can help you book it.",
+    a: "The trip moves the group to and from the festival on all three nights. Your EDC Thailand 3-day GA ticket is included in the package.",
   },
   {
     q: "How do I pay, and what if I cancel?",
-    a: "Early bird ₹44,999 until 15 October, then ₹49,999 to 15 November, then ₹54,999. A ₹15,000 booking amount confirms your seat, plus your EDC pass amount if you would like us to help book it. The balance is due by 2 December 2026. If you cancel 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable. Refunds on the EDC pass follow the organiser's rules.",
+    a: "Early bird ₹74,999 until 15 October (EDC ticket included), then ₹79,999 to 15 November, then ₹84,999. A ₹15,000 booking amount confirms your seat. The balance is due by 2 December 2026. If you cancel 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable.",
   },
   {
     q: "Do I need a visa?",
@@ -310,13 +310,13 @@ export const payments = {
   steps: [
     {
       k: "THE PRICE · EARLY BIRD",
-      v: "₹44,999",
-      note: "Book by 15 October. ₹49,999 from 16 Oct – 15 Nov; ₹54,999 from 16 Nov. EDC ticket and flights additional.",
+      v: "₹74,999",
+      note: "Book by 15 October — EDC Thailand 3-day GA ticket included. ₹79,999 from 16 Oct – 15 Nov; ₹84,999 from 16 Nov. Flights additional.",
     },
     {
       k: "TO CONFIRM YOUR SEAT",
       v: "₹15,000",
-      note: "The booking amount. If you would like us to help book your EDC pass, the pass amount is paid with it.",
+      note: "The booking amount. It holds your spot on the trip.",
     },
     {
       k: "THE REST",
@@ -325,7 +325,7 @@ export const payments = {
     },
   ],
   passNote:
-    "The EDC pass is at official MRP and we add nothing to it. Refunds on the pass itself follow the organiser's rules, not ours.",
+    "The trip doesn't change. The price does. The EDC 3-day GA ticket is included at every price; flights are additional.",
   cancelLabel: "IF YOU CANCEL",
   cancellations: [
     { when: "30 or more days before departure", cutoff: "On or before 15 November", fee: "30% fee deducted", tone: "soft" },
@@ -346,3 +346,8 @@ export const questions = {
   prefill: "Hey Plot Twist 👀 I have a question about the EDC Thailand trip",
   instagramLine: "or on Instagram",
 } as const;
+
+/** The booking link every "Get into the plot" CTA uses. */
+export const bookLink =
+  "https://wa.me/917065555549?text=" +
+  encodeURIComponent("Hi Plot Twist, I'm interested in Thailand × EDC and the ₹74,999 Early Bird.");

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { close } from "@/content/chaos";
 import { useCalm } from "../bir/Scenery";
+import { bookLink } from "@/content/thailand-ops";
 
 /**
  * THE STANDING OFFER — a bar on phones, a corner slab on desktop.
@@ -86,7 +87,9 @@ export function StickyCta() {
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         >
           <a
-            href="#pre-register"
+            href={bookLink}
+                target="_blank"
+                rel="noopener noreferrer"
             className="flex min-h-[56px] w-full touch-manipulation items-center justify-between gap-4 border-t border-white/15 bg-[#07040d]/92 px-5 backdrop-blur-md sm:min-h-0 sm:w-auto sm:rounded-none sm:border sm:px-6 sm:py-4"
           >
             <span className="flex flex-col">

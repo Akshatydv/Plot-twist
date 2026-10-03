@@ -185,10 +185,10 @@ export const hero = {
   eyebrow: `EDC × THAILAND · ${TRIP.dates.value}`,
   /** Two words. The second is the whole page. */
   title: ["THAILAND", "× EDC"],
-  dateline: "PHUKET · KRABI · PHI PHI · MAYA BAY",
+  dateline: "₹74,999 / PERSON · EDC TICKET INCLUDED · EARLY BIRD UNTIL 15 OCT · FLIGHTS ADDITIONAL",
   /** Under the title, small, and the only full sentence on the first screen. */
   line: "The best of both worlds.",
-  cta: "BOOK YOUR SPOT · FROM ₹44,999",
+  cta: "GET INTO THE PLOT",
   /** The scroll hint. The page is a film; this is the only instruction in it. */
   scroll: "IT STARTS IN THE DARK",
   /**
@@ -422,7 +422,7 @@ export const close = {
   /** The masthead returns here rather than opening the page. */
   masthead: ["You've found", "the plot."],
   line: "Until the next one.",
-  cta: "BOOK YOUR SPOT →",
+  cta: "GET INTO THE PLOT →",
   /** The only status this page states about money, per the current instruction. */
   /**
    * THE PRICE, IN TWO HALVES THAT ARE ALWAYS STATED TOGETHER.
@@ -433,13 +433,13 @@ export const close = {
    * page never shows the first without the other two.
    */
   price: {
-    amount: "₹44,999",
-    per: "EARLY BIRD · BOOK BY 15 OCTOBER",
-    pass: "₹49,999 from 16 Oct · ₹54,999 from 16 Nov",
-    allIn: "Same trip at every price. Book early, save ₹10,000.",
-    note: "₹15,000 confirms your spot; the balance is due by 2 December. EDC ticket and flights are additional — the pass is at official MRP and we add nothing to it.",
+    amount: "₹74,999",
+    per: "EARLY BIRD · UNTIL 15 OCTOBER · EDC TICKET INCLUDED",
+    pass: "₹79,999 from 16 Oct · ₹84,999 from 16 Nov",
+    allIn: "The trip doesn't change. The price does.",
+    note: "₹15,000 confirms your spot; the balance is due by 2 December. The EDC Thailand 3-day GA ticket is included. Flights are additional.",
   },
-  status: "Early bird ₹44,999 · until 15 Oct",
+  status: "₹74,999 · EDC included · until 15 Oct",
 } as const;
 
 /** Re-exported so components never reach past this file for confirmed facts. */
@@ -772,10 +772,10 @@ export const included = {
   ],
   festival: {
     k: "THE FESTIVAL",
-    item: "3 nights of EDC Thailand — 18, 19 and 20 December, Rhythm Park, Phuket",
+    item: "EDC Thailand 3-day GA ticket — included. 18, 19 and 20 December, Rhythm Park, Phuket",
   },
   passNote:
-    "From ₹44,999 (early bird, until 15 October; ₹49,999 from 16 Oct, ₹54,999 from 16 Nov) covers the week above. The EDC Thailand 3-day pass sits on top at official MRP — we add nothing to the ticket. We curate the trip; EDC prices the ticket.",
+    "₹74,999 early bird (until 15 October) covers the whole week above — and the EDC Thailand 3-day GA ticket. ₹79,999 from 16 Oct, ₹84,999 from 16 Nov. Same trip at every price; only flights are additional.",
 } as const;
 
 /** The closing argument. The loudest plain statement on the page. */
