@@ -256,7 +256,7 @@ export const practicalFaq = [
   },
   {
     q: "How do I pay, and what if I cancel?",
-    a: "Early bird ₹74,999 until 15 October (EDC ticket included), then ₹79,999 to 15 November, then ₹84,999. To confirm your seat: a ₹15,000 booking amount plus ₹30,000 towards your EDC ticket. The balance is due by 2 December 2026. If you cancel 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable. EDC tickets are non-refundable: the ₹30,000 EDC ticket amount is not refunded once paid.",
+    a: "Early bird ₹74,999 until 15 October (EDC ticket included), then ₹79,999 to 15 November, then ₹84,999. To confirm your seat: a ₹15,000 booking amount plus ₹30,000 towards your EDC ticket. The balance is due by 2 December 2026. If you cancel, fees apply to the trip amount only: 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable. EDC tickets are non-refundable: the ₹30,000 EDC ticket amount is not refunded once paid.",
   },
   {
     q: "Do I need a visa?",
@@ -337,7 +337,7 @@ export const payments = {
     { when: "16 to 29 days before departure", cutoff: "16 to 29 November", fee: "75% fee deducted", tone: "firm" },
     { when: "15 days or fewer before departure", cutoff: "From 30 November", fee: "Non-refundable", tone: "hard" },
   ],
-  feeNote: "Fees are taken from the amount you have paid at the time. EDC tickets are non-refundable — the ₹30,000 EDC ticket amount is not refunded once paid.",
+  feeNote: "Cancellation fees apply to the trip amount only, taken from what you have paid at the time. EDC tickets are non-refundable — the ₹30,000 EDC ticket amount is not refunded once paid.",
   note: "The balance is due on 2 December, after the refund window has closed, so paying it means you are going.",
 } as const;
 
