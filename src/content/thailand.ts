@@ -1281,10 +1281,10 @@ export const preRegister = {
   index: edcIndex("preRegister"),
   label: "BOOK YOUR SPOT",
   headline: ["GET INTO", "THE PLOT."],
-  sub: "Leave your details and we'll message you to confirm. ₹15,000 holds your spot — or WhatsApp us on +91 70655 55549.",
+  sub: "Leave your details and we'll message you to confirm. ₹15,000 booking + ₹30,000 towards your EDC ticket confirms your spot — or WhatsApp us on +91 70655 55549.",
   reassure: [
     "₹74,999 early bird until 15 October — EDC ticket included · ₹79,999 from 16 Oct · ₹84,999 from 16 Nov.",
-    "₹15,000 to confirm. Balance by 2 December. Flights additional.",
+    "To confirm: ₹15,000 booking + ₹30,000 EDC ticket. Balance by 2 December. Flights additional.",
   ],
   fields: {
     name: { label: "NAME", placeholder: "what people call you" },
@@ -1434,11 +1434,11 @@ export const faq = {
     },
     {
       q: "What does it cost?",
-      a: "It depends on when you book — same trip at every price. Early bird ₹74,999 per person until 15 October, ₹79,999 from 16 October to 15 November, and ₹84,999 from 16 November. That covers the stays, the transfers, the boat day, the experiences, the trip leader — and the EDC Thailand 3-day GA ticket. Flights are your own. ₹15,000 confirms your spot; the balance is due by 2 December.",
+      a: "It depends on when you book — same trip at every price. Early bird ₹74,999 per person until 15 October, ₹79,999 from 16 October to 15 November, and ₹84,999 from 16 November. That covers the stays, the transfers, the boat day, the experiences, the trip leader — and the EDC Thailand 3-day GA ticket. Flights are your own. To confirm: ₹15,000 booking amount plus ₹30,000 towards your EDC ticket; the balance is due by 2 December.",
     },
     {
       q: "How do I book?",
-      a: "Leave your details in the form below or message us on WhatsApp (+91 70655 55549). We'll come back to you, and ₹15,000 confirms your spot. Filling in the form on its own holds nothing until that payment is made.",
+      a: "Leave your details in the form below or message us on WhatsApp (+91 70655 55549). We'll come back to you; ₹15,000 booking + ₹30,000 towards your EDC ticket confirms your spot. Filling in the form on its own holds nothing until that payment is made.",
     },
     {
       q: "When is the trip, and how long is it?",

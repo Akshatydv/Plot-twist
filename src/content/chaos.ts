@@ -437,7 +437,7 @@ export const close = {
     per: "EARLY BIRD · UNTIL 15 OCTOBER · EDC TICKET INCLUDED",
     pass: "₹79,999 from 16 Oct · ₹84,999 from 16 Nov",
     allIn: "The trip doesn't change. The price does.",
-    note: "₹15,000 confirms your spot; the balance is due by 2 December. The EDC Thailand 3-day GA ticket is included. Flights are additional.",
+    note: "To confirm: ₹15,000 booking amount + ₹30,000 towards your EDC ticket. The balance is due by 2 December. The EDC Thailand 3-day GA ticket is included. Flights are additional.",
   },
   status: "₹74,999 · EDC included · until 15 Oct",
 } as const;

@@ -256,7 +256,7 @@ export const practicalFaq = [
   },
   {
     q: "How do I pay, and what if I cancel?",
-    a: "Early bird ₹74,999 until 15 October (EDC ticket included), then ₹79,999 to 15 November, then ₹84,999. A ₹15,000 booking amount confirms your seat. The balance is due by 2 December 2026. If you cancel 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable.",
+    a: "Early bird ₹74,999 until 15 October (EDC ticket included), then ₹79,999 to 15 November, then ₹84,999. To confirm your seat: a ₹15,000 booking amount plus ₹30,000 towards your EDC ticket (₹45,000 in all). The balance is due by 2 December 2026. If you cancel 30 or more days before departure a 30% fee is deducted, 16 to 29 days before it is 75%, and 15 days or fewer is non-refundable.",
   },
   {
     q: "Do I need a visa?",
@@ -317,6 +317,11 @@ export const payments = {
       k: "TO CONFIRM YOUR SEAT",
       v: "₹15,000",
       note: "The booking amount. It holds your spot on the trip.",
+    },
+    {
+      k: "WITH IT · THE EDC TICKET",
+      v: "₹30,000",
+      note: "Paid with the booking amount, towards your EDC Thailand 3-day GA ticket. ₹45,000 in all to confirm.",
     },
     {
       k: "THE REST",
