@@ -40,7 +40,7 @@ export const JOURNEY_3: JourneyConfig = {
   slug: "3",
   displayName: "Journey 3 · Thailand",
   /** The festival page. EDC Thailand is the headline of its own hero. */
-  nav: { label: "EDC THAILAND", kicker: "JOURNEY 3 · DEC 18–20, 2026" },
+  nav: { label: "EDC THAILAND", kicker: "JOURNEY 3 · 15–21 DEC 2026" },
   campaignId: "journey02_launch",
   /** The festival page. See components/edc/EdcPage.tsx. */
   /**
@@ -56,7 +56,7 @@ export const JOURNEY_3: JourneyConfig = {
   seo: {
     title: "EDC Thailand 2026 — 7-Day Group Trip from India | Plot Twist",
     description:
-      "Twenty strangers, one crew, seven days built around EDC Thailand in Phuket, 15–21 Dec 2026. Not a tour and not a ticket agent — pre-register to hear first.",
+      "Thailand × EDC: seven days, six nights built around EDC Thailand — Phuket, Krabi, Phi Phi, Maya Bay. 15–21 Dec 2026, from ₹44,999 early bird. Book your spot.",
     /** Confirmed trip window — the same 15–21 December 2026 as TRIP.dates in
      *  content/thailand.ts. These two must agree; change both or neither. */
     startDate: "2026-12-15",
@@ -83,8 +83,8 @@ export const JOURNEY_3: JourneyConfig = {
    * must not need a second edit.
    */
   hero: {
-    eyebrow: "JOURNEY 3 — 20 SEATS, AGES 18–30",
-    sideNote: { big: ["20 PEOPLE.", "ONE MAINSTAGE."], invite: "COME GET CAST." },
+    eyebrow: "JOURNEY 3 — 16 SEATS, AGES 18–30",
+    sideNote: { big: ["16 PEOPLE.", "ONE MAINSTAGE."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/plot.jpg",
       alt: "A crowd silhouetted against a burning tropical sunset",

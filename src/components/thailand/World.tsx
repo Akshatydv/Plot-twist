@@ -6,7 +6,7 @@ import { beats as REELS, type World as WorldData } from "@/content/chaos";
 import { Note } from "../Bits";
 import { Focus, MaskLines, useCalm } from "../bir/Scenery";
 import { Beat, ChaosCard, Reel, ReelClock } from "./Kit";
-import { EmptyHoursRitual, GroupChatRitual, RecapRitual, RouteRitual, SunriseRitual } from "./Rituals";
+import { GroupChatRitual, LooselyRitual, RouteRitual, StagesRitual, SunriseRitual } from "./Rituals";
 
 /**
  * ONE WORLD — a place the camera is, never a card about a place.
@@ -43,15 +43,16 @@ import { EmptyHoursRitual, GroupChatRitual, RecapRitual, RouteRitual, SunriseRit
  * something only it does.
  */
 const RITUALS: Record<string, (p: { world: WorldData }) => React.ReactNode> = {
-  landfall: RouteRitual,
-  daylight: EmptyHoursRitual,
-  "night-before": GroupChatRitual,
-  "after-hours": SunriseRitual,
-  end: RecapRitual,
+  begins: (p) => <RouteRitual world={p.world} which="begins" />,
+  calm: LooselyRitual,
+  electric: GroupChatRitual,
+  phuket: (p) => <RouteRitual world={p.world} which="phuket" />,
+  last: StagesRitual,
+  morning: SunriseRitual,
 };
 
 export function World({ world, priority = false }: { world: WorldData; priority?: boolean }) {
-  const reel = world.id === "water" ? REELS.water : world.id === "drop" ? REELS.drop : null;
+  const reel = world.id === "water" ? REELS.water : null;
   const Ritual = RITUALS[world.id];
 
   return (

@@ -15,22 +15,19 @@ import { useCalm } from "../bir/Scenery";
  * captions, however good the photographs are.
  *
  * ─── THE RULE EACH ONE FOLLOWS ──────────────────────────────────────────────
- * It has to be the thing that day actually IS, not an effect borrowed from
- * somewhere else. The route draws because day one is the only day about
- * movement. The clock empties because day three is the only day with nothing
- * in it. The chat fills because the night before a festival genuinely happens
- * in a group chat. The sun rises because that is the only time on the trip the
- * light comes back. The recap runs because it is the only chapter looking
- * backwards.
+ * It has to be the thing that day actually IS. Two days are a ROUTE, so they
+ * draw one. The Krabi day is deliberately unscheduled, so its device is a list
+ * of options with air around it rather than a timetable. The first festival day
+ * is really about the hours before the gates, so it is a group chat. The last
+ * night is a choice between six stages. The morning is the sun coming up.
  *
  * ─── COST ───────────────────────────────────────────────────────────────────
- * All five are scroll-driven transform and opacity only, on a handful of
- * elements each. No canvas, no blur on full-screen layers, nothing animating
- * on a timer. Under reduced motion every one of them renders as a plain static
- * list — the information is never inside the animation.
+ * Scroll-driven transform and opacity only, on a handful of elements each. No
+ * canvas, no blur on full-screen layers, nothing on a timer. Under reduced
+ * motion every one renders as a plain static list — the information is never
+ * inside the animation.
  */
 
-/* A shared frame so the five sit in their world rather than on top of it. */
 function Stage({
   world,
   label,
@@ -60,61 +57,62 @@ function Stage({
 }
 
 /* ------------------------------------------------------------------ */
-/* 01 — THE ROUTE                                                      */
+/* 01 and 05 — THE ROUTES                                              */
 /* ------------------------------------------------------------------ */
 
+type Stop = { readonly k: string; readonly v: string; readonly t: string };
+
 /**
- * The road draws itself as you scroll and each stop lights when the line
- * reaches it. Day one is the only day of this trip that is genuinely about
- * movement — you land in one province and sleep in another — so it is the only
- * one that gets a map.
+ * The line draws as you scroll and each stop lights when it reaches them.
+ *
+ * ONE COMPONENT, TWO DAYS — day 01 (Phuket → Krabi → Railay) and day 05 (Kata →
+ * Old Town → Karon Viewpoint). They are the only two days where the point is
+ * that you moved; everywhere else is a place you stayed in. Sharing the device
+ * between exactly those two is what makes it mean "today is a journey" instead
+ * of being decoration.
  */
-export function RouteRitual({ world }: { world: World }) {
+export function RouteRitual({ world, which }: { world: World; which: "begins" | "phuket" }) {
   const ref = useRef<HTMLDivElement>(null);
   const calm = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start 0.85", "end 0.4"] });
   const draw = useTransform(p, [0, 0.9], [0, 1]);
-  const r = rituals.route;
+  const r = rituals.routes[which];
 
   return (
     <Stage world={world} label={r.label}>
       <div ref={ref} className="mt-10">
-        {/* the line */}
-        <div className="relative">
-          <svg className="h-[3px] w-full" viewBox="0 0 100 1" preserveAspectRatio="none" aria-hidden>
-            <line x1="0" y1="0.5" x2="100" y2="0.5" stroke={`${world.ink}26`} strokeWidth="1" />
-            <motion.line
-              x1="0"
-              y1="0.5"
-              x2="100"
-              y2="0.5"
-              stroke={world.accent}
-              strokeWidth="1"
-              pathLength={1}
-              style={{ pathLength: calm ? 1 : draw }}
-            />
-          </svg>
-        </div>
+        <svg className="h-[3px] w-full" viewBox="0 0 100 1" preserveAspectRatio="none" aria-hidden>
+          <line x1="0" y1="0.5" x2="100" y2="0.5" stroke={`${world.ink}26`} strokeWidth="1" />
+          <motion.line
+            x1="0"
+            y1="0.5"
+            x2="100"
+            y2="0.5"
+            stroke={world.accent}
+            strokeWidth="1"
+            pathLength={1}
+            style={{ pathLength: calm ? 1 : draw }}
+          />
+        </svg>
 
-        <ol className="mt-0 grid gap-10 sm:grid-cols-3 sm:gap-6">
-          {r.stops.map((s, i) => {
-            const at = (i + 0.5) / r.stops.length;
-            return <Stop key={s.k} s={s} at={at} p={draw} world={world} calm={calm} />;
-          })}
+        <ol className="grid gap-10 sm:grid-cols-3 sm:gap-6">
+          {r.stops.map((s: Stop, i: number) => (
+            <StopItem key={s.k} s={s} at={(i + 0.5) / r.stops.length} p={draw} world={world} calm={calm} />
+          ))}
         </ol>
       </div>
     </Stage>
   );
 }
 
-function Stop({
+function StopItem({
   s,
   at,
   p,
   world,
   calm,
 }: {
-  s: { k: string; v: string; t: string };
+  s: Stop;
   at: number;
   p: MotionValue<number>;
   world: World;
@@ -142,39 +140,40 @@ function Stop({
 }
 
 /* ------------------------------------------------------------------ */
-/* 03 — THE EMPTY HOURS                                                */
+/* 03 — THE DAY, LOOSELY                                               */
 /* ------------------------------------------------------------------ */
 
 /**
- * The hour hand keeps moving and the plan keeps getting shorter. Day three is
- * the only day on this trip with nothing scheduled, and the joke only works if
- * the page is willing to spend a whole screen saying so.
+ * The Krabi day, written as OPTIONS rather than a schedule.
+ *
+ * The brief for this day is explicitly "do not make it feel like we are
+ * cramming attractions in" — so the device is a list with air around it and a
+ * line underneath saying so. A timetable here would contradict the day.
  */
-export function EmptyHoursRitual({ world }: { world: World }) {
-  const r = rituals.emptyHours;
+export function LooselyRitual({ world }: { world: World }) {
+  const r = rituals.loosely;
   return (
     <Stage world={world} label={r.label}>
-      <ol className="mt-10 border-t" style={{ borderColor: `${world.ink}1f` }}>
-        {r.hours.map((h, i) => (
+      <p className="mt-6 max-w-[46ch] text-[clamp(1rem,2.4vw,1.14rem)]" style={{ color: `${world.ink}b3` }}>
+        {r.note}
+      </p>
+      <ul className="mt-9 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+        {r.options.map((o: string, i: number) => (
           <motion.li
-            key={h.t}
-            className="flex flex-wrap items-baseline gap-x-6 gap-y-1 border-b py-5"
+            key={o}
+            className="flex gap-4 border-t pt-4 text-[clamp(0.98rem,2.3vw,1.08rem)] leading-[1.45]"
             style={{ borderColor: `${world.ink}1f` }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 0.7, delay: i * 0.12 }}
+            transition={{ duration: 0.6, delay: i * 0.08 }}
           >
-            <span className="font-display text-[clamp(1.4rem,4vw,2.2rem)] tabular-nums" style={{ color: world.accent }}>
-              {h.t}
-            </span>
-            <span className="text-[clamp(0.98rem,2.4vw,1.1rem)]">{h.v}</span>
+            <span style={{ color: world.accent }}>—</span>
+            {o}
           </motion.li>
         ))}
-      </ol>
-      <p className="mt-8 max-w-[44ch] font-serif text-[clamp(1.1rem,3vw,1.5rem)] italic" style={{ color: `${world.ink}b3` }}>
-        {r.close}
-      </p>
+      </ul>
+      <p className="mt-10 max-w-[40ch] font-serif text-[clamp(1.3rem,3.6vw,2rem)] italic">{r.close}</p>
     </Stage>
   );
 }
@@ -184,19 +183,17 @@ export function EmptyHoursRitual({ world }: { world: World }) {
 /* ------------------------------------------------------------------ */
 
 /**
- * The night before a festival happens in a group chat, so that is what this
- * screen is. Messages land one at a time as it comes into view.
- *
- * Nobody in it is named. The twenty are not picked yet, so inventing
- * participants would be inventing people — they are "someone" and "you", which
- * is also how a chat you have not joined yet actually reads.
+ * The hours before the first festival night happen in a group chat, so that is
+ * what this screen is. Nobody is named: the sixteen are not picked yet, so
+ * inventing participants would be inventing people. "someone" and "you" is also
+ * how a chat you have not joined yet actually reads.
  */
 export function GroupChatRitual({ world }: { world: World }) {
   const r = rituals.groupChat;
   return (
     <Stage world={world} label={r.label}>
       <ul className="mt-10 flex max-w-[34rem] flex-col gap-2.5">
-        {r.messages.map((m, i) => {
+        {r.messages.map((m: { who: string; text: string }, i: number) => {
           const mine = m.who === "you";
           return (
             <motion.li
@@ -226,14 +223,48 @@ export function GroupChatRitual({ world }: { world: World }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* 06 — THE SUNRISE                                                    */
+/* 06 — THE SIX STAGES                                                 */
 /* ------------------------------------------------------------------ */
 
 /**
- * A sun that actually rises as you scroll, and the only screen on the page
- * that gets BRIGHTER the further down you go. Everything from the threshold
- * onwards has been getting darker; this is where that reverses, which is the
- * whole emotional move of World 06.
+ * On the last night, the six stages stop being a feature and become a problem:
+ * you cannot see all of them and this is the final chance. The only list in the
+ * week that is a genuine choice rather than a plan.
+ */
+export function StagesRitual({ world }: { world: World }) {
+  const r = rituals.stages;
+  return (
+    <Stage world={world} label={r.label}>
+      <div className="mt-9 grid gap-x-8 gap-y-5 sm:grid-cols-3">
+        {r.names.map((n: string, i: number) => (
+          <motion.div
+            key={n}
+            className="border-t pt-4"
+            style={{ borderColor: world.accent }}
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.6, delay: i * 0.07 }}
+          >
+            <span className="font-display text-[clamp(1.1rem,3.2vw,1.6rem)] uppercase">{n}</span>
+          </motion.div>
+        ))}
+      </div>
+      <p className="mt-9 text-[11px] leading-[1.6]" style={{ color: `${world.ink}80` }}>
+        {r.note}
+      </p>
+    </Stage>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 07 — THE SUNRISE                                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * A sun that rises as you scroll, and the only screen on the page that gets
+ * BRIGHTER the further down you go. Everything since the gates has been getting
+ * darker; this is where that reverses.
  */
 export function SunriseRitual({ world }: { world: World }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -261,13 +292,12 @@ export function SunriseRitual({ world }: { world: World }) {
           }}
         />
         <div className="grain pointer-events-none absolute inset-0 opacity-40" aria-hidden />
-
         <div className="relative mx-auto w-full max-w-[1180px]">
           <p className="text-[10px] tracked" style={{ color: world.accent }}>
             {r.label}
           </p>
           <ol className="mt-10 max-w-[32rem]">
-            {r.beats.map((b, i) => (
+            {r.beats.map((b: { t: string; v: string }, i: number) => (
               <motion.li
                 key={b.t}
                 className="border-b py-5"
@@ -291,16 +321,16 @@ export function SunriseRitual({ world }: { world: World }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* 07 — THE RECAP                                                      */
+/* THE RECAP — the week, not a day                                     */
 /* ------------------------------------------------------------------ */
 
 /**
- * Ten words, scrubbed by scroll, fast — then it stops and the last line sits
- * on black. Bir ends the same way and for the same reason: a montage is what
- * turns seven separate days into one week you have already had.
+ * Ten words scrubbed by scroll, fast, then it stops on the last line.
  *
- * Scroll-scrubbed rather than timed, so it runs at the reader's pace and can
- * be run backwards — which is also what stops it being a splash screen.
+ * It mounts AFTER world 07 rather than inside it, because a montage belongs to
+ * the trip and not to a morning. Scroll-scrubbed rather than timed, so it runs
+ * at the reader's pace and can be run backwards — which is also what stops it
+ * being a splash screen.
  */
 export function RecapRitual({ world }: { world: World }) {
   const ref = useRef<HTMLElement>(null);
@@ -312,7 +342,7 @@ export function RecapRitual({ world }: { world: World }) {
     return (
       <Stage world={world} label={r.label}>
         <ol className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
-          {r.words.map((w) => (
+          {r.words.map((w: string) => (
             <li key={w} className="font-display text-[clamp(1.4rem,5vw,2.6rem)] uppercase">
               {w}
             </li>
@@ -324,13 +354,18 @@ export function RecapRitual({ world }: { world: World }) {
   }
 
   return (
-    <section ref={ref} className="relative h-[320svh]" aria-label={`${r.label}. ${r.close}`} style={{ background: world.ground }}>
+    <section
+      ref={ref}
+      className="relative h-[320svh]"
+      aria-label={`${r.label}. ${r.close}`}
+      style={{ background: world.ground }}
+    >
       <div className="sticky top-0 flex h-[100svh] items-center justify-center overflow-hidden">
         <div className="grain pointer-events-none absolute inset-0 opacity-40" aria-hidden />
         <p className="absolute left-5 top-6 text-[10px] tracked sm:left-8" style={{ color: world.accent }}>
           {r.label}
         </p>
-        {r.words.map((w, i) => (
+        {r.words.map((w: string, i: number) => (
           <RecapWord key={w} word={w} i={i} n={r.words.length} p={p} ink={world.ink} />
         ))}
         <Closer p={p} text={r.close} ink={world.ink} accent={world.accent} />
@@ -339,7 +374,6 @@ export function RecapRitual({ world }: { world: World }) {
   );
 }
 
-/** One word, alive for a tenth of the scroll and gone. */
 function RecapWord({
   word,
   i,
@@ -353,7 +387,6 @@ function RecapWord({
   p: MotionValue<number>;
   ink: string;
 }) {
-  /* The words share the first 72% of the sequence; the last 28% is the line. */
   const span = 0.72 / n;
   const a = i * span;
   const opacity = useTransform(p, [a, a + span * 0.18, a + span * 0.8, a + span], [0, 1, 1, 0]);

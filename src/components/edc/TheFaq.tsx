@@ -1,6 +1,7 @@
 "use client";
 
 import { faq } from "@/content/thailand";
+import { practicalFaq } from "@/content/thailand-ops";
 import { Reveal } from "../motion";
 import { GateSlate, Haze, LaserSweep, NeonRule } from "./Neon";
 
@@ -47,7 +48,7 @@ export function TheFaq() {
         <NeonRule className="mt-8" />
 
         <div className="mt-8">
-          {faq.items.map((item, i) => (
+          {[...faq.items, ...practicalFaq].map((item, i) => (
             <details
               key={item.q}
               open={i === 0}

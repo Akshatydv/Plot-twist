@@ -182,32 +182,29 @@ const DAYS = "/photos/thailand/days";
  * returns at the close, where it belongs.
  */
 export const hero = {
-  eyebrow: `${festival.name} · ${festival.datesShort}`,
+  eyebrow: `EDC × THAILAND · ${TRIP.dates.value}`,
   /** Two words. The second is the whole page. */
-  title: ["THAILAND", "THE CHAOS"],
-  dateline: `${TRIP.dates.value} · ${TRIP.days.value}`,
+  title: ["THAILAND", "× EDC"],
+  dateline: "PHUKET · KRABI · PHI PHI · MAYA BAY",
   /** Under the title, small, and the only full sentence on the first screen. */
-  line: "Seven days, six nights, and three of them are a festival.",
-  cta: "GET ON THE LIST",
+  line: "The best of both worlds.",
+  cta: "BOOK YOUR SPOT · FROM ₹44,999",
   /** The scroll hint. The page is a film; this is the only instruction in it. */
   scroll: "IT STARTS IN THE DARK",
   /**
-   * THE FOOTAGE.
+   * THE FOOTAGE — the same clip the live page at /journey/3 runs, by the site
+   * owner’s direction, with a 9:16 cut generated for phones.
    *
-   * `festival-night.mp4`, which is the LICENSED clip — Pexels 14670415,
-   * commercial use and self-hosting permitted, verified 11 Sep 2026.
+   * ─── WHAT THIS FILE IS, AND WHY IT IS WRITTEN DOWN ─────────────────────────
+   * `edc-hero.mp4` is a 24-second cut of Insomniac’s official EDC Thailand
+   * trailer, and public/videos/thailand/VIDEOS.md records its licence as
+   * **none**. That file also states the rule this change has to obey: if you
+   * change which clip plays, change the disclaimer in the same commit. The
+   * disclaimer naming the trailer therefore travels with it — see
+   * `close.footageNote` below and THE DETAILS on the page.
    *
-   * ─── WHAT IS DELIBERATELY NOT USED HERE ─────────────────────────────────
-   * `edc-hero.mp4` sits in the same folder and is the better-looking file. It
-   * is a 24-second cut of Insomniac's official EDC Thailand trailer, pulled
-   * with yt-dlp, and `public/videos/thailand/VIDEOS.md` records its licence as
-   * **none**. The live page runs it because the site owner directed that after
-   * the risk was explained; this page is a new surface and a new URL, and
-   * extending an uncleared use onto it is not a decision to make quietly. If
-   * the owner wants it here too, it is a one-line change — and the disclaimer
-   * has to change in the same commit.
-   *
-   * This clip is generic festival footage and must never be captioned as EDC.
+   * The lawful alternative remains one field: the official YouTube embed, which
+   * is already coded and tested on the live page.
    */
   /**
    * TWO CUTS OF ONE FILM.
@@ -224,14 +221,14 @@ export const hero = {
    */
   video: {
     wide: {
-      src: "/videos/thailand/chaos/hero.mp4",
-      poster: "/videos/thailand/chaos/hero-poster.jpg",
+      src: "/videos/thailand/edc-hero.mp4",
+      poster: "/videos/thailand/edc-hero-poster.jpg",
     },
     tall: {
-      src: "/videos/thailand/chaos/hero-tall.mp4",
-      poster: "/videos/thailand/chaos/hero-tall-poster.jpg",
+      src: "/videos/thailand/edc-hero-tall.mp4",
+      poster: "/videos/thailand/edc-hero-tall-poster.jpg",
     },
-    alt: "A festival crowd under moving stage light at night",
+    alt: "EDC Thailand festival footage: stage pyro, lasers and a crowd at night",
   },
 } as const;
 
@@ -261,22 +258,22 @@ export const filmIndex = {
  */
 export const worlds: World[] = [
   {
-    id: "landfall",
-    n: "01",
-    name: "LANDFALL",
-    date: "15 DEC",
-    index: "Land in Phuket, drive to Krabi, and watch the cliffs arrive.",
-    title: ["LAND IN PHUKET.", "HEAD FOR KRABI."],
-    body:
-      "You land in Phuket and you do not stay there. The road runs north-east to Krabi past limestone the size of office blocks, and the whole province is cliffs standing in green water. Railay at the end of it — a beach you reach by boat because no road goes there. Then the first night with the crew, which is where twenty strangers stop being twenty strangers.",
-    beat: "Land. Switch off. Let's go.",
-    where: "PHUKET → KRABI → RAILAY",
-    light: "last light",
-    layout: "anchor",
+    id: "begins",
     register: "island",
     cardDate: "15",
     lines: ["You land in Phuket.", "You sleep in Krabi."],
     tint: "linear-gradient(to bottom, rgba(42,19,48,0.30) 0%, rgba(42,19,48,0.12) 44%, rgba(42,19,48,0.92) 100%)",
+    layout: "anchor",
+    n: "01",
+    name: "ARRIVED",
+    date: "15 DEC",
+    index: "Land in Phuket, drive to Krabi, and meet the people you have the week with.",
+    title: ["TONIGHT IS ALREADY", "WORTH THE FLIGHT."],
+    body:
+      "You land in Phuket and you do not stay there. The crew is waiting with the transfers — no taxis to argue with, no luggage to drag, no logistics. Straight to Krabi, into the hotel, and back out for the first taste of it: Railay and Ao Nang, limestone standing in turquoise water, and a sunset that makes the flight worth it. Then the first night, which is the one that turns a group into a crew.",
+    beat: "And it's only Tuesday.",
+    where: "PHUKET → KRABI · STAY: KRABI",
+    light: "last light",
     ground: "#2A1330",
     accent: "#FF9E7A",
     ink: "#FFF1DC",
@@ -284,138 +281,137 @@ export const worlds: World[] = [
   },
   {
     id: "water",
-    n: "02",
-    name: "THE WATER",
-    date: "16 DEC",
-    index: "Out before the day boats. Back long after them.",
-    title: ["THE WATER", "IS THE POINT."],
-    body:
-      "Out on the water before the day boats arrive. Phi Phi, and Maya Bay — the one you have already seen a hundred times and will still look at properly — and then the stops nobody photographs, which is where everyone actually gets in. Back late. Out later.",
-    beat: "Island hopping, but make it chaotic.",
-    where: "PHI PHI · MAYA BAY",
-    light: "noon",
-    layout: "float",
     register: "island",
     cardDate: "16",
     lines: ["Out before the day boats.", "Back long after them."],
     tint: "linear-gradient(to bottom, rgba(12,58,63,0.26) 0%, rgba(12,58,63,0.08) 42%, rgba(12,58,63,0.92) 100%)",
+    layout: "float",
+    n: "02",
+    name: "THE WATER",
+    date: "16 DEC",
+    index: "The Andaman all day. Maya Bay, hidden bays, and a boat with music on it.",
+    title: ["MAYA BAY IS THE STOP.", "THE WATER IS THE DAY."],
+    body:
+      "Breakfast, then out onto the Andaman for the biggest day of the first half. Phi Phi, the hidden bays, and Maya Bay — the one you have already seen a hundred times and will still look at properly. Swimming, snorkelling, island hopping. This is not a sightseeing run on a schedule: it is music on the boat, cold drinks, and finding your own corner of it. Back to Krabi around sunset, then Ao Nang at an easy pace.",
+    beat: "Swim. Snorkel. Drift. Repeat.",
+    where: "PHI PHI · MAYA BAY · STAY: KRABI",
+    light: "noon",
     ground: "#0C3A3F",
     accent: "#79C8BE",
     ink: "#F2FBF8",
     media: clip("water", "A longtail boat crossing turquoise water between limestone cliffs in Thailand", "50% 50%"),
   },
   {
-    id: "daylight",
-    n: "03",
-    name: "THE DAYLIGHT",
-    date: "17 DEC",
-    index: "The last day nothing is asked of you.",
-    title: ["NOTHING", "HAPPENS TODAY."],
-    body:
-      "Back across to Phuket, into the stay for the rest of the week, and then an afternoon that is deliberately empty. Pool, beach, sleep, whatever you need. Nobody sensible walks into three nights of EDC already tired.",
-    beat: "Tomorrow, we enter another universe.",
-    where: "KRABI → PHUKET",
-    light: "afternoon",
-    layout: "void",
+    id: "calm",
     register: "island",
     cardDate: "17",
-    lines: ["The last day nothing is asked of you."],
+    lines: ["No festival alarms today.", "Just Thailand."],
     tint: "linear-gradient(to bottom, rgba(241,233,220,0.58) 0%, rgba(241,233,220,0.30) 44%, rgba(241,233,220,0.95) 100%)",
-    /* The only paper-light world on the page. It is the exhale, and it is why
-       the three that follow it feel as dark as they do. */
+    layout: "void",
+    n: "03",
+    name: "THE PLOT THICKENS",
+    date: "17 DEC",
+    index: "A guided Krabi exploration, a slow evening, then the crew regroups.",
+    title: ["TOMORROW,", "THE LIGHTS CHANGE."],
+    body:
+      "Today isn't a day off. We head out on a guided exploration of Krabi — past the hotel and the beach, out into the landscape that makes this part of Thailand look the way it does. Back in Krabi, the pace changes: beach walk, pool, food, a little wandering. Then everyone comes back together — drinks, games, music, one last Krabi night before the festival stretch begins.",
+    beat: "Tonight, we take it slow. Tomorrow, we go electric.",
+    where: "KRABI · STAY: KRABI",
+    light: "afternoon",
     ground: "#F1E9DC",
     accent: "#1B1B1B",
     ink: "#141414",
     media: clip("pool", "A resort pool under tall palms in flat afternoon light", "50% 48%"),
   },
   {
-    id: "night-before",
-    n: "04",
-    name: "THE NIGHT BEFORE",
-    date: "17 DEC · NIGHT",
-    index: "Nobody sleeps much, and nobody says why.",
-    title: ["TOMORROW ISN'T", "ANOTHER DAY."],
-    body:
-      "The last ordinary evening of the trip, and everybody knows it. Wristbands come out of their packets. Somebody checks the set times for the fourth time. The group chat stops being about logistics and starts being about who is doing what at midnight.",
-    beat: "It's the reason we're here.",
-    where: "PHUKET",
-    light: "no light",
-    layout: "held",
+    id: "electric",
     register: "festival",
-    cardDate: "17",
-    lines: ["Nobody sleeps much.", "Nobody says why."],
-    tint: "linear-gradient(to bottom, rgba(7,4,13,0.72) 0%, rgba(7,4,13,0.46) 44%, rgba(7,4,13,0.96) 100%)",
-    ground: "#07040D",
-    accent: "#8B3DFF",
-    ink: "#EFE9DD",
-    media: clip("entry", "Stage lighting sweeping through fog in a dark venue", "50% 50%"),
-  },
-  {
-    id: "drop",
-    n: "05",
-    name: "THE DROP",
-    date: "18–20 DEC",
-    index: "Three nights. Six stages. One reason the whole week exists.",
-    title: ["EDC", "THAILAND."],
-    body:
-      "Gates at Rhythm Park. The walk in, the first time a mainstage that size is in front of you rather than on a screen, and the specific silence of twenty people realising at once that this is actually happening. Then it happens twice more.",
-    beat: "Three nights. One festival. Zero normal plans.",
-    where: festival.venue,
-    light: "manufactured",
-    layout: "blast",
-    register: "festival",
-    cardDate: "18–20",
-    lines: ["Three nights.", "The reason the week exists."],
+    cardDate: "18",
+    lines: ["Krabi in the morning.", "The Electric Sky at night."],
     tint: "linear-gradient(to bottom, rgba(10,4,20,0.52) 0%, rgba(10,4,20,0.20) 42%, rgba(10,4,20,0.94) 100%)",
+    layout: "blast",
+    n: "04",
+    name: "ELECTRIC SKY",
+    date: "18 DEC",
+    index: "Krabi to Phuket, check in, get ready — and then the first night of EDC.",
+    title: ["NIGHT ONE OF THREE.", "NOBODY'S PACING THEMSELVES."],
+    body:
+      "Bags packed, transfers back to Phuket, and into the stay for the rest of the week. Shower, pool, eat, sleep if you are sensible. Then the energy changes. Because tonight, for the first time all week, we're not heading out to explore Thailand — we're heading to EDC. First-timers, veterans, and the friend who swears they'll leave early: same crew, same gates, same moment the lights hit.",
+    beat: "Three days of Thailand. Tonight, we go electric.",
+    where: "KRABI → PHUKET · EDC NIGHT 01 · STAY: PHUKET",
+    light: "manufactured",
     ground: "#0A0414",
     accent: "#FF2E7E",
     ink: "#FFF1DC",
     media: clip("drop", "A laser show over a crowd at a night event", "50% 46%"),
   },
   {
-    id: "after-hours",
-    n: "06",
-    name: "AFTER HOURS",
-    date: "EACH DAWN",
-    index: "The music stops. The sun doesn't.",
-    title: ["THE MUSIC STOPPED.", "THE SUN DIDN'T."],
-    body:
-      "You do not really leave a festival, you just end up on a beach watching the sky go from black to grey to gold with people you met four days ago. Nobody is talking much. Somebody finds coffee. This is the part nobody puts in the recap and everybody remembers.",
-    beat: "You'll describe this badly for years.",
-    where: "THE BEACH, EARLY",
-    light: "first light",
-    layout: "drift",
+    id: "phuket",
     register: "festival",
-    cardDate: "DAWN",
-    lines: ["The music stopped.", "The sun didn't."],
+    cardDate: "19",
+    lines: ["Phuket by day.", "The Electric Sky again by night."],
+    tint: "linear-gradient(to bottom, rgba(8,3,15,0.50) 0%, rgba(8,3,15,0.18) 42%, rgba(8,3,15,0.94) 100%)",
+    layout: "held",
+    n: "05",
+    name: "DAYLIGHT / NIGHTLIGHT",
+    date: "19 DEC",
+    index: "Kata, Big Buddha, Karon Viewpoint, Old Phuket Town — then night two.",
+    title: ["SUNSCREEN IN THE MORNING.", "WRISTBAND BY NIGHT."],
+    body:
+      "The morning after, which is its own experience. Take the morning slow, then Phuket properly: Kata Beach, Big Buddha, Karon Viewpoint, and the Sino-Portuguese streets and cafés of Old Phuket Town. Back to the hotel for the pool, the shower, the outfit and the pre-game. Then night two, which everybody says is the one that gets away from them.",
+    beat: "Same crew. Same gates. Night two.",
+    where: "PHUKET OLD TOWN · VIEWPOINTS · EDC NIGHT 02",
+    light: "no light",
+    ground: "#08030F",
+    accent: "#8B3DFF",
+    ink: "#EFE9DD",
+    media: still(DAYS + "/day-05.jpg", "A fan of laser beams over a crowd at night", "50% 44%"),
+  },
+  {
+    id: "last",
+    register: "festival",
+    cardDate: "20",
+    lines: ["One last adventure.", "One last night."],
+    tint: "linear-gradient(to bottom, rgba(18,4,14,0.56) 0%, rgba(18,4,14,0.22) 40%, rgba(18,4,14,0.94) 100%)",
+    layout: "blast",
+    n: "06",
+    name: "ONE LAST DANCE",
+    date: "20 DEC",
+    index: "A final Phuket adventure by day. The last night under the Electric Sky.",
+    title: ["ONE LAST SUNSET.", "ONE LAST SET."],
+    body:
+      "You have survived two nights, barely, and the last day is not getting wasted. Breakfast, then one more proper adventure — ATV, the water, the viewpoints — then Promthep Cape and Nai Harn Beach for a final sunset with the crew. Back to the hotel. Final outfit, final pre-game, final night. The last night of the festival and of the trip, which is a great deal to put inside one evening.",
+    beat: "Make both count.",
+    where: "PHUKET · EDC NIGHT 03 · STAY: PHUKET",
+    light: "manufactured",
+    ground: "#12040E",
+    accent: "#FF2E7E",
+    ink: "#FFF1DC",
+    media: still(DAYS + "/day-06.jpg", "Pyrotechnic fountains firing across a festival mainstage above a crowd", "50% 46%"),
+  },
+  {
+    id: "morning",
+    register: "island",
+    cardDate: "21",
+    lines: ["No alarms.", "Nobody wants it to end."],
     tint: "linear-gradient(to bottom, rgba(28,16,24,0.44) 0%, rgba(28,16,24,0.16) 44%, rgba(28,16,24,0.92) 100%)",
+    layout: "credits",
+    n: "07",
+    name: "TO BE CONTINUED",
+    date: "21 DEC",
+    index: "Breakfast, coffee, stories, and nobody admitting the trip is over.",
+    title: ["AND JUST LIKE THAT,", "IT'S MONDAY."],
+    body:
+      "No alarms. No eight o'clock sightseeing. Just breakfast, coffee and six days of stories, with everybody exhausted and nobody willing to say it is over. One last group breakfast, one last poolside hour, one last round of photos. Then the transfers to the airport, and that is Thailand. The group chat, on the other hand, is only getting started.",
+    beat: "You came for EDC. You left with a story.",
+    where: "PHUKET → HOME",
+    light: "first light",
     ground: "#1C1018",
     accent: "#E8B48A",
     ink: "#FFF1DC",
     media: clip("sunrise", "Low sun over breaking waves on an empty shore", "50% 54%"),
-  },
-  {
-    id: "end",
-    n: "07",
-    name: "THE END",
-    date: "21 DEC",
-    index: "A slow breakfast, a checkout, and a very strange week afterwards.",
-    title: ["YOU CAME FOR EDC."],
-    body:
-      "A slow breakfast, a checkout, and a transfer to the airport. Numbers get swapped that were never going to be swapped on day one. Then everyone goes back to their actual lives, which will feel strange for about a week.",
-    beat: "You left with twenty people.",
-    where: "PHUKET → HOME",
-    light: "daylight",
-    layout: "credits",
-    register: "island",
-    cardDate: "21",
-    lines: ["Nobody says much at breakfast."],
-    tint: "linear-gradient(to bottom, rgba(8,6,11,0.62) 0%, rgba(8,6,11,0.34) 44%, rgba(8,6,11,0.96) 100%)",
-    ground: "#08060B",
-    accent: "#EFE9DD",
-    ink: "#FFF1DC",
-    media: clip("aerial", "A drone shot over a tropical island and its reef", "50% 52%"),
-  },
+  }
+
 ];
 
 /* ------------------------------------------------------------------ */
@@ -426,9 +422,24 @@ export const close = {
   /** The masthead returns here rather than opening the page. */
   masthead: ["You've found", "the plot."],
   line: "Until the next one.",
-  cta: "PRE-REGISTER →",
+  cta: "BOOK YOUR SPOT →",
   /** The only status this page states about money, per the current instruction. */
-  status: "Not on sale yet. The list hears first.",
+  /**
+   * THE PRICE, IN TWO HALVES THAT ARE ALWAYS STATED TOGETHER.
+   *
+   * ₹49,999 alone, under the words EDC THAILAND, is technically accurate and
+   * practically misleading — somebody budgets fifty and arrives needing eighty.
+   * So the trip price, the pass and the all-in number are one block, and the
+   * page never shows the first without the other two.
+   */
+  price: {
+    amount: "₹44,999",
+    per: "EARLY BIRD · BOOK BY 15 OCTOBER",
+    pass: "₹49,999 from 16 Oct · ₹54,999 from 16 Nov",
+    allIn: "Same trip at every price. Book early, save ₹10,000.",
+    note: "₹15,000 confirms your spot; the balance is due by 2 December. EDC ticket and flights are additional — the pass is at official MRP and we add nothing to it.",
+  },
+  status: "Early bird ₹44,999 · until 15 Oct",
 } as const;
 
 /** Re-exported so components never reach past this file for confirmed facts. */
@@ -452,13 +463,14 @@ export { TRIP, festival, lineup };
  * the rig. You are not flying into a country. You are flying into the lights,
  * and the thing on the far side of the word is the loudest frame on the page.
  *
- * The two lines before it set up the only joke the page tells: everyone books
- * a flight; nobody books this.
+ * The three lines before it set up the page's whole argument in the plainest
+ * language it has: two ordinary trips, and the one nobody combines.
  */
 export const entry = {
-  lines: ["Anyone can book a flight to Thailand.", "NOBODY BOOKS THIS."],
+  /** The first two are the setup, read together. The third is the punch. */
+  lines: ["Most people go to Thailand.", "Some go to EDC.", "We decided to do both."],
   /** Knocked out of the black. Line 2 is the one you fly through. */
-  welcome: ["WELCOME TO", "THE CHAOS"],
+  welcome: ["WELCOME TO", "THE WEEK"],
   /** What is visible through the letters, and what you land inside. */
   inside: clip("entry", "Stage lighting sweeping through fog, seen through the letters", "50% 50%"),
 } as const;
@@ -468,7 +480,7 @@ export const entry = {
 /* ------------------------------------------------------------------ */
 
 /**
- * Only two worlds get a reel, and that restraint is the point. A pinned
+ * One world gets a reel, and that restraint is the point. A pinned
  * sideways sequence is the loudest device this page has after the portal, and
  * if every world had one the page would be a carousel of carousels.
  *
@@ -487,7 +499,7 @@ export const beats = {
       key: "early",
       time: "07:10",
       title: ["BEFORE", "THE BOATS."],
-      line: "The whole bay, briefly, to twenty people.",
+      line: "The whole bay, briefly, to sixteen people.",
       note: "Out early on purpose. By ten the day-trippers arrive and it is a different place entirely.",
       slot: { image: "/photos/thailand/days/bay.jpg", alt: "Longtail boats on turquoise water below limestone cliffs", focus: "52% 30%" },
     },
@@ -514,32 +526,6 @@ export const beats = {
       line: "Day two is when the group stops being polite.",
       note: "Everyone is sunburnt, nobody is tired, and the night runs on its own.",
       slot: { image: "/photos/thailand/days/day-01.jpg", alt: "A Krabi beach at low sun with a moored longtail", focus: "50% 50%" },
-    },
-  ],
-  drop: [
-    {
-      key: "n1",
-      time: "NIGHT 01",
-      title: ["THE FIRST", "DROP."],
-      line: "Nothing is ever the first time twice.",
-      note: "The walk in, the first time a mainstage that size is in front of you rather than on a screen, and twenty people realising at once that this is actually happening.",
-      slot: { image: "/photos/thailand/days/mainstage.jpg", alt: "A festival mainstage under a fan of lasers, crowd silhouetted", focus: "50% 40%" },
-    },
-    {
-      key: "n2",
-      time: "NIGHT 02",
-      title: ["NO LOOKING", "BACK."],
-      line: "The crew is fully in.",
-      note: "The site makes sense now. The group has split into the people chasing the mainstage and the people who found the small stage and will not leave it.",
-      slot: { image: "/photos/thailand/days/day-05.jpg", alt: "A fan of green laser beams over a crowd at night", focus: "50% 44%" },
-    },
-    {
-      key: "n3",
-      time: "NIGHT 03",
-      title: ["ONE LAST", "DANCE."],
-      line: "Three nights. One festival. Zero normal plans.",
-      note: "The last night of the festival and the last night of the trip, which is a great deal to put inside one evening. Everybody knows it while it is still happening.",
-      slot: { image: "/photos/thailand/days/day-06.jpg", alt: "Pyrotechnic fountains firing across a festival mainstage above a crowd", focus: "50% 46%" },
     },
   ],
 } as const;
@@ -610,80 +596,198 @@ export const crossings = {
  *   07  the recap        the only chapter that looks backwards
  */
 export const rituals = {
-  /** 01 — the road, drawn as you scroll. Three stops, lit as you reach them. */
-  route: {
-    label: "THE ROAD",
-    stops: [
-      { k: "PHUKET", v: "You land here", t: "16:40" },
-      { k: "KRABI", v: "Two hours north-east, past the cliffs", t: "19:10" },
-      { k: "RAILAY", v: "By boat. No road goes there.", t: "20:30" },
-    ],
-  },
-
   /**
-   * 03 — the afternoon where nothing is scheduled, told by an hour hand that
-   * keeps moving while the plans stay empty. The joke is that the list gets
-   * SHORTER as the day goes on.
+   * 01 and 05 — the two days that are a ROUTE. Both draw a line and light the
+   * stops as you reach them; they are the only days where the point is that you
+   * moved. Everything else that day is a place you stayed in.
    */
-  emptyHours: {
-    label: "THE PLAN",
-    hours: [
-      { t: "13:00", v: "Arrive. Find the pool." },
-      { t: "15:00", v: "Still at the pool." },
-      { t: "17:00", v: "Somebody suggests a plan. It is voted down." },
-      { t: "19:00", v: "Eat. Sleep early, allegedly." },
-    ],
-    close: "That is the entire itinerary for today, and it is deliberate.",
+  routes: {
+    begins: {
+      label: "THE TRANSFER",
+      stops: [
+        { k: "PHUKET", v: "You land. The crew is already there with the transfers.", t: "ARRIVE" },
+        { k: "KRABI", v: "Premium group transfer, straight through. No taxis, no logistics.", t: "DRIVE" },
+        { k: "RAILAY / AO NANG", v: "Limestone, turquoise water, and the first Thai sunset of the week.", t: "SUNSET" },
+      ],
+    },
+    phuket: {
+      label: "THE DAY, BEFORE THE NIGHT",
+      stops: [
+        { k: "KATA / KARON", v: "The beaches first, while it is still quiet.", t: "MORNING" },
+        { k: "OLD TOWN", v: "Sino-Portuguese streets, cafés, and the Phuket nobody photographs.", t: "MIDDAY" },
+        { k: "KARON VIEWPOINT", v: "The coastal view, then Promthep Cape for the last of the light.", t: "LATE" },
+      ],
+    },
   },
 
   /**
-   * 04 — the group chat, which is where the night before an event actually
-   * happens. Messages land one at a time as you scroll. Nothing is a real
-   * person: they are roles, because the twenty are not picked yet.
+   * 03 — the Krabi day. Written as options rather than a schedule, because the
+   * brief for this day is explicitly "do not cram attractions into it". The
+   * list is what is ON the table; the point of the page is the space around it.
+   */
+  loosely: {
+    label: "THE DAY, LOOSELY",
+    note: "Pick what the day feels like. Nothing here is a timetable.",
+    options: [
+      "Emerald Pool and the jungle around it",
+      "Beaches — Ao Nang, Railay, whichever is calmer",
+      "Viewpoints, if anyone is awake early enough",
+      "Local Krabi, at the pace of people on holiday",
+      "A long lunch that becomes a long afternoon",
+      "One last Krabi sunset, together",
+    ],
+    close: "Explore. Swim. Eat. Shoot. Sit down. Repeat.",
+  },
+
+  /**
+   * 04 — the chat, which is where the hours before a first festival night
+   * actually happen. Nobody is named: the sixteen are not picked yet, so
+   * inventing participants would be inventing people.
    */
   groupChat: {
-    label: "THE GROUP CHAT · 23:14",
+    label: "THE GROUP CHAT · 16:40",
     messages: [
-      { who: "someone", text: "wristbands came" },
-      { who: "someone", text: "set times are out. garrix is 1am" },
-      { who: "you", text: "1am is late" },
-      { who: "someone", text: "1am is not late" },
-      { who: "someone", text: "who's doing the small stage at 11" },
-      { who: "you", text: "me" },
-      { who: "someone", text: "ok see everyone at the gates" },
+      { who: "someone", text: "we're in phuket. hotel is unreal" },
+      { who: "someone", text: "wristbands sorted" },
+      { who: "you", text: "what time are we leaving" },
+      { who: "someone", text: "gates at 4. we are not going at 4" },
+      { who: "someone", text: "pool first" },
+      { who: "you", text: "pool first" },
+      { who: "someone", text: "see everyone downstairs" },
     ],
   },
 
-  /** 06 — the sun comes up while you scroll. The only world that gets lighter. */
+  /**
+   * 06 — the six stages, on the night you run out of chances to see them. It is
+   * the only list in the week that is a genuine choice rather than a plan.
+   */
+  stages: {
+    label: "SIX STAGES · ONE LAST NIGHT",
+    names: ["kineticFIELD", "circuitGROUNDS", "neonGARDEN", "stereoBLOOM", "bionicJUNGLE", "BOOMBOX"],
+    note: "Stages as announced by the organiser and subject to their changes.",
+  },
+
+  /** 07 — the sun comes up while you scroll. The only world that gets lighter. */
   sunrise: {
     label: "FIRST LIGHT",
     beats: [
       { t: "04:50", v: "The last track." },
-      { t: "05:20", v: "Nobody wants to be the one who says let's go." },
-      { t: "06:05", v: "The sky does it for you." },
-      { t: "06:40", v: "Somebody finds coffee." },
+      { t: "06:05", v: "Nobody wants to be the one who says let's go." },
+      { t: "09:30", v: "Breakfast, and nobody mentions the flight." },
+      { t: "12:00", v: "Transfers. And that is Thailand." },
     ],
   },
 
   /**
-   * 07 — the recap. Ten words, ten worlds, scrubbed fast, then it stops.
-   * Bir ends the same way and for the same reason: the montage is what turns
-   * seven separate days into one week you have already had.
+   * THE RECAP — not a day. It closes the whole week, so it mounts after World
+   * 07 rather than inside it: a montage belongs to the trip, not to a morning.
    */
   recap: {
     label: "SEVEN DAYS, IN ORDER",
     words: [
       "LAND",
-      "DRIVE",
-      "CLIFFS",
-      "BOAT",
+      "KRABI",
+      "RAILAY",
       "MAYA BAY",
-      "SWIM",
-      "NOTHING",
+      "JUNGLE",
+      "PHUKET",
       "GATES",
       "LASERS",
+      "AGAIN",
       "SUNRISE",
     ],
-    close: "You came for EDC. You left with twenty people.",
+    close: "You came for EDC. You left with fifteen other people.",
   },
+
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* the crew, the inclusions, and the closing argument                  */
+/* ------------------------------------------------------------------ */
+
+/**
+ * SIXTEEN, AND THE ASTERISK.
+ *
+ * The group moved from twenty to a maximum of sixteen, and the gender split
+ * ("ten and ten") is gone — not softened, removed, because a split we might not
+ * hold to is worse than no split at all.
+ *
+ * `caveat` is mandatory copy wherever the number is stated large. Sixteen is a
+ * ceiling and an intention, not a promise, and a page that implies otherwise is
+ * writing a cheque the trip has to cash.
+ */
+export const crew = {
+  label: "THE CREW",
+  big: ["16 PEOPLE.", "ONE CREW."],
+  lines: [
+    "No giant tour buses.",
+    "No anonymous group of forty.",
+    "No disappearing into a crowd.",
+  ],
+  body: "Sixteen people, moving through Thailand together, with a Plot Twist trip leader who is on the trip rather than holding a flag outside it.",
+  caveat: "*The final group size can vary and is not guaranteed.",
+} as const;
+
+/**
+ * WHAT THE PRICE BUYS — and the one thing it does not.
+ *
+ * The festival pass is listed in `excluded` and repeated in `passNote`, in
+ * full-size type rather than small print. A reader who sees a price on a page
+ * headed EDC will assume the ticket is in it; that assumption ends in a refund
+ * conversation and a screenshot, so it is answered twice on purpose.
+ */
+export const included = {
+  label: "YOUR 7-DAY PLOT TWIST",
+  title: ["EVERYTHING THAT TURNS THIS", "INTO A WHOLE WEEK."],
+  sub: "Everything that turns this from a festival trip into a full Thailand experience.",
+  groups: [
+    {
+      k: "THE STAY",
+      items: ["6 nights, 7 days", "Premium hotels in Krabi and Phuket", "Breakfast every single day"],
+    },
+    {
+      k: "THE MOVING",
+      items: [
+        "Premium group transfers throughout",
+        "Phuket → Krabi on arrival",
+        "Krabi → Phuket before the festival",
+        "Group transfers to and from EDC, all three nights",
+        "Airport transfers both ends",
+      ],
+    },
+    {
+      k: "THE WATER",
+      items: ["Phi Phi and Maya Bay by boat", "Island hopping and water experiences", "Krabi experiences"],
+    },
+    {
+      k: "THE REST OF IT",
+      items: [
+        "Curated Phuket exploration",
+        "A Phuket adventure experience",
+        "Planned group experiences all week",
+        "A dedicated Plot Twist trip leader",
+        "A curated group of 16*",
+      ],
+    },
+  ],
+  festival: {
+    k: "THE FESTIVAL",
+    item: "3 nights of EDC Thailand — 18, 19 and 20 December, Rhythm Park, Phuket",
+  },
+  passNote:
+    "From ₹44,999 (early bird, until 15 October; ₹49,999 from 16 Oct, ₹54,999 from 16 Nov) covers the week above. The EDC Thailand 3-day pass sits on top at official MRP — we add nothing to the ticket. We curate the trip; EDC prices the ticket.",
+} as const;
+
+/** The closing argument. The loudest plain statement on the page. */
+export const philosophy = {
+  label: "THE PLOT TWIST",
+  lines: ["Most people go to Thailand.", "Some go to EDC.", "We decided to do both."],
+  body: [
+    "Three days of islands, beaches and adventures.",
+    "Three nights under the Electric Sky.",
+    "One ridiculously good week in between.",
+  ],
+  dates: "15–21 DECEMBER 2026",
+  lockup: "THAILAND × EDC",
+  close: "This isn't just a festival trip. It's the whole plot.",
 } as const;

@@ -9,6 +9,9 @@ import { Threshold } from "./Threshold";
 import { WorldNav } from "./WorldNav";
 import { StickyCta } from "./StickyCta";
 import { Bill, FinalCta, TheCast, TheDetails, TheFaq } from "./TheClose";
+import { Crew, Included, LAST_WORLD, Philosophy } from "./Crew";
+import { RecapRitual } from "./Rituals";
+import { AtAGlance, DayLog, FestivalGuide, Payments } from "./Ops";
 import { PreRegister } from "../edc/PreRegister";
 import { Footer } from "@/components/Footer";
 import { CrossBleach, CrossBlackout, CrossCountdown, CrossDawn, CrossLightsDown } from "./Crossing";
@@ -75,15 +78,31 @@ export function ChaosPage() {
 
         <World world={worlds[4]} />
 
-        {/* THE BILL — the receipt for the claim World 05 just made. It lands
-            AFTER the three nights, not before: the names are the proof, and
-            proof spent before the promise is just a list. */}
-        <Bill />
 
         <CrossLightsDown from={worlds[4].ground} to={worlds[5].ground} slot={crossings.lightsDown} />
 
         <World world={worlds[5]} />
         <World world={worlds[6]} />
+
+        {/* THE RECAP — the week, not a day. A montage belongs to the trip, so
+            it closes the seven rather than sitting inside the last one. */}
+        <RecapRitual world={LAST_WORLD} />
+
+        {/* THE BILL — the receipt for three nights, after all three. */}
+        <Bill />
+
+        {/* The scarcity, argued before the inclusions: anyone can buy an EDC
+            ticket, nobody can buy the other fifteen people. */}
+        <Crew />
+
+        {/* LAYER 2. The film above sells the week; these three answer the
+            careful reader's questions — the trip on one line, the days as a
+            working schedule, the festival nights said plainly. See Ops.tsx. */}
+        <AtAGlance />
+        <Included />
+        <DayLog />
+        <FestivalGuide />
+        <Philosophy />
 
         {/* ─── the film is over; the product starts ─────────────────────────
             The house order on every one of these pages: the dream, then the
@@ -92,6 +111,7 @@ export function ChaosPage() {
             festival, and the job is to answer questions rather than impress. */}
         <TheCast />
         <TheDetails />
+        <Payments />
         <TheFaq />
         <FinalCta />
         <PreRegister />

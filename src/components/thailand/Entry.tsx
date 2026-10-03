@@ -34,7 +34,8 @@ import { Footage, useCalm } from "../bir/Scenery";
  *
  *   0.02 – 0.22   line one, fading up and drifting past
  *   0.22 – 0.41   line two, scaling, louder
- *   0.40 – 0.48   the rig comes up behind the black
+ *   0.00 – 0.12   the black seals over the rig — the screen is never empty
+ *   0.34 – 0.46   the knockout letters arrive, overlapping line two
  *   0.55 – 0.92   the letters scale 1 → 26 — the fly-through
  *   0.80 – 0.95   the black lifts and you are inside it
  *
@@ -46,13 +47,18 @@ export function Entry() {
   const calm = useCalm();
   const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
 
-  const l1 = useTransform(p, [0.02, 0.08, 0.17, 0.22], [0, 1, 1, 0]);
+  const l1 = useTransform(p, [0, 0.06, 0.17, 0.22], [0, 1, 1, 0]);
   const l1y = useTransform(p, [0.02, 0.22], [24, -24]);
   const l2 = useTransform(p, [0.22, 0.28, 0.36, 0.41], [0, 1, 1, 0]);
   const l2s = useTransform(p, [0.22, 0.41], [0.94, 1.08]);
-  const rigIn = useTransform(p, [0.4, 0.48], [0, 1]);
+  /* what you can see behind the black — never zero */
+  const rigBg = useTransform(p, [0, 0.34, 0.46], [0.9, 0.9, 1]);
+  /* the knockout letters, which must not be readable before their moment */
+  const rigIn = useTransform(p, [0.34, 0.46], [0, 1]);
   const zoom = useTransform(p, [0.55, 0.92], [1, 26]);
-  const black = useTransform(p, [0.8, 0.95], [1, 0]);
+  /* Opens at 0.72 so the first screen is never a void — see the note above
+     the markup. Seals by 12%, holds, then lifts for the fly-through. */
+  const black = useTransform(p, [0, 0.12, 0.8, 0.95], [0.72, 1, 1, 0]);
   /* The rig brightens as you approach it, so the fly-through ends on the
      brightest frame the page has shown so far rather than on a flat still. */
   const glow = useTransform(p, [0.55, 0.95], [0.4, 1]);
@@ -84,7 +90,7 @@ export function Entry() {
     >
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-[#08060B]">
         {/* the rig, waiting behind the black */}
-        <motion.div className="absolute inset-0" style={{ opacity: rigIn }}>
+        <motion.div className="absolute inset-0" style={{ opacity: rigBg }}>
           <Footage slot={entry.inside} className="h-full w-full" mediaClassName="h-full w-full object-cover" />
           <motion.div
             className="absolute inset-0"
@@ -118,12 +124,14 @@ export function Entry() {
           style={{ opacity: l1, y: l1y }}
         >
           {entry.lines[0]}
+          <br />
+          {entry.lines[1]}
         </motion.p>
         <motion.p
           className="absolute inset-x-5 top-1/2 -translate-y-1/2 text-center font-serif text-[clamp(2.4rem,9vw,7.5rem)] italic uppercase leading-[0.9] text-[#FF2E7E] sm:inset-x-16"
           style={{ opacity: l2, scale: l2s }}
         >
-          {entry.lines[1]}
+          {entry.lines[2]}
         </motion.p>
       </div>
     </section>

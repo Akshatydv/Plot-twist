@@ -45,12 +45,15 @@ export function ChaosHero() {
   const [src, setSrc] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
 
-  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end end"] });
+  /* "end start", NOT "end end" — see the note above the blackout below. */
+  const { scrollYProgress: p } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const scale = useTransform(p, [0, 1], [1, 1.32]);
-  const dark = useTransform(p, [0.15, 0.95], [0, 1]);
-  const textY = useTransform(p, [0, 0.5], [0, -120]);
-  const textO = useTransform(p, [0.05, 0.42], [1, 0]);
-  const textBlur = useTransform(p, [0.05, 0.42], ["blur(0px)", "blur(12px)"]);
+  /* The blackout is the LAST thing that happens, not the first, and it only
+      completes as the frame finishes leaving the screen. */
+  const dark = useTransform(p, [0.82, 1], [0, 1]);
+  const textY = useTransform(p, [0, 0.72], [0, -120]);
+  const textO = useTransform(p, [0.3, 0.62], [1, 0]);
+  const textBlur = useTransform(p, [0.3, 0.62], ["blur(0px)", "blur(12px)"]);
   const cueO = useTransform(p, [0, 0.08], [1, 0]);
 
   /* Pick the cut once, after mount: portrait screens get the 9:16 film, and
@@ -75,7 +78,7 @@ export function ChaosHero() {
   const m = <T,>(v: T) => (calm ? undefined : v);
 
   return (
-    <section id="top" ref={ref} className={calm ? "relative h-[100svh]" : "relative h-[200svh]"}>
+    <section id="top" ref={ref} className={calm ? "relative h-[100svh]" : "relative h-[170svh]"}>
       <div className="sticky top-0 h-[100svh] overflow-hidden bg-black">
         <motion.div className="absolute inset-0" style={{ scale: m(scale) }}>
           {/* An ART-DIRECTED poster: <picture> switches the crop by orientation,
@@ -203,6 +206,17 @@ export function ChaosHero() {
  * `overflow-hidden` on the per-letter wrapper is what makes this a MASK rather
  * than a fade: the letter is genuinely hidden below its own box and travels up
  * into view, which is why it reads as type being set rather than type appearing.
+ *
+ * ─── WHY EACH BOX IS WIDER THAN ITS LETTER ──────────────────────────────────
+ * The title is set in the ITALIC serif, and an italic glyph leans out past its
+ * own advance width on both sides — the top-right of an A, the tail of a D. A
+ * box that is exactly one character wide therefore slices every letter down the
+ * side, which is what made the lockup read as broken type rather than type.
+ *
+ * The box is padded 0.09em horizontally and pulled back by the same amount in
+ * margin: overflow clips at the PADDING edge, so the glyph gets room to lean
+ * while the letters still sit at their true spacing. The padding is horizontal
+ * only — a vertical one would open the mask the whole effect depends on.
  */
 function Letters({
   word,
@@ -218,7 +232,7 @@ function Letters({
   return (
     <span aria-hidden className="flex text-[clamp(3.4rem,19vw,10.5rem)]" style={color ? { color } : undefined}>
       {word.split("").map((ch, i) => (
-        <span key={`${ch}-${i}`} className="overflow-hidden">
+        <span key={`${ch}-${i}`} className="-mx-[0.09em] overflow-hidden px-[0.09em]">
           <motion.span
             className="block"
             initial={calm ? false : { y: "105%" }}

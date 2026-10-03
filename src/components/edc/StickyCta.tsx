@@ -91,7 +91,7 @@ export function StickyCta() {
                 {stickyCta.meta}
               </span>
               <span className="mt-0.5 block truncate font-hand text-[1.05rem] leading-none text-sand/70">
-                twenty wristbands.
+                sixteen wristbands.
               </span>
             </div>
             {/*

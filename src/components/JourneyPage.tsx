@@ -17,6 +17,7 @@ import { PlotDebug } from "@/components/mystery/PlotDebug";
 import { DestinationGuess } from "@/components/mystery/DestinationGuess";
 import { GoaPage } from "@/components/goa/GoaPage";
 import { EdcPage } from "@/components/edc/EdcPage";
+import { ChaosPage } from "./thailand/ChaosPage";
 import { BirPage } from "@/components/bir/BirPage";
 import { SriLankaPage } from "@/components/srilanka/SriLankaPage";
 import type { JourneyConfig } from "@/content/journeys";
@@ -60,7 +61,8 @@ export function JourneyPage({ journey }: { journey: JourneyConfig }) {
     return (
       <JourneyProvider journey={journey}>
         <PlotProvider>
-          <EdcPage />
+          {/* The rebuilt Thailand × EDC page (formerly the /thailand preview). */}
+          <ChaosPage />
         </PlotProvider>
       </JourneyProvider>
     );

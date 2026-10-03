@@ -2,6 +2,8 @@
 
 import { WhatsATen } from "@/components/WhatsATen";
 import { cast, faq, lineup, pass, preRegister } from "@/content/thailand";
+import { practicalFaq, questions } from "@/content/thailand-ops";
+import { brand } from "@/content/site";
 import { close } from "@/content/chaos";
 import { Focus, MaskLines } from "../bir/Scenery";
 
@@ -158,10 +160,25 @@ export function TheDetails() {
           </div>
         </div>
 
-        {/* The money line. Nothing is on sale, so this states the status rather
-            than a number — the current instruction on this campaign. */}
-        <div className="mt-14 border-t border-sand/15 pt-10">
-          <p className="font-serif text-[clamp(1.4rem,4vw,2.2rem)] italic text-sand">{close.status}</p>
+        {/* THE MONEY, IN ONE BLOCK.
+            The trip price and the pass are never separated: a number this size
+            with the ticket mentioned somewhere else is how a reader budgets
+            fifty and arrives needing eighty. */}
+        <div className="mt-14 grid gap-x-12 gap-y-8 border-t border-sand/15 pt-10 lg:grid-cols-[auto_minmax(0,46ch)]">
+          <div>
+            <p className="font-display text-[clamp(2.6rem,8vw,4.6rem)] leading-[0.9] text-sand">
+              {close.price.amount}
+            </p>
+            <p className="mt-3 text-[9px] tracked text-sand/55">{close.price.per}</p>
+            <p className="mt-5 text-[clamp(0.98rem,2.3vw,1.1rem)] text-[#FF2E7E]">{close.price.pass}</p>
+            <p className="mt-2 font-serif text-[clamp(1.2rem,3.4vw,1.7rem)] italic text-sand/90">
+              {close.price.allIn}
+            </p>
+          </div>
+          <div className="self-end">
+            <p className="text-[0.98rem] leading-[1.6] text-sand/75">{close.price.note}</p>
+            <p className="mt-5 text-[11px] tracked text-sand/45">{close.status}</p>
+          </div>
         </div>
 
         <p className="mt-12 max-w-[78ch] text-[11px] leading-[1.7] text-sand/40">{pass.disclaimer}</p>
@@ -191,7 +208,7 @@ export function TheFaq() {
         />
 
         <dl className="mt-12 border-t border-sand/15">
-          {faq.items.map((q) => (
+          {[...faq.items, ...practicalFaq].map((q) => (
             <div key={q.q} className="border-b border-sand/15 py-7">
               <dt className="font-display text-[clamp(1.05rem,2.8vw,1.45rem)] uppercase leading-[1.15] text-sand">
                 {q.q}
@@ -200,6 +217,28 @@ export function TheFaq() {
             </div>
           ))}
         </dl>
+
+        <p className="mt-10 text-[clamp(1rem,2.4vw,1.14rem)] leading-[1.7] text-sand/70">
+          {questions.lead}{" "}
+          <a
+            href={`https://wa.me/${questions.whatsapp}?text=${encodeURIComponent(questions.prefill)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sand underline decoration-sand/40 underline-offset-4 transition-colors hover:decoration-sand"
+          >
+            {questions.line} {questions.whatsappDisplay}
+          </a>{" "}
+          {questions.instagramLine}{" "}
+          <a
+            href={brand.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sand underline decoration-sand/40 underline-offset-4 transition-colors hover:decoration-sand"
+          >
+            {brand.instagram}
+          </a>
+          .
+        </p>
       </div>
     </section>
   );

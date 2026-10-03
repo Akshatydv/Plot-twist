@@ -274,8 +274,16 @@ export const heroVideo = {
 export const TRIP = {
   destination: "THAILAND",
   city: "PHUKET",
-  cast: "20 PEOPLE",
-  split: "10 GIRLS + 10 GUYS",
+  /**
+   * THE GROUP. Moved from twenty to a maximum of sixteen by the site owner,
+   * 2 Oct 2026, and the gender split is REMOVED rather than halved — a split
+   * the trip might not hold to is worse than no split at all.
+   *
+   * `castNote` is mandatory wherever the number is set large. Sixteen is a
+   * ceiling and an intention, not a promise.
+   */
+  cast: "16 PEOPLE",
+  castNote: "*The final group size can vary and is not guaranteed.",
   ages: "18–30",
   days: { confirmed: true, value: "7 DAYS · 6 NIGHTS" },
   /**
@@ -545,7 +553,7 @@ export const shape = {
       accent: "#FF7FA8",
     },
     {
-      k: "20 PEOPLE",
+      k: "16 PEOPLE",
       v: "ONE CREW",
       d: "Ten and ten, picked one at a time. That part does not change whatever the itinerary turns out to be.",
       accent: "#D6CFE6",
@@ -563,7 +571,7 @@ export const shape = {
    */
   withheld: {
     stamp: "THE FULL WEEK — PUBLISHED BELOW",
-    line: "Seven days, start to finish, is further down this page. Nothing is hidden behind the form — the form is only how you get a seat when twenty of them open.",
+    line: "Seven days, start to finish, is further down this page. Nothing is hidden behind the form — the form is only how you get a seat when sixteen of them open.",
   },
 } as const;
 
@@ -663,19 +671,24 @@ export const lineup = {
  * journey3.ts through JourneyProvider.
  *
  * Its placement is the point: it lands immediately after THE DROP, so the
- * loudest moment on the page is followed by twenty faces. Festival → people,
+ * loudest moment on the page is followed by sixteen faces. Festival → people,
  * in one scroll. That order is the argument the whole page is making.
  */
 export const cast = {
   bridge: [
-    "20 PEOPLE. ONE CREW. ONE FESTIVAL.",
+    "16 PEOPLE. ONE CREW. ONE FESTIVAL.",
     "The lineup gets announced. The cast gets picked.",
   ] as [string, string],
   composition: {
     title: "10 AND 10.",
     body: "We're looking for the ones who are always up for one more set, one more plan, one more story.",
     disclaimer: "Basically, good vibes only.",
-    extra: ["And yes, 10/10s only.", "Not the looks kind. The energy kind."],
+    /* The "10 and 10" split is gone with the move to a maximum of sixteen, so
+       the 10/10s line goes with it — it only ever worked as a pun on the split.
+       The ceiling is stated instead, because sixteen is an intention and not a
+       promise, and a page that implies otherwise writes a cheque the trip has
+       to cash. */
+    extra: ["Sixteen of you. That is the whole point.", "*The final group size can vary and is not guaranteed."],
   },
 } as const;
 
@@ -784,7 +797,7 @@ export const plot = {
   panels: [
     {
       k: "THE CAST",
-      v: "Twenty people, picked one at a time. A real person reads every application — that's also why it isn't instant.",
+      v: "Maximum sixteen, picked one at a time. A real person reads every application — that's also why it isn't instant.",
       accent: "#FF2E7E",
     },
     {
@@ -892,11 +905,12 @@ export const week = {
       phase: "before",
       n: "01",
       date: "15 DECEMBER",
-      kicker: "THE ARRIVAL",
-      title: "WELCOME TO THE PLOT TWIST",
-      body: "Land in Phuket and keep moving — the road to Krabi runs past limestone the size of office blocks. Railay at sunset, which you reach by boat because there is no road to it. Then the first night with the crew, which is where twenty strangers stop being twenty strangers.",
-      beat: "Land. Switch off. Let's go.",
-      where: "PHUKET → KRABI → RAILAY",
+      kicker: "THE PLOT TWIST BEGINS",
+      title: "LAND IN PHUKET. HEAD FOR KRABI.",
+      body:
+        "You land in Phuket and you do not stay there. The crew is waiting with premium group transfers — no taxis, no luggage to drag, no logistics. Straight to Krabi, into the hotel, then back out for Railay and Ao Nang: limestone standing in turquoise water, and the first Thai sunset of the week. Then the first night, which is the one that turns a group into a crew.",
+      beat: "By tomorrow this stops being strangers.",
+      where: "PHUKET → KRABI · STAY: KRABI",
       accent: "#FFC9A8",
       scene: {
         poster: "/photos/thailand/days/day-01.jpg",
@@ -918,11 +932,12 @@ export const week = {
       phase: "before",
       n: "02",
       date: "16 DECEMBER",
-      kicker: "ISLAND MODE",
-      title: "PHI PHI, BUT MAKE IT A DAY",
-      body: "Out on the water before the day boats arrive. Phi Phi, and Maya Bay — the one you have already seen a hundred times and will still look at properly — and then the stops nobody photographs, which is where everyone actually gets in the water. Back late. Out later.",
+      kicker: "PHI PHI, BUT MAKE IT A DAY",
+      title: "THE WATER IS THE POINT.",
+      body:
+        "Breakfast, then out onto the Andaman for the biggest day of the first half. Phi Phi, the hidden bays, and Maya Bay — the one you have already seen a hundred times and will still look at properly. Swimming, snorkelling, island hopping. Not a sightseeing run on a schedule: music on the boat, cold drinks, and your own corner of it. Back to Krabi around sunset, then Ao Nang at an easy pace.",
       beat: "Island hopping, but make it chaotic.",
-      where: "PHI PHI · MAYA BAY",
+      where: "PHI PHI · MAYA BAY · STAY: KRABI",
       accent: "#9FE8DA",
       scene: {
         poster: "/photos/thailand/days/day-02.jpg",
@@ -940,10 +955,11 @@ export const week = {
       n: "03",
       date: "17 DECEMBER",
       kicker: "THE CALM BEFORE THE STORM",
-      title: "PHUKET LOADING…",
-      body: "Back across to Phuket, into the stay for the rest of the week, and then an afternoon that is deliberately empty. Pool, beach, sleep, whatever you need. Nobody sensible walks into three nights of EDC already tired.",
-      beat: "Tomorrow, we enter another universe.",
-      where: "KRABI → PHUKET",
+      title: "NO FESTIVAL ALARMS TODAY.",
+      body:
+        "A whole day for Krabi, and deliberately not a checklist. Emerald Pool and the jungle around it, beaches, viewpoints, Ao Nang, Railay — as much or as little as the day wants. Explore, swim, eat, shoot, sit down, repeat. There is breathing room in this day on purpose, because of what the next one turns into. One last Krabi sunset before the whole energy of the week changes.",
+      beat: "Tomorrow, everything changes.",
+      where: "KRABI · STAY: KRABI",
       accent: "#FF9EC6",
       scene: {
         poster: "/photos/thailand/days/day-03.jpg",
@@ -962,11 +978,12 @@ export const week = {
       phase: "after",
       n: "04",
       date: "18 DECEMBER",
-      kicker: "NIGHT 01",
-      title: "THE FIRST DROP",
-      body: "Gates at Rhythm Park. The walk in, the first time a mainstage that size is in front of you rather than on a screen, and the specific silence of twenty people realising at the same moment that this is actually happening.",
+      kicker: "THE ELECTRIC SKY",
+      title: "TONIGHT, WE GO TO EDC.",
+      body:
+        "Bags packed, premium transfers back to Phuket, and into the stay for the rest of the week. Shower, pool, eat, sleep if you are sensible. Then everything the week has been building toward: gates at Rhythm Park, the first time a mainstage that size is in front of you rather than on a screen, and the specific silence of sixteen people realising at once that this is actually happening.",
       beat: "Nothing is ever the first time twice.",
-      where: "RHYTHM PARK, LAGUNA PHUKET",
+      where: "KRABI → PHUKET · EDC NIGHT 01 · STAY: PHUKET",
       accent: "#FF2E7E",
       scene: {
         poster: "/photos/thailand/days/day-04.jpg",
@@ -983,11 +1000,12 @@ export const week = {
       phase: "after",
       n: "05",
       date: "19 DECEMBER",
-      kicker: "NIGHT 02",
-      title: "NO LOOKING BACK",
-      body: "Night two is the one nobody warns you about. The site makes sense now, the crew has split into the people chasing the mainstage and the people who found the small stage and will not leave it, and everyone has stopped checking the time.",
+      kicker: "PHUKET × EDC",
+      title: "DIFFERENT STAGE. SAME CREW.",
+      body:
+        "The morning after, which is its own experience. Breakfast, then Phuket properly: Kata and Karon, the Sino-Portuguese streets and cafés of the Old Town, Karon Viewpoint, and the coast at Promthep Cape. Back for the pool, the shower, the outfit and the pre-game. Then night two, which everybody says is the one that gets away from them.",
       beat: "The crew is fully in.",
-      where: "SIX STAGES",
+      where: "PHUKET OLD TOWN · VIEWPOINTS · EDC NIGHT 02",
       accent: "#FF2E7E",
       scene: {
         poster: "/photos/thailand/days/day-05.jpg",
@@ -1004,11 +1022,12 @@ export const week = {
       phase: "after",
       n: "06",
       date: "20 DECEMBER",
-      kicker: "NIGHT 03",
-      title: "ONE LAST DANCE",
-      body: "The last night of the festival and the last night of the trip, which is a great deal to put inside one evening. Everybody knows it while it is still happening. That is exactly why it is the night people describe badly for years afterwards.",
-      beat: "Three nights. One festival. Zero normal plans.",
-      where: "THE FINAL NIGHT",
+      kicker: "ONE LAST ADVENTURE",
+      title: "ONE LAST DANCE.",
+      body:
+        "You have survived two nights, barely, and the last day is not getting wasted. Breakfast, then one more proper adventure — ATV, the water, the viewpoints, the spots that are not on anybody's list — and a final sunset with the crew. Back to the hotel. Final outfit, final pre-game, final night. The last night of the festival and of the trip, which is a great deal to put inside one evening.",
+      beat: "Three nights. Six stages. One last night.",
+      where: "PHUKET · EDC NIGHT 03 · STAY: PHUKET",
       accent: "#FF2E7E",
       scene: {
         poster: "/photos/thailand/days/day-06.jpg",
@@ -1029,9 +1048,10 @@ export const week = {
       n: "07",
       date: "21 DECEMBER",
       kicker: "THE MORNING AFTER",
-      title: "NOBODY SAYS MUCH AT BREAKFAST",
-      body: "A slow breakfast, a checkout, and a transfer to the airport. Numbers get swapped that were never going to be swapped on day one. Then everyone goes back to their actual lives, which will feel strange for about a week.",
-      beat: "Seven days. Four destinations. Three festival nights. Twenty people who started as strangers.",
+      title: "NOBODY SAYS MUCH AT BREAKFAST.",
+      body:
+        "No alarms. No eight o'clock sightseeing. Just breakfast, coffee and six days of stories, with everybody exhausted and nobody willing to say it is over. One last group breakfast, one last poolside hour, one last round of photos. Then the transfers to the airport, and that is Thailand. The group chat, on the other hand, is only getting started.",
+      beat: "You came for EDC. You left with fifteen other people.",
       where: "PHUKET → HOME",
       accent: "#D6CFE6",
       scene: {
@@ -1061,7 +1081,7 @@ export type WeekChapter = (typeof week.chapters)[number];
  * THE PRICE. Confirmed and published by the site owner, 27 September 2026.
  *
  * ─── THE ONE THING THIS BLOCK EXISTS TO PREVENT ─────────────────────────────
- * A visitor reading "₹59,999" next to the words EDC THAILAND will assume the
+ * A visitor reading "₹49,999" next to the words EDC THAILAND will assume the
  * festival ticket is in it. It is not. That assumption is the single most
  * expensive misunderstanding this page can create — it ends in a refund
  * conversation and a screenshot — so the exclusion is not left to the
@@ -1080,8 +1100,21 @@ export type WeekChapter = (typeof week.chapters)[number];
  */
 export const price = {
   confirmed: true,
-  amount: "₹59,999",
-  note: "Per person. The EDC Thailand festival pass is not included — you buy it from the organiser, at their price.",
+  amount: "₹44,999",
+  note: "Early bird, per person, until 15 October. ₹49,999 from 16 Oct; ₹54,999 from 16 Nov. The EDC Thailand 3-day pass and flights are additional — the pass at official MRP, nothing added.",
+  /**
+   * THE ALL-IN NUMBER, AND WHY IT IS STATED.
+   *
+   * A page that prints ₹49,999 under the words EDC THAILAND and leaves the
+   * ticket unmentioned is technically accurate and practically misleading:
+   * somebody budgets fifty and arrives needing eighty. Both halves are stated
+   * together, in the same breath, every time the number appears.
+   *
+   * `allIn` is the figure to quote; `passNote` is the sentence that stops it
+   * reading as a package price.
+   */
+  allIn: "Same trip at every price. Book early, save ₹10,000.",
+  passNote: "From ₹44,999 for the trip. The EDC pass at official MRP on top. We add nothing to the ticket.",
   pending: "NOT ANNOUNCED YET",
   pendingNote: "Pre-register and you'll hear it first.",
 } as const;
@@ -1102,7 +1135,7 @@ export const price = {
  * not in the confirmed brief and a plausible guess printed as a fact is still
  * an invented fact. Two specifically:
  *
- *   ROOM OCCUPANCY. "4-star stays" is confirmed; whether ₹59,999 is a twin-
+ *   ROOM OCCUPANCY. "4-star stays" is confirmed; whether ₹49,999 is a twin-
  *   share rate is not. Twin sharing is the industry default and would be the
  *   easy assumption to print — and if it is wrong it is a pricing error, not
  *   a copy error. It stays off the page until it is confirmed.
@@ -1115,15 +1148,20 @@ export const price = {
 export const inclusions = {
   confirmed: true,
   included: [
-    "Six nights across Krabi and Phuket, in 4-star stays",
-    "All ground transport in Thailand, airport transfers included",
-    "Phi Phi and Maya Bay by boat, and the Railay Beach evening",
-    "Curated experiences through the week, planned and run by us",
-    "Plot Twist hosts with the crew for all seven days",
-    "The welcome night, and the nights out that follow it",
+    "Six nights, seven days — premium hotels in Krabi and Phuket",
+    "Breakfast every single day",
+    "Premium group transfers throughout, airport transfers included",
+    "Phuket → Krabi on arrival, Krabi → Phuket before the festival",
+    "Phi Phi and Maya Bay by boat, with island hopping and water experiences",
+    "Krabi experiences and a curated Phuket exploration",
+    "A Phuket adventure experience",
+    "Planned group experiences all week",
+    "Group transfers to and from EDC on all three nights",
+    "A dedicated Plot Twist trip leader, on the trip with you",
+    "A curated group of 16*",
   ],
   excluded: [
-    "The EDC Thailand 3-day festival pass — bought from the organiser, at the organiser's price",
+    "The EDC Thailand 3-day festival pass — at official MRP; buy it yourself or we can help you book it",
     "Flights to and from Thailand",
     "Visa and travel insurance",
     "Meals outside the planned experiences",
@@ -1152,7 +1190,7 @@ export const pass = {
   /** The credential header — deliberately reads as machine print. */
   credential: {
     holder: "BEARER",
-    holderValue: "ONE OF TWENTY",
+    holderValue: "ONE OF SIXTEEN",
     gate: "GATE",
     gateValue: "APPLICATION",
     serial: "PT-J02",
@@ -1175,7 +1213,7 @@ export const pass = {
    * See the affiliation rule at the top of this file.
    */
   disclaimer:
-    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. The hero video is festival footage from EDC Thailand's own trailer and belongs to its makers, not to us. The photography is licensed stock and does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
+    "Plot Twist is an independent travel experience built around EDC Thailand. We are not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events, and this page is not endorsed by them. We do not resell festival tickets. Where we help a traveller book their pass it is bought at official MRP and we add nothing to it. The hero video is festival footage from EDC Thailand's own trailer and belongs to its makers, not to us. The photography is licensed stock and does not show the actual venues, stays or travellers on this trip. Festival dates and lineup are the organiser's and are subject to their announcements. All EDC and Insomniac names and marks belong to their owners.",
   price,
   inclusions,
 } as const;
@@ -1194,7 +1232,7 @@ export const pass = {
  *
  * The emotion here is deliberately not excitement. Excitement makes people
  * bookmark a page; the possibility of being left out makes them act. So the
- * copy directly above the button is about the twenty seats and the fact that
+ * copy directly above the button is about the sixteen seats and the fact that
  * a person decides — the festival has already done its job by this point.
  */
 export const gatesOpen = {
@@ -1226,7 +1264,7 @@ export const gatesOpen = {
  * ─── WHY IT ASKS SO LITTLE ──────────────────────────────────────────────────
  * Five short fields, no essay questions. Journey 00's application asks three
  * written questions because it is CASTING — a real person reads the answers
- * and picks twenty people. Nobody is being cast yet, so asking someone to
+ * and picks sixteen people. Nobody is being cast yet, so asking someone to
  * write about themselves for a trip that isn't open would be taking their
  * effort under false pretences.
  *
@@ -1241,12 +1279,12 @@ export const gatesOpen = {
  */
 export const preRegister = {
   index: edcIndex("preRegister"),
-  label: "PRE-REGISTRATION",
-  headline: ["GET ON", "THE LIST."],
-  sub: "This isn't a booking, and it isn't an application. It's your name, on a list, so you hear first.",
+  label: "BOOK YOUR SPOT",
+  headline: ["GET INTO", "THE PLOT."],
+  sub: "Leave your details and we'll message you to confirm. ₹15,000 holds your spot — or WhatsApp us on +91 70655 55549.",
   reassure: [
-    "Nothing to pay. Nothing to commit to.",
-    "When the twenty seats open, this list gets told before the internet does.",
+    "Early bird ₹44,999 until 15 October · ₹49,999 from 16 Oct · ₹54,999 from 16 Nov.",
+    "₹15,000 to confirm. Balance by 2 December. EDC ticket and flights additional.",
   ],
   fields: {
     name: { label: "NAME", placeholder: "what people call you" },
@@ -1255,12 +1293,12 @@ export const preRegister = {
     city: { label: "CITY", placeholder: "where you're flying from" },
     age: { label: "AGE", placeholder: "18–30" },
   },
-  submit: "PUT ME ON THE LIST",
-  submitting: "ADDING YOU…",
-  note: "no payment. no commitment. no spam.",
+  submit: "BOOK MY SPOT",
+  submitting: "SENDING…",
+  note: "we'll message you. no payment until you confirm.",
   success: {
-    stamp: "YOU'RE ON THE LIST",
-    line: "That's it. You'll hear from us before anyone else does.",
+    stamp: "WE'VE GOT YOU",
+    line: "We'll message you shortly to confirm your spot.",
     note: "see you after dark.",
   },
   error: "That didn't send. Try again, or message us — the tea cup's bottom right.",
@@ -1388,19 +1426,19 @@ export const faq = {
   items: [
     {
       q: "Is this an official EDC Thailand package?",
-      a: "No. Plot Twist is an independent travel company and is not a partner, sponsor, organiser, reseller or agent of EDC, EDC Thailand or Insomniac Events. We run a trip that happens to be built around their festival. Anything to do with the festival itself — tickets, lineup, entry — is theirs, not ours.",
+      a: "No. Plot Twist is an independent travel company and is not a partner, sponsor, organiser, reseller or affiliate of EDC, EDC Thailand or Insomniac Events. We run a trip that happens to be built around their festival, and we can help you book your pass. Anything to do with the festival itself — lineup, entry, rules — is theirs, not ours.",
     },
     {
       q: "Are festival tickets included?",
-      a: "No, and that is deliberate rather than an oversight. The ₹59,999 covers the trip; the EDC Thailand 3-day pass you buy from the organiser at the organiser's price. We do not resell festival tickets and we do not mark them up — we would rather you paid EDC directly than paid us a margin to stand in the queue for you.",
+      a: "No — the pass sits on top of the trip price, at official MRP, with nothing added by us. We do not mark festival tickets up: you pay official MRP for an EDC ticket, and you pay us for the week around it. You can buy the pass yourself, or we can help you book it — either way the price is the same.",
     },
     {
       q: "What does it cost?",
-      a: "₹59,999 per person for the seven days, plus your own flights and your own EDC pass. Pre-registering still costs nothing and commits you to nothing — there is no deposit at this stage, because the twenty seats are not open yet.",
+      a: "It depends on when you book — same trip at every price. Early bird ₹44,999 per person until 15 October, ₹49,999 from 16 October to 15 November, and ₹54,999 from 16 November. That covers the stays, the transfers, the boat day, the experiences and the trip leader. The EDC 3-day pass is on top at official MRP, and flights are your own. ₹15,000 confirms your spot; the balance is due by 2 December.",
     },
     {
-      q: "Does pre-registering book me a seat?",
-      a: "No. It is your name on a list so you hear before the internet does. It is not a booking, not an application, and it holds nothing — when the twenty seats actually open, this list gets told first.",
+      q: "How do I book?",
+      a: "Leave your details in the form below or message us on WhatsApp (+91 70655 55549). We'll come back to you, and ₹15,000 confirms your spot. Filling in the form on its own holds nothing until that payment is made.",
     },
     {
       q: "When is the trip, and how long is it?",
@@ -1408,11 +1446,11 @@ export const faq = {
     },
     {
       q: "Who else is going?",
-      a: "Twenty people, aged 18 to 30, most of whom will not know each other beforehand. A real person reads every application and picks the mix one at a time, which is why it is not instant and why it is not simply whoever paid first.",
+      a: "Sixteen people, aged 18 to 30, most of whom will not know each other beforehand. A real person reads every application and picks the mix one at a time, which is why it is not instant and why it is not simply whoever paid first.",
     },
     {
       q: "Where is the day-by-day itinerary?",
-      a: "On this page, all seven days of it. Krabi and Railay on the 15th, Phi Phi and Maya Bay on the 16th, across to Phuket on the 17th, then the three festival nights and a slow morning on the 21st. Nothing is held back behind the form.",
+      a: "On this page, all seven days of it. Krabi and Railay on the 15th, Phi Phi and Maya Bay on the 16th, a guided Krabi day on the 17th, back to Phuket for the first festival night on the 18th, then two more nights and a slow morning on the 21st. Nothing is held back behind the form.",
     },
   ],
 } as const;
