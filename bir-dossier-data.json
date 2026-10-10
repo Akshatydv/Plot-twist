@@ -27,16 +27,6 @@
       "photo": "people/trip-six.jpg",
       "caption": "dressed for it.",
       "where": "on a past Plot Twist trip"
-    },
-    {
-      "photo": "founder-03.jpg",
-      "caption": "worth the boat.",
-      "where": "on the founder's own travels"
-    },
-    {
-      "photo": "founder-01.jpg",
-      "caption": "hanoi, no plan.",
-      "where": "Hanoi, on the founder's own trip"
     }
   ],
   "reviews": [
@@ -101,5 +91,6 @@
     "photo": "file in bir-dossier-assets/",
     "line": "optional: one line they said about it"
   },
-  "_glimpseShape": "\"shape\": \"wide\" for a landscape photo (takes two print widths); leave it out for portrait."
+  "_glimpseShape": "\"shape\": \"wide\" for a landscape photo (takes two print widths); leave it out for portrait.",
+  "_glimpseRule": "GROUP PHOTOS ONLY. The Glimpses page shows people together from past trips, never a solo shot. The strip under the two big prints takes as many frames as you add here (3 to 5 look best)."
 }

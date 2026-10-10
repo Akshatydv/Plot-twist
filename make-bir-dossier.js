@@ -60,16 +60,18 @@ const excluded = listFrom('excluded').map((s) => `<li><span class="m">×</span>$
 
 /* ---------------- glimpses ---------------- */
 // Six columns of big prints (a portrait takes two, a "wide" one four), then a
-// strip of five small frames. Empty places print as marked slots.
+// strip with one frame per remaining photo. An empty big-print place prints as
+// a marked slot (and makes the file a DRAFT); the strip never pads itself.
+// Group photos only: see _glimpseRule in bir-dossier-data.json.
 const gAll = [...DATA.glimpses];
-const STRIP = 5;
 let half = 0;
 for (let used = 0; used < 6; half++) {
   const span = gAll[half] && gAll[half].shape === 'wide' ? 4 : 2;
   if (used + span > 6) break;
   used += span;
 }
-const gSlots = Math.max(half + STRIP, gAll.length);
+const gSlots = Math.max(half, gAll.length);
+const stripN = gSlots - half;
 const frames = [];
 for (let i = 0; i < gSlots; i++) {
   const g = gAll[i];
@@ -160,7 +162,7 @@ let html = SOURCE
   .replace('{{INCLUDED}}', included)
   .replace('{{EXCLUDED}}', excluded)
   .replace('{{GLIMPSES_A}}', frames.slice(0, half).join(''))
-  .replace('{{GLIMPSES_B}}', frames.slice(half).join(''))
+  .replace('<div class="more">{{GLIMPSES_B}}</div>', `<div class="more" style="grid-template-columns:repeat(${Math.max(stripN, 1)},1fr);grid-template-rows:${stripN <= 3 ? 46 : 38}mm">${frames.slice(half).join('')}</div>`)
   .replace('{{GLIMPSE_NOTES}}', glimpseNotes)
   .replace('{{REVIEWS}}', reviews.join(''))
   .replace('{{CREATORS}}', creators.join(''))
