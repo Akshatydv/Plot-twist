@@ -1,8 +1,13 @@
 /* ============================================================================
    make-bir-dossier.js — render the Journey 03 (Bir × Barot) dossier PDF.
 
-     node make-bir-dossier.js            → dossiers/Plot-Twist-Journey-03-Bir-Barot.pdf
-     node make-bir-dossier.js --png      → also a PNG of every page, for review
+     node make-bir-dossier.js              → dossiers/Plot-Twist-Bir-Barot-Dossier.pdf
+     node make-bir-dossier.js --creators   → dossiers/Plot-Twist-Bir-Barot-Creators.pdf
+     node make-bir-dossier.js --png        → also a PNG of every page, for review
+
+   The creators edition is bir-dossier-creators-source.html: the same trip, no
+   price anywhere (the build refuses to finish if a price slips in), and a
+   creator-facing pitch instead of the booking pitch.
 
    Sources:
      bir-dossier-source.html   the design (11 full-bleed A4 pages, no JavaScript)
@@ -26,7 +31,8 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = __dirname;
-const SRC = path.join(ROOT, 'bir-dossier-source.html');
+const CREATORS = process.argv.includes('--creators');
+const SRC = path.join(ROOT, CREATORS ? 'bir-dossier-creators-source.html' : 'bir-dossier-source.html');
 const DATA = JSON.parse(fs.readFileSync(path.join(ROOT, 'bir-dossier-data.json'), 'utf8'));
 const BIR = fs.readFileSync(path.join(ROOT, 'src/content/bir.ts'), 'utf8');
 const OUTDIR = path.join(ROOT, 'dossiers');
@@ -39,7 +45,7 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 let draft = false;
 
 /* ---------------- price ---------------- */
-const price = DATA.price
+const price = CREATORS ? { big: '', small: '' } : DATA.price
   ? { big: esc(DATA.price), small: 'PER PERSON' }
   : { big: 'Announced soon', small: 'ASK US FOR THE NUMBER BEFORE IT&rsquo;S PUBLIC' };
 
@@ -140,7 +146,7 @@ for (const m of (SOURCE + JSON.stringify(DATA).replace(/"photo":"/g, '"photo":"b
 const creditLine = 'PHOTOGRAPHS: ' + [...new Set(credits)].join(' · ') + ' · Founder photographs: Akshat. Not every photograph is of Bir or Barot; where a place is named, it is.';
 
 /* ---------------- assemble ---------------- */
-const wa = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent("Hey Plot Twist 👀 I'm in for Bir × Barot — Journey 03.")}`;
+const wa = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(CREATORS ? "Hey Plot Twist 👀 I'm a creator and I'd love to know more about Bir × Barot (20–24 Nov)." : "Hey Plot Twist 👀 I'm in for Bir × Barot.")}`;
 // the fonts go in as data URIs: headless Chromium blocks font loads from
 // file:// pages, and a print pipeline should not depend on the network
 const FONTDIR = path.join(ROOT, 'bir-dossier-assets/fonts');
@@ -160,6 +166,11 @@ let html = SOURCE
   .replace('{{CREATORS}}', creators.join(''))
   .replace('{{CREDITS}}', creditLine)
   .replace('{{DRAFT}}', draft ? 'draft' : '');
+if (CREATORS) {
+  const text = html.replace(/<style[\s\S]*?<\/style>/g, '').replace(/<[^>]+>/g, ' ');
+  const hit = text.match(/₹|&#8377;|&#x20b9;|7,?999|per person|\bINR\b|\bRs\.?\s?\d/i);
+  if (hit) throw new Error(`The creators edition must not mention pricing, found: "${hit[0]}"`);
+}
 if (/\{\{[A-Z_]+\}\}/.test(html)) throw new Error('Unfilled placeholder: ' + html.match(/\{\{[A-Z_]+\}\}/)[0]);
 
 /* ---------------- image weight ----------------
@@ -186,7 +197,7 @@ const optimised = Promise.all([...wanted.values()].map(async ([variant, rel]) =>
 }));
 
 fs.mkdirSync(OUTDIR, { recursive: true });
-const built = path.join(ROOT, '.bir-dossier-built.html');
+const built = path.join(ROOT, CREATORS ? '.bir-creators-built.html' : '.bir-dossier-built.html');
 fs.writeFileSync(built, html);
 
 (async () => {
@@ -199,14 +210,14 @@ fs.writeFileSync(built, html);
   const page = await browser.newPage({ viewport: { width: 794, height: 1123 } });
   await page.goto('file://' + built, { waitUntil: 'networkidle' });
   await page.evaluate(() => document.fonts.ready);
-  const name = `Plot-Twist-Journey-03-Bir-Barot${draft ? '-DRAFT' : ''}.pdf`;
+  const name = `Plot-Twist-Bir-Barot-${CREATORS ? 'Creators' : 'Dossier'}${draft ? '-DRAFT' : ''}.pdf`;
   const out = path.join(OUTDIR, name);
   await page.pdf({ path: out, printBackground: true, preferCSSPageSize: true });
   const pages = await page.evaluate(() => document.querySelectorAll('.page').length);
   if (WANT_PNG) {
     for (let i = 0; i < pages; i++) {
       const el = (await page.$$('.page'))[i];
-      await el.screenshot({ path: path.join(OUTDIR, `page-${String(i + 1).padStart(2, '0')}.png`) });
+      await el.screenshot({ path: path.join(OUTDIR, `${CREATORS ? 'creators-' : ''}page-${String(i + 1).padStart(2, '0')}.png`) });
     }
   }
   await browser.close();

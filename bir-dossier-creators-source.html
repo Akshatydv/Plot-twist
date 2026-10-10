@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Plot Twist — Bir × Barot · The Creators Edition</title>
+<link href="bir-dossier-assets/fonts/fonts.css" rel="stylesheet">
+<style>
+/* ============================================================================
+   PLOT TWIST — BIR × BAROT · THE CREATORS EDITION
+   Same trip as the dossier, told to someone who makes things. NO PRICE ANYWHERE
+   (make-bir-dossier.js --creators refuses to finish if one slips in), and no
+   invented terms: nothing here promises payment, deliverables or reach.
+   A4 print source, rendered by make-bir-dossier.js (headless Chromium).
+
+   Every page is full bleed: a photograph runs to all four edges and the type
+   sits on its scrims. Day pages are three photographic bands — the place, the
+   day in frames, the payoff — so no half of any page is an empty field.
+
+   HONESTY RULE. Every claim traces to src/content/bir.ts. No invented
+   price, discount, deadline, review, creator or traveller count. The two
+   trust pages (Glimpses, The People) are filled ONLY from
+   bir-dossier-data.json; an empty slot prints as a marked blank and the
+   file is named -DRAFT until every slot is real. Photographs are labelled
+   as Bir or Barot only where they are (see bir-dossier-assets/CREDITS.json).
+
+   PERFORMANCE: no filter:blur, no blend modes. Grain is a tiled SVG; glows
+   are radial-gradients. (Blur took the Goa PDF from 2.7MB to 29MB.)
+   ========================================================================== */
+:root{
+  --char:#101311; --bone:#efe9dd; --stone:#a59d8f;
+  --pine:#0f1d16; --moss:#2c4436; --river:#8fb1a8; --fire:#e8793a; --ember:#ffb36b;
+  --sky:#a9cbe0; --skyd:#24527d;
+  --earth:#2e2119; --clay:#a95f38; --trail:#d9c7a6;
+  --dawn:#f1e6d6; --peach:#e8b48a; --slate:#5d6b73;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --hand:'Caveat',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@page{size:A4;margin:0}
+html,body{width:210mm;background:#0b0f0d}
+body{font-family:var(--sans);color:var(--bone);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{position:relative;width:210mm;height:297mm;overflow:hidden;break-after:page;page-break-after:always;background:#0b0f0d}
+.page:last-of-type{break-after:auto;page-break-after:auto}
+.page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;z-index:60;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Crect width='3' height='3' fill='%23000' opacity='.5'/%3E%3Crect x='3' y='3' width='3' height='3' fill='%23000' opacity='.5'/%3E%3C/svg%3E");
+  background-size:3px 3px}
+body.draft .page::before{content:"DRAFT \00B7  TRUST PAGES NEED REAL CONTENT \00B7  SEE bir-dossier-data.json";position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:99;
+  background:#ff2e2e;color:#fff;font:700 5.4pt/1 var(--sans);letter-spacing:.2em;padding:1.2mm 3mm;white-space:nowrap}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-weight:400}
+
+/* ---------- layers ---------- */
+.ph{position:absolute;left:0;right:0;background-size:cover;background-position:50% 50%;background-repeat:no-repeat}
+.sc{position:absolute;left:0;right:0;pointer-events:none}
+.z{position:absolute;z-index:10}
+
+/* ---------- type ---------- */
+.k{font-size:6.2pt;letter-spacing:.28em;font-weight:700;text-transform:uppercase}
+.h{font-family:var(--serif);line-height:.88;letter-spacing:-.02em}
+.it{font-family:var(--serif);font-style:italic}
+.hand{font-family:var(--hand)}
+.slate{display:flex;align-items:center;gap:4mm;font-size:6.6pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.slate .bar{height:1px;width:14mm;background:currentColor;opacity:.55}
+.pfoot{position:absolute;left:14mm;right:14mm;bottom:6mm;display:flex;justify-content:space-between;align-items:baseline;
+  font-size:5.4pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.5);z-index:40}
+.pfoot .no{font-family:var(--serif);font-size:11pt;letter-spacing:0;color:rgba(239,233,221,.75)}
+.shadow{} /* no text-shadow: Chromium prints it as a translucent box that PDF viewers show */
+
+/* ---------- shared day furniture ---------- */
+.mast{position:absolute;left:14mm;right:14mm;top:14mm;z-index:10}
+.mast h2{margin-top:3mm;font-size:60pt}
+.mast .place{margin-top:3mm;font-size:7.6pt;letter-spacing:.32em;font-weight:700}
+.mast .tag{margin-top:3.5mm;font-family:var(--serif);font-style:italic;font-size:15pt;line-height:1.18;max-width:120mm}
+.sechead{position:absolute;left:14mm;right:14mm;z-index:10;display:flex;align-items:baseline;justify-content:space-between;gap:6mm;
+  border-top:1px solid rgba(239,233,221,.22);padding-top:2.6mm}
+.sechead .t{font-family:var(--serif);font-size:16pt;line-height:1}
+.sechead .t em{color:var(--ember)}
+.tiles{position:absolute;left:14mm;right:14mm;z-index:10;display:grid;gap:3.4mm}
+.tile .img{width:100%;background-size:cover;background-position:50% 50%;box-shadow:0 1mm 3mm rgba(0,0,0,.35)}
+.tile .w{margin-top:2.4mm;font-size:5.6pt;letter-spacing:.26em;font-weight:700;color:var(--ember)}
+.tile .t{margin-top:1mm;font-family:var(--serif);font-size:13.5pt;line-height:.98}
+.tile .d{margin-top:1mm;font-size:6.9pt;line-height:1.4;color:rgba(239,233,221,.72)}
+.pol{position:absolute;background:#fbf7ef;padding:1.6mm 1.6mm 6.4mm;box-shadow:1.2mm 1.6mm 3mm rgba(0,0,0,.4);z-index:20}
+.pol .img{width:100%;background-size:cover;background-position:50% 50%}
+.pol .cap{position:absolute;left:0;right:0;bottom:1.2mm;text-align:center;font-family:var(--hand);font-size:10.5pt;color:rgba(16,19,17,.7)}
+.tnote{position:absolute;font-family:var(--hand);font-size:13pt;line-height:1.12;z-index:30}
+.addon{margin-top:1.4mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;text-transform:uppercase;color:var(--ember)}
+
+/* ============ P1 · COVER ============ */
+.cover .in{position:relative;height:100%;padding:15mm 14mm 14mm;display:flex;flex-direction:column;z-index:10}
+.cover .top{display:flex;justify-content:space-between;align-items:flex-start}
+.cover .logo{height:13mm}
+.cover .imprint{text-align:right;font-size:6pt;letter-spacing:.3em;font-weight:700;color:rgba(239,233,221,.75);line-height:1.9;text-transform:uppercase}
+.cover h1{margin-top:14mm;font-family:var(--serif);font-size:96pt;line-height:.8;letter-spacing:-.03em}
+.cover h1 i{font-size:52pt;color:var(--ember);padding:0 2mm;vertical-align:.18em;font-style:normal}
+.cover .dates{margin-top:6mm;display:flex;align-items:center;gap:5mm}
+.cover .dates .d{font-size:8.6pt;letter-spacing:.32em;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.cover .dates .rule{flex:1;height:1px;background:rgba(239,233,221,.45)}
+.cover .line{margin-top:6mm;font-size:12pt;letter-spacing:.3em;font-weight:700;text-transform:uppercase}
+.cover .support{margin-top:2.5mm;font-family:var(--serif);font-style:italic;font-size:18pt;color:var(--peach)}
+.cover .aside{position:absolute;right:14mm;top:150mm;transform:rotate(-4deg);text-align:right;font-family:var(--hand);font-size:16pt;line-height:1.15;color:#fff;z-index:12}
+.cover .chapters{margin-top:auto;border-top:1px solid rgba(239,233,221,.32);padding-top:4.5mm;display:grid;grid-template-columns:repeat(4,1fr);gap:4mm}
+.cover .chapters .n{font-size:6pt;letter-spacing:.3em;font-weight:700;color:var(--ember)}
+.cover .chapters .t{margin-top:1.4mm;font-family:var(--serif);font-size:16pt;line-height:.95}
+.cover .chapters .p{margin-top:1mm;font-size:6.4pt;letter-spacing:.14em;text-transform:uppercase;color:rgba(239,233,221,.62)}
+.cover .facts{margin-top:5.5mm;font-size:7pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;line-height:2.1;color:rgba(239,233,221,.8)}
+.cover .facts b{color:var(--bone)}
+.cover .priceRow{margin-top:5.5mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm}
+.cover .price{font-family:var(--serif);font-size:25pt;line-height:.9}
+.cover .price small{display:block;margin-top:2mm;font-family:var(--sans);font-size:6.2pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.62)}
+.cta{display:inline-block;background:var(--bone);color:var(--char);padding:4mm 7mm;font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;box-shadow:2.4mm 2.4mm 0 0 var(--fire);white-space:nowrap}
+
+/* ============ P2 · PREMISE ============ */
+.p2 h2{font-size:38pt;max-width:176mm}
+.p2 h2 em{color:var(--ember)}
+.p2 .lede{font-family:var(--serif);font-size:15pt;line-height:1.28;max-width:128mm}
+.p2 .lede b{font-weight:400;font-style:italic;color:var(--peach)}
+.formula{grid-template-columns:repeat(4,1fr)}
+.formula .tile .n{margin-top:2.6mm;font-family:var(--serif);font-size:11pt;color:var(--ember)}
+.fit h3{font-family:var(--serif);font-size:21pt;line-height:1}
+.fit ul{margin-top:3mm;list-style:none}
+.fit li{position:relative;padding-left:6mm;font-family:var(--hand);font-size:13pt;line-height:1.22;color:rgba(239,233,221,.92)}
+.fit li::before{content:"✓";position:absolute;left:0;top:0;font-family:var(--sans);font-size:9pt;font-weight:700;color:var(--ember)}
+.fit .flip{margin-top:3.5mm}
+.fit .flip .v{margin-top:1mm;font-family:var(--hand);font-size:16pt;color:var(--peach);transform:rotate(-1.2deg);display:inline-block}
+.note{display:flex;gap:5mm;align-items:flex-start}
+.note .pic{flex:0 0 28mm;transform:rotate(-2.5deg);background:#fbf7ef;padding:1.6mm 1.6mm 6mm;box-shadow:1.2mm 1.4mm 3mm rgba(0,0,0,.4);position:relative}
+.note .pic .img{width:100%;aspect-ratio:3/4;background-size:cover;background-position:50% 30%}
+.note .pic .cap{position:absolute;left:0;right:0;bottom:1mm;text-align:center;font-family:var(--hand);font-size:10pt;color:rgba(16,19,17,.7)}
+.note .v{margin-top:2mm;font-family:var(--serif);font-size:10.6pt;line-height:1.33;color:rgba(239,233,221,.9)}
+.note .sig{margin-top:2.4mm;font-family:var(--hand);font-size:16pt;color:var(--ember);transform:rotate(-2deg);display:inline-block}
+.note .marks{margin-top:1mm;font-size:5.6pt;letter-spacing:.26em;font-weight:700;color:rgba(239,233,221,.5)}
+
+/* ============ P3 · THE PLAN ============ */
+.ticket{position:absolute;left:14mm;right:14mm;top:70mm;height:40mm;display:flex;z-index:10;box-shadow:0 2mm 6mm rgba(0,0,0,.45)}
+.ticket .main{flex:1;background:var(--bone);color:var(--char);padding:5mm 6mm;position:relative}
+.ticket .stub{flex:0 0 42mm;background:var(--peach);color:var(--char);padding:5mm;border-left:1.4px dashed rgba(16,19,17,.5);position:relative}
+.ticket .main::after,.ticket .stub::before{content:"";position:absolute;width:6mm;height:6mm;border-radius:50%;background:#0a0f14}
+.ticket .main::after{right:-3mm;top:-3mm}.ticket .stub::before{left:-3mm;bottom:-3mm}
+.ticket .row{display:flex;gap:6mm;align-items:flex-end}
+.ticket .city{font-family:var(--serif);font-size:30pt;line-height:.9}
+.ticket .arrow{font-size:14pt;padding-bottom:1.5mm;color:var(--clay)}
+.ticket .grid{margin-top:3.6mm;display:grid;grid-template-columns:repeat(4,auto);gap:1.2mm 7mm;justify-content:start}
+.ticket .grid .kk{font-size:5.4pt;letter-spacing:.24em;font-weight:700;color:rgba(16,19,17,.5)}
+.ticket .grid .vv{font-size:7.8pt;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.ticket .stub .big{font-family:var(--serif);font-size:25pt;line-height:.9;margin-top:1.6mm}
+.ticket .stub .hand{font-size:12pt;margin-top:1.6mm;color:rgba(16,19,17,.72)}
+.plan{position:absolute;left:14mm;right:14mm;top:132mm;z-index:10}
+.plan .r{position:relative;display:grid;grid-template-columns:54mm 8mm 1fr;align-items:center;height:28.5mm;margin-bottom:1.6mm}
+.plan .r .img{height:27mm;background-size:cover;background-position:50% 50%;box-shadow:0 1mm 3mm rgba(0,0,0,.4)}
+.plan .r .rail{position:relative;height:100%}
+.plan .r .rail::before{content:"";position:absolute;left:50%;top:-1mm;bottom:-1.6mm;width:0;border-left:1px dashed rgba(232,180,138,.5)}
+.plan .r:first-child .rail::before{top:50%}.plan .r:last-child .rail::before{bottom:50%}
+.plan .r .rail::after{content:"";position:absolute;left:50%;top:50%;width:2.6mm;height:2.6mm;margin:-1.3mm 0 0 -1.3mm;border-radius:50%;background:var(--peach);box-shadow:0 0 0 1.2mm rgba(232,180,138,.18)}
+.plan .r .when{font-size:5.8pt;letter-spacing:.26em;font-weight:700;color:var(--peach)}
+.plan .r .t{margin-top:1.2mm;font-family:var(--serif);font-size:18pt;line-height:.95}
+.plan .r .t em{color:var(--peach)}
+.plan .r .d{margin-top:1.2mm;font-size:7.3pt;line-height:1.42;color:rgba(239,233,221,.74);max-width:92mm}
+.plan .r .chip{position:absolute;right:0;top:3mm;font-size:5.2pt;letter-spacing:.2em;font-weight:700;padding:.9mm 1.8mm;border:1px solid rgba(232,180,138,.6);color:var(--peach)}
+.plan .r.home .rail::after{background:var(--fire);width:3.6mm;height:3.6mm;margin:-1.8mm 0 0 -1.8mm}
+
+/* ============ DAY 01 ============ */
+.four{grid-template-columns:repeat(4,1fr)}
+.els{font-size:7.4pt;line-height:1.72;color:rgba(239,233,221,.84)}
+.els b{color:var(--bone);font-weight:700}
+
+/* ============ DAY 02 ============ */
+.two{grid-template-columns:1fr 1fr}
+.tile.cap{position:relative}
+.tile.cap .img{height:50mm}
+.tile.cap .over{position:absolute;left:0;right:0;bottom:0;padding:9mm 4mm 3.4mm;background:linear-gradient(0deg,rgba(0,0,0,.72),rgba(0,0,0,0))}
+.tile.cap .over .t{margin-top:.8mm;font-size:16pt}
+.tile.cap .over .d{color:rgba(239,233,221,.82)}
+.log{position:absolute;width:64mm;z-index:12;background:rgba(251,247,239,.96);color:var(--char);padding:4mm 5mm;box-shadow:1.6mm 1.6mm 0 0 var(--fire);transform:rotate(1.4deg)}
+.log .k{color:var(--clay)}
+.log .row{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(16,19,17,.25);padding:1.25mm 0;font-size:7.1pt}
+.log .row b{font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:6.2pt}
+.log .hand{margin-top:1.8mm;font-size:12pt;color:rgba(16,19,17,.66)}
+.stops{position:absolute;z-index:12;display:grid;grid-template-columns:repeat(3,1fr);gap:5mm}
+.stops .w{font-size:5.6pt;letter-spacing:.26em;font-weight:700;color:var(--ember)}
+.stops .t{margin-top:1mm;font-family:var(--serif);font-size:14pt;line-height:.98}
+.stops .d{margin-top:1mm;font-size:6.9pt;line-height:1.4;color:rgba(239,233,221,.82)}
+.stops > div{border-top:1px solid rgba(239,233,221,.35);padding-top:2.4mm}
+
+/* ============ DAY 03 ============ */
+.steps4{grid-template-columns:repeat(4,1fr)}
+.steps4 .tile{position:relative}
+.steps4 .tile .num{position:absolute;left:2mm;top:2mm;width:6.4mm;height:6.4mm;border-radius:50%;background:var(--ember);color:var(--char);font:700 6pt/6.4mm var(--sans);text-align:center;letter-spacing:.05em}
+.slip{position:absolute;width:72mm;z-index:14;background:#fbf7ef;color:var(--char);padding:5mm 5.5mm 5.5mm;transform:rotate(-2.2deg);box-shadow:1.6mm 2mm 3mm rgba(0,0,0,.45);
+  clip-path:polygon(0 2%,6% 0,14% 2%,24% 0,36% 1.6%,48% 0,60% 2%,72% 0,84% 1.4%,94% 0,100% 2%,100% 100%,0 100%)}
+.slip .k{color:var(--clay)}
+.slip h4{margin-top:1.6mm;font-family:var(--serif);font-size:20pt;line-height:.95}
+.slip .lines{margin-top:3mm}
+.slip .lines div{height:6.6mm;border-bottom:1px dotted rgba(16,19,17,.45)}
+.slip .hand{margin-top:2.6mm;font-size:12pt;line-height:1.1;color:rgba(16,19,17,.66)}
+.slip .small{margin-top:1.4mm;font-size:5.4pt;letter-spacing:.18em;font-weight:700;color:rgba(16,19,17,.45);text-transform:uppercase}
+
+/* ============ DAY 04 ============ */
+.six{grid-template-columns:repeat(6,1fr);gap:3mm}
+.six .tile .img{height:34mm}
+.six .tile .t{font-size:12pt}
+.card{position:absolute;width:120mm;height:78mm;z-index:14;display:grid;grid-template-columns:1fr 1fr;box-shadow:2mm 2.6mm 5mm rgba(0,0,0,.45);transform:rotate(-2deg)}
+.card .front{position:relative;background-size:cover;background-position:50% 50%}
+.card .front::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,0) 45%)}
+.card .front .sign{position:absolute;z-index:2;left:4mm;bottom:4mm;font-family:var(--serif);font-size:19pt;line-height:.88;color:#fff}
+.card .front .sign em{color:var(--peach)}
+.card .back{background:#fbf7ef;color:var(--char);padding:5mm 5mm 4mm;position:relative;display:flex;flex-direction:column}
+.card .back .stamp{position:absolute;right:4mm;top:4mm;width:15mm;height:18mm;border:1.2px dashed rgba(16,19,17,.35);display:flex;align-items:center;justify-content:center;text-align:center;font-size:4.6pt;letter-spacing:.16em;font-weight:700;color:var(--clay);line-height:1.5}
+.card .back .post{position:absolute;right:13mm;top:13mm;width:18mm;height:18mm;border-radius:50%;border:1.1px solid rgba(169,95,56,.6);display:flex;align-items:center;justify-content:center;text-align:center;font-size:4.2pt;letter-spacing:.12em;font-weight:700;color:rgba(169,95,56,.85);transform:rotate(-12deg);line-height:1.5}
+.card .back .msg{margin-top:33mm;font-family:var(--hand);font-size:12pt;line-height:1.18;color:rgba(16,19,17,.86)}
+.card .back .to{margin-top:auto;border-top:1px solid rgba(16,19,17,.2)}
+.card .back .to div{border-bottom:1px solid rgba(16,19,17,.2);height:5.4mm;font-family:var(--hand);font-size:10.5pt;padding-top:.4mm;color:rgba(16,19,17,.7)}
+
+/* ============ P8 · GLIMPSES ============ */
+.prints{position:absolute;left:14mm;right:14mm;top:74mm;height:112mm;z-index:10;display:grid;grid-template-columns:repeat(6,1fr);gap:5mm}
+.prints .fr{grid-column:span 2}.prints .fr.wide{grid-column:span 4}
+.more .fr.wide{grid-column:span 1}
+.fr{position:relative;background:#fbf7ef;padding:2mm 2mm 9mm;box-shadow:1.4mm 2mm 4mm rgba(0,0,0,.5)}
+.fr:nth-child(1){transform:rotate(-2deg)}.fr:nth-child(2){transform:translateY(5mm) rotate(1.4deg)}.fr:nth-child(3){transform:rotate(-.8deg)}
+.fr img{display:block;width:100%;height:100%;object-fit:cover}
+.fr .cap{position:absolute;left:0;right:0;bottom:1.8mm;text-align:center;white-space:nowrap;font-family:var(--hand);font-size:11pt;color:rgba(16,19,17,.72)}
+.fr .no{position:absolute;left:3.6mm;top:3.4mm;font-size:5.4pt;letter-spacing:.2em;font-weight:700;color:#fff;background:rgba(0,0,0,.45);padding:.6mm 1.2mm}
+.fr.slot{background:rgba(239,233,221,.04);box-shadow:none;border:1.4px dashed rgba(239,233,221,.35);display:flex;align-items:center;justify-content:center;text-align:center;padding:3mm}
+.fr.slot span{font-size:5.4pt;letter-spacing:.2em;font-weight:700;line-height:1.7;color:rgba(239,233,221,.5);text-transform:uppercase}
+.more{position:absolute;left:14mm;right:14mm;top:202mm;z-index:10;display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:38mm;gap:3.4mm}
+.more .fr{transform:none;padding:1.4mm 1.4mm 5.6mm;height:38mm;overflow:hidden}
+.more .fr.slot{padding:3mm}
+.more .fr .cap{font-size:8.2pt;bottom:.8mm}
+.wh{position:absolute;left:14mm;right:14mm;top:193mm;font-size:6pt;line-height:1.5;color:rgba(239,233,221,.6);z-index:10}
+
+/* ============ P9 · THE PEOPLE ============ */
+.revs{position:absolute;left:14mm;right:14mm;top:106mm;z-index:10;display:grid;grid-template-columns:1fr 1fr 1fr;gap:5mm}
+.rev{position:relative;padding:5mm 4.5mm;background:#fbf7ef;color:var(--char);box-shadow:1.4mm 1.8mm 4mm rgba(0,0,0,.45);min-height:66mm;display:flex;flex-direction:column}
+.rev:nth-child(2){transform:translateY(3mm)}
+.rev .qm{font-family:var(--serif);font-size:40pt;line-height:.6;color:var(--clay);height:8mm}
+.rev .q{font-family:var(--serif);font-size:10.2pt;line-height:1.28}
+.rev .who{margin-top:auto;padding-top:4mm;display:flex;gap:3mm;align-items:center}
+.rev .who img{width:10mm;height:10mm;border-radius:50%;object-fit:cover}
+.rev .who .n{font-family:var(--hand);font-size:15pt;font-weight:700;color:var(--clay);line-height:1}
+.rev .who .t{font-size:5.6pt;letter-spacing:.18em;font-weight:700;color:rgba(16,19,17,.5);text-transform:uppercase;margin-top:.6mm}
+.rev.slot,.cr.slot{background:rgba(239,233,221,.05);box-shadow:none;border:1.4px dashed rgba(239,233,221,.38);align-items:center;justify-content:center;text-align:center}
+.slot .sl{font-size:5.6pt;letter-spacing:.2em;font-weight:700;line-height:1.8;color:rgba(239,233,221,.55);text-transform:uppercase}
+.slot .qm2{font-family:var(--serif);font-size:34pt;line-height:.6;color:rgba(255,179,107,.5);height:8mm}
+.crs{position:absolute;left:14mm;right:14mm;top:204mm;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);gap:5mm}
+.cr{position:relative;text-align:center;padding:3.4mm 2mm;min-height:40mm;display:flex;flex-direction:column;align-items:center}
+.cr .face{width:22mm;height:22mm;border-radius:50%;overflow:hidden;background:#2a241e;border:1.2mm solid #fbf7ef}
+.cr .face img{width:100%;height:100%;object-fit:cover}
+.cr .n{margin-top:2.4mm;font-family:var(--serif);font-size:13pt;line-height:1}
+.cr .hd{margin-top:1mm;font-size:6.6pt;font-weight:700;color:var(--ember)}
+.cr .t{margin-top:1mm;font-size:5.4pt;letter-spacing:.16em;font-weight:700;color:rgba(239,233,221,.55);text-transform:uppercase}
+.cr .l{margin-top:1.4mm;font-family:var(--hand);font-size:11pt;line-height:1.1;color:rgba(239,233,221,.8)}
+.cr.slot .ring{width:22mm;height:22mm;border-radius:50%;border:1.4px dashed rgba(239,233,221,.38);margin-bottom:2.4mm}
+.promise{position:absolute;left:14mm;right:14mm;top:256mm;z-index:10;display:grid;grid-template-columns:repeat(4,1fr);gap:5mm}
+.promise .rule{width:10mm;height:2px;background:var(--ember)}
+.promise .t{margin-top:2mm;font-family:var(--serif);font-size:13pt;line-height:1}
+.promise .d{margin-top:1.2mm;font-size:6.6pt;line-height:1.42;color:rgba(239,233,221,.74)}
+
+/* ============ P10 · THE DETAILS ============ */
+.panel{position:absolute;left:12mm;right:12mm;bottom:16mm;z-index:10;background:rgba(245,238,226,.97);color:var(--char);padding:8mm 9mm;box-shadow:0 3mm 10mm rgba(0,0,0,.45);display:flex;flex-direction:column}
+.panel .route{display:flex;align-items:center;gap:2.6mm;font-size:6.6pt;letter-spacing:.22em;font-weight:700}
+.panel .route i{flex:1;height:1px;background:rgba(16,19,17,.25)}
+.panel .route .dot{width:2.2mm;height:2.2mm;border-radius:50%;background:var(--fire)}
+.panel .cols{margin-top:6mm;display:grid;grid-template-columns:1.15fr 1fr;gap:9mm}
+.panel ul{list-style:none;margin-top:2.4mm}
+.panel li{display:flex;gap:2.4mm;font-size:8.2pt;line-height:1.3;padding:1.4mm 0;border-bottom:1px solid rgba(16,19,17,.1)}
+.panel li .m{flex:0 0 3mm;font-weight:700}
+.panel .in li .m{color:var(--moss)}
+.panel .out li{color:rgba(16,19,17,.66)}
+.panel .out li .m{color:var(--fire)}
+.panel .how{margin-top:6mm;border-top:1px solid rgba(16,19,17,.2);padding-top:4.5mm}
+.panel .how .steps{margin-top:3mm;display:grid;grid-template-columns:repeat(3,1fr);gap:6mm}
+.panel .how .n{font-family:var(--serif);font-size:24pt;line-height:.8;color:var(--clay)}
+.panel .how .t{margin-top:1.6mm;font-size:7.8pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.panel .how .d{margin-top:1.2mm;font-size:7pt;line-height:1.42;color:rgba(16,19,17,.68)}
+.panel .safe{margin-top:6mm;padding-top:5mm;border-top:1px solid rgba(16,19,17,.2);display:grid;grid-template-columns:1.1fr 1fr;gap:9mm}
+.panel .safe .t{margin-top:1.6mm;font-size:6.6pt;line-height:1.5;color:rgba(16,19,17,.66)}
+.panel .safe .t b{color:rgba(16,19,17,.86)}
+
+/* ============ P11 · FINAL ============ */
+.imin{display:inline-block;padding:5mm 10mm;background:var(--fire);color:var(--char);font-family:var(--serif);font-size:30pt;line-height:1;transform:rotate(-1.8deg);box-shadow:2.6mm 2.6mm 0 0 var(--bone);position:relative}
+.imin::before,.imin::after{content:"";position:absolute;width:3.4mm;height:3.4mm;border-radius:50%;background:#0a0d14;top:50%;margin-top:-1.7mm}
+.imin::before{left:-1.7mm}.imin::after{right:-1.7mm}
+.credits{font-size:4.3pt;line-height:1.5;color:rgba(239,233,221,.5)}
+
+/* ============ CREATORS EDITION ============ */
+.vf{position:absolute;inset:8mm;z-index:11;pointer-events:none}
+.vf i{position:absolute;width:10mm;height:10mm;border:0 solid rgba(255,255,255,.9)}
+.vf i:nth-child(1){left:0;top:0;border-width:.5mm 0 0 .5mm}
+.vf i:nth-child(2){right:0;top:0;border-width:.5mm .5mm 0 0}
+.vf i:nth-child(3){left:0;bottom:0;border-width:0 0 .5mm .5mm}
+.vf i:nth-child(4){right:0;bottom:0;border-width:0 .5mm .5mm 0}
+.rec{position:absolute;left:15mm;top:35mm;z-index:12;font-size:6.4pt;letter-spacing:.3em;font-weight:700;color:#fff}
+.rec b{display:inline-block;width:2.4mm;height:2.4mm;border-radius:50%;background:#ff3b30;margin-right:2.2mm;vertical-align:-.2mm}
+.cover .badge{display:inline-block;margin-top:5mm;align-self:flex-start;padding:2mm 4.4mm;border:1px solid rgba(255,179,107,.85);border-radius:99mm;background:rgba(10,14,12,.62);font-size:6.4pt;letter-spacing:.3em;font-weight:700;color:#fff}
+.cover .letstalk{font-family:var(--serif);font-style:italic;font-size:19pt;line-height:1.05;color:var(--peach)}
+.reel{position:absolute;top:88mm;left:14mm;right:14mm;display:grid;grid-template-columns:repeat(4,1fr);gap:5mm;z-index:10}
+.strip2{position:relative;background:#050504;padding:4mm 6.4mm 2mm;box-shadow:0 2mm 6mm rgba(0,0,0,.5)}
+.strip2::before,.strip2::after{content:"";position:absolute;top:3mm;bottom:3mm;width:1.7mm;background:repeating-linear-gradient(180deg,rgba(239,233,221,.85) 0 2mm,transparent 2mm 4.3mm)}
+.strip2::before{left:2.3mm}.strip2::after{right:2.3mm}
+.strip2 .dh{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:2.6mm}
+.strip2 .dh .d{font-size:5.8pt;letter-spacing:.28em;font-weight:700;color:var(--ember)}
+.strip2 .dh .p{font-family:var(--serif);font-size:11pt;line-height:1}
+.fm{position:relative;margin-bottom:2.4mm}
+.fm .im{height:41mm;background-size:cover;background-position:50% 50%}
+.fm .no{position:absolute;left:1.2mm;top:1.2mm;font-size:5.6pt;letter-spacing:.14em;font-weight:700;color:var(--ember);background:rgba(0,0,0,.55);padding:.5mm 1.1mm}
+.fm .cap{margin-top:1.3mm;font-family:var(--serif);font-size:9pt;line-height:1.05;color:var(--bone)}
+.fm .tg{display:block;margin-top:.7mm;font-family:var(--sans);font-size:4.8pt;letter-spacing:.22em;font-weight:700;color:rgba(239,233,221,.55)}
+.reelnote{position:absolute;left:14mm;right:14mm;top:262mm;z-index:10;display:flex;justify-content:space-between;align-items:baseline;gap:8mm}
+.reelnote .h{font-family:var(--serif);font-size:15pt;line-height:1;color:var(--bone)}
+.reelnote .h em{color:var(--ember)}
+.reelnote .hand{font-family:var(--hand);font-size:13pt;color:var(--peach);transform:rotate(-2deg)}
+</style>
+</head>
+<body class="{{DRAFT}}">
+
+<!-- ================= P1 · COVER ================= -->
+<section class="page cover">
+  <div class="ph" style="top:0;bottom:0;background-image:url('bir-dossier-assets/hero.jpg');background-position:55% 40%"></div>
+  <div class="sc" style="top:0;bottom:0;background:linear-gradient(180deg,rgba(8,14,12,.74) 0%,rgba(8,14,12,.42) 24%,rgba(8,14,12,.36) 38%,rgba(8,14,12,.1) 50%,rgba(8,14,12,.22) 62%,rgba(6,10,9,.86) 82%,rgba(5,8,7,.97) 100%)"></div>
+  <div class="vf"><i></i><i></i><i></i><i></i></div>
+  <div class="rec"><b></b>REC &middot; 20&ndash;24 NOV</div>
+  <div class="aside">four days.<br>a different light every day.</div>
+  <div class="in">
+    <div class="top">
+      <img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist">
+      <div class="imprint">BIR &times; BAROT<br>THE CREATORS EDITION</div>
+    </div>
+    <h1 class="shadow">BIR<i>×</i>BAROT</h1>
+    <div class="dates"><span class="d">20&ndash;24 NOVEMBER 2026</span><span class="rule"></span><span class="d">HIMACHAL</span></div>
+    <div class="line">ESCAPE THE ORDINARY.</div>
+    <p class="support">A town, a valley, a sky and a summit.</p>
+    <div class="badge">FOR PEOPLE WHO SEE A SHOT BEFORE THEY SEE A PLAN</div>
+    <div class="chapters">
+      <div><div class="n">DAY 01</div><div class="t">The Escape</div><div class="p">Bir</div></div>
+      <div><div class="n">DAY 02</div><div class="t">The Flight</div><div class="p">Barot &middot; Billing</div></div>
+      <div><div class="n">DAY 03</div><div class="t">The Wild</div><div class="p">The trail</div></div>
+      <div><div class="n">DAY 04</div><div class="t">The Way Home</div><div class="p">The road</div></div>
+    </div>
+    <div class="facts"><b>20 PEOPLE</b> &middot; 3 NIGHTS IN BIR &middot; 4 DAYS &middot; DELHI &rarr; BIR &rarr; DELHI<br>10 GIRLS &middot; 10 GUYS &middot; 18&ndash;30 &middot; 20 STORIES, ONE GROUP CHAT</div>
+    <div class="priceRow">
+      <div class="letstalk">come make<br>something with us.</div>
+      <a class="cta" href="{{WA}}">LET&rsquo;S TALK &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= P2 · THE PREMISE ================= -->
+<section class="page p2">
+  <div class="ph" style="top:0;height:150mm;background-image:url('bir-dossier-assets/fb-valley-wide.jpg');background-position:50% 55%"></div>
+  <div class="ph" style="top:150mm;bottom:0;background-image:url('bir-dossier-assets/sunrise.jpg');background-position:50% 35%"></div>
+  <div class="sc" style="top:0;height:152mm;background:linear-gradient(180deg,rgba(9,16,12,.82) 0%,rgba(9,16,12,.5) 26%,rgba(9,16,12,.28) 46%,rgba(12,22,17,.82) 78%,rgba(12,22,17,.96) 100%)"></div>
+  <div class="sc" style="top:148mm;bottom:0;background:linear-gradient(180deg,rgba(12,22,17,.96) 0%,rgba(12,22,17,.84) 40%,rgba(10,16,20,.62) 72%,rgba(10,16,20,.35) 100%)"></div>
+  <div class="z" style="left:14mm;right:14mm;top:14mm">
+    <div class="slate" style="color:rgba(239,233,221,.75)"><span>01</span><span class="bar"></span><span>THE PREMISE</span></div>
+    <h2 class="h shadow" style="margin-top:4mm">Others see a view.<br><em>You see a shot.</em></h2>
+  </div>
+  <p class="z lede shadow" style="left:14mm;top:82mm">Most trips ask you to be a tourist.<br>This one hands you the frames: four days, four different worlds, and twenty people with good stories.<br><b>That&rsquo;s the Plot Twist way of travelling.</b></p>
+  <div class="k z" style="left:14mm;top:124mm;color:var(--ember)">WHAT THE TRIP HANDS YOU</div>
+  <div class="tiles formula" style="top:130mm">
+    <div class="tile"><div class="img" style="height:30mm;background-image:url('bir-dossier-assets/fb-fields-aerial.jpg')"></div><div class="n">01</div><div class="t">One base, three nights</div><div class="d">Bir, the whole time. Unpack once. Every day goes out from there and comes home to a fire.</div></div>
+    <div class="tile"><div class="img" style="height:30mm;background-image:url('bir-dossier-assets/river.jpg')"></div><div class="n">02</div><div class="t">A different light daily</div><div class="d">Café-hopping Bir, Barot&rsquo;s waterfalls and river, a guided trek and a bonfire party.</div></div>
+    <div class="tile"><div class="img" style="height:30mm;background-image:url('bir-dossier-assets/eve-strangers.jpg')"></div><div class="n">03</div><div class="t">People with stories</div><div class="d">Twenty people who say yes before they know the plan. The best frames have people in them.</div></div>
+    <div class="tile"><div class="img" style="height:30mm;background-image:url('bir-dossier-assets/bonfire.jpg')"></div><div class="n">04</div><div class="t">Room to make it</div><div class="d">The plot moves at the group&rsquo;s pace, and the mountains get a vote. Nobody is rushed off a good shot.</div></div>
+  </div>
+  <div class="z fit" style="left:14mm;top:204mm;width:88mm">
+    <h3>You&rsquo;ll fit right in if&hellip;</h3>
+    <ul>
+      <li>you see the frame before you see the plan.</li>
+      <li>golden hour has never once found you asleep.</li>
+      <li>you&rsquo;d rather be in the story than outside it.</li>
+      <li>you collect stories, not just places.</li>
+      <li>you pack a warm jacket and a charged power bank.</li>
+    </ul>
+    <div class="flip"><div class="k" style="color:rgba(239,233,221,.5)">IF YOU NEED EVERY SHOT SCRIPTED&hellip;</div><div class="v">this may not be your edition.</div></div>
+  </div>
+  <div class="z note" style="left:108mm;right:14mm;top:206mm">
+    <div class="pic"><div class="img" style="background-image:url('bir-dossier-assets/founder-02.jpg')"></div><div class="cap">akshat</div></div>
+    <div>
+      <div class="k" style="color:var(--ember)">A NOTE FROM THE GUY WHO STARTED THIS</div>
+      <p class="v">Seven-plus countries, solo trips, group trips, too many late nights &mdash; and somewhere along the way I realised the best part of travelling was almost never the place. It was the people, the plans that changed, the stories that came out of nowhere. Plot Twist is my attempt to put more of those trips into the world.</p>
+      <div class="sig">&mdash; Akshat</div>
+      <div class="marks">FOUNDER &middot; 7+ COUNTRIES &middot; ON EVERY TRIP</div>
+    </div>
+  </div>
+  <div class="pfoot"><span>PLOT TWIST &middot; BIR &times; BAROT</span><span class="no">02</span></div>
+</section>
+
+<!-- ================= P3 · THE PLAN ================= -->
+<section class="page p3">
+  <div class="ph" style="top:0;height:128mm;background-image:url('bir-dossier-assets/route-city.jpg');background-position:50% 60%"></div>
+  <div class="ph" style="top:128mm;bottom:0;background-image:url('bir-dossier-assets/night-stars.jpg');background-position:50% 40%"></div>
+  <div class="sc" style="top:0;height:130mm;background:linear-gradient(180deg,rgba(10,15,20,.66) 0%,rgba(10,15,20,.3) 34%,rgba(10,15,20,.55) 70%,rgba(10,15,20,.97) 100%)"></div>
+  <div class="sc" style="top:127mm;bottom:0;background:linear-gradient(180deg,rgba(10,15,20,.97) 0%,rgba(10,15,20,.88) 40%,rgba(10,15,20,.8) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.75)"><span>FRI 20 NOV</span><span class="bar"></span><span>THE PLAN</span></div>
+    <h2 class="h shadow" style="font-size:52pt">Leave the city <em style="color:var(--peach)">tonight.</em></h2>
+    <p class="tag shadow" style="color:rgba(239,233,221,.9)">You leave Delhi after dark. You wake up in the mountains.</p>
+  </div>
+  <div class="ticket">
+    <div class="main">
+      <div class="k" style="color:rgba(16,19,17,.5)">PLOT TWIST &middot; BIR &times; BAROT &middot; ONE WAY UP</div>
+      <div class="row" style="margin-top:2.4mm"><div class="city">Delhi</div><div class="arrow">&rarr;</div><div class="city">Bir</div></div>
+      <div class="grid">
+        <div class="kk">DEPARTS</div><div class="kk">ARRIVES</div><div class="kk">BY</div><div class="kk">ROLE</div>
+        <div class="vv">Fri 20 Nov &middot; night</div><div class="vv">Sat 21 Nov &middot; morning</div><div class="vv">Traveller</div><div class="vv">Creator</div>
+      </div>
+    </div>
+    <div class="stub">
+      <div class="k">RETURN</div>
+      <div class="big">Tue 24</div>
+      <div class="k" style="margin-top:1mm;color:rgba(16,19,17,.62)">BACK IN DELHI &middot; EVENING</div>
+      <div class="hand">keep this. you&rsquo;ll want it.</div>
+    </div>
+  </div>
+  <div class="sechead" style="top:118mm"><div class="t">4 days. 3 nights. <em>1 base.</em></div><div class="k" style="color:rgba(239,233,221,.6)">UNPACK ONCE &middot; EVERYTHING ELSE IS A DAY TRIP</div></div>
+  <div class="plan">
+    <div class="r"><div class="img" style="background-image:url('bir-dossier-assets/route-highway.jpg')"></div><div class="rail"></div>
+      <div><div class="when">FRI 20 NOV &middot; NIGHT</div><div class="t">Delhi &rarr; Bir</div><div class="d">Overnight in a comfortable Traveller. Sleep through the plains, wake up in the hills.</div></div><div class="chip">ON THE ROAD</div></div>
+    <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/bir-chokling.jpg')"></div><div class="rail"></div>
+      <div><div class="when">SAT 21 &middot; DAY 01 &middot; THE ESCAPE</div><div class="t">Bir, <em>on foot</em></div><div class="d">Café hopping, monasteries, a mountain sunset &mdash; then the Plot Twist Social Night: bonfire party by the fire.</div></div><div class="chip">NIGHT 1 &middot; BIR</div></div>
+    <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/fb-launch-yellow.jpg')"></div><div class="rail"></div>
+      <div><div class="when">SUN 22 &middot; DAY 02 &middot; THE FLIGHT</div><div class="t">Barot, then <em>Billing</em></div><div class="d">Day trip to Barot: waterfalls, the river, lunch in the valley. Back by evening for party night. Paragliding at Billing is an optional add-on.</div></div><div class="chip">NIGHT 2 &middot; BIR</div></div>
+    <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/fb-forest-trail.jpg')"></div><div class="rail"></div>
+      <div><div class="when">MON 23 &middot; DAY 03 &middot; THE WILD</div><div class="t">The trail</div><div class="d">A guided trek in Bir to a view you earn. Then the last night: one long table and a fire.</div></div><div class="chip">NIGHT 3 &middot; BIR</div></div>
+    <div class="r"><div class="img" style="background-image:url('bir-dossier-assets/home-road.jpg')"></div><div class="rail"></div>
+      <div><div class="when">TUE 24 &middot; DAY 04 &middot; THE WAY HOME</div><div class="t">Bir &rarr; Delhi</div><div class="d">Slow morning, last views, the road. Back in Delhi by evening.</div></div><div class="chip">HOME BY EVENING</div></div>
+  </div>
+  <div class="pfoot"><span>20&ndash;24 NOV &middot; THE PLAN</span><span class="no">03</span></div>
+</section>
+
+<!-- ================= P4 · DAY 01 · BIR ================= -->
+<section class="page day p4">
+  <div class="ph" style="top:0;height:132mm;background-image:url('bir-dossier-assets/bir-flags.jpg');background-position:50% 62%"></div>
+  <div class="ph" style="top:186mm;bottom:0;background-image:url('bir-dossier-assets/campfire.jpg');background-position:50% 40%"></div>
+  <div class="sc" style="top:0;height:134mm;background:linear-gradient(180deg,rgba(10,20,30,.82) 0%,rgba(10,20,30,.6) 30%,rgba(14,28,40,.2) 58%,rgba(16,26,34,.9) 88%,#101a22 100%)"></div>
+  <div class="sc" style="top:132mm;height:56mm;background:#101a22"></div>
+  <div class="sc" style="top:186mm;bottom:0;background:linear-gradient(180deg,#101a22 0%,rgba(16,26,34,.3) 18%,rgba(10,8,6,.12) 42%,rgba(10,8,6,.55) 70%,rgba(10,8,6,.9) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.78)"><span>SAT 21 NOV</span><span class="bar"></span><span>DAY 01</span></div>
+    <h2 class="h shadow">The Escape</h2>
+    <div class="place shadow" style="color:var(--bone)">BIR &middot; HOME FOR THREE NIGHTS</div>
+    <p class="tag shadow">Wake up in a mountain town that runs on chai and prayer flags.</p>
+  </div>
+  <div class="sechead" style="top:120mm"><div class="t">Arrive. Unpack. <em>Chai.</em></div><div class="k" style="color:rgba(239,233,221,.6)">THE DAY, ON FOOT</div></div>
+  <div class="tiles four" style="top:132mm">
+    <div class="tile"><div class="img" style="height:36mm;background-image:url('bir-dossier-assets/town-cafe.jpg')"></div><div class="w">LATE MORNING</div><div class="t">The café lane</div><div class="d">Long breakfasts. Longer conversations.</div></div>
+    <div class="tile"><div class="img" style="height:36mm;background-image:url('bir-dossier-assets/bir-chokling.jpg')"></div><div class="w">AFTERNOON</div><div class="t">Monasteries</div><div class="d">Gold roofs, quiet halls, the Tibetan colony.</div></div>
+    <div class="tile"><div class="img" style="height:36mm;background-image:url('bir-dossier-assets/fb-town-square.jpg')"></div><div class="w">WANDER</div><div class="t">The town</div><div class="d">Prayer flags over every lane. No itinerary.</div></div>
+    <div class="tile"><div class="img" style="height:36mm;background-image:url('bir-dossier-assets/fb-landing-field.jpg')"></div><div class="w">SUNSET</div><div class="t">The landing field</div><div class="d">Watch the gliders come in at sunset.</div></div>
+  </div>
+  <div class="z" style="left:14mm;right:14mm;top:230mm;display:grid;grid-template-columns:1.1fr 1fr;gap:10mm;align-items:end">
+    <div>
+      <div class="k" style="color:var(--ember)">NIGHT &middot; SOCIAL NIGHT &middot; BONFIRE PARTY</div>
+      <h3 class="h shadow" style="margin-top:2.4mm;font-size:32pt">Sunset. Music. Strangers.<br><em style="color:var(--ember)">Not for long.</em></h3>
+    </div>
+    <div class="els shadow"><b>Fire</b> &middot; a bonfire, the centre of everything<br><b>Fairy lights</b> &middot; strung between the pines<br><b>Music</b> &middot; low, then not so low<br><b>Dinner</b> &middot; around the fire, with strangers<br><b>Stars</b> &middot; more than you&rsquo;ve seen in years<br><span class="addon">DRINKS: YOURS &middot; ALCOHOL NOT INCLUDED</span></div>
+  </div>
+  <div class="tnote shadow" style="right:16mm;top:212mm;transform:rotate(-3deg);color:#fff">no one&rsquo;s checking their phone.</div>
+  <div class="pfoot"><span>SAT 21 NOV &middot; DAY 01 &middot; THE ESCAPE &middot; BIR</span><span class="no">04</span></div>
+</section>
+
+<!-- ================= P5 · DAY 02 · BAROT · BILLING ================= -->
+<section class="page day p5">
+  <div class="ph" style="top:0;height:122mm;background-image:url('bir-dossier-assets/barot-valley.jpg');background-position:50% 55%"></div>
+  <div class="ph" style="top:180mm;bottom:0;background-image:url('bir-dossier-assets/fb-launch-yellow.jpg');background-position:50% 30%"></div>
+  <div class="sc" style="top:0;height:124mm;background:linear-gradient(180deg,rgba(10,20,16,.72) 0%,rgba(10,20,16,.25) 32%,rgba(10,20,16,.2) 55%,rgba(12,24,19,.9) 88%,#0c1813 100%)"></div>
+  <div class="sc" style="top:122mm;height:60mm;background:#0c1813"></div>
+  <div class="sc" style="top:180mm;bottom:0;background:linear-gradient(180deg,#0c1813 0%,rgba(12,24,19,.3) 16%,rgba(8,12,16,.05) 40%,rgba(8,12,16,.55) 68%,rgba(8,12,16,.92) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.78)"><span>SUN 22 NOV</span><span class="bar"></span><span>DAY 02</span></div>
+    <h2 class="h shadow">The Flight</h2>
+    <div class="place" style="color:var(--river)">BAROT &middot; WATERFALLS &middot; THE RIVER</div>
+    <p class="tag shadow">A day trip to a hidden valley. Waterfalls, the river, lunch in Barot &mdash; back by evening.</p>
+  </div>
+  <div class="sechead" style="top:112mm"><div class="t">Morning &middot; <em>Barot</em></div><div class="k" style="color:rgba(239,233,221,.6)">DAY TRIP &middot; LUNCH IN BAROT &middot; BACK BY EVENING</div></div>
+  <div class="tiles two" style="top:123mm">
+    <div class="tile cap"><div class="img" style="background-image:url('bir-dossier-assets/river.jpg')"></div><div class="over"><div class="w">BAROT</div><div class="t">Waterfalls &amp; the river</div><div class="d">The Uhl &mdash; cold and loud and glacier-green.</div></div></div>
+    <div class="tile cap"><div class="img" style="background-image:url('bir-dossier-assets/trail.jpg')"></div><div class="over"><div class="w">MIDDAY</div><div class="t">Lunch in Barot</div><div class="d">Riverside trails, a long lunch, no signal.</div></div></div>
+  </div>
+  <div class="z" style="left:14mm;top:226mm;width:112mm">
+    <div class="k" style="color:var(--ember)">BILLING &middot; PARAGLIDING &middot; OPTIONAL ADD-ON</div>
+    <h3 class="h shadow" style="margin-top:2.4mm;font-size:30pt">You didn&rsquo;t come all this way<br><em style="color:var(--ember)">to stay on the ground.</em></h3>
+  </div>
+  <div class="stops" style="left:14mm;width:118mm;top:252mm">
+    <div><div class="w">THE EDGE</div><div class="t">Three steps. Four.</div><div class="d">Harness on, a certified pilot behind you.</div></div>
+    <div><div class="w">THE GLIDE</div><div class="t">Back to Bir</div><div class="d">Over the valley you drove in through.</div></div>
+    <div><div class="w">NIGHT</div><div class="t">Party night</div><div class="d">Back in Bir by evening. Then it gets loud.</div></div>
+  </div>
+  <div class="pol" style="right:16mm;top:180mm;width:40mm;transform:rotate(4deg)"><div class="img" style="height:30mm;background-image:url('bir-dossier-assets/fb-in-flight.jpg')"></div><div class="cap">hands on the risers.</div></div>
+  <div class="log" style="right:14mm;top:226mm">
+    <div class="k">FLIGHT LOG</div>
+    <div class="row"><b>From</b><span>Billing launch</span></div>
+    <div class="row"><b>To</b><span>Bir landing field</span></div>
+    <div class="row"><b>Type</b><span>Tandem, certified pilot</span></div>
+    <div class="row"><b>Duration</b><span>the wind decides</span></div>
+    <div class="row"><b>Screaming</b><span>allowed</span></div>
+    <div class="hand">an optional add-on.</div>
+  </div>
+  <div class="pfoot"><span>SUN 22 NOV &middot; DAY 02 &middot; BAROT &middot; PARAGLIDING OPTIONAL</span><span class="no">05</span></div>
+</section>
+
+<!-- ================= P6 · DAY 03 · THE TRAIL ================= -->
+<section class="page day p6">
+  <div class="ph" style="top:0;height:122mm;background-image:url('bir-dossier-assets/fb-dhauladhar.jpg');background-position:50% 50%"></div>
+  <div class="ph" style="top:184mm;bottom:0;background-image:url('bir-dossier-assets/last-night.jpg');background-position:50% 45%"></div>
+  <div class="sc" style="top:0;height:124mm;background:linear-gradient(180deg,rgba(46,33,25,.72) 0%,rgba(46,33,25,.25) 32%,rgba(46,33,25,.15) 55%,rgba(38,27,20,.9) 88%,#261b14 100%)"></div>
+  <div class="sc" style="top:122mm;height:64mm;background:#261b14"></div>
+  <div class="sc" style="top:184mm;bottom:0;background:linear-gradient(180deg,#261b14 0%,rgba(38,27,20,.25) 16%,rgba(12,9,7,.2) 40%,rgba(12,9,7,.7) 72%,rgba(12,9,7,.9) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.78)"><span>MON 23 NOV</span><span class="bar"></span><span>DAY 03</span></div>
+    <h2 class="h shadow">The Wild</h2>
+    <div class="place" style="color:var(--trail)">THE TRAIL</div>
+    <p class="tag shadow">Leave the road. Find the trail.</p>
+  </div>
+  <div class="z shadow" style="right:14mm;top:78mm;text-align:right"><div class="h" style="font-size:26pt">Some views<br><em style="color:var(--peach)">have to be earned.</em></div></div>
+  <div class="sechead" style="top:120mm"><div class="t">The mountain <em>challenge</em></div><div class="k" style="color:rgba(239,233,221,.6)">GUIDED &middot; NOBODY GETS LEFT BEHIND</div></div>
+  <div class="tiles steps4" style="top:131mm">
+    <div class="tile"><div class="img" style="height:34mm;background-image:url('bir-dossier-assets/trek-start.jpg')"></div><div class="num">01</div><div class="w">START</div><div class="t">Trail kit</div><div class="d">Everyone gets theirs.</div></div>
+    <div class="tile"><div class="img" style="height:34mm;background-image:url('bir-dossier-assets/fb-forest-trail.jpg')"></div><div class="num">02</div><div class="w">ASCEND</div><div class="t">Forest, then sky</div><div class="d">Small group challenges on the way up.</div></div>
+    <div class="tile"><div class="img" style="height:34mm;background-image:url('bir-dossier-assets/fb-meadow.jpg')"></div><div class="num">03</div><div class="w">DISCOVER</div><div class="t">The picnic</div><div class="d">Hidden viewpoints. Lunch with a view.</div></div>
+    <div class="tile"><div class="img" style="height:34mm;background-image:url('bir-dossier-assets/summit.jpg')"></div><div class="num">04</div><div class="w">ARRIVE</div><div class="t">Everyone, together</div><div class="d">The whole range, at once.</div></div>
+  </div>
+  <div class="z" style="left:14mm;top:232mm;width:96mm">
+    <div class="k" style="color:var(--ember)">THE LAST NIGHT</div>
+    <h3 class="h shadow" style="margin-top:2.4mm;font-size:34pt">One long table.</h3>
+    <div class="k" style="margin-top:3mm;color:var(--trail);letter-spacing:.2em;line-height:1.8">Hot shower &rarr; warm clothes &rarr; sunset &rarr; dinner &rarr; fire</div>
+    <p class="shadow" style="margin-top:2mm;font-size:7.6pt;line-height:1.45;color:rgba(239,233,221,.84);max-width:90mm">Candles, a bonfire, music, and twenty people who are very much not strangers any more. Then, the ritual.</p>
+  </div>
+  <div class="slip" style="right:14mm;top:210mm">
+    <div class="k">A PLOT TWIST RITUAL</div>
+    <h4>Leave it behind.</h4>
+    <div class="lines"><div></div><div></div><div></div></div>
+    <div class="hand">work. stress. a bad week. a situationship. whatever.</div>
+    <div class="small">write it here, or on the night. it goes in the fire. nobody reads it.</div>
+  </div>
+  <div class="pfoot"><span>MON 23 NOV &middot; DAY 03 &middot; THE WILD</span><span class="no">06</span></div>
+</section>
+
+<!-- ================= P7 · DAY 04 · THE WAY HOME ================= -->
+<section class="page day p7">
+  <div class="ph" style="top:0;height:128mm;background-image:url('bir-dossier-assets/home-road.jpg');background-position:50% 55%"></div>
+  <div class="ph" style="top:188mm;bottom:0;background-image:url('bir-dossier-assets/end.jpg');background-position:50% 45%"></div>
+  <div class="sc" style="top:0;height:130mm;background:linear-gradient(180deg,rgba(24,22,26,.72) 0%,rgba(24,22,26,.25) 32%,rgba(24,22,26,.15) 55%,rgba(22,20,24,.9) 88%,#161418 100%)"></div>
+  <div class="sc" style="top:128mm;height:62mm;background:#161418"></div>
+  <div class="sc" style="top:188mm;bottom:0;background:linear-gradient(180deg,#161418 0%,rgba(22,20,24,.35) 22%,rgba(10,8,10,.2) 50%,rgba(10,8,10,.82) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.78)"><span>TUE 24 NOV</span><span class="bar"></span><span>DAY 04</span></div>
+    <h2 class="h shadow">The Way Home</h2>
+    <div class="place" style="color:var(--peach)">BIR &rarr; DELHI</div>
+    <p class="tag shadow">Slow morning. Last views. The road. Back in Delhi by evening.</p>
+  </div>
+  <div class="sechead" style="top:120mm"><div class="t">The last <em>morning</em></div><div class="k" style="color:rgba(239,233,221,.6)">NO ALARMS &middot; ONE LAST LOOK</div></div>
+  <div class="tiles six" style="top:131mm">
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/home-morning.jpg')"></div><div class="w">01</div><div class="t">Slow morning</div></div>
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/home-coffee.jpg')"></div><div class="w">02</div><div class="t">Coffee</div></div>
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/home-views.jpg')"></div><div class="w">03</div><div class="t">Last views</div></div>
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/home-photos.jpg')"></div><div class="w">04</div><div class="t">Final photos</div></div>
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/home-packing.jpg')"></div><div class="w">05</div><div class="t">Packing up</div></div>
+    <div class="tile"><div class="img" style="background-image:url('bir-dossier-assets/route-hills.jpg')"></div><div class="w">06</div><div class="t">The road</div></div>
+  </div>
+  <div class="card" style="left:14mm;top:200mm">
+    <div class="front" style="background-image:url('bir-dossier-assets/fb-aerial.jpg')"><div class="sign">Greetings<br><em>from the plot.</em></div></div>
+    <div class="back">
+      <div class="stamp">20 PEOPLE<br>ONE<br>STAMP</div>
+      <div class="post">BIR<br>24 NOV 26<br>HIMACHAL</div>
+      <div class="msg">Wish you were here.<br>Actually &mdash; you will be.</div>
+      <div class="to"><div>To: whoever you were before this trip</div></div>
+    </div>
+  </div>
+  <div class="z shadow" style="right:14mm;top:238mm;width:52mm;text-align:right">
+    <div class="h" style="font-size:22pt;line-height:.95">Every good journey<br>has an end.</div>
+    <div class="k" style="margin-top:3mm;color:var(--peach);line-height:1.8">BUT YOU DON&rsquo;T GO<br>HOME THE SAME.</div>
+  </div>
+  <div class="tnote" style="right:16mm;top:206mm;transform:rotate(-3deg);color:var(--peach);text-align:right">the mountains get smaller<br>in the back window.</div>
+  <div class="pfoot"><span>TUE 24 NOV &middot; DAY 04 &middot; THE WAY HOME</span><span class="no">07</span></div>
+</section>
+
+
+<!-- ================= P8 · FRAMES WAITING FOR YOU (the contact sheet) ================= -->
+<section class="page p8x">
+  <div class="ph" style="top:0;height:96mm;background-image:url('bir-dossier-assets/fb-dhauladhar.jpg');background-position:50% 45%"></div>
+  <div class="sc" style="top:0;height:98mm;background:linear-gradient(180deg,rgba(8,10,8,.7) 0%,rgba(8,10,8,.28) 40%,rgba(10,9,7,.9) 88%,#0b0a08 100%)"></div>
+  <div class="sc" style="top:96mm;bottom:0;background:#0b0a08"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.78)"><span>08</span><span class="bar"></span><span>FRAMES WAITING</span></div>
+    <h2 class="h" style="font-size:50pt">Frames waiting<br><em style="color:var(--ember)">for you.</em></h2>
+    <p class="tag" style="color:rgba(239,233,221,.9);max-width:112mm">Twelve of the shots this trip hands you, day by day. The mountains do the lighting.</p>
+  </div>
+  <div class="reel">
+    <div class="strip2"><div class="dh"><span class="d">DAY 01</span><span class="p">Bir</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/bir-chokling.jpg');background-position:50% 50%"></div><div class="no">01</div><div class="cap">Gold roofs, quiet halls</div><span class="tg">COLOUR</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/bir-sunset.jpg');background-position:50% 55%"></div><div class="no">02</div><div class="cap">Sunset, landing field</div><span class="tg">GOLDEN HOUR</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/bonfire.jpg');background-position:50% 50%"></div><div class="no">03</div><div class="cap">Bonfire party</div><span class="tg">FIRELIGHT</span></div>
+    </div>
+    <div class="strip2"><div class="dh"><span class="d">DAY 02</span><span class="p">Barot</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/river.jpg');background-position:50% 50%"></div><div class="no">04</div><div class="cap">Waterfalls &amp; the river</div><span class="tg">MOVEMENT</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/barot-valley.jpg');background-position:44% 50%"></div><div class="no">05</div><div class="cap">The valley, wide</div><span class="tg">THE BIG SHOT</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/fb-launch-yellow.jpg');background-position:50% 35%"></div><div class="no">06</div><div class="cap">Billing launch</div><span class="tg">OPTIONAL ADD-ON</span></div>
+    </div>
+    <div class="strip2"><div class="dh"><span class="d">DAY 03</span><span class="p">The trail</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/fb-forest-trail.jpg');background-position:50% 50%"></div><div class="no">07</div><div class="cap">Forest trail</div><span class="tg">GREEN</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/summit.jpg');background-position:40% 50%"></div><div class="no">08</div><div class="cap">The view you earn</div><span class="tg">THE PAYOFF</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/last-night.jpg');background-position:50% 50%"></div><div class="no">09</div><div class="cap">One long table</div><span class="tg">CANDLELIGHT</span></div>
+    </div>
+    <div class="strip2"><div class="dh"><span class="d">DAY 04</span><span class="p">The road</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/home-road.jpg');background-position:50% 55%"></div><div class="no">10</div><div class="cap">The mountain road home</div><span class="tg">MOTION</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/fb-dhauladhar-cloud.jpg');background-position:50% 50%"></div><div class="no">11</div><div class="cap">One last look</div><span class="tg">GOODBYE</span></div>
+      <div class="fm"><div class="im" style="background-image:url('bir-dossier-assets/home-coffee.jpg');background-position:50% 50%"></div><div class="no">12</div><div class="cap">Slow last morning</div><span class="tg">QUIET</span></div>
+    </div>
+  </div>
+  <div class="reelnote">
+    <div class="h">Bring a camera, a phone,<br><em>or just your eyes.</em></div>
+    <div class="hand">we&rsquo;ll point you at the light.</div>
+  </div>
+  <div class="pfoot"><span>FRAMES WAITING &middot; A DAY-BY-DAY CONTACT SHEET</span><span class="no">08</span></div>
+</section>
+
+<!-- ================= P9 · GLIMPSES ================= -->
+<section class="page p8">
+  <div class="ph" style="top:0;height:80mm;background-image:url('bir-dossier-assets/fb-dhauladhar-cloud.jpg');background-position:50% 50%"></div>
+  <div class="ph" style="top:236mm;bottom:0;background-image:url('bir-dossier-assets/eve-strangers.jpg');background-position:50% 60%"></div>
+  <div class="sc" style="top:0;height:82mm;background:linear-gradient(180deg,rgba(22,20,15,.7) 0%,rgba(22,20,15,.4) 40%,rgba(22,20,15,.92) 90%,#16140f 100%)"></div>
+  <div class="sc" style="top:80mm;height:158mm;background:#16140f"></div>
+  <div class="sc" style="top:236mm;bottom:0;background:linear-gradient(180deg,#16140f 0%,rgba(22,20,15,.4) 30%,rgba(10,8,6,.55) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.72)"><span>09</span><span class="bar"></span><span>GLIMPSES</span></div>
+    <h2 class="h shadow" style="font-size:46pt">From the plots<br><em style="color:var(--ember)">before this one.</em></h2>
+    <p class="tag shadow" style="color:rgba(239,233,221,.88)">Not stock. Not staged. Frames from the trips that turned into Plot Twist.</p>
+  </div>
+  <div class="prints">{{GLIMPSES_A}}</div>
+  <div class="wh">{{GLIMPSE_NOTES}}</div>
+  <div class="more">{{GLIMPSES_B}}</div>
+  <div class="z shadow" style="left:14mm;right:14mm;top:252mm">
+    <div class="h" style="font-size:22pt;line-height:1.05;max-width:150mm">The best part of travelling was almost never the place.<br><em style="color:var(--ember)">It was who was there.</em></div>
+    <div class="hand" style="margin-top:2mm;font-size:15pt;color:var(--peach)">&mdash; the whole idea, in one line</div>
+  </div>
+  <div class="pfoot"><span>GLIMPSES &middot; FROM OUR PREVIOUS TRIPS</span><span class="no">09</span></div>
+</section>
+
+<!-- ================= P10 · THE PEOPLE ================= -->
+<section class="page p9">
+  <div class="ph" style="top:0;height:112mm;background-image:url('bir-dossier-assets/eve-notforlong.jpg');background-position:50% 60%"></div>
+  <div class="ph" style="top:246mm;bottom:0;background-image:url('bir-dossier-assets/embers.jpg');background-position:50% 50%"></div>
+  <div class="sc" style="top:0;height:114mm;background:linear-gradient(180deg,rgba(20,16,13,.72) 0%,rgba(20,16,13,.3) 38%,rgba(20,16,13,.9) 88%,#14100d 100%)"></div>
+  <div class="sc" style="top:112mm;height:136mm;background:#14100d"></div>
+  <div class="sc" style="top:246mm;bottom:0;background:linear-gradient(180deg,#14100d 0%,rgba(20,16,13,.82) 30%,rgba(20,16,13,.78) 100%)"></div>
+  <div class="mast">
+    <div class="slate" style="color:rgba(239,233,221,.72)"><span>10</span><span class="bar"></span><span>THE PEOPLE WHO&rsquo;VE BEEN</span></div>
+    <h2 class="h shadow" style="font-size:46pt">Don&rsquo;t take<br><em style="color:var(--ember)">our word for it.</em></h2>
+    <p class="tag shadow" style="color:rgba(239,233,221,.88)">In their words, not ours &mdash; unedited, and shared with their permission.</p>
+  </div>
+  <div class="revs">{{REVIEWS}}</div>
+  <div class="sechead" style="top:192mm"><div class="t">They travelled <em>with us.</em></div><div class="k" style="color:rgba(239,233,221,.6)">CREATORS ON PAST PLOTS</div></div>
+  <div class="crs">{{CREATORS}}</div>
+  <div class="promise">
+    <div><div class="rule"></div><div class="t">Curated people</div><div class="d">20 isn&rsquo;t random. Every person on the trip is chosen by a real person.</div></div>
+    <div><div class="rule"></div><div class="t">Hosts throughout</div><div class="d">Plot Twist hosts are on the trip, not just on the phone.</div></div>
+    <div><div class="rule"></div><div class="t">Clear details</div><div class="d">You know what&rsquo;s in and what&rsquo;s out before you commit to anything.</div></div>
+    <div><div class="rule"></div><div class="t">Someone to call</div><div class="d">A real conversation first, then a direct contact for the whole trip.</div></div>
+  </div>
+  <div class="pfoot"><span>REVIEWS &middot; CREATORS &middot; WHY TRUST US</span><span class="no">10</span></div>
+</section>
+
+<!-- ================= P11 · THE DETAILS ================= -->
+<section class="page p10">
+  <div class="ph" style="top:0;bottom:0;background-image:url('bir-dossier-assets/fb-glider.jpg');background-position:50% 40%"></div>
+  <div class="sc" style="top:0;bottom:0;background:linear-gradient(180deg,rgba(8,12,16,.72) 0%,rgba(8,12,16,.35) 18%,rgba(8,12,16,.5) 40%,rgba(8,12,16,.75) 100%)"></div>
+  <div class="z" style="left:14mm;right:14mm;top:14mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm">
+    <div>
+      <div class="slate" style="color:rgba(239,233,221,.78)"><span>11</span><span class="bar"></span><span>THE DETAILS</span></div>
+      <div class="h shadow" style="margin-top:4mm;font-size:42pt">4 days. 3 nights.<br><em style="color:var(--ember)">One base.</em></div>
+      <div class="k" style="margin-top:2.4mm;color:rgba(239,233,221,.75)">WHAT&rsquo;S IN, WHAT&rsquo;S NOT</div>
+    </div>
+    <div class="k shadow" style="text-align:right;line-height:2;color:rgba(239,233,221,.8)">BIR &times; BAROT<br><span style="color:var(--bone)">20&ndash;24 NOVEMBER 2026</span><br>3 NIGHTS IN BIR &middot; 4 DAYS</div>
+  </div>
+  <div class="panel">
+    <div class="route"><span>DELHI</span><i></i><span class="dot"></span><span>BIR &middot; 3 NIGHTS</span><i></i><span>BAROT</span><i></i><span>THE TRAIL</span><i></i><span>DELHI</span></div>
+    <div class="cols">
+      <div class="in"><div class="k" style="color:var(--moss)">IN THE PLOT</div><ul>{{INCLUDED}}</ul></div>
+      <div class="out"><div class="k" style="color:var(--fire)">YOU SORT</div><ul>{{EXCLUDED}}</ul></div>
+    </div>
+    <div class="how">
+      <div class="k" style="color:rgba(16,19,17,.5)">HOW WE START</div>
+      <div class="steps">
+        <div><div class="n">01</div><div class="t">Say hello</div><div class="d">Message us on WhatsApp: who you are, what you make, which dates work.</div></div>
+        <div><div class="n">02</div><div class="t">A real conversation</div><div class="d">A person on our side reads it and talks it through with you. No auto-replies.</div></div>
+        <div><div class="n">03</div><div class="t">Then the plot</div><div class="d">We take it from there, and you hear the rest from us directly.</div></div>
+      </div>
+    </div>
+    <div class="safe">
+      <div><div class="k" style="color:rgba(16,19,17,.48)">THE BORING BUT IMPORTANT BIT</div><div class="t">Paragliding is an optional add-on: tandem, with certified pilots, and runs only when the weather allows &mdash; the pilots make that call. Follow host, pilot and guide instructions on the flight and the trek. November nights in Bir are cold: pack warm. Tell the team anything we should know.</div></div>
+      <div><div class="k" style="color:rgba(16,19,17,.48)">JUST SO WE&rsquo;RE CLEAR</div><div class="t"><b>Timings are indicative.</b> The plot moves at the group&rsquo;s pace, and the mountains get a vote. Exact stay confirmed closer to the trip.</div></div>
+    </div>
+  </div>
+  <div class="pfoot"><span>THE DETAILS &middot; WHAT&rsquo;S IN, WHAT&rsquo;S NOT</span><span class="no">11</span></div>
+</section>
+
+<!-- ================= P12 · COME MAKE SOMETHING ================= -->
+<section class="page p11">
+  <div class="ph" style="top:0;bottom:0;background-image:url('bir-dossier-assets/final-stars.jpg');background-position:50% 50%"></div>
+  <div class="sc" style="top:0;bottom:0;background:linear-gradient(180deg,rgba(6,8,14,.5) 0%,rgba(6,8,14,.12) 30%,rgba(6,8,14,.2) 55%,rgba(6,8,14,.88) 82%,rgba(6,8,14,.97) 100%)"></div>
+  <div class="z" style="left:14mm;right:14mm;top:14mm;display:flex;justify-content:space-between;align-items:flex-start">
+    <img src="bir-dossier-assets/logo.png" alt="Plot Twist" style="height:13mm">
+    <div class="k" style="text-align:right;line-height:1.9;color:rgba(239,233,221,.75)">TRAVEL DIFFERENTLY<br>THE CREATORS EDITION</div>
+  </div>
+  <div class="z shadow" style="left:14mm;right:14mm;top:104mm">
+    <div class="h" style="font-size:64pt;line-height:.86">Come make<br>something<br><em style="color:var(--ember)">with us.</em></div>
+    <div class="it" style="margin-top:6mm;font-size:16pt;line-height:1.3;color:var(--peach)">You know the dates.<br>You know the plot.<br>Now tell us what you make.</div>
+  </div>
+  <div class="z" style="left:14mm;right:14mm;top:212mm;display:flex;justify-content:space-between;align-items:center;gap:8mm">
+    <a class="imin" href="{{WA}}">LET&rsquo;S TALK &rarr;</a>
+    <div class="hand" style="font-size:15pt;line-height:1.15;color:rgba(239,233,221,.88);text-align:right">say hello on WhatsApp.<br>we&rsquo;ll take it from here.</div>
+  </div>
+  <div class="z" style="left:14mm;right:14mm;top:240mm;border-top:1px solid rgba(239,233,221,.25);padding-top:4mm;display:flex;justify-content:space-between;align-items:flex-end;gap:10mm">
+    <div style="flex:0 0 auto"><div class="h" style="font-size:18pt">Do it for the plot.</div><div class="k" style="margin-top:1.6mm;color:rgba(239,233,221,.6)">@PLOTTWIST.SOCIAL</div></div>
+  </div>
+  <div class="z credits" style="left:14mm;right:14mm;top:258mm">{{CREDITS}}</div>
+</section>
+</body>
+</html>
