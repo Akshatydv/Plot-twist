@@ -38,9 +38,9 @@ From `docs/edc-thailand-design.md` §0 — still binding:
 - **`PlotButton` is the only button.** Same slab, same hard shadow, lit in this
   page's colours.
 - **Copy lives in `content/bir.ts`.** Components read; they never hold words.
-- **Nothing invented.** Price is not supplied → `price.confirmed: false`, which
-  renders "announced soon". Dates are confirmed: 20 Nov (night) – 24 Nov
-  (evening) 2026.
+- **Nothing invented.** Price is confirmed at ₹7,999 per person
+  (`price.confirmed: true`); paragliding is an optional add-on, not in that
+  price. Dates are confirmed: 20 Nov (night) – 24 Nov (evening) 2026.
 - **Shared, unchanged:** the casting board, the application form, the footer,
   the tea cup. Two of them gain an `alpine` *tone* (the same mechanism the EDC
   page used to add `night`) — structure untouched.
