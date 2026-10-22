@@ -174,7 +174,7 @@ function RoadTrip() {
   );
 }
 
-/** COLOMBO ●━━━━━● ELLA, filling as the reel travels. Pinned to the top of the reel's screen. */
+/** COLOMBO ●━━━━━● GALLE, filling as the reel travels. Pinned to the top of the reel's screen. */
 function RouteLine({ p }: { p: import("framer-motion").MotionValue<number> }) {
   const w = useTransform(p, [0, 1], ["0%", "100%"]);
   return (
@@ -184,7 +184,7 @@ function RouteLine({ p }: { p: import("framer-motion").MotionValue<number> }) {
         <motion.span className="absolute inset-y-0 left-0 bg-[var(--sl-saffron)]" style={{ width: w }} />
         <motion.span className="absolute -top-[5px] h-[11px] w-[11px] -translate-x-1/2 rounded-full bg-[var(--sl-saffron)]" style={{ left: w }} />
       </span>
-      <span className="text-[var(--sl-saffron)]">ELLA</span>
+      <span className="text-[var(--sl-saffron)]">GALLE</span>
     </div>
   );
 }

@@ -43,6 +43,33 @@ export default function PrivacyPage() {
           </section>
 
           <section>
+            <h2 className="font-display text-[13px] tracked text-sand">GUEST REGISTRATION (CONFIRMED GUESTS)</h2>
+            <p className="mt-2">
+              Before a trip, confirmed guests fill in a registration form. It collects your full name, date of birth, mobile number, email,
+              city, an emergency contact (their name, relationship to you and phone number), a note about any allergy or accessibility need,
+              and a photo or scan of your Aadhaar card to verify your identity. We also record the terms, safety and privacy documents you
+              agreed to, which version of each, and when. We don't ask you to type your Aadhaar number, we don't ask for your home address, and
+              the form doesn't record your IP address.
+            </p>
+            <p className="mt-2">
+              We use it to run the trip: to verify who is travelling, to contact you, to reach your emergency contact if something happens, to
+              plan for your safety, and to keep a record of your agreement. Your registration includes permission for Plot Twist to use photos
+              and videos in which you appear on its social media, website and in paid advertising. The registration pages don't load
+              analytics or advertising trackers.
+            </p>
+            <p className="mt-2">
+              It is stored in our database under access controls that block public reading and is visible only to authorised Plot Twist team
+              members. Your Aadhaar file is kept in a private storage area with no public link; authorised team members open it through
+              short-lived secure links. Where a trip operator genuinely needs part of it (for example an allergy, for catering) we share only that part.
+            </p>
+            <p className="mt-2 rounded-lg border border-dashed border-[#FFD75E]/60 bg-[#FFD75E]/[0.06] px-3 py-2 text-[14px] text-[#FFD75E]">
+              <span className="font-semibold tracking-wide">TO BE CONFIRMED BEFORE LAUNCH — </span>
+              how long guest registration records are kept after the trip, the legal basis relied on, and the named contact for access,
+              correction and deletion requests.
+            </p>
+          </section>
+
+          <section>
             <h2 className="font-display text-[13px] tracked text-sand">WHY WE COLLECT IT</h2>
             <p className="mt-2">
               To review your application, contact you about it, and — if you're selected — organise

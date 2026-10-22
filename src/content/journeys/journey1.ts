@@ -59,7 +59,7 @@ export const JOURNEY_1: JourneyConfig = {
   seo: {
     title: "Goa New Year's Group Trip, 30 Dec – 2 Jan | Plot Twist",
     description:
-      "New Year's in Goa with twenty people who didn't know each other. A Bollywood night, the New Year's party, a yacht sundowner and a slow last morning, 30 Dec – 2 Jan. Apply, and a real person reads every word of it.",
+      "New Year's in Goa with sixteen people who didn't know each other. A Bollywood night, the New Year's party, a yacht sundowner and a slow last morning, 30 Dec – 2 Jan. Apply, and a real person reads every word of it.",
     startDate: "2026-12-30",
     endDate: "2027-01-02",
   },
@@ -79,9 +79,9 @@ export const JOURNEY_1: JourneyConfig = {
   },
 
   hero: {
-    eyebrow: "JOURNEY 1 — 20 SEATS, AGES 18–30",
+    eyebrow: "JOURNEY 1 — 16 SEATS, AGES 18–30",
     /** The only place the prequel framing appears. Same slot, same type, different words. */
-    sideNote: { big: ["20 PEOPLE.", "THE FIRST PLOT."], invite: "COME GET CAST." },
+    sideNote: { big: ["16 PEOPLE.", "THE FIRST PLOT."], invite: "COME GET CAST." },
     photo: {
       // Deliberately NOT another dreamy palm sunset — Journey 01 already owns
       // that visual language. This is a rocky, palm-topped headland in flat
@@ -125,7 +125,7 @@ export const JOURNEY_1: JourneyConfig = {
       {
         key: "people",
         title: "THE PEOPLE",
-        caption: "20 strangers, briefly",
+        caption: "16 strangers, briefly",
         src: "/photos/goa/people.jpg",
         alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
         note: "10/10s only",

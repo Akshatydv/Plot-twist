@@ -20,7 +20,7 @@ const RESEND_ENDPOINT = "https://api.resend.com/emails";
 const TIMEOUT_MS = 8_000;
 
 /** Comma-separated, so a second casting-team address is a config change, not a code change. */
-function recipients(): string[] {
+export function recipients(): string[] {
   return (process.env.ADMIN_NOTIFICATION_EMAIL ?? "")
     .split(",")
     .map((address) => address.trim())
@@ -31,7 +31,7 @@ function recipients(): string[] {
  * Resend requires a verified sending domain. Falls back to Resend's shared
  * onboarding sender so a fresh setup can be smoke-tested before DNS is done.
  */
-function sender(): string {
+export function sender(): string {
   return process.env.NOTIFICATIONS_FROM_EMAIL?.trim() || "Plot Twist <onboarding@resend.dev>";
 }
 

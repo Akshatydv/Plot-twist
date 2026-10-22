@@ -45,6 +45,9 @@ export function generateMetadata(): Metadata {
   };
 }
 
+/** New review approvals appear on the landing page within five minutes, no redeploy. */
+export const revalidate = 300;
+
 export default function Page() {
   if (HOMEPAGE_OWNS_ROOT) return <HomePage />;
 

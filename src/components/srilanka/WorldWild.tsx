@@ -32,7 +32,7 @@ export function WorldWild() {
         ground="#0c2219"
         tint="linear-gradient(to bottom, rgba(12,34,25,0.25) 0%, rgba(12,34,25,0.1) 45%, rgba(12,34,25,0.9) 100%)"
       />
-      <HorizontalReel label="Day two in Ella" lead={(p) => <DayClock p={p} />}>
+      <HorizontalReel label="Day two in Ahangama" lead={(p) => <DayClock p={p} />}>
         {(p) => world2.beats.map((b, i) => <Beat key={b.key} b={b} i={i} p={p} />)}
       </HorizontalReel>
       <div className="bg-[var(--sl-jungle)] px-5 pb-8 pt-4 text-right sm:px-8 lg:px-14">

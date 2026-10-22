@@ -7,21 +7,22 @@
  *
  * ─── THE ONE RULE ───────────────────────────────────────────────────────────
  * What the brief supplied is stated flat: the dates (29 Dec 2026 → 4 Jan
- * 2027), the length (7 days), the route (Colombo → Ella → Ahangama → Mirissa
- * → Colombo), New Year's Eve on the south coast, flights not included, and
- * every experience named day by day.
+ * 2027), the length (7 days / 6 nights), the route (Galle → Ahangama →
+ * Mirissa → Ella — a slow southern Sri Lanka escape), New Year's Eve in
+ * Mirissa, the price (₹54,999; early bird ₹49,999, final ₹59,999), flights
+ * not included. NOT decided, and never named: hotels, the NYE venue,
+ * restaurants, activity prices.
  *
- * Three things have NOT been supplied and are modelled honestly:
- *   - the PRICE        → "COMING SOON" (`price.confirmed: false`)
+ * Two things have NOT been supplied and are modelled honestly:
  *   - the INCLUSIONS   → the categories the brief lists, flagged as being
  *                        finalised with the price (`inclusions.confirmed: false`)
  *   - THE SECRET       → withheld on purpose. Nothing on the page says what it is,
  *                        because nothing has been decided that it could say.
  *
- * Two lines are story beats rather than timetable facts, and must be checked
- * before launch: the 8:40 train over the Nine Arches Bridge (trains cross
- * several times a day; the exact time on 30 Dec is whatever the timetable
- * says) and "16 strangers" (the seat count is the brief's own number).
+ * One line is a story beat rather than a fact, and must be checked before
+ * launch: "16 strangers" (the seat count is the brief's own number). No
+ * train time is stated for the Nine Arches Bridge — trains cross several
+ * times a day.
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -65,9 +66,6 @@ const V = "/videos/srilanka";
 export const photos = {
   // ── place photographs: taken in Sri Lanka ──
   trainBridge: { file: `${P}/train-bridge.jpg`, title: "A Train Crosses The Nine Arches Bridge", author: "Angshuman Chatterjee", ...CC_BY_SA_3, source: `${COMMONS}A_Train_Crosses_The_Nine_Arches_Bridge_(243270425).jpeg` },
-  trainFront: { file: `${P}/train-front.jpg`, title: "Beautiful Sri Lanka", author: "Ravindu Thaksara", ...CC_BY_SA_4, source: `${COMMONS}Beautiul_Sri_Lanka.jpg` },
-  trainTunnel: { file: `${P}/train-tunnel.jpg`, title: "Civilization meets Jungle", author: "Fabian Greiler", ...CC_BY_2, source: `${COMMONS}Civilization_meets_Jungle_(44753903400).jpg` },
-  trainHills: { file: `${P}/train-hills.jpg`, title: "Train journeys", author: "Rukisees", ...CC_BY_SA_4, source: `${COMMONS}Train_journeys.jpg` },
   bridgeMist: { file: `${P}/bridge-mist.jpg`, title: "Nine Arches Bridge, Demodara", author: "Alexey Komarov", ...CC_BY_SA_4, source: `${COMMONS}Nine_Arches_Bridge,_Demodara_2023-04-29-1.jpg` },
   ellaRock: { file: `${P}/ella-rock.jpg`, title: "Beauty of Ella", author: "TP hettiarachchi", ...CC_BY_SA_4, source: `${COMMONS}Beauty_of_Ella.jpg` },
   ellaGap: { file: `${P}/ella-gap.jpg`, title: "Ella Gap (Valley), Sri Lanka", author: "Vyacheslav Argenberg", ...CC_BY_4, source: `${COMMONS}Ella_Gap_(Valley),_Sri_Lanka.jpg` },
@@ -75,7 +73,6 @@ export const photos = {
   littleAdams: { file: `${P}/little-adams.jpg`, title: "Little Adam's Peak Sri Lanka", author: "dronepicr", ...CC_BY_2, source: `${COMMONS}Little_Adam%27s_Peak_Sri_Lanka_(30073592055).jpg` },
   ravana: { file: `${P}/ravana.jpg`, title: "Rawana Ella Falls", author: "Ankur Panchbudhe", ...CC_BY_2, source: `${COMMONS}Rawana_Ella_Falls_(23343682506).jpg` },
   ellaNight: { file: `${P}/ella-night.jpg`, title: "Street scene at night in Ella, Sri Lanka", author: "Jonashtand", ...CC_BY_SA_4, source: `${COMMONS}202312_Street_scene_at_night_in_Ella,_Sri_Lanka.jpg` },
-  tuktuks: { file: `${P}/tuktuks.jpg`, title: "Tuk-tuks waiting for fares in Kandy", author: "McKay Savage", ...CC_BY_2, source: `${COMMONS}Sri_Lanka_-_077_-_Tuk-tuks_waiting_for_fares_in_Kandy_(1685043688).jpg` },
   mirissaAerial: { file: `${P}/mirissa-aerial.jpg`, title: "Mirissa beach aerial", author: "dronepicr", ...CC_BY_2, source: `${COMMONS}Mirissa_beach_aerial_(29448581263).jpg` },
   mirissaCoast: { file: `${P}/mirissa-coast.jpg`, title: "Mirissa Luftbild", author: "dronepicr", ...CC_BY_2, source: `${COMMONS}Mirissa_Luftbild_(29448583993).jpg` },
   mirissaBay: { file: `${P}/mirissa-bay.jpg`, title: "Mirissa Bay Panorama", author: "Kondephy", ...CC_BY_SA_4, source: `${COMMONS}Mirissa_Bay_Panorama.jpg` },
@@ -83,35 +80,25 @@ export const photos = {
   palms: { file: `${P}/palms.jpg`, title: "View from Coconut Tree Hill to Mirissa", author: "Alexey Komarov", ...CC_BY_SA_4, source: `${COMMONS}View_from_Coconut_Tree_Hill_to_Mirissa_in_March.jpg` },
   surfer: { file: `${P}/surfer.jpg`, title: "Weligama, Sri Lanka", author: "Filipp Nekhaev", ...CC0, source: `${COMMONS}Weligama,_Sri_Lanka_(Unsplash).jpg` },
   surfboards: { file: `${P}/surfboards.jpg`, title: "Mirissa - surfboards", author: "Dan Arndt", ...CC_BY_SA_4, source: `${COMMONS}Mirissa_-_surfboards.jpg` },
-  mirissaSunset: { file: `${P}/mirissa-sunset.jpg`, title: "Sunset in Mirissa", author: "Alexey Komarov", ...CC_BY_SA_4, source: `${COMMONS}Sunset_in_Mirissa_5_March_2023,_Sri_Lanka.jpg` },
   dusk: { file: `${P}/dusk.jpg`, title: "Mirissa, sunset", author: "Arian Zwegers", ...CC_BY_2, source: `${COMMONS}Mirissa,_sunset_(6517708167).jpg` },
   stilt: { file: `${P}/stilt.jpg`, title: "Fishermen practicing traditional stilt fishing near Galle", author: "Jakub Hałun", ...CC_BY_4, source: `${COMMONS}Fishermen_practicing_traditional_stilt_fishing_near_Galle,_southern_Sri_Lanka,_20260207_1419_9452.jpg` },
-  dolphins: { file: `${P}/dolphins.jpg`, title: "Mirissa, whale watching, dolphins", author: "Arian Zwegers", ...CC_BY_2, source: `${COMMONS}Mirissa,_whale_watching,_dolphins_(6782232766).jpg` },
   goldBeach: { file: `${P}/gold-beach.jpg`, title: "Jaga Beach, Sri Lanka", author: "Rod Waddington", ...CC_BY_SA_2, source: `${COMMONS}Jaga_Beach,_Sri_Lanka_(in_explore)_-_Flickr_-_Rod_Waddington.jpg` },
-  galleSunset: { file: `${P}/galle-sunset.jpg`, title: "Sunset at Galle Face Colombo", author: "Mayooresan", ...CC_BY_SA_3, source: `${COMMONS}Sunset_at_Galle_Face_Colombo.JPG` },
   colomboNight: { file: `${P}/colombo-night.jpg`, title: "Stunning Night View of Colombo City Skyline", author: "Thilina Alagiyawanna", ...CC0, source: `${COMMONS}Stunning_Night_View_of_Colombo_City_Skyline.jpg` },
-  colomboWater: { file: `${P}/colombo-water.jpg`, title: "Night Skyline Reflection in Colombo", author: "Thilina Alagiyawanna", ...CC_BY_4, source: `${COMMONS}Night_Skyline_Reflection_in_Colombo,_Sri_Lanka.jpg` },
+  kingCoconut: { file: `${P}/king-coconut.jpg`, title: "King of Coconut", author: "Yumeshan Lakshitha", ...CC_BY_SA_4, source: `${COMMONS}King_of_Coconut.jpg` },
+  paddy: { file: `${P}/paddy.jpg`, title: "Paysage du Sri Lanka 2", author: "Dinkum", ...CC_BY_SA_3, source: `${COMMONS}Paysage_du_Sri_Lanka_2.jpg` },
+  tea: { file: `${P}/tea.jpg`, title: "Ceylon Tee Sri Lanka", author: "dronepicr", ...CC_BY_2, source: `${COMMONS}Ceylon_Tee_Sri_Lanka_(29446719583).jpg` },
+  ahangama: { file: `${P}/ahangama.jpg`, title: "Stilt Fishing in Ahangama", author: "Diluckshan Puviraj", ...CC_BY_SA_4, source: `${COMMONS}Stilt_Fishing_in_Ahangama.jpg` },
+  galleLighthouse: { file: `${P}/galle-lighthouse.jpg`, title: "Lighthouse Galle, Sri Lanka", author: "Samal Nadeeshan", ...CC_BY_SA_4, source: `${COMMONS}Lighthouse_Galle,_Sri_Lanka.jpg` },
+  galleDusk: { file: `${P}/galle-dusk.jpg`, title: "Galle Fort and lighthouse", author: "calflier001", ...CC_BY_SA_2, source: `${COMMONS}GALLE_FORT_AND_LIGHTHOUSE_GALLE_SRI_LANKA_JAN2013_(8510167078).jpg` },
+  galleStreet: { file: `${P}/galle-street.jpg`, title: "Galle fort street", author: "Saqib Qayyum", ...CC_BY_SA_3, source: `${COMMONS}Galle_fort_street.JPG` },
   // ── moment photographs: not Sri Lanka, never labelled as it ──
   nyeBeach: { file: `${P}/nye-beach.jpg`, title: "Rio New Year Fireworks", author: "Porto Bay Hotels & Resorts", ...CC_BY_2, source: "https://commons.wikimedia.org/w/index.php?curid=23505838" },
-  fireworks: { file: `${P}/fireworks.jpg`, title: "New Year's Eve, fireworks in the sky, beach party", author: "Vyacheslav Argenberg", ...CC_BY_4, source: "https://commons.wikimedia.org/w/index.php?curid=96768810" },
   dance: { file: `${P}/dance.jpg`, title: "Night techno party, dancing", author: "Vyacheslav Argenberg", ...CC_BY_4, source: "https://commons.wikimedia.org/w/index.php?curid=91338605" },
   crowd: { file: `${P}/crowd.jpg`, title: "Crowded people, night pub party", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/11189730/crowded-people-night-pub-party" },
-  sparkler: { file: `${P}/sparkler.jpg`, title: "Sparks Sparkler", author: "Kaique Rocha", ...CC0, source: "https://stocksnap.io/photo/sparks-sparkler-HABABZA1UY" },
-  departures: { file: `${P}/departures.jpg`, title: "Airport departure board", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/5917082/image-light-public-domain-free" },
   breakfast: { file: `${P}/breakfast.jpg`, title: "Tropical breakfast, fruit salad", author: "Vyacheslav Argenberg", ...CC_BY_4, source: "https://commons.wikimedia.org/w/index.php?curid=110878389" },
-  coffee: { file: `${P}/coffee.jpg`, title: "Books Knowledge", author: "Freestocks.org", ...CC0, source: "https://stocksnap.io/photo/books-knowledge-Q9KNRI9EU2" },
-  pool: { file: `${P}/pool.jpg`, title: "Palm trees resort swimming pool", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/6029096/photo-image-background-public-domain-nature" },
   hammock: { file: `${P}/hammock.jpg`, title: "Summer holiday, beach vacation, sea", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/5913323/image-public-domain-trees-blue" },
-  jump: { file: `${P}/jump.jpg`, title: "Person jumped ocean splash", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/3302401/free-photo-image-foot-beach-animals-images-pictures-back" },
-  zipline: { file: `${P}/zipline.jpg`, title: "Zipline", author: "Wikimedia Commons contributor", ...CC_BY_SA_3, source: "https://commons.wikimedia.org/w/index.php?curid=7832910" },
-  waterfall: { file: `${P}/waterfall.jpg`, title: "Cold Waterfall", author: "Clayborneoguy", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/w/index.php?curid=91748891" },
-  catamaran: { file: `${P}/catamaran.jpg`, title: "Sunset at sea with catamaran", author: "Phuket@photographer.net", ...CC_BY_2, source: "https://commons.wikimedia.org/w/index.php?curid=127337142" },
-  surfWave: { file: `${P}/surf-wave.jpg`, title: "Surfer Wave", author: "Wyncliffe", ...CC0, source: "https://stocksnap.io/photo/surfer-wave-VG0TG1V0XV" },
   friends: { file: `${P}/friends.jpg`, title: "Nature Water", author: "David McEachan", ...CC0, source: "https://stocksnap.io/photo/nature-water-H8UOZSGRC1" },
-  friendsDusk: { file: `${P}/friends-dusk.jpg`, title: "Friends at dusk", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/5945021/free-public-domain-cc0-photo" },
-  rooftop: { file: `${P}/rooftop.jpg`, title: "Rooftop at night", author: "Jorge Cortell", ...CC_BY_3, source: "https://commons.wikimedia.org/w/index.php?curid=87729669" },
   dinnerSea: { file: `${P}/dinner-sea.jpg`, title: "Seaside dinner at dusk", author: "PattayaPatrol", ...CC_BY_SA_4, source: "https://commons.wikimedia.org/w/index.php?curid=195229122" },
-  dinner: { file: `${P}/dinner.jpg`, title: "Gourmet meal, long table", author: "Rawpixel (public domain)", ...CC0, source: "https://www.rawpixel.com/image/3282419/free-photo-image-restaurant-table-lunch" },
 } satisfies Record<string, PhotoCredit>;
 
 /**
@@ -122,14 +109,16 @@ export const photos = {
  * public/videos/srilanka/VIDEOS.md.
  */
 export const footage = {
-  train: { file: `${V}/train.mp4`, title: "Train in Pattipola, highest station in Sri Lanka", author: "Cherubino", ...CC_BY_SA_3, source: `${COMMONS}Pattipola_train.webm` },
+  train: { file: `${V}/hero.mp4#train`, title: "Train in Pattipola, highest station in Sri Lanka", author: "Cherubino", ...CC_BY_SA_3, source: `${COMMONS}Pattipola_train.webm` },
   landing: { file: `${V}/landing.mp4`, title: "Landing at Colombo Airport, Sri Lanka", author: "Yosef Ben Melamed", ...CC_BY_SA_4, source: `${COMMONS}Landing_in_Colombo.webm` },
-  tuktuk: { file: `${V}/tuktuk.mp4`, title: "Tuk-tuks in Sri Lanka", author: "Cherubino", ...CC_BY_SA_3, source: `${COMMONS}Tuk-tuks_in_Sri_Lanka.webm` },
+  tuktuk: { file: `${V}/hero.mp4#tuktuk`, title: "Tuk-tuks in Sri Lanka", author: "Cherubino", ...CC_BY_SA_3, source: `${COMMONS}Tuk-tuks_in_Sri_Lanka.webm` },
   ocean: { file: `${V}/ocean.mp4`, title: "Aerial Shot Of Sea With Speedboat", author: "bellergy", ...CC0, source: `${COMMONS}Aerial_Shot_Of_Sea_With_Speedboat.webm` },
   hero: { file: `${V}/hero.mp4`, title: "Flying low over the sea of a beach", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/flying-low-over-the-sea-of-a-beach-44392/" },
   jungle: { file: `${V}/jungle.mp4`, title: "Fly over a huge canyon covered in vegetation", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/fly-over-a-huge-canyon-covered-in-vegetation-41401/" },
   cliffs: { file: `${V}/hero.mp4#cliffs`, title: "Sea waves in a little bay", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/sea-waves-in-a-little-bay-1954/" },
   palmSunset: { file: `${V}/palm-sunset.mp4`, title: "Bright orange sunset on beach", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/bright-orange-sunset-on-beach-2168/" },
+  van: { file: `${V}/van.mp4`, title: "Road trip as a couple aboard a van", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/road-trip-as-a-couple-aboard-a-van-41582/" },
+  window: { file: `${V}/window.mp4`, title: "Girl enjoying the air during a road trip", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/girl-enjoying-the-air-during-a-road-trip-in-a-41583/" },
   surfWalk: { file: `${V}/hero.mp4#surf`, title: "Person with surfboard walks towards waves", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/person-with-surfboard-walks-towards-waves-1044/" },
   fireworks: { file: `${V}/fireworks.mp4`, title: "People seeing fireworks in the beach", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/people-seeing-fireworks-in-the-beach-4155/" },
   fireworksGold: { file: `${V}/fireworks-gold.mp4`, title: "Fireworks in the beach", author: "Mixkit", ...MIXKIT, source: "https://mixkit.co/free-stock-video/fireworks-in-the-beach-4156/" },
@@ -162,7 +151,7 @@ export const trip = {
   /** CONFIRMED by the brief. Must agree with seo.startDate / endDate in journeys/journey4.ts. */
   dates: "29 DEC — 4 JAN",
   datesLong: "29 December 2026 — 4 January 2027",
-  route: ["COLOMBO", "ELLA", "AHANGAMA", "MIRISSA", "COLOMBO"] as const,
+  route: ["GALLE", "AHANGAMA", "MIRISSA", "ELLA"] as const,
   /** The brief's own number ("16 strangers"). Confirm before launch. */
   seats: 16,
   ages: "18–30",
@@ -177,15 +166,19 @@ export const trip = {
  * card read from this one list, so a chapter can never be renamed in one
  * place and not another. `tone` is the world's signature colour — the
  * navigator borrows it as you enter.
+ *
+ * The route: GALLE → AHANGAMA → MIRISSA → ELLA. A slow southern Sri Lanka
+ * escape — heritage, the creative coast, New Year's Eve, then the mountains.
+ * Less rush. More story.
  */
 export const chapters = [
-  { id: "world-01", n: "01", date: "29 DEC", name: "THE ESCAPE", short: "THE ESCAPE", place: "COLOMBO → ELLA", feel: "airport · road · mountains", tone: "#F2A23A" },
-  { id: "world-02", n: "02", date: "30 DEC", name: "THE WILD SIDE", short: "THE WILD", place: "ELLA", feel: "train · jungle · falls", tone: "#7FC48A" },
-  { id: "world-03", n: "03", date: "31 DEC", name: "THE COUNTDOWN", short: "THE COUNTDOWN", place: "ELLA → AHANGAMA", feel: "dusk · fire · midnight", tone: "#FF4F6D" },
-  { id: "world-04", n: "04", date: "1 JAN", name: "THE MORNING AFTER", short: "THE MORNING AFTER", place: "AHANGAMA", feel: "slow · golden · salt", tone: "#F6D7A0" },
-  { id: "world-05", n: "05", date: "2 JAN", name: "SALT & SUN", short: "SALT & SUN", place: "AHANGAMA → MIRISSA", feel: "surf · boats · sunset", tone: "#3FD0BF" },
-  { id: "world-06", n: "06", date: "3 JAN", name: "ONE LAST NIGHT", short: "ONE LAST NIGHT", place: "MIRISSA → COLOMBO", feel: "road · rooftop · table", tone: "#C9A7FF" },
-  { id: "world-07", n: "07", date: "4 JAN", name: "THE END?", short: "THE END", place: "COLOMBO", feel: "credits · roll", tone: "#F4EDE1" },
+  { id: "world-01", n: "01", date: "29 DEC", name: "THE BEGINNING", short: "THE BEGINNING", place: "COLOMBO AIRPORT → GALLE", feel: "galle fort · ramparts · welcome dinner", tone: "#F2A23A" },
+  { id: "world-02", n: "02", date: "30 DEC", name: "THE CREATIVE COAST", short: "THE CREATIVE COAST", place: "GALLE → AHANGAMA", feel: "stilt fishers · surf · golden hour", tone: "#7FC48A" },
+  { id: "world-03", n: "03", date: "31 DEC", name: "THE COUNTDOWN", short: "THE COUNTDOWN", place: "AHANGAMA → MIRISSA", feel: "sunset · dinner · midnight", tone: "#FF4F6D" },
+  { id: "world-04", n: "04", date: "1 JAN", name: "THE FIRST DAY", short: "THE FIRST DAY", place: "MIRISSA · THE SOUTH COAST", feel: "first swim · coconut tree hill · hiriketiya", tone: "#F6D7A0" },
+  { id: "world-05", n: "05", date: "2 JAN", name: "OCEAN TO MOUNTAINS", short: "OCEAN TO MOUNTAINS", place: "MIRISSA → ELLA", feel: "ocean → tea country → ella", tone: "#3FD0BF" },
+  { id: "world-06", n: "06", date: "3 JAN", name: "THE LAST ASCENT", short: "THE LAST ASCENT", place: "ELLA", feel: "nine arches · the peak · the debrief", tone: "#C9A7FF" },
+  { id: "world-07", n: "07", date: "4 JAN", name: "THE WAY HOME", short: "THE WAY HOME", place: "ELLA → COLOMBO", feel: "last breakfast · the road · airport", tone: "#F4EDE1" },
 ] as const;
 
 export type ChapterId = (typeof chapters)[number]["id"];
@@ -222,19 +215,25 @@ export const entry = {
   inside: clip("jungle", "Flying over a deep green valley, a river threading through the bottom of it"),
   index: {
     label: "THE FILM",
-    lead: "Seven days. Seven worlds.",
-    body: "You're not booking a Sri Lanka trip. You're stepping into one — a film in seven chapters, with sixteen people who haven't met yet, and a New Year's Eve somewhere in the middle of it.",
+    lead: "You're not joining a tour.",
+    body: "You're joining a Plot Twist. Galle's fort, a surf coast, New Year's Eve by the sea, then up into Ella's mountains — and we plan every experience along the way, so all you have to do is show up. Seven days. Four worlds. A lot to experience. Zero rush.",
     scribble: "don't skip ahead. (you will.)",
   },
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 01 · 29 dec — the escape                                            */
+/* 01 · 29 dec — the beginning: galle                                  */
 /* ------------------------------------------------------------------ */
 
+/**
+ * THE PLOT TWIST RULE FOR EVERY DAY: relaxed ≠ unplanned. We plan the
+ * experience so you don't have to plan the trip — curated moments with
+ * breathing room between them, never free time to figure out alone.
+ * No clock times are stated unless confirmed; days are told in day-parts.
+ */
 export const world1 = {
   ...chapter("world-01"),
-  lines: ["You leave one world behind.", "And somewhere between the airport and the mountains, Sri Lanka begins."] as const,
+  lines: ["You land in Colombo.", "By golden hour you're on the ramparts of a 400-year-old fort, and the story has properly begun."] as const,
   slot: clip("landing", "Looking out over an aircraft wing as it descends towards a green coastline", "50% 40%"),
 
   board: {
@@ -249,126 +248,137 @@ export const world1 = {
     ],
     to: "COLOMBO",
     status: "BOARDING",
-    note: "Flights aren't included — book from wherever you are. We meet you at arrivals in Colombo.",
+    note: "Flights aren't included — book from wherever you are. Your trip leader meets you at arrivals in Colombo, and our private group vehicle takes it from there.",
     scribble: "everyone lands. then it starts.",
   },
 
   road: {
     kicker: "THE PLOT TWIST ROADTRIP",
     title: ["THE JOURNEY", "IS THE FIRST", "EXPERIENCE."] as const,
-    body: "Colombo to the hill country, the long way up. Out of the city, through the tea, into the clouds — in a private van that becomes the group chat with wheels.",
+    body: "Airport pickup, then south along the coast to Galle in our private group vehicle. Out of the city, past the paddy fields, towards the sea — the van becomes the group chat with wheels.",
     /** Panels of the horizontal reel, left to right. */
     frames: [
-      { word: "Music.", note: "aux goes round the van. no skipping.", slot: clip("road", "A road curving through green mountains under low cloud") },
-      { word: "Snacks.", note: "roadside stops. king coconut. mystery short eats.", slot: still(photos.tuktuks, "Tuk-tuks lined up waiting for fares on a busy street", "50% 60%") },
-      { word: "Games.", note: "two truths and a lie, at altitude.", slot: clip("tuktuk", "Driving down a busy town street full of tuk-tuks and buses") },
-      { word: "New people.", note: "fifteen strangers. for about an hour.", slot: still(photos.friendsDusk, "Four friends silhouetted on a hill at dusk", "50% 60%") },
-      { word: "The mountains.", note: "phones go quiet. windows go down.", slot: clip("train", "A diesel train with red carriages pulling through a hill-country station", "55% 50%") },
+      { word: "Music.", note: "aux goes round the van. no skipping.", slot: clip("van", "Two friends up front in a car, green fields through the windscreen", "60% 50%") },
+      { word: "Snacks.", note: "a planned roadside stop. king coconut. short eats.", slot: still(photos.kingCoconut, "A king-coconut seller sitting beside his bicycle, hung with bright orange coconuts", "30% 50%") },
+      { word: "Games.", note: "two truths and a lie, somewhere past the paddy fields.", slot: still(photos.paddy, "Bright green paddy fields, a white stupa and coconut palms behind", "62% 50%") },
+      { word: "New people.", note: "fifteen strangers. for about an hour.", slot: clip("window", "A passenger with her hand out of the car window, green fields rushing past", "55% 50%") },
+      { word: "Galle.", note: "an old fort with the sea on three sides.", slot: still(photos.galleLighthouse, "Galle's white lighthouse against a blue sky, palms and the fort wall below it", "60% 50%") },
     ],
   },
 
+  /** The afternoon and evening, one beat at a time. Day-parts, not clock times. */
   sunset: {
-    kicker: "29 DEC · ELLA",
-    title: "ELLA AT SUNSET.",
-    times: ["17:52", "18:14", "18:31", "19:05"] as const,
-    lines: ["The van door slides open.", "The sky's already on fire.", "Somebody says 'wait, look—'", "And then it's night."] as const,
-    slot: still(photos.ellaDawn, "A sky burning orange over the silhouettes of hill-country trees", "50% 60%"),
+    kicker: "29 DEC · GALLE",
+    title: "GALLE, PROPERLY.",
+    times: ["AFTERNOON", "THE FORT", "GOLDEN HOUR", "EVENING"] as const,
+    lines: ["Check in, then straight into Galle Fort.", "The ramparts, the old streets, the corners you'd never find alone — and a curated café stop.", "Golden hour on the ocean-facing walls. Everyone goes quiet.", "The welcome dinner. Our first proper evening together."] as const,
+    slot: still(photos.galleDusk, "Galle Fort's sea wall under a pink dusk sky, the lighthouse in the distance", "50% 55%"),
   },
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 02 · 30 dec — the wild side                                         */
+/* 02 · 30 dec — the creative coast: ahangama                          */
 /* ------------------------------------------------------------------ */
 
 export const world2 = {
   ...chapter("world-02"),
-  lines: ["Ella wakes up early.", "So do you. (We're sorry. It's worth it.)"] as const,
-  slot: still(photos.ellaRock, "Ella's green peaks under a moving sky, a trail scratched across the slope", "50% 45%"),
+  lines: ["We don't take you to Ahangama.", "We show you Ahangama."] as const,
+  slot: still(photos.ahangama, "Stilt fishermen perched on poles in the surf at Ahangama", "50% 50%"),
 
-  /** The horizontal reel of the day — one screen per beat, never a checklist. */
+  /**
+   * The horizontal reel of the day — one screen per beat. The huge outlined
+   * label is a day-part, not a clock time: nothing here is a confirmed time.
+   */
   beats: [
     {
-      key: "train",
-      time: "08:40",
-      title: ["THE TRAIN COMES", "THROUGH AT 8:40."] as const,
-      line: "Be there before it does.",
-      note: "The Nine Arches Bridge. Blue carriages, stone arches, jungle on every side — and sixteen people pretending they're not filming.",
-      slot: still(photos.trainBridge, "A blue train crossing the stone arches of the Nine Arches Bridge, deep in the jungle", "50% 55%"),
+      key: "coast" as string,
+      time: "AM",
+      title: ["THE COASTAL", "RUN."] as const,
+      line: "Galle to Ahangama, the scenic way.",
+      note: "Breakfast in the fort, then along the southern coast — palms, fishing boats, the sea on one side the whole way — with the stilt fishermen around Ahangama and Weligama as our first stop.",
+      slot: still(photos.ahangama, "Stilt fishermen perched on poles in the surf at Ahangama", "50% 50%"),
     },
     {
-      key: "peak",
-      time: "10:15",
-      title: ["THE EASIEST SUMMIT", "YOU'LL EVER FEEL", "SMUG ABOUT."] as const,
-      line: "Little Adam's Peak.",
-      note: "Forty-five minutes up through the tea. The view does the rest.",
-      slot: still(photos.littleAdams, "The ridge of Little Adam's Peak lit gold, the hill country rolling away behind", "40% 60%"),
+      key: "surf",
+      time: "MIDDAY",
+      title: ["YOUR FIRST", "WAVE."] as const,
+      line: "In the ocean, not just looking at it.",
+      note: "A beach morning around Ahangama and Kabalana, and a curated beginner-friendly surf or water session where conditions allow. Instructors handle the technique; you handle the falling off.",
+      slot: still(photos.surfer, "A surfer with a longboard on a golden beach under big clouds", "60% 50%"),
     },
     {
-      key: "zip",
-      time: "12:30",
-      title: ["LOOK DOWN."] as const,
-      line: "You're about to fly over the jungle.",
-      note: "A zipline over the valley. Harness on. Brave face on. Scream optional.",
-      slot: clip("jungle", "Flying over a deep green valley, a river threading through the bottom of it"),
+      key: "lunch",
+      time: "PM",
+      title: ["LUNCH, THEN", "THE CREATIVE COAST."] as const,
+      line: "A curated coastal food stop.",
+      note: "Then Ahangama itself: the cafés, the surf shops, the people who came for a week and stayed a year. We know where to go, so you don't have to.",
+      slot: still(photos.breakfast, "A tropical spread: fruit, coffee and juice on a wooden table", "50% 50%"),
     },
     {
-      key: "falls",
-      time: "15:00",
-      title: ["COLD WATER.", "WARM ROCKS."] as const,
-      line: "The falls, then the hidden pool.",
-      note: "Ravana Falls by the road — then somewhere a little harder to find, where nobody's taking photos because everyone's in the water.",
-      slot: still(photos.ravana, "A waterfall tumbling over rock shelves into a jungle gorge", "50% 50%"),
+      key: "sunset",
+      time: "DUSK",
+      title: ["GOLDEN HOUR,", "ON THE COAST."] as const,
+      line: "A proper sunset, planned.",
+      note: "The beach we've picked for it, the sky going orange behind the fishermen, sixteen people on the sand pretending they're not taking the same photo.",
+      slot: still(photos.goldBeach, "A golden sunset over a quiet beach on Sri Lanka's south coast", "50% 50%"),
     },
     {
       key: "night",
-      time: "21:00",
-      title: ["ONE STREET.", "EVERY BAR ON IT."] as const,
-      line: "Ella after dark.",
-      note: "Kottu off the hot plate, arrack in a coconut, a tuk-tuk ride back that takes twice as long because someone wants one more.",
-      slot: still(photos.ellaNight, "Ella's main street at night: neon bar signs, a tuk-tuk, people out walking", "50% 50%"),
+      time: "NIGHT",
+      title: ["THE NIGHT BEFORE", "THE NIGHT."] as const,
+      line: "Group dinner by the sea.",
+      note: "Then a beach-side social evening — the format locked once the final plan is — and everyone pretending to be calm about tomorrow.",
+      slot: still(photos.dinnerSea, "Candlelit tables along a shoreline at dusk", "50% 55%"),
     },
   ],
   scribble: "drag it. or scroll. or both.",
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 03 · 31 dec — the countdown                                         */
+/* 03 · 31 dec — the countdown: mirissa                                */
 /* ------------------------------------------------------------------ */
 
+/**
+ * New Year's Eve: arrive → settle in → golden hour → get ready → the night.
+ * The venue is not final, so nothing names one — "a curated coastal New
+ * Year's celebration in southern Sri Lanka" is as specific as the page gets.
+ * The ramp's clock is the scroll device counting down to midnight; its
+ * readings are illustrative, and the lines carry the actual plan.
+ */
 export const world3 = {
   ...chapter("world-03"),
-  lines: ["Down from the mountains. Out to the coast.", "Something is coming."] as const,
-  slot: still(photos.ellaGap, "The Ella Gap: a deep green valley opening out towards the plains far below", "50% 50%"),
+  lines: ["Ahangama to Mirissa, the long way round the coast.", "Something is coming."] as const,
+  slot: still(photos.mirissaCoast, "Mirissa from the air: palms, a curve of beach and white surf", "50% 50%"),
 
   /**
    * THE LIGHT RAMP — one pinned frame, the day going dark around you. Each
    * stage owns a slice of the scroll; the clock runs from the first time to
-   * the last as you go. Order matters: it is the evening, in order.
+   * the last as you go. Order matters: it is the day, in order.
    */
   ramp: [
-    { at: "11:00", word: "ELLA", line: "Last breakfast in the hills.", slot: still(photos.trainFront, "A blue train curving across a stone viaduct in bright sun", "50% 50%") },
-    { at: "13:30", word: "THE ROAD", line: "Down the mountain. Windows down. Somebody's already planning an outfit.", slot: clip("road", "A road curving through green mountains under low cloud") },
-    { at: "17:10", word: "AHANGAMA", line: "Salt in the air. A villa by the sea.", slot: still(photos.palms, "Coconut palms leaning over a turquoise bay", "50% 50%") },
-    { at: "18:20", word: "SUNSET", line: "The last one of the year.", slot: clip("palm-sunset", "Palms against a red-and-orange sunset over the sea") },
-    { at: "19:10", word: "DUSK", line: "Everything goes violet.", slot: still(photos.dusk, "The sea under a violet dusk, a headland dark on the horizon", "50% 60%") },
-    { at: "20:30", word: "NIGHT", line: "Candles on the sand.", slot: still(photos.dinnerSea, "Candlelit tables along a shoreline at dusk", "50% 55%") },
-    { at: "22:05", word: "LIGHTS", line: "The music starts low.", slot: still(photos.dance, "Silhouettes dancing under coloured lights", "50% 40%") },
-    { at: "23:10", word: "MUSIC", line: "Then it doesn't.", slot: still(photos.crowd, "A crowd with hands up in pink haze and spotlights", "50% 50%") },
-    { at: "23:40", word: "FIRE", line: "Sparklers. Bare feet. Nobody's cold.", slot: still(photos.sparkler, "A sparkler fizzing in someone's hand at night", "50% 50%") },
+    { at: "09:30", word: "SLOW BREAKFAST", line: "Last morning in Ahangama. Nobody's rushed.", slot: still(photos.ahangama, "Stilt fishermen perched on poles in the surf at Ahangama", "50% 50%") },
+    { at: "11:00", word: "THE COAST ROAD", line: "Coastal viewpoints, a beach stop, palm-lined roads, photographs on the way.", slot: clip("window", "A passenger with her hand out of the car window, green fields rushing past", "55% 50%") },
+    { at: "13:00", word: "MIRISSA", line: "Check in. Then the beach and the bay.", slot: still(photos.mirissaBay, "Mirissa bay, waves breaking below a green headland", "50% 50%") },
+    { at: "15:00", word: "THE BAY", line: "Palms, a swim, the afternoon on the sand.", slot: still(photos.palms, "Coconut palms leaning over a turquoise bay", "50% 50%") },
+    { at: "18:00", word: "GOLDEN HOUR", line: "The last sunset of 2026 — a dedicated moment, not an afterthought.", slot: clip("palm-sunset", "Palms against a red-and-orange sunset over the sea") },
+    { at: "19:30", word: "GET READY", line: "Back to the stay. Music on. Four mirrors, one charger.", slot: still(photos.dusk, "The sea under a violet dusk, a headland dark on the horizon", "50% 60%") },
+    { at: "21:00", word: "DINNER", line: "One long table by the water.", slot: still(photos.dinnerSea, "Candlelit tables along a shoreline at dusk", "50% 55%") },
+    { at: "22:30", word: "MUSIC", line: "Low, then not so low.", slot: still(photos.dance, "Silhouettes dancing under coloured lights", "50% 40%") },
+    { at: "23:30", word: "THE CELEBRATION", line: "The whole group, together, as the year runs out.", slot: still(photos.crowd, "A crowd with hands up in pink haze and spotlights", "50% 50%") },
     { at: "23:58", word: "THE OCEAN", line: "Everyone walks down to the water.", slot: clip("fireworks", "A crowd sitting on a dark beach, the first fireworks going up over the sea") },
   ],
   midnightWord: "MIDNIGHT.",
 
   party: {
-    kicker: "A PLOT TWIST ORIGINAL",
+    kicker: "THE COUNTDOWN · A PLOT TWIST ORIGINAL",
     title: ["MIDNIGHT", "IN PARADISE"] as const,
-    body: "Not a ticket to someone else's party. An evening we built for sixteen people: one table, one beach, one playlist, and one minute everyone's going to remember.",
+    body: "A curated coastal New Year's celebration in southern Sri Lanka, included in the trip. Not a ticket to someone else's party — a night planned around our group: dinner, music, the celebration, the countdown, and one minute everyone's going to remember. The venue is being locked in now.",
     /** The night's running order, read top to bottom like a programme. */
-    programme: ["DINNER", "MUSIC", "THE BEACH", "11:59", "00:00", "2027"] as const,
+    programme: ["GET READY", "DINNER", "MUSIC", "11:59", "00:00", "2027"] as const,
   },
 
   countdown: {
-    lead: ["One minute.", "One beach.", "16 strangers.", "And a year waiting to begin."] as const,
+    lead: ["One minute.", "One coast.", "16 strangers.", "And a year waiting to begin."] as const,
     year: "2027",
     after: "Happy New Year. You're not strangers any more.",
     slot: clip("fireworks-gold", "Gold fireworks bursting over a beach at night, people silhouetted at the waterline"),
@@ -376,86 +386,98 @@ export const world3 = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 04 · 1 jan — the morning after                                      */
+/* 04 · 1 jan — the first day                                          */
 /* ------------------------------------------------------------------ */
 
+/**
+ * A slower start, not an empty day. Sleep in, then THE COASTAL RUN: the
+ * Mirissa bay, Coconut Tree Hill, Ahangama, and Hiriketiya as a curated
+ * excursion where the final route allows. No openly licensed photograph of
+ * Hiriketiya could be found, so it is named in text and never pinned to a
+ * photo of somewhere else.
+ */
 export const world4 = {
   ...chapter("world-04"),
-  lines: ["No alarms.", "No schedules.", "No “wake up, we're leaving in 20 minutes.”"] as const,
-  turn: ["It's January 1.", "Take your time."] as const,
+  heading: ["THE FIRST", "DAY"] as const,
+  lines: ["Sleep in.", "Late breakfast.", "No forced early start."] as const,
+  turn: ["Then the first day of 2027 begins.", "We make the most of it."] as const,
   slot: clip("morning", "Looking up through a palm tree, the sun flaring between its fronds"),
-  /** Little frames of the slowest morning of the year. Captions, not features. */
+  /** Above the prints: the day's curated stops. */
+  exploreTag: "THE COASTAL RUN · MIRISSA · COCONUT TREE HILL · AHANGAMA · HIRIKETIYA",
+  /** The day in frames. Captions, not features. */
   moments: [
-    { caption: "breakfast at 11. nobody judges.", image: photos.breakfast.file, alt: "A tropical breakfast: fruit, coffee and juice on a wooden table", tilt: -3 },
-    { caption: "coffee. a book you won't read.", image: photos.coffee.file, alt: "A cup of coffee in soft morning light", tilt: 2 },
-    { caption: "the pool, technically open.", image: photos.pool.file, alt: "A swimming pool lined with palm trees", tilt: -1.5 },
-    { caption: "the hammock was always yours.", image: photos.hammock.file, alt: "Looking past bare feet in a hammock to palm trees and sea", tilt: 3 },
+    { caption: "late breakfast. no alarm.", image: photos.breakfast.file, alt: "A tropical breakfast: fruit, coffee and juice on a wooden table", tilt: -3 },
+    { caption: "coconut tree hill, mirissa.", image: photos.coconutAerial.file, alt: "Coconut Tree Hill near Mirissa from above, surf breaking around the headland", tilt: 2 },
+    { caption: "the first swim of 2027.", image: photos.surfboards.file, alt: "Surfboards stacked on the sand at golden hour, an island offshore", tilt: -1.5 },
+    { caption: "the first sunset of 2027.", image: photos.goldBeach.file, alt: "A golden sunset over a quiet beach on Sri Lanka's south coast", tilt: 3 },
   ],
   swim: {
-    kicker: "1 JAN · THE OCEAN",
+    kicker: "1 JAN · THE FIRST SWIM",
     title: ["FIRST SWIM", "OF 2027."] as const,
-    body: "The year is about twelve hours old. The sea is the temperature of a bath. Somebody counts down from three, and for once nobody waits for the third.",
+    body: "Then the coastal run: Mirissa's bay, the palms of Coconut Tree Hill, back along the coast to Ahangama's cafés and surf — and, where the final route allows, a curated excursion to the bay at Hiriketiya. A beach or water experience, the first sunset of 2027, and a group dinner to close it.",
     slot: clip("gold-shore", "Late gold light on a beach, small waves running up the sand"),
-    scribble: "best decision of the year so far.",
+    scribble: "we start the year slowly. we still make the most of it.",
   },
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 05 · 2 jan — salt & sun                                             */
+/* 05 · 2 jan — ocean to mountains                          */
 /* ------------------------------------------------------------------ */
 
 export const world5 = {
   ...chapter("world-05"),
-  lines: ["Ahangama to Mirissa.", "The whole day smells like sunscreen and salt."] as const,
+  lines: ["One last look at the sea.", "Then the road climbs, and the island changes colour."] as const,
   slot: clip("ocean", "Looking down on deep blue sea as a speedboat carves a white wake towards a green island"),
 
-  /** Beach-hopping, as a drift of places along the coast. Words, not cards. */
+  /** OCEAN → MOUNTAINS: the drive inland, as a drift of words, with scenic stops on the way. */
+  hopsLabel: "OCEAN → MOUNTAINS · SCENIC STOPS ON THE WAY",
   hops: [
-    { word: "SURF", note: "first lesson or tenth. the wave doesn't care.", slot: still(photos.surfer, "A surfer with a longboard on a golden beach under big clouds", "60% 50%") },
-    { word: "SNORKEL", note: "turtles, if they feel like it.", slot: clip("ocean-tall", "Turquoise water from above, waves breaking white onto sand") },
-    { word: "HIDDEN BEACHES", note: "the ones you need a local to find.", slot: still(photos.coconutAerial, "A palm-covered headland from above, surf breaking around it", "50% 50%") },
-    { word: "STILT FISHERMEN", note: "the south coast's oldest trick.", slot: still(photos.stilt, "Fishermen perched on wooden stilts in the surf", "50% 50%") },
-    { word: "SEAFOOD", note: "whatever came in this morning. grilled. now.", slot: still(photos.surfboards, "Surfboards stacked on the sand at golden hour, an island offshore", "50% 55%") },
+    { word: "OCEAN", note: "one last look. salt still in your hair.", slot: clip("ocean-tall", "Turquoise water from above, waves breaking white onto sand") },
+    { word: "PALMS", note: "the coast road, one more time.", slot: still(photos.palms, "Coconut palms leaning over a turquoise bay", "50% 50%") },
+    { word: "PADDY FIELDS", note: "a stop where the green starts.", slot: still(photos.paddy, "Bright green paddy fields, a white stupa and coconut palms behind", "62% 50%") },
+    { word: "GREEN HILLS", note: "the air cools, one bend at a time.", slot: clip("road", "A road curving through green mountains under low cloud") },
+    { word: "TEA COUNTRY", note: "every slope combed into rows.", slot: still(photos.tea, "A tea estate from above, rows of green bushes combed across a hillside", "50% 50%") },
+    { word: "ELLA", note: "home for the last two nights.", slot: still(photos.ellaRock, "Ella's green peaks under a moving sky, a trail scratched across the slope", "50% 45%") },
   ],
 
   floating: {
-    kicker: "2 JAN · MIRISSA · AT SEA",
-    title: ["THE FLOATING", "SUNSET"] as const,
-    /** These drift up out of the water one at a time as you scroll. */
-    words: ["Engine off.", "Music low.", "Salt on your lips.", "Someone's playlist.", "The sun goes down without asking."] as const,
-    slot: clip("boat-sunset", "A boat rocking on the swell as the sun sets over the sea"),
-    note: "A boat, sixteen people, and nowhere to be. If the ocean is generous: dolphins.",
-    scribble: "phones down. (lol. ok. one photo.)",
+    kicker: "2 JAN · ELLA",
+    title: ["MOUNTAIN", "SUNSET"] as const,
+    /** These drift up one at a time as you scroll. */
+    words: ["Check in.", "A walk through Ella town.", "Cafés, little shops, the view.", "Golden hour from a viewpoint we've picked.", "Then a group dinner."] as const,
+    slot: still(photos.ellaDawn, "A sky burning orange over the silhouettes of hill-country trees", "50% 60%"),
+    note: "Ella town on foot — cafés, local shops, views — then a curated viewpoint for golden hour and a group dinner. An easy evening: tomorrow is the big one.",
+    scribble: "first night in the mountains.",
   },
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 06 · 3 jan — one last night                                         */
+/* 06 · 3 jan — the last ascent: ella                                       */
 /* ------------------------------------------------------------------ */
 
 export const world6 = {
   ...chapter("world-06"),
-  lines: ["We came here not knowing anyone.", "Now nobody wants to leave."] as const,
-  slot: still(photos.colomboWater, "Colombo's skyline at night, towers lit and doubled in still water", "50% 55%"),
+  lines: ["The last ascent.", "One big day in the mountains, planned end to end."] as const,
+  slot: still(photos.bridgeMist, "The Nine Arches Bridge in morning mist, a train crossing", "50% 50%"),
 
-  /** On the drive back up the coast, the trip flickers past in the window. */
+  /** THE LAST ASCENT — the day, landing as a pile of prints in the order we do it. */
   memories: [
-    { image: photos.trainBridge.file, caption: "the 8:40" },
-    { image: photos.littleAdams.file, caption: "smug, at the top" },
-    { image: photos.nyeBeach.file, caption: "00:00" },
-    { image: photos.breakfast.file, caption: "breakfast at 11" },
-    { image: photos.surfer.file, caption: "stood up once. counts." },
-    { image: photos.mirissaSunset.file, caption: "the floating sunset" },
+    { image: photos.trainBridge.file, caption: "morning: nine arches bridge" },
+    { image: photos.littleAdams.file, caption: "little adam's peak, the short hike" },
+    { image: photos.ellaNight.file, caption: "lunch at a café we picked" },
+    { image: photos.tea.file, caption: "afternoon: tea country" },
+    { image: photos.ravana.file, caption: "a waterfall. cold water." },
+    { image: photos.ellaGap.file, caption: "golden hour: the final viewpoint" },
   ],
-  road: { from: "MIRISSA", to: "COLOMBO", note: "Up the coast road. The playlist is suddenly very emotional." },
+  road: { from: "MORNING", to: "GOLDEN HOUR", note: "The bridge, the peak, a long lunch, the tea, the waterfall — then the final viewpoint. It goes far too fast." },
 
   supper: {
-    kicker: "3 JAN · COLOMBO",
-    title: ["THE LAST", "SUPPER"] as const,
-    body: "One long table, one last sunset over the city, and the stories everyone's going to be telling wrong for years.",
-    slot: still(photos.galleSunset, "A blazing sunset over the sea at Galle Face, Colombo", "50% 50%"),
+    kicker: "3 JAN · ELLA · THE DEBRIEF",
+    title: ["THE", "DEBRIEF"] as const,
+    body: "The final Plot Twist dinner. One long table in the mountains, music, the stories everyone's going to be telling wrong for years — and a group that was sixteen strangers six days ago.",
+    slot: still(photos.ellaGap, "The Ella Gap: a deep green valley opening out towards the plains far below", "50% 50%"),
     /** The order of the evening. */
-    courses: ["Long table", "Sunset", "Drinks", "Stories", "Photos", "Awards", "Inside jokes", "The final group moment"],
+    courses: ["Long table", "Music", "Drinks", "Stories", "Photos", "Awards", "Inside jokes", "The final group moment"],
     awards: {
       label: "THE AWARDS",
       hint: "Tap a card. The winners are decided on the night.",
@@ -473,22 +495,26 @@ export const world6 = {
 } as const;
 
 /* ------------------------------------------------------------------ */
-/* 07 · 4 jan — the end?                                               */
+/* 07 · 4 jan — the way home                                           */
 /* ------------------------------------------------------------------ */
 
 export const world7 = {
   ...chapter("world-07"),
-  /** The credits roll: one word per memory, fast, like a camera roll on the flight home. */
+  /**
+   * The roll: the last morning, then the whole trip flashing past on the
+   * drive back, then Colombo. One word per frame, fast, like a camera roll.
+   */
   roll: [
-    { word: "Airport.", image: photos.departures.file },
-    { word: "Road.", image: photos.trainHills.file },
-    { word: "Mountains.", image: photos.ellaRock.file },
-    { word: "The 8:40.", image: photos.trainBridge.file },
-    { word: "Beach.", image: photos.mirissaAerial.file },
+    { word: "Last breakfast.", image: photos.breakfast.file },
+    { word: "One last view.", image: photos.ellaGap.file },
+    { word: "Galle Fort.", image: photos.galleLighthouse.file },
+    { word: "Your first wave.", image: photos.surfer.file },
     { word: "Midnight.", image: photos.nyeBeach.file },
-    { word: "Sunrise.", image: photos.goldBeach.file },
+    { word: "Coconut Tree Hill.", image: photos.coconutAerial.file },
+    { word: "Ella.", image: photos.ellaRock.file },
+    { word: "Nine Arches.", image: photos.trainBridge.file },
     { word: "People.", image: photos.friends.file },
-    { word: "Laughter.", image: photos.dinnerSea.file },
+    { word: "Colombo.", image: photos.colomboNight.file },
   ],
   close: ["YOU CAME FOR SRI LANKA.", "YOU LEFT WITH A STORY."] as const,
   sign: "PLOT TWIST",
@@ -522,14 +548,14 @@ export const included = {
   /** The brief's categories. Specifics are finalised with the price. */
   confirmed: false,
   items: [
-    { k: "STAYS", v: "Six nights in handpicked boutique stays — hill country, south coast, Colombo." },
-    { k: "PRIVATE TRANSPORT", v: "Our own van, the whole way round. Airport pick-up to airport drop." },
-    { k: "THE NYE EXPERIENCE", v: "Midnight in Paradise — dinner, music, the beach, the countdown." },
-    { k: "CURATED EXPERIENCES", v: "The 8:40 at Nine Arches, the floating sunset, the Last Supper." },
-    { k: "ACTIVITIES", v: "Little Adam's Peak, the falls, the zipline, a surf session, beach-hopping." },
-    { k: "MEALS", v: "As noted on the final itinerary — breakfasts, and the big group dinners." },
-    { k: "YOUR TRIP HOST", v: "A Plot Twist host with you from arrivals to departures." },
-    { k: "THE CONTENT", v: "Photos and video of the trip, shot so you don't have to." },
+    { k: "STAYS", v: "6 nights in handpicked stays — Galle, the south coast and Ella. Exact properties being locked in." },
+    { k: "PRIVATE TRANSPORT", v: "Our own group vehicle the whole way, including airport pickup and drop in Colombo, timed to your flight." },
+    { k: "CURATED SIGHTSEEING", v: "Galle Fort and the ramparts, Coconut Tree Hill, Nine Arches Bridge, Little Adam's Peak, tea country." },
+    { k: "ADVENTURE & ACTIVITIES", v: "A beginner-friendly surf or water session, the Little Adam's Peak hike, a waterfall / nature experience — where conditions allow." },
+    { k: "THE COASTAL RUN", v: "Curated southern-coast exploration — Ahangama, Mirissa, and Hiriketiya where the final route allows." },
+    { k: "THE NYE EXPERIENCE", v: "A curated coastal New Year's celebration in Mirissa — dinner, music, the countdown. Venue being finalised." },
+    { k: "GROUP EXPERIENCES", v: "The welcome dinner in Galle, planned golden hours, the final dinner in Ella. Breakfasts and meals as specified." },
+    { k: "YOUR TRIP LEADER", v: "A Plot Twist trip leader with the group throughout, handling coordination so you never have to." },
   ],
   pending: "The exact list is being locked with the price. Waitlist hears first.",
   excluded: ["Flights to and from Colombo", "Visa (ETA) and travel insurance", "Alcohol and personal spends"],
@@ -539,11 +565,11 @@ export const forWho = {
   label: "WHO IS THIS FOR?",
   lead: "For people who'd rather collect stories than souvenirs.",
   lines: [
-    "For the one who says yes before checking their calendar.",
+    "For the one who wants to see Galle Fort, surf in Ahangama and stand on Little Adam's Peak — without researching, booking or negotiating any of it.",
     "For people who've done the big group NYE at home, and want to know what else there is.",
-    "For anyone travelling solo who'd rather not ring in the year alone.",
-    "For friends of friends of strangers.",
-    "For people who'll jump off the rock first — and the ones who'll film it.",
+    "For anyone travelling solo who'd rather not ring in the year alone. (Most people come solo.)",
+    "For people who want a week that's full of things worth showing up for — and never rushed.",
+    "For people who'll jump into the ocean first — and the ones who'll film it.",
   ],
   not: "Not for: itinerary police, five-star complainers, or anyone who needs to be asleep by 11 on the 31st.",
 } as const;
@@ -560,24 +586,30 @@ export const cast = {
 
 /** Same shape and same honesty as bir.price. Flip `confirmed` when the number exists. */
 export const price = {
-  confirmed: false,
-  amount: "",
-  note: "",
-  pending: "COMING SOON",
-  pendingNote: "Pricing is being finalised. The waitlist gets it first — and first pick of the seats.",
+  confirmed: true,
+  amount: "₹54,999",
+  note: "Per person · early bird ₹49,999 · final ₹59,999 · flights not included",
+  /** The three tiers, for anything that wants to show them. */
+  tiers: [
+    { k: "EARLY BIRD", v: "₹49,999" },
+    { k: "REGULAR", v: "₹54,999" },
+    { k: "FINAL", v: "₹59,999" },
+  ],
+  pending: "",
+  pendingNote: "",
 } as const;
 
 export const details = {
   label: "THE DETAILS",
   headline: trip.dates,
-  sub: "SRI LANKA · NEW YEAR'S EVE 2026",
+  sub: "SLOW SOUTHERN SRI LANKA · NEW YEAR · COAST TO MOUNTAINS",
   basics: [
     { k: "WHEN", v: trip.datesLong },
     { k: "WHERE", v: "Sri Lanka" },
-    { k: "ROUTE", v: "Colombo · Ella · Ahangama · Mirissa · Colombo" },
+    { k: "ROUTE", v: "Galle → Ahangama → Mirissa → Ella" },
     { k: "LENGTH", v: trip.length },
     { k: "SEATS", v: `Limited · ${trip.seats}` },
-    { k: "FLIGHTS", v: "Not included" },
+    { k: "FLIGHTS", v: "Not included · airport drop timed to yours" },
   ],
   selection: "Curated. Every application is read by a real person.",
   price,
@@ -589,7 +621,7 @@ export const details = {
 
 export const finalCta = {
   headline: ["I NEED TO BE", "ON THIS TRIP."] as const,
-  sub: "Join the waitlist. Seats go to the waitlist first.",
+  sub: "₹54,999 per person. Early bird ₹49,999.",
   primary: { label: "I'M IN", href: "#apply" },
   secondary: { label: "BACK TO THE FILM", href: "#world-01" },
   slot: clip("fireworks", "A crowd sitting on a dark beach, fireworks going up over the sea"),
@@ -598,13 +630,13 @@ export const finalCta = {
 export const sticky = {
   label: "I'M IN",
   href: "#apply",
-  meta: "SRI LANKA · 29 DEC — 4 JAN",
-  line: "price coming soon.",
+  meta: "SRI LANKA · 29 DEC — 4 JAN · ₹54,999",
+  line: "early bird ₹49,999.",
 } as const;
 
 export const credits = {
   label: "PHOTOGRAPHS & FOOTAGE",
-  note: "Photographs of the train, Ella, the falls, the south coast and Colombo were taken in Sri Lanka. The fireworks, the parties, the breakfasts, the boat and most of the footage are from elsewhere — chosen for the moment, not the map. Thank you to:",
+  note: "Photographs of Galle, Ahangama, Mirissa, the tea, the train, Ella, the falls and Colombo were taken in Sri Lanka. The fireworks, the parties, the breakfasts, the boat and most of the footage are from elsewhere — chosen for the moment, not the map. Thank you to:",
 } as const;
 
 /* ------------------------------------------------------------------ */

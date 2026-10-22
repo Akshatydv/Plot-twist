@@ -39,7 +39,12 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
  * site behaves identically either way.
  */
 export function GoogleAnalytics() {
-  if (!GA_ID) return null;
+  const pathname = usePathname();
+  // The guest registration holds DOB, phone numbers and health-relevant notes,
+  // so no analytics script loads on /guest/*. (Landing there from another
+  // page by client-side navigation leaves an already-loaded gtag in memory,
+  // but the pageview tracker unmounts here, so nothing further is sent.)
+  if (!GA_ID || pathname?.startsWith("/guest")) return null;
 
   return (
     <>

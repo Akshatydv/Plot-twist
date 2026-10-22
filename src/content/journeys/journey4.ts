@@ -36,16 +36,16 @@ export const JOURNEY_4: JourneyConfig = {
    * The hero states Sri Lanka and the dates outright, so naming them here
    * gives nothing away. Dates CONFIRMED by the brief: 29 Dec 2026 → 4 Jan
    * 2027 — the same window as trip.dates in content/srilanka.ts. These two
-   * must agree; change both or neither. No price in the description: it is
-   * not set yet (see price in content/srilanka.ts).
+   * must agree; change both or neither. The price (₹54,999) is confirmed and
+   * must agree with price in content/srilanka.ts.
    */
   seo: {
     title: "Sri Lanka New Year Group Trip, 29 Dec–4 Jan | Plot Twist",
     description:
-      "7 days, one island, one New Year's Eve. Ella's mountains, a south-coast countdown on the beach, Mirissa at sunset. Limited seats — join the waitlist.",
+      "A slow southern Sri Lanka escape for New Year: Galle, Ahangama, Mirissa, Ella. 29 Dec–4 Jan, ₹54,999 per person, flights not included.",
     startDate: "2026-12-29",
     endDate: "2027-01-04",
-    destination: "Ella, Ahangama, Mirissa & Colombo, Sri Lanka",
+    destination: "Galle, Ahangama, Mirissa & Ella, Sri Lanka",
     image: "/photos/srilanka/train-bridge.jpg",
   },
 
@@ -81,8 +81,8 @@ export const JOURNEY_4: JourneyConfig = {
   casting: {
     stamp: "CASTING — JOURNEY 4",
     photos: [
-      { src: "/photos/srilanka/train-bridge.jpg", alt: "A blue train crossing a stone-arched bridge in the jungle near Ella", note: "30 dec, 8:40-ish" },
-      { src: "/photos/srilanka/mirissa-aerial.jpg", alt: "The south coast from the air: palms, a bay, white surf", note: "2 jan" },
+      { src: "/photos/srilanka/train-bridge.jpg", alt: "A blue train crossing a stone-arched bridge in the jungle near Ella", note: "3 jan, ella" },
+      { src: "/photos/srilanka/mirissa-aerial.jpg", alt: "The south coast from the air: palms, a bay, white surf", note: "31 dec, mirissa" },
       { src: "/photos/srilanka/nye-beach.jpg", alt: "Fireworks over a beach crowded with people at midnight", note: "00:00" },
     ],
   },

@@ -51,7 +51,7 @@ function Slow() {
           <span className="h-px w-8 bg-current opacity-50" aria-hidden />
           {world4.place}
         </p>
-        <MaskLines lines={["THE MORNING", "AFTER"]} className="mt-5 font-serif text-[clamp(3.4rem,13vw,11rem)] leading-[0.86] tracking-[-0.03em]" />
+        <MaskLines lines={world4.heading} className="mt-5 font-serif text-[clamp(3.4rem,13vw,11rem)] leading-[0.86] tracking-[-0.03em]" />
 
         <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
           <div className="space-y-[18svh] pb-[10svh] pt-[6svh]">
@@ -89,7 +89,7 @@ function Prints() {
     <section className="relative px-5 pb-24 pt-10 sm:px-8 lg:px-14">
       <div className="mx-auto max-w-[1200px]">
         <div className="flex items-end justify-between gap-4">
-          <Tag color="#9a6b1f">AHANGAMA · 11:00-ISH</Tag>
+          <Tag color="#9a6b1f">{world4.exploreTag}</Tag>
           <Note className="hidden text-[1.3rem] text-[#1b1712]/50 sm:inline" rotate={-3}>
             (move them around. it's a holiday.)
           </Note>

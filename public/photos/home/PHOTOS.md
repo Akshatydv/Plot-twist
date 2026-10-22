@@ -99,7 +99,7 @@ Stock rows first; the last ten rows (`trip-*`) are the club's own photographs.
 | `trip-mirror2.jpg` | — | Plot Twist archive | Friends in a curved mirror by the road | 960x1280 | Wall (tall) |
 | `trip-waiting.jpg` | — | Plot Twist archive (casting-assets/s6-waiting) | Loungers by a pool, sun setting over the sea | 1080x1350 | Wall (tall) |
 
-| `srilanka-colombo.jpg` | `rxMPvBoo8Vc` | Zoshua Colah | Kollupitiya, Colombo, Sri Lanka | 8108x5068 | Sri Lanka world |
+| `srilanka-galle.jpg` | — (Wikimedia Commons: [Lighthouse Galle, Sri Lanka](https://commons.wikimedia.org/wiki/File:Lighthouse_Galle,_Sri_Lanka.jpg), CC BY-SA 4.0) | Samal Nadeeshan | Galle Fort lighthouse, Galle, Sri Lanka | 5521x3681 | Sri Lanka world |
 | `srilanka-ella.jpg` | `ySl4ry2hjP0` | Datingscout | Little Adam's Peak, Sri Lanka | 4032x3024 | Sri Lanka world |
 | `srilanka-train.jpg` | `Dw9dWTzzsUE` | Adam Vandermeer | Ella, Sri Lanka (the blue train on the Nine Arch Bridge) | 6000x4000 | Sri Lanka world (poster) |
 | `srilanka-mirissa.jpg` | `cuZbrYoimv8` | Sarmat Batagov | Mirissa Beach, Mirissa, Sri Lanka | 4032x3024 | Sri Lanka world |

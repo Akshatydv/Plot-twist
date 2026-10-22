@@ -57,7 +57,7 @@ export function WhereNext({ worlds }: { worlds: World[] }) {
                   </span>
                   <Cell label={c.when} value={w.datesShort ?? w.dates} />
                   <Cell label={c.length} value={w.duration} />
-                  <Cell label={c.from} value={w.price} />
+                  <Cell label={w.price && !w.price.startsWith("₹") ? "PRICE" : c.from} value={w.price} />
                   <span className="relative hidden items-center gap-2 text-[11px] font-semibold tracked lg:flex">
                     {w.status.open && <span className="home-rec block h-1.5 w-1.5 rounded-full" style={{ background: w.theme.accent }} />}
                     {w.status.label}

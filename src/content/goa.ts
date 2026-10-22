@@ -80,8 +80,8 @@ export const GOA = {
   destination: "GOA",
   when: "NEW YEAR'S · 30 DEC – 2 JAN",
   days: "4 DAYS",
-  cast: "20 PEOPLE",
-  split: "10 GIRLS + 10 GUYS",
+  cast: "16 PEOPLE",
+  split: "8 GIRLS + 8 GUYS",
   ages: "18–30",
 } as const;
 
@@ -134,7 +134,7 @@ export const goaHero = {
   },
   cta: { label: "REQUEST YOUR INVITE", href: "#apply" },
   scrollCue: "THE FOUR DAYS ↓",
-  annotation: "twenty seats. that's the whole trip.",
+  annotation: "sixteen seats. that's the whole trip.",
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -148,7 +148,7 @@ export const premise = {
   body: [
     "Anyone can book a flight. Anyone can book a room.",
     "We bring the right people into the story.",
-    "Ten girls. Ten guys. Every one of them picked.",
+    "Eight girls. Eight guys. Every one of them picked.",
   ],
   /**
    * The objection, answered. This used to be the short version, with the full
@@ -157,9 +157,9 @@ export const premise = {
    * only place on the page that makes the people-over-place case. Worth
    * keeping in mind before trimming it.
    */
-  kicker: "You can book Goa. You can't book the nineteen people who make the trip what it is.",
+  kicker: "You can book Goa. You can't book the fifteen people who make the trip what it is.",
   annotation: "that's the whole idea.",
-  badge: "20 SEATS. NO FILLERS.",
+  badge: "16 SEATS. NO FILLERS.",
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -190,10 +190,10 @@ export const cast = {
    */
   bridge: [
     "WE'RE PICKING THE PEOPLE. THE TRIP CAN TAKE CARE OF ITSELF.",
-    "20 spots. 10 girls. 10 guys. And a very particular kind of energy.",
+    "16 spots. 8 girls. 8 guys. And a very particular kind of energy.",
   ] as [string, string],
   split: {
-    title: "10 AND 10.",
+    title: "8 AND 8.",
     body: "We're looking for the ones who are always up for one more plan, one more drink, one more story.",
     /** Said once. Never explained, never repeated — explaining it makes it louder. */
     disclaimer: "Basically, good vibes only.",
@@ -604,7 +604,7 @@ export const price = {
   confirmed: false,
   amount: "",
   note: "Flights, alcohol and personal spends aren't in it.",
-  pending: "PRICE ON REQUEST",
+  pending: "ON REQUEST",
   pendingNote: "Request your invite and we'll send you the price.",
 } as const;
 
@@ -679,8 +679,8 @@ export const facts = {
     { k: "WHERE", v: "Goa" },
     { k: "WHEN", v: "30 Dec 2026 – 2 Jan 2027" },
     { k: "HOW LONG", v: "4 days · 3 nights" },
-    { k: "THE CAST", v: "20 people" },
-    { k: "THE SPLIT", v: "10 girls + 10 guys" },
+    { k: "THE CAST", v: "16 people" },
+    { k: "THE SPLIT", v: "8 girls + 8 guys" },
     { k: "AGES", v: "18–30" },
   ],
   /**
@@ -729,7 +729,7 @@ export const finePrint = {
   pillars: [
     {
       k: "CURATED PEOPLE",
-      v: "20 isn’t a random number. A real person reads every application — that’s also why it isn’t instant.",
+      v: "16 isn’t a random number. A real person reads every application — that’s also why it isn’t instant.",
       accent: "#FF4F87",
     },
     {
@@ -840,7 +840,7 @@ export const howItWorks = {
   steps: [
     { n: "01", t: "REQUEST YOUR INVITE", d: "Under five minutes. Be honest — it’s more interesting." },
     { n: "02", t: "GET SELECTED", d: "A real person reads it. Shortlisted means a real conversation." },
-    { n: "03", t: "GET ON THE PLOT", d: "Goa. New Year's. Nineteen strangers." },
+    { n: "03", t: "GET ON THE PLOT", d: "Goa. New Year's. Fifteen strangers." },
   ],
 } as const;
 
@@ -850,9 +850,9 @@ export const howItWorks = {
 
 export const finalBeat = {
   /** Closes the loop the hero opened — "Come alone. Leave with 19 others." */
-  big: ["YOU CAME FOR NEW YEAR'S.", "YOU'LL LEAVE WITH 19 PEOPLE."],
+  big: ["YOU CAME FOR NEW YEAR'S.", "YOU'LL LEAVE WITH 15 PEOPLE."],
   body: "The destination was never the hard part to get right.",
-  seats: "TWENTY SEATS. YOU WANT ONE.",
+  seats: "SIXTEEN SEATS. YOU WANT ONE.",
   cta: { label: "REQUEST YOUR INVITE", href: "#apply" },
   note: "not everyone gets one.",
 } as const;
@@ -900,6 +900,6 @@ export const glimpses: Record<string, Glimpse> = {
     video: null,
     poster: "/photos/goa/people.jpg",
     alt: "A large group of friends crowded together by a pool at night, laughing and celebrating",
-    note: "19 of them.",
+    note: "15 of them.",
   },
 };

@@ -136,8 +136,8 @@ export const MEDIA = {
     ],
   },
   /**
-   * Sri Lanka, in itinerary order: Colombo → Ella → the Nine Arch Bridge →
-   * Mirissa → the south coast at dusk. Every frame carries a recorded Sri Lankan
+   * Sri Lanka: the train opens it, then the route in order — Galle → Ahangama
+   * (stilts) → Mirissa → the coast at dusk → Ella. Every frame carries a recorded Sri Lankan
    * location (see PHOTOS.md). The train opens it because it is the one picture
    * that is unmistakably this island.
    */
@@ -147,11 +147,11 @@ export const MEDIA = {
     hold: 3400,
     reel: [
       { kind: "image", src: H("srilanka-train"), focal: "50% 50%" },
-      { kind: "image", src: H("srilanka-ella"), focal: "50% 40%" },
-      { kind: "image", src: H("srilanka-colombo"), focal: "50% 45%" },
-      { kind: "image", src: H("srilanka-mirissa"), focal: "50% 50%" },
+      { kind: "image", src: H("srilanka-galle"), focal: "60% 45%" },
       { kind: "image", src: H("srilanka-stilt"), focal: "45% 50%" },
+      { kind: "image", src: H("srilanka-mirissa"), focal: "50% 50%" },
       { kind: "image", src: H("srilanka-sunset"), focal: "50% 55%" },
+      { kind: "image", src: H("srilanka-ella"), focal: "50% 40%" },
     ],
   },
   COMMUNITY_VIDEO: {
@@ -197,6 +197,7 @@ export const nav = {
     // With the wall hidden "#moments" does not exist, so this lands on the casting section — the
     // brand's own plot twist, that it does not take everyone — until the wall is back.
     { label: "The Plot Twist", href: SHOW_MOMENTS_WALL ? "#moments" : "#the-casting" },
+    { label: "Reviews", href: "/reviews" },
     { label: "About", href: "#about" },
   ],
   cta: { label: "Explore Journeys", href: "#journeys" },

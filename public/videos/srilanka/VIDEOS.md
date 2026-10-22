@@ -30,9 +30,11 @@ Shown as Sri Lanka: only the Commons clips marked 🇱🇰. Everything else is a
 
 | file | source | author | licence |
 | --- | --- | --- | --- |
-| `train.mp4` 🇱🇰 | [Pattipola train](https://commons.wikimedia.org/wiki/File:Pattipola_train.webm) | Cherubino | CC BY-SA 3.0 |
+| (in `hero`) 🇱🇰 | [Pattipola train](https://commons.wikimedia.org/wiki/File:Pattipola_train.webm) | Cherubino | CC BY-SA 3.0 |
 | `landing.mp4` 🇱🇰 | [Landing in Colombo](https://commons.wikimedia.org/wiki/File:Landing_in_Colombo.webm) | Yosef Ben Melamed | CC BY-SA 4.0 |
-| `tuktuk.mp4` 🇱🇰 | [Tuk-tuks in Sri Lanka](https://commons.wikimedia.org/wiki/File:Tuk-tuks_in_Sri_Lanka.webm) | Cherubino | CC BY-SA 3.0 |
+| (in `hero`) 🇱🇰 | [Tuk-tuks in Sri Lanka](https://commons.wikimedia.org/wiki/File:Tuk-tuks_in_Sri_Lanka.webm) | Cherubino | CC BY-SA 3.0 |
+| `van.mp4` | [Road trip as a couple aboard a van](https://mixkit.co/free-stock-video/road-trip-as-a-couple-aboard-a-van-41582/) | Mixkit | Mixkit Free |
+| `window.mp4` | [Girl enjoying the air during a road trip](https://mixkit.co/free-stock-video/girl-enjoying-the-air-during-a-road-trip-in-a-41583/) | Mixkit | Mixkit Free |
 | `ocean.mp4` | [Aerial Shot Of Sea With Speedboat](https://commons.wikimedia.org/wiki/File:Aerial_Shot_Of_Sea_With_Speedboat.webm) | bellergy | CC0 |
 | `jungle.mp4` | [Fly over a huge canyon covered in vegetation](https://mixkit.co/free-stock-video/fly-over-a-huge-canyon-covered-in-vegetation-41401/) | Mixkit | Mixkit Free |
 | `road.mp4` | [Going down a curved highway through a mountain range](https://mixkit.co/free-stock-video/going-down-a-curved-highway-through-a-mountain-range-41576/) | Mixkit | Mixkit Free |

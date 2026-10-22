@@ -111,18 +111,16 @@ export function ChapterNav() {
                 <span className="text-white/35"> / 07</span>
               </span>
               <span className="h-3 w-px bg-white/20" aria-hidden />
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={c.id}
-                  className="min-w-0 flex-1 truncate text-[11px] font-semibold tracked text-[var(--sl-bone)]"
-                  initial={reduce ? false : { opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  {c.short}
-                </motion.span>
-              </AnimatePresence>
+              {/* Keyed, no exit: a "wait" exit could hang on a stale name after a fast multi-chapter jump. */}
+              <motion.span
+                key={c.id}
+                className="min-w-0 flex-1 truncate text-[11px] font-semibold tracked text-[var(--sl-bone)]"
+                initial={reduce ? false : { opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25 }}
+              >
+                {c.short}
+              </motion.span>
               <span className="shrink-0 text-[10px] tracked text-white/50">{c.date}</span>
               <motion.span aria-hidden className="text-[9px] text-white/50" animate={{ rotate: open ? 180 : 0 }}>
                 ▼

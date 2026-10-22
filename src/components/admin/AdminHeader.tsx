@@ -17,6 +17,11 @@ export function AdminHeader({ title, backHref }: { title: string; backHref?: str
         )}
         <h1 className="mt-1 text-xl font-semibold text-sand">{title}</h1>
       </div>
+      <nav aria-label="Admin sections" className="flex gap-4 text-xs text-sand/60">
+        <Link href="/admin/applications" className="hover:text-sand">Applications</Link>
+        <Link href="/admin/guests" className="hover:text-sand">Guests</Link>
+        <Link href="/admin/reviews" className="hover:text-sand">Reviews</Link>
+      </nav>
       <form action={signOutAction}>
         <button type="submit" className="border border-sand/25 px-3 py-1.5 text-xs text-sand/70 hover:border-sand/50 hover:text-sand">
           Sign out

@@ -58,7 +58,7 @@ function Hops() {
   }, []);
 
   return (
-    <section className="relative" aria-label="Beach-hopping down the south coast">
+    <section className="relative" aria-label="From the coast, inland to Ella">
       {/* the coast behind the words, pinned while they pass */}
       <div className="sticky top-0 -mb-[100svh] h-[100svh] overflow-hidden">
         <FrameStack frames={world5.hops.map((h) => h.slot)} active={active} tint="linear-gradient(90deg, rgba(4,30,36,0.82) 0%, rgba(4,30,36,0.45) 55%, rgba(4,30,36,0.15) 100%)" />
@@ -67,7 +67,7 @@ function Hops() {
 
       <div className="relative z-10 px-5 py-[30svh] sm:px-8 lg:px-14">
         <Tag color="#3FD0BF" className="mb-10">
-          BEACH-HOPPING · THE SOUTH COAST
+          {world5.hopsLabel}
         </Tag>
         <ol>
           {world5.hops.map((h, i) => (

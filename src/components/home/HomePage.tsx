@@ -14,6 +14,9 @@ import { MomentsWall } from "./MomentsWall";
 import { Trust } from "./Trust";
 import { WhereNext } from "./WhereNext";
 import { FinalScene } from "./FinalScene";
+import { ReviewsSection } from "./ReviewsSection";
+import { listApprovedReviews } from "@/lib/reviewsStore";
+import { statsOf } from "@/lib/reviews";
 
 /**
  * THE BRAND HOMEPAGE — the trailer for the whole universe.
@@ -37,7 +40,13 @@ import { FinalScene } from "./FinalScene";
  * hrefs — all derived from the journey content files) and hands plain data to
  * the client sections, so none of that content ships to the browser twice.
  */
-export function HomePage() {
+export async function HomePage() {
+  // Approved reviews only. An empty list renders no section at all (see ReviewsSection).
+  const allReviews = await listApprovedReviews();
+  const reviewStats = statsOf(allReviews);
+  // Featured first (the store already orders them so); the strip shows the first eight.
+  const stripReviews = allReviews.slice(0, 8);
+
   // The menu and the hero list a trip by what it is CALLED (THAILAND + EDC), not by its panel's big name.
   const navWorlds = WORLDS.map(({ key, label, kicker, href, journeyId }) => ({ key, name: label, kicker, href, journeyId }));
   const heroTrips = WORLDS.map((w) => ({ key: w.key, label: w.label, href: w.href, journeyId: w.journeyId }));
@@ -73,6 +82,7 @@ export function HomePage() {
         {/* Hidden, not deleted: flip SHOW_MOMENTS_WALL in content/home.ts to bring the photo wall back. */}
         {SHOW_MOMENTS_WALL && <MomentsWall />}
         <Trust ledger={ledger} />
+        {stripReviews.length > 0 && <ReviewsSection reviews={stripReviews} count={reviewStats.count} average={reviewStats.average} />}
         <WhereNext worlds={WORLDS} />
         <FinalScene />
       </main>

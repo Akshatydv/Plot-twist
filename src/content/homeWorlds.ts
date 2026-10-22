@@ -115,7 +115,7 @@ export const WORLDS: World[] = [
     dates: GOA.when,
     datesShort: "30 DEC – 2 JAN",
     duration: goaDuration(),
-    price: goaPrice.confirmed ? rupees(goaPrice.amount) : null,
+    price: goaPrice.confirmed ? rupees(goaPrice.amount) : "ON REQUEST",
     status: { label: "APPLICATIONS OPEN", open: true },
     media: MEDIA.GOA_VIDEO,
     theme: {

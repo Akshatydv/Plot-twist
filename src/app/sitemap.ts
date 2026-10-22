@@ -49,5 +49,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...home, ...journeys, ...guides];
+  const reviews = [{ url: `${SITE_URL}/reviews`, lastModified: new Date(), changeFrequency: "weekly" as const, priority: 0.6 }];
+
+  return [...home, ...journeys, ...guides, ...reviews];
 }

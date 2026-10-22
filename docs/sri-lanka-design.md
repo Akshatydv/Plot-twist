@@ -18,22 +18,28 @@ and tea cup. What is new is said below.
 
 ## 2. The rhythm
 
+Route: **GALLE → AHANGAMA → MIRISSA → ELLA** (arrive and leave via Colombo airport).
+Positioning: **slow southern Sri Lanka · New Year · coast to mountains.** Less rush. More story.
+
 ```
 video hero → black → THROUGH THE LETTERS → jungle (the film index)
-→ 01 saffron  THE ESCAPE        card · departures board · road reel · Ella at sunset
-→ 02 green    THE WILD SIDE     card · five-beat sideways reel (08:40 → 21:00)
-→ 03 black/   THE COUNTDOWN     card · light ramp (11:00 → 23:59) · Midnight in Paradise · countdown → 2027
-     hibiscus
-→ 04 PAPER    THE MORNING AFTER slow lines · draggable prints · first swim (circle reveal)
-→ 05 lagoon   SALT & SUN        card · beach-hop words over a changing coast · the floating sunset
-→ 06 violet   ONE LAST NIGHT    card · the drive home (memory pile) · the Last Supper + awards
-→ 07 black    THE END?          credits roll · "You came for Sri Lanka. You left with a story."
+→ 01 saffron  29 DEC  THE BEGINNING        card · departures board · airport→Galle road reel · first night in Galle
+→ 02 green    30 DEC  THE CREATIVE COAST   card · Ahangama day reel (fort coffee → surf → cafés → stilts at golden hour → night)
+→ 03 black/   31 DEC  THE COUNTDOWN        card · light ramp (Ahangama 09:30 → coast road → Mirissa → beach → sunset → 23:59)
+     hibiscus                              · Midnight in Paradise (a curated coastal NYE, no venue named) · countdown → 2027
+→ 04 PAPER    1 JAN   THE FIRST DAY        slow lines · prints (breakfast, Coconut Tree Hill, surfboards, hammock) · first swim
+→ 05 lagoon   2 JAN   THE ASCENT           card · OCEAN → GREEN → THE CLIMB → TEA COUNTRY → ELLA · mountain sunset
+→ 06 violet   3 JAN   THE FINALE           card · the Ella day as a pile of prints · the Last Supper (final night) + awards
+→ 07 black    4 JAN   THE WAY HOME         roll: last breakfast → final views → the whole trip → Colombo · closing line
 → post-credits: THERE'S ONE MORE PLOT TWIST (locked, "revealed on Day 3")
-→ what's included → who is this for → casting board → the details → final CTA → form
+→ what's included → who is this for → casting board → the details (₹54,999) → final CTA → form
 ```
 
-The loudest, darkest moment (2027 in fireworks) cuts straight to the only
-paper-light chapter (January 1). That cut is the emotional argument.
+The route has changed twice (Ella-first, then Kandy-first, now Galle-first).
+Each time only content changed: every world keeps its component, layout,
+palette and motion. Mirissa, Ahangama and Hiriketiya on 1 Jan are places to
+drift to, not a schedule. The same route is in the PDF dossier
+(make-srilanka-dossier.js).
 
 ## 3. The set pieces
 
@@ -41,7 +47,7 @@ paper-light chapter (January 1). That cut is the emotional argument.
 | --- | --- | --- |
 | Hero | `IslandHero.tsx` | Two cuts of one montage — 16:9 and 9:16 — chosen once after hydration; art-directed poster via `<picture>` is the first paint. Pushes in and goes black as you leave. |
 | Entry | `Entry.tsx` | WELCOME TO SRI LANKA in white on a black layer with `mix-blend-mode: multiply` over jungle footage → the island is visible *only through the letters*; the letters scale ×26 and you fly through them. |
-| Chapter navigator | `Chrome.tsx` | `01 / 07 · THE ESCAPE · 29 DEC` pinned top, seven segments that fill per chapter, tap to jump. |
+| Chapter navigator | `Chrome.tsx` | `01 / 07 · THE BEGINNING · 29 DEC` pinned top, seven segments that fill per chapter, tap to jump. |
 | Reels | `Kit.tsx → HorizontalReel` | Pinned sideways scroll, distance measured not assumed; reduced motion → native snap scroller. |
 | Light ramp | `WorldCountdown.tsx` | Ten stages, one pinned frame, a clock that interpolates minute by minute, a wash that darkens and heats. |
 | Countdown | `WorldCountdown.tsx` | 23:59:50 → 00:00:00 scrubbed by scroll, ring fills, then fireworks footage + canvas `Burst` + 2027. Scroll back = un-happen it. |
@@ -66,12 +72,19 @@ so it inherits the colour tokens.
 
 ## 5. What's honest, and what isn't decided
 
-- **Price**: COMING SOON (`price.confirmed: false`). Flip it and the details and
-  sticky CTA can carry the number.
+- **Price**: ₹54,999 per person (early bird ₹49,999, final ₹59,999), flights
+  not included. Lives in `price` in content/srilanka.ts; the homepage card and
+  the dossier read the same numbers.
 - **Inclusions**: the brief's categories, flagged as being finalised.
 - **Seats**: 16 — the brief's own number. Confirm.
-- **08:40 at Nine Arches**: a story beat. Trains cross several times a day;
-  check the 30 Dec timetable or soften the line.
+- **Nine Arches** (3 Jan): no train time is stated anywhere — trains cross
+  several times a day; check the timetable on the day.
+- **Not named anywhere on purpose**: hotels, the NYE venue, restaurants,
+  activity prices, which coastal town is the base. The tea estate is "to be
+  confirmed".
+- **Hiriketiya has no photo**: no openly licensed image of it exists on
+  Commons/Openverse, so it is named in text only and never pinned to a
+  photo of another beach. Add a real one when there is one.
 - **The secret**: deliberately unwritten.
 - Moment imagery (fireworks, parties, breakfasts, the boat, most footage) is
   from elsewhere and never labelled as Sri Lanka. Credits render on the page.

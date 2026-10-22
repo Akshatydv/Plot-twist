@@ -285,7 +285,9 @@ function Panel({
   const facts: { k: string; v: string | null }[] = [
     { k: "DATES", v: w.dates },
     { k: "DURATION", v: w.duration },
-    { k: "FROM", v: w.price ? `${w.price} / person` : null },
+    w.price && !w.price.startsWith("₹")
+      ? { k: "PRICE", v: w.price }
+      : { k: "FROM", v: w.price ? `${w.price} / person` : null },
     { k: "STATUS", v: w.status.label },
   ];
 
