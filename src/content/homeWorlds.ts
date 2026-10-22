@@ -108,12 +108,12 @@ export const WORLDS: World[] = [
     followHref: brand.instagramUrl,
     name: "GOA",
     label: "GOA",
-    fineprint: goaPrice.note,
-    kicker: "JOURNEY 1 · THE FIRST PLOT",
-    tagline: "Four days. One yacht. Zero early nights.",
+    fineprint: goaPrice.confirmed ? goaPrice.note : goaPrice.pendingNote,
+    kicker: "JOURNEY 1 · NEW YEAR'S EDITION",
+    tagline: "One countdown. One yacht. Zero early nights.",
     vibes: ["PARTY", "BEACHES", "YACHTS", "PEOPLE"],
     dates: GOA.when,
-    datesShort: "OCT 2026",
+    datesShort: "30 DEC – 2 JAN",
     duration: goaDuration(),
     price: goaPrice.confirmed ? rupees(goaPrice.amount) : null,
     status: { label: "APPLICATIONS OPEN", open: true },
@@ -192,16 +192,16 @@ export const WORLDS: World[] = [
     followHref: brand.instagramUrl,
     name: "SRI LANKA",
     label: "SRI LANKA",
-    // Until a price exists the page says so itself; that sentence is the honest fine print.
+    // The price line from content/srilanka.ts: tiers and "flights not included".
     fineprint: slPrice.confirmed ? slPrice.note : slPrice.pendingNote,
     kicker: journeyById("JOURNEY 4")?.nav?.kicker ?? "JOURNEY 4",
-    tagline: "Seven days. One island. One New Year.",
-    vibes: ["TEA HILLS", "TRAINS", "SOUTH COAST", "NEW YEAR'S EVE"],
+    tagline: "A slow southern Sri Lanka escape. One New Year.",
+    vibes: ["GALLE", "SURF COAST", "NEW YEAR'S EVE", "ELLA"],
     // With the year on both ends: this one crosses into 2027, and "29 DEC — 4 JAN" alone doesn't say so.
     dates: abbreviateMonths(slTrip.datesLong),
     datesShort: slTrip.dates,
     duration: slTrip.length,
-    // Not confirmed yet — the page itself says "pricing is being finalised". TBA, not a guess.
+    // ₹54,999, read from content/srilanka.ts.
     price: slPrice.confirmed ? rupees(slPrice.amount) : null,
     status: { label: "WAITLIST OPEN", open: true },
     media: MEDIA.SRILANKA_VIDEO,
@@ -212,7 +212,7 @@ export const WORLDS: World[] = [
       accent2: "#FFD79A",
       type: "display",
       scrim:
-        // Heavier through the middle than the other worlds: the Colombo skyline is bright and
+        // Heavier through the middle than the other worlds: the bright coastal frames are
         // busy exactly where the facts sit, and white type on it needs a real floor.
         "linear-gradient(180deg,rgba(27,18,6,0.5) 0%,rgba(27,18,6,0.05) 26%,rgba(27,18,6,0.62) 46%,rgba(22,13,4,0.86) 64%,rgba(18,10,3,0.96) 100%)",
     },

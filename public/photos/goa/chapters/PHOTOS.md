@@ -79,3 +79,5 @@ Video backgrounds are wired but unused: drop a muted loop at
 `/videos/goa/<chapter>.mp4` and set `video` on that chapter in
 `src/content/goa.ts`. The scene upgrades from photo to video with no code
 change, and falls back to the photo on reduced-motion.
+
+| `nye.jpg` | `1720211394746-58fd2241d8e4` (page `iTE1345XL3I`) | Two people on a beach at night watching fireworks burst overhead | CHAPTER 02 — New Year's Eve (New Year's edition) |

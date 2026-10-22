@@ -1,6 +1,6 @@
 "use client";
 
-import { chapters, route, theNight } from "@/content/goa";
+import { chapters, route, routeLabel, theNight } from "@/content/goa";
 import { Note, Stamp } from "../Bits";
 import { Reveal, Stagger, StaggerItem } from "../motion";
 import { Arrow } from "../Brush";
@@ -9,6 +9,10 @@ import { Scene, SceneDetail, SceneSlate } from "./Scene";
 const ch = chapters[2];
 
 /**
+ * NEW YEAR'S EDITION: this component now renders New Year's Eve (chapters[2],
+ * shown second on the page). The route strip is the countdown. The name is
+ * kept so the October layout notes below still make sense.
+ *
  * CHAPTER 03 — LOST IN GOA.
  *
  * THE SCENE, THE ASYMMETRY, THE QUICK ROUTE STRIP — all unchanged. This
@@ -45,7 +49,7 @@ export function ChapterLostInGoa() {
             <Reveal delay={0.18} className="order-2 lg:order-1">
               <div className="grid gap-5 sm:grid-cols-2 lg:gap-6">
                 {ch.details.map((d) => (
-                  <SceneDetail key={d.k} k={d.k} v={d.v} accent="#5FD9A8" />
+                  <SceneDetail key={d.k} k={d.k} v={d.v} accent="#FFC76B" />
                 ))}
               </div>
             </Reveal>
@@ -56,7 +60,7 @@ export function ChapterLostInGoa() {
               <h2 className="font-display text-[clamp(2.6rem,13vw,7.2rem)] uppercase leading-[0.84] tracking-[-0.015em] text-sand drop-shadow-[0_4px_28px_rgba(0,0,0,0.6)]">
                 {ch.titleLines[0]}
                 <br />
-                <span className="text-[#5FD9A8]">{ch.titleLines[1]}</span>
+                <span className="text-[#FFC76B]">{ch.titleLines[1]}</span>
               </h2>
             </Reveal>
 
@@ -87,7 +91,7 @@ export function ChapterLostInGoa() {
                     <p className="font-serif text-[clamp(1.2rem,3.6vw,1.6rem)] italic leading-[1.15] text-sand">
                       {beat.line}
                     </p>
-                    <Stamp color="#5FD9A8" rotate={2}>
+                    <Stamp color="#FFC76B" rotate={2}>
                       {beat.reply}
                     </Stamp>
                   </div>
@@ -96,8 +100,8 @@ export function ChapterLostInGoa() {
 
               // the place-name run — a bordered pull-quote, same language as Flamingo's Chapora line
               return (
-                <div key={i} className="border-l-2 border-[#5FD9A8]/70 py-0.5 pl-4 text-left sm:pl-5">
-                  <p className="font-serif text-[clamp(1.05rem,3vw,1.3rem)] italic leading-[1.35] text-[#5FD9A8]">
+                <div key={i} className="border-l-2 border-[#FFC76B]/70 py-0.5 pl-4 text-left sm:pl-5">
+                  <p className="font-serif text-[clamp(1.05rem,3vw,1.3rem)] italic leading-[1.35] text-[#FFC76B]">
                     {beat.line}
                   </p>
                 </div>
@@ -110,8 +114,8 @@ export function ChapterLostInGoa() {
         <Reveal delay={0.1}>
           <div className="mt-9 border-t border-sand/20 pt-6">
             <div className="flex items-center gap-3">
-              <span className="text-[9px] tracked text-[#5FD9A8]">THE ROUTE</span>
-              <Arrow color="#5FD9A8" className="h-6 w-8 rotate-[100deg] opacity-60" />
+              <span className="text-[9px] tracked text-[#FFC76B]">{routeLabel}</span>
+              <Arrow color="#FFC76B" className="h-6 w-8 rotate-[100deg] opacity-60" />
             </div>
 
             {/* scrolls rather than wraps — a route that wraps is a list again */}
@@ -142,7 +146,7 @@ export function ChapterLostInGoa() {
             menu, because nobody has decided them yet — that's the joke. */}
         <Reveal delay={0.12}>
           <div className="mt-8 border-t border-sand/20 pt-6 lg:text-right">
-            <span className="text-[9px] tracked text-[#5FD9A8]">{theNight.label}</span>
+            <span className="text-[9px] tracked text-[#FFC76B]">{theNight.label}</span>
 
             <p className="mt-3 font-display text-[clamp(1.05rem,3.2vw,1.45rem)] uppercase leading-tight text-sand/85 lg:ml-auto lg:max-w-[34ch]">
               {theNight.options}

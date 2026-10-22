@@ -43,7 +43,7 @@ export const JOURNEY_1: JourneyConfig = {
   slug: "1",
   displayName: "Journey 1 · Goa",
   /** The reveal page — Goa is stated in its own hero, so naming it costs nothing. */
-  nav: { label: "GOA", kicker: "JOURNEY 1 · OCTOBER 2026" },
+  nav: { label: "GOA", kicker: "JOURNEY 1 · NEW YEAR'S" },
   campaignId: "journey00_launch",
   /**
    * Goa is stated outright — see content/goa.ts for the page this renders.
@@ -57,9 +57,11 @@ export const JOURNEY_1: JourneyConfig = {
   /** Same reasoning as `nav` above: Goa is in this page's own hero, so naming
    *  it in the title costs nothing and is what lets the page be found. */
   seo: {
-    title: "Goa Group Trip for 20 Strangers, October 2026 | Plot Twist",
+    title: "Goa New Year's Group Trip, 30 Dec – 2 Jan | Plot Twist",
     description:
-      "Twenty people who didn't know each other, one crew, four days in Goa this October. Not a tour — a cast. Apply, and a real person reads every word of it.",
+      "New Year's in Goa with twenty people who didn't know each other. A Bollywood night, the New Year's party, a yacht sundowner and a slow last morning, 30 Dec – 2 Jan. Apply, and a real person reads every word of it.",
+    startDate: "2026-12-30",
+    endDate: "2027-01-02",
   },
 
   pageVariant: "reveal",

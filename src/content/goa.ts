@@ -1,5 +1,15 @@
 /**
- * GOA — JOURNEY 1'S REVEAL PAGE.
+ * GOA — JOURNEY 1'S REVEAL PAGE. NEW YEAR'S EDITION.
+ *
+ * The October trip (17–20 Oct 2026) has run. This page now sells the New
+ * Year's edition: 30 Dec 2026 – 2 Jan 2027. Confirmed by the site owner on
+ * 22 Oct 2026: the four nights (Bollywood night on the 30th, the New Year's
+ * party on the 31st, a yacht sundowner with drinks on the 1st, the Hangover
+ * Club on the 2nd), the stay described only as a luxury property, and the
+ * price on request. Nothing else about the New Year trip has been confirmed,
+ * so the inclusions list is modelled as pending. The October price and
+ * inclusions live on as `octoberPrice` / `octoberInclusions` below, because
+ * the October guest terms page (app/guest/goa-2026/terms) still reads them.
  *
  * All copy for the "reveal" page variant lives here, the same way every other
  * word on this site lives in content/. Components read; they never hold copy.
@@ -68,7 +78,7 @@ export function goaIndex(key: GoaSectionKey): string {
  */
 export const GOA = {
   destination: "GOA",
-  when: "OCTOBER 2026",
+  when: "NEW YEAR'S · 30 DEC – 2 JAN",
   days: "4 DAYS",
   cast: "20 PEOPLE",
   split: "10 GIRLS + 10 GUYS",
@@ -107,7 +117,7 @@ export const goaHero = {
   line1: "You've found",
   line2: "the plot.",
   /** The emotional hook — large, but clearly subordinate to line1/line2. */
-  secondary: "The kind of trip you'll be talking about after.",
+  secondary: "The kind of New Year you'll be talking about all year.",
   /** Lighter, smaller, a confident aside rather than a second headline. */
   subheading: "And it hasn't even started yet.",
   /** One line, dot-separated — the offer, stated once, playfully. */
@@ -255,7 +265,7 @@ export type Chapter = {
 export const chapters: Chapter[] = [
   {
     id: "bollywood",
-    day: "FRIDAY",
+    day: "WED 30 DEC",
     index: "01",
     title: "BOLLYWOOD AFTER DARK",
     titleLines: ["BOLLYWOOD", "AFTER DARK"],
@@ -290,29 +300,29 @@ export const chapters: Chapter[] = [
   },
   {
     id: "flamingo",
-    day: "SATURDAY",
-    index: "02",
-    title: "WHITE FLAMINGO",
-    titleLines: ["WHITE", "FLAMINGO"],
+    day: "FRI 1 JAN",
+    index: "03",
+    title: "THE FIRST SUNSET",
+    titleLines: ["THE FIRST", "SUNSET"],
     // The whole day in one line. Saturday is the signature chapter, so it
     // gets the shortest copy of the four, not the longest — the earlier
     // version ran to eight prose beats and read as an itinerary.
-    tagline: "Slow morning. Iconic Goa. Then everything goes white.",
+    tagline: "Slow morning. Then the first sunset of the year, on the water.",
     // Unused — this chapter reads `story` and `details` below.
-    body: ["Slow morning, Chapora Fort, café hopping, then sunset offshore in all white."],
+    body: ["A slow first morning of the year, then a yacht sundowner with drinks."],
     // ONE moment, kept because it's the culture-specific beat nothing else on
     // the page has. The "Same time next year? / Obviously." exchange that used
     // to sit here was cut: The Hangover Club now closes the whole trip on
     // "Same people next time? / Obviously.", and the same punchline landing
     // twice made neither of them hit.
-    story: [{ kind: "moment", line: "Chapora Fort. Our own Dil Chahta Hai moment — obviously." }],
-    note: "Yes, everyone's in white. Yes, it photographs exactly like that.",
+    story: [{ kind: "moment", line: "New year. Same crew. Out on the water as the sun goes down." }],
+    note: "the first group photo of the year. make it count.",
     // Two halves, not a seven-stop chain — the day splits cleanly at the
     // point everyone changes into white, and that split is this chapter's
     // own composition (see components/goa/ChapterFlamingo.tsx).
     details: [
-      { k: "THE DAY", v: "Breakfast. Pool. Chapora Fort. Café hopping." },
-      { k: "THE NIGHT", v: "Sunset yacht. Thalassa. Purple Martini. Whatever comes after." },
+      { k: "THE DAY", v: "Sleep in. Breakfast. Pool. Recover from last year." },
+      { k: "THE EVENING", v: "Yacht sundowner. Drinks on deck. The first sunset of 2027." },
     ],
     scene: {
       video: null,
@@ -326,14 +336,14 @@ export const chapters: Chapter[] = [
     },
   },
   {
-    id: "lost",
-    day: "SUNDAY",
-    index: "03",
-    title: "LOST IN GOA",
-    titleLines: ["LOST", "IN GOA"],
-    tagline: "No dress code. No rush. Just follow the road.",
+    id: "nye",
+    day: "THU 31 DEC",
+    index: "02",
+    title: "NEW YEAR'S EVE",
+    titleLines: ["NEW YEAR'S", "EVE"],
+    tagline: "The last night of the year. Spent with the right people.",
     // Unused — this chapter reads `story` below.
-    body: ["Open jeeps, the coast road, and nowhere in particular to be on time."],
+    body: ["A slow day, then the New Year's party."],
     // Down from five beats to two. The place-name run that used to sit here
     // ("Cabo de Rama. Cola. Palolem…") was cut because THE ROUTE strip below
     // already IS that list — printing it twice was most of why this chapter
@@ -341,36 +351,36 @@ export const chapters: Chapter[] = [
     story: [
       {
         kind: "p",
-        text: "We head south. We stop wherever looks good, and keep finding places we weren't planning to find.",
+        text: "Take the day slow. Save the energy. By evening, everyone's getting ready for the same night.",
       },
-      { kind: "moment", line: "Somebody says let's just drive.", reply: "Nobody argues." },
+      { kind: "moment", line: "Ten. Nine. Eight…", reply: "Happy New Year." },
     ],
-    note: "That's kind of the point.",
+    note: "midnight hugs with people you met two days ago.",
     // No details row and no dress-code stamp, on purpose: the tagline already
     // says "No dress code", and this is the one chapter whose character is
     // that nothing is prescribed. THE ROUTE is its signature instead.
     details: [],
     scene: {
       video: null,
-      poster: "/photos/goa/chapters/lost.jpg",
-      alt: "The view through a windscreen driving down a palm-lined coastal road, ocean to the left",
-      focal: "50% 58%",
-      focalMobile: "52% 62%",
+      poster: "/photos/goa/chapters/nye.jpg",
+      alt: "Two people on a beach at night watching fireworks burst overhead",
+      focal: "50% 30%",
+      focalMobile: "50% 34%",
       scrim:
         "linear-gradient(180deg, rgba(8,20,26,0.50) 0%, rgba(8,20,26,0.14) 30%, rgba(10,16,24,0.60) 70%, rgba(10,12,20,0.92) 100%)",
     },
   },
   {
     id: "hangover",
-    day: "MONDAY",
+    day: "SAT 2 JAN",
     index: "04",
     title: "THE HANGOVER CLUB",
     titleLines: ["THE HANGOVER", "CLUB"],
     tagline: "Nobody's ready to leave.",
     body: [
       "Coffee. Pool. Beach air. Brunch. One last slow morning before reality starts calling.",
-      "After three days of doing the absolute most, Monday is deliberately easy.",
-      "No alarms. No rushing. Just twenty people soaking up the last few hours of Goa together.",
+      "After three nights of doing the absolute most, the second of January is deliberately easy.",
+      "No alarms. No rushing. Just the crew soaking up the last few hours of Goa together.",
     ],
     // The two closing exchanges — "leaving.", then "same people next time? /
     // obviously." — same moment/reply pattern as White Flamingo and Lost in
@@ -445,14 +455,15 @@ export const roleCall = {
 } as const;
 
 /** LOST IN GOA renders as an actual route rather than a list. */
+export const routeLabel = "THE COUNTDOWN";
 export const route = [
-  "JEEP",
-  "CABO DE RAMA",
-  "WATERFALL",
-  "COLA",
-  "PALOLEM / AGONDA",
-  "SHACK",
-  "SUNSET",
+  "SLOW DAY",
+  "LAST SUNSET OF 2026",
+  "GET READY",
+  "THE PARTY",
+  "THE COUNTDOWN",
+  "MIDNIGHT",
+  "2027",
 ] as const;
 
 /**
@@ -465,9 +476,9 @@ export const route = [
  * gave four throwaway phrases the same vertical weight as the day itself.
  */
 export const theNight = {
-  label: "THE NIGHT",
-  options: "Shack? Beach party? Club hopping? Somewhere nobody expected?",
-  resolve: "We haven't planned it. The group decides.",
+  label: "AFTER MIDNIGHT",
+  options: "Keep dancing? The beach? Wait up for the first sunrise of the year?",
+  resolve: "The night decides. The group follows.",
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -516,13 +527,13 @@ export const homeBase = {
   index: goaIndex("homeBase"),
   label: "THE HOME BASE",
   headline: ["THE", "HOME BASE"],
-  sub: "Because even main characters need somewhere to wake up.",
+  sub: "A luxury property. Because even main characters need somewhere to wake up in the new year.",
   /** The one strong statement under the collage. */
   statement: "WHEREVER WE STAY, IT HAS TO PASS THE VIBE CHECK.",
   /** Mandatory. Understated, never hidden. */
   disclaimer:
-    "Properties shown are representative. Your stay will be at one of our handpicked Goa properties, subject to availability.",
-  stamp: "HANDPICKED · SUBJECT TO AVAILABILITY",
+    "Photos are representative. You'll stay at a luxury property in Goa; the details are shared once you're in.",
+  stamp: "LUXURY STAY · DETAILS ONCE YOU'RE IN",
   /** Commentary, not a facilities list — see the note above. */
   annotations: [
     "vibe check? passed.",
@@ -590,6 +601,15 @@ export const homeBase = {
  * than an inherited default.
  */
 export const price = {
+  confirmed: false,
+  amount: "",
+  note: "Flights, alcohol and personal spends aren't in it.",
+  pending: "PRICE ON REQUEST",
+  pendingNote: "Request your invite and we'll send you the price.",
+} as const;
+
+/** The October 2026 trip's price — read only by the October guest terms page. */
+export const octoberPrice = {
   confirmed: true,
   amount: "FROM ₹14,999 / PERSON",
   note: "Flights, alcohol and personal spends aren't in it.",
@@ -605,7 +625,7 @@ export const price = {
  * Journey 00 story and content, so a reader could reasonably assume they are
  * covered. Naming them costs one line and prevents a dispute on the trip.
  */
-export const inclusions = {
+export const octoberInclusions = {
   confirmed: true,
   included: [
     "3 nights at 4-star properties",
@@ -635,6 +655,14 @@ export const inclusions = {
   pending: "We're finalising the full included / not-included list. Ask us and we'll send it.",
 } as const;
 
+/** The New Year's edition — not confirmed yet, so the call sheet shows `pending`. */
+export const inclusions = {
+  confirmed: false,
+  included: [] as string[],
+  excluded: [] as string[],
+  pending: "We'll send the full included / not-included list with the price. Flights aren't included.",
+} as const;
+
 export const facts = {
   index: goaIndex("facts"),
   label: "THE CALL SHEET",
@@ -649,7 +677,7 @@ export const facts = {
    */
   basics: [
     { k: "WHERE", v: "Goa" },
-    { k: "WHEN", v: "October 2026" },
+    { k: "WHEN", v: "30 Dec 2026 – 2 Jan 2027" },
     { k: "HOW LONG", v: "4 days · 3 nights" },
     { k: "THE CAST", v: "20 people" },
     { k: "THE SPLIT", v: "10 girls + 10 guys" },
@@ -812,7 +840,7 @@ export const howItWorks = {
   steps: [
     { n: "01", t: "REQUEST YOUR INVITE", d: "Under five minutes. Be honest — it’s more interesting." },
     { n: "02", t: "GET SELECTED", d: "A real person reads it. Shortlisted means a real conversation." },
-    { n: "03", t: "GET ON THE PLOT", d: "Goa. October 2026. Nineteen strangers." },
+    { n: "03", t: "GET ON THE PLOT", d: "Goa. New Year's. Nineteen strangers." },
   ],
 } as const;
 
@@ -822,7 +850,7 @@ export const howItWorks = {
 
 export const finalBeat = {
   /** Closes the loop the hero opened — "Come alone. Leave with 19 others." */
-  big: ["YOU CAME FOR GOA.", "YOU'LL LEAVE WITH 19 PEOPLE."],
+  big: ["YOU CAME FOR NEW YEAR'S.", "YOU'LL LEAVE WITH 19 PEOPLE."],
   body: "The destination was never the hard part to get right.",
   seats: "TWENTY SEATS. YOU WANT ONE.",
   cta: { label: "REQUEST YOUR INVITE", href: "#apply" },

@@ -50,7 +50,7 @@ export function GoaPage() {
 
         <div className="relative -mt-4 overflow-hidden">
           <Ticker
-            items={["GOA · OCTOBER 2026", "20 SEATS. NO FILLERS.", "10/10s ONLY", "DO IT FOR THE PLOT"]}
+            items={["GOA · NEW YEAR'S", "30 DEC – 2 JAN", "20 SEATS. NO FILLERS.", "10/10s ONLY", "DO IT FOR THE PLOT"]}
             bg="#FF4F87"
             fg="#FFF1DC"
             rotate={-1.6}
@@ -74,9 +74,11 @@ export function GoaPage() {
 
         {/* the four days — anchor target for the hero's scroll cue */}
         <div id="chapters">
+          {/* New Year's order: 30 Dec Bollywood, 31 Dec NYE (rendered by the
+              Lost-in-Goa component), 1 Jan yacht (the Flamingo component), 2 Jan. */}
           <ChapterBollywood />
-          <ChapterFlamingo />
           <ChapterLostInGoa />
+          <ChapterFlamingo />
           <ChapterHangoverClub />
         </div>
 
@@ -91,7 +93,7 @@ export function GoaPage() {
 
         <div className="relative -mt-4 overflow-hidden">
           <Ticker
-            items={["4 DAYS", "20 PEOPLE", "10 GIRLS + 10 GUYS", "OCTOBER 2026", "APPLICATIONS ARE READ BY HUMANS"]}
+            items={["4 DAYS", "20 PEOPLE", "10 GIRLS + 10 GUYS", "NEW YEAR'S 2026–27", "APPLICATIONS ARE READ BY HUMANS"]}
             bg="#1A0D0A"
             fg="#FFF1DC"
             rotate={1.4}
