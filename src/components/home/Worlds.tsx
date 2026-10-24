@@ -126,8 +126,7 @@ function Intro({ worlds }: { worlds: World[] }) {
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           {worlds.map((w, i) => (
             <li key={w.key} className="font-display text-[clamp(1.2rem,3.4vw,1.8rem)] uppercase" style={{ color: w.theme.accent }}>
-              <span className="mr-1.5 align-top text-[10px] tracked text-sand/40">{String(i + 1).padStart(2, "0")}</span>
-              {w.label}
+                            {w.label}
             </li>
           ))}
         </ul>
@@ -305,9 +304,6 @@ function Panel({
         {/* slate */}
         <div className="flex items-center justify-between gap-4 text-[10px] tracked" style={{ color: top }}>
           <span className="flex items-center gap-3">
-            <span className="font-display text-[15px] tracking-normal opacity-70">
-              {String(index + 1).padStart(2, "0")}/{String(total).padStart(2, "0")}
-            </span>
             <span className="h-px w-8 sm:w-14" style={{ background: top, opacity: 0.4 }} />
             <span>{w.kicker}</span>
           </span>

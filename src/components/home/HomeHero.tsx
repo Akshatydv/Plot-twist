@@ -174,9 +174,6 @@ export function HomeHero({ trips }: { trips: HeroTrip[] }) {
                       aria-hidden
                     />
                     <span className="flex items-baseline gap-2 whitespace-nowrap pt-2.5">
-                      <span className="text-[10px] font-medium tabular-nums tracking-[0.2em] text-sand/55">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
                       <span className="font-serif text-[clamp(1.15rem,4.6vw,1.45rem)] leading-none text-sand">{titleCase(t.label)}</span>
                       <span
                         className="text-sm leading-none text-pink opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100 group-focus-visible:opacity-100"

@@ -100,34 +100,13 @@ function hrefFor(id: string): string | null {
   return j ? journeyHref(j) : null;
 }
 
-export const WORLDS: World[] = [
-  {
-    key: "goa",
-    journeyId: "JOURNEY 1",
-    href: hrefFor("JOURNEY 1"),
-    followHref: brand.instagramUrl,
-    name: "GOA",
-    label: "GOA",
-    fineprint: goaPrice.confirmed ? goaPrice.note : goaPrice.pendingNote,
-    kicker: "JOURNEY 1 · NEW YEAR'S EDITION",
-    tagline: "One countdown. One yacht. Zero early nights.",
-    vibes: ["PARTY", "BEACHES", "YACHTS", "PEOPLE"],
-    dates: GOA.when,
-    datesShort: "30 DEC – 2 JAN",
-    duration: goaDuration(),
-    price: goaPrice.confirmed ? rupees(goaPrice.amount) : "ON REQUEST",
-    status: { label: "APPLICATIONS OPEN", open: true },
-    media: MEDIA.GOA_VIDEO,
-    theme: {
-      bg: "#1A0D0A",
-      fg: "#FFF1DC",
-      accent: "#FF4F87",
-      accent2: "#FFE9A8",
-      type: "brush",
-      scrim:
-        "linear-gradient(180deg,rgba(26,13,10,0.55) 0%,rgba(26,13,10,0.05) 35%,rgba(26,13,10,0.35) 60%,rgba(26,13,10,0.92) 100%),linear-gradient(90deg,rgba(43,15,28,0.55) 0%,transparent 60%)",
-    },
-  },
+/**
+ * Ordered by departure date (Bir, Thailand, Sri Lanka, Goa New Year's).
+ * Kickers carry no journey numbers — trips are named by place only.
+ */
+const noNumber = (k: string) => k.replace(/^JOURNEY\s*\d+\s*[·—-]\s*/i, "").trim();
+
+const WORLD_LIST: World[] = [
   {
     key: "bir",
     // Journey 03 — built and deployed as its own page (content/bir.ts). Every
@@ -164,7 +143,7 @@ export const WORLDS: World[] = [
     name: "THAILAND",
     label: "THAILAND + EDC",
     fineprint: edcPrice.note,
-    kicker: "JOURNEY 3 · EDC THAILAND",
+    kicker: "EDC THAILAND",
     tagline: "Three nights of Thailand. Three nights of festival. One very loud week.",
     vibes: ["FESTIVAL", "ISLANDS", "NIGHTLIFE", "CHAOS"],
     dates: TRIP.dates.confirmed ? TRIP.dates.value : null,
@@ -217,7 +196,36 @@ export const WORLDS: World[] = [
         "linear-gradient(180deg,rgba(27,18,6,0.5) 0%,rgba(27,18,6,0.05) 26%,rgba(27,18,6,0.62) 46%,rgba(22,13,4,0.86) 64%,rgba(18,10,3,0.96) 100%)",
     },
   },
+  {
+    key: "goa",
+    journeyId: "JOURNEY 1",
+    href: hrefFor("JOURNEY 1"),
+    followHref: brand.instagramUrl,
+    name: "GOA",
+    label: "GOA",
+    fineprint: goaPrice.confirmed ? goaPrice.note : goaPrice.pendingNote,
+    kicker: "NEW YEAR'S EDITION",
+    tagline: "One countdown. One yacht. Zero early nights.",
+    vibes: ["PARTY", "BEACHES", "YACHTS", "PEOPLE"],
+    dates: "30 DEC 2026 — 2 JAN 2027",
+    datesShort: "30 DEC – 2 JAN",
+    duration: goaDuration(),
+    price: goaPrice.confirmed ? rupees(goaPrice.amount) : "ON REQUEST",
+    status: { label: "APPLICATIONS OPEN", open: true },
+    media: MEDIA.GOA_VIDEO,
+    theme: {
+      bg: "#1A0D0A",
+      fg: "#FFF1DC",
+      accent: "#FF4F87",
+      accent2: "#FFE9A8",
+      type: "brush",
+      scrim:
+        "linear-gradient(180deg,rgba(26,13,10,0.55) 0%,rgba(26,13,10,0.05) 35%,rgba(26,13,10,0.35) 60%,rgba(26,13,10,0.92) 100%),linear-gradient(90deg,rgba(43,15,28,0.55) 0%,transparent 60%)",
+    },
+  },
 ];
+
+export const WORLDS: World[] = WORLD_LIST.map((w) => ({ ...w, kicker: noNumber(w.kicker) }));
 
 // A world pointing at a journey that isn't in the registry would render a
 // dead ENTER button, and one pointing at a RETIRED journey would send visitors
