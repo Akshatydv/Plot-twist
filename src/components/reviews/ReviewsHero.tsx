@@ -18,7 +18,7 @@ type Shot = { src: string; name: string };
  *
  * The average and count are printed only when they exist.
  */
-export function ReviewsHero({ count, average, shots }: { count: number; average: number | null; shots: Shot[] }) {
+export function ReviewsHero({ count, average, shots, googleUrl }: { count: number; average: number | null; shots: Shot[]; googleUrl?: string | null }) {
   const reduce = useReducedMotion();
   const slots = [0, 1, 2].map((i) => shots[i] ?? null);
   const poses = [
@@ -93,6 +93,14 @@ export function ReviewsHero({ count, average, shots }: { count: number; average:
               )}
             </div>
           </motion.div>
+          {googleUrl && (
+            <motion.p {...rise(0.36)} className="mt-6 text-[0.9rem] text-sand/70">
+              Want an outside opinion?{" "}
+              <a href={googleUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-sand underline decoration-[#FF4F87] decoration-2 underline-offset-4 hover:decoration-sand">
+                Read our Google reviews ↗
+              </a>
+            </motion.p>
+          )}
         </div>
 
         {/* polaroid stack */}

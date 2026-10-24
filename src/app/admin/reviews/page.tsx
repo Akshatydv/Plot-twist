@@ -3,7 +3,7 @@ import { requireAdmin } from "@/lib/admin";
 import { listReviewsForAdmin } from "@/lib/reviewsStore";
 import { tripLabel } from "@/lib/reviews";
 import { AdminHeader } from "@/components/admin/AdminHeader";
-import { moderateReviewAction } from "./actions";
+import { moderateReviewAction, replyReviewAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 
@@ -90,6 +90,24 @@ export default async function AdminReviewsPage({ searchParams }: { searchParams:
                   ))}
                 </ul>
               )}
+
+              <form action={replyReviewAction} className="mt-5">
+                <input type="hidden" name="id" value={r.id} />
+                <label htmlFor={`reply-${r.id}`} className="block text-xs text-sand/50">
+                  Public reply from Plot Twist (optional — shown under the review; leave empty to remove)
+                </label>
+                <textarea
+                  id={`reply-${r.id}`}
+                  name="reply"
+                  rows={2}
+                  maxLength={600}
+                  defaultValue={r.reply ?? ""}
+                  className="mt-1 w-full border border-sand/20 bg-transparent px-3 py-2 text-sm outline-none focus:border-sand/50"
+                />
+                <button type="submit" className="mt-2 border border-sand/30 px-3 py-1.5 text-xs hover:border-sand/60">
+                  {r.reply ? "Update reply" : "Save reply"}
+                </button>
+              </form>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 {r.status !== "APPROVED" && <Btn id={r.id} act="approve" label="Approve" />}

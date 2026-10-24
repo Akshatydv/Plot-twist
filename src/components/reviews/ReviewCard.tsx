@@ -46,6 +46,17 @@ export function ReviewCard({
 
   const meta = [review.city, tripLabel(review.tripId)].filter(Boolean).join(" · ");
 
+  const reply = review.reply ? (
+    <div className="mt-5 border-l-2 pl-3" style={{ borderColor: hasPhoto ? "#FF4F87" : tone.accent }}>
+      <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: hasPhoto ? "#d63a6e" : tone.accent }}>
+        Plot Twist replied
+      </p>
+      <p className={`mt-1 text-[0.92rem] leading-snug ${compact ? "line-clamp-3" : ""}`} style={{ color: hasPhoto ? "rgba(26,13,10,0.75)" : tone.muted }}>
+        {review.reply}
+      </p>
+    </div>
+  ) : null;
+
   const footer = (
     <footer className="mt-5 flex items-end justify-between gap-3">
       <div className="min-w-0">
@@ -112,6 +123,7 @@ export function ReviewCard({
           <Stars rating={review.rating} size={16} />
           <div className="mt-2.5">{quote}</div>
           {footer}
+          {reply}
         </div>
       </motion.article>
     );
@@ -129,6 +141,7 @@ export function ReviewCard({
       <Stars rating={review.rating} size={16} color={tone.accent} empty="rgba(128,128,128,0.35)" />
       <div className="relative mt-3">{quote}</div>
       {footer}
+      {reply}
     </motion.article>
   );
 }

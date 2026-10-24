@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
 import { isUuid } from "@/lib/guestRegistration";
-import { deleteReview, setReviewFeatured, setReviewStatus } from "@/lib/reviewsStore";
+import { deleteReview, setReviewFeatured, setReviewReply, setReviewStatus } from "@/lib/reviewsStore";
 
 /** Every action re-checks requireAdmin() — middleware is not the only gate. */
 function refresh() {
@@ -26,5 +26,14 @@ export async function moderateReviewAction(formData: FormData) {
   else if (act === "unfeature") await setReviewFeatured(id, false);
   else if (act === "delete") await deleteReview(id);
   else return;
+  refresh();
+}
+
+/** Save (or, when empty, remove) the team's public reply. */
+export async function replyReviewAction(formData: FormData) {
+  await requireAdmin();
+  const id = String(formData.get("id") ?? "");
+  if (!isUuid(id)) return;
+  await setReviewReply(id, String(formData.get("reply") ?? ""));
   refresh();
 }

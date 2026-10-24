@@ -31,6 +31,7 @@ type Row = {
   verified: boolean;
   featured: boolean;
   created_at: string;
+  reply: string | null;
 };
 
 const toPublic = (r: Row): PublicReview => ({
@@ -44,6 +45,7 @@ const toPublic = (r: Row): PublicReview => ({
   verified: r.verified,
   featured: r.featured,
   createdAt: r.created_at,
+  reply: r.reply ?? null,
 });
 
 /**
@@ -60,7 +62,7 @@ export async function listApprovedReviews(limit = 60): Promise<PublicReview[]> {
   try {
     const { data, error } = await serviceRoleClient()
       .from(TABLE)
-      .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at")
+      .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,reply")
       .eq("status", "APPROVED")
       .order("featured", { ascending: false })
       .order("created_at", { ascending: false })
@@ -110,9 +112,16 @@ async function isVerifiedGuest(reference: string, tripId: string): Promise<boole
 }
 
 export class ReviewStorageError extends Error {}
+/** This guest has already left a review through their personal link. */
+export class AlreadyReviewedError extends Error {}
 
 /** Saves a review as PENDING with its (already normalised) photos. Returns the new id. */
-export async function saveReview(input: ReviewInput & { body: string; name: string; city: string }, photos: Buffer[]): Promise<string> {
+export async function saveReview(
+  input: ReviewInput & { body: string; name: string; city: string },
+  photos: Buffer[],
+  /** Set when the review came through the guest's personal link: auto-verified, one per guest. */
+  registrationId: string | null = null
+): Promise<string> {
   if (!isSupabaseConfigured) {
     if (process.env.NODE_ENV === "development") {
       // Dev without Supabase: accept and discard, so the form is testable. Nothing is shown anywhere.
@@ -123,7 +132,7 @@ export async function saveReview(input: ReviewInput & { body: string; name: stri
   }
 
   const db = serviceRoleClient();
-  const verified = input.reference ? await isVerifiedGuest(input.reference, input.tripId) : false;
+  const verified = registrationId ? true : input.reference ? await isVerifiedGuest(input.reference, input.tripId) : false;
 
   const paths: string[] = [];
   for (const buf of photos.slice(0, REVIEW_LIMITS.photos)) {
@@ -146,14 +155,17 @@ export async function saveReview(input: ReviewInput & { body: string; name: stri
       body: input.body,
       photos: paths,
       verified,
+      registration_id: registrationId,
       publish_consent: true,
     })
     .select("id")
     .single();
 
   if (error || !data) {
-    console.error("[plot] review insert failed, pg code:", error?.code ?? "unknown");
     if (paths.length) await db.storage.from(PHOTO_BUCKET).remove(paths).catch(() => undefined);
+    // The one-review-per-guest index: a second submit through the same personal link.
+    if (error?.code === "23505" && registrationId) throw new AlreadyReviewedError();
+    console.error("[plot] review insert failed, pg code:", error?.code ?? "unknown");
     throw new ReviewStorageError("insert failed");
   }
   return data.id as string;
@@ -168,7 +180,7 @@ export type AdminReview = PublicReview & { status: "PENDING" | "APPROVED" | "REJ
 export async function listReviewsForAdmin(status?: string): Promise<AdminReview[]> {
   let q = serviceRoleClient()
     .from(TABLE)
-    .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,status")
+    .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,reply,status")
     .order("created_at", { ascending: false })
     .limit(200);
   if (status && ["PENDING", "APPROVED", "REJECTED"].includes(status)) q = q.eq("status", status);
@@ -189,6 +201,23 @@ export async function setReviewFeatured(id: string, featured: boolean) {
   // Only an approved review can be featured.
   const { error } = await serviceRoleClient().from(TABLE).update({ featured }).eq("id", id).eq("status", "APPROVED");
   if (error) throw error;
+}
+
+/** Set or clear the team's public reply. */
+export async function setReviewReply(id: string, reply: string) {
+  const text = reply.replace(/\r\n?/g, "\n").trim().slice(0, 600);
+  const { error } = await serviceRoleClient()
+    .from(TABLE)
+    .update({ reply: text || null, replied_at: text ? new Date().toISOString() : null })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+/** Which registrations have already left a review — for the admin guest list. */
+export async function reviewedRegistrationIds(): Promise<Set<string>> {
+  const { data, error } = await serviceRoleClient().from(TABLE).select("registration_id").not("registration_id", "is", null);
+  if (error) throw error;
+  return new Set((data ?? []).map((r) => r.registration_id as string));
 }
 
 export async function deleteReview(id: string) {

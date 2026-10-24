@@ -6,7 +6,8 @@ import {
   validateReview,
   type ReviewInput,
 } from "@/lib/reviews";
-import { ReviewStorageError, normalisePhoto, saveReview } from "@/lib/reviewsStore";
+import { AlreadyReviewedError, ReviewStorageError, normalisePhoto, saveReview } from "@/lib/reviewsStore";
+import { lookupInvite } from "@/lib/reviewInvite";
 import { clientIp, rateLimit } from "@/lib/rateLimit";
 import { sendReviewAlert } from "@/lib/notifications/reviewEmail";
 
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
 
   const raw = form.get("payload");
   if (typeof raw !== "string" || raw.length > 10_000) return json({ ok: false, error: "Malformed request." }, 400);
-  let body: Partial<ReviewInput> & { website?: unknown };
+  let body: Partial<ReviewInput> & { website?: unknown; token?: unknown };
   try {
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error();
@@ -70,6 +71,17 @@ export async function POST(request: Request) {
 
   // Honeypot: look successful, save nothing.
   if (typeof body.website === "string" && body.website.trim()) return json({ ok: true }, 201);
+
+  // Personal review link: the server, not the browser, decides who this is and which trip it was.
+  let registrationId: string | null = null;
+  if (body.token !== undefined && body.token !== "") {
+    const invitee = typeof body.token === "string" ? await lookupInvite(body.token) : null;
+    if (!invitee) return json({ ok: false, error: "This review link isn’t valid any more. Ask us for a fresh one." }, 400);
+    if (invitee.alreadyReviewed) return json({ ok: false, already: true, error: "You’ve already shared your review — thank you!" }, 409);
+    registrationId = invitee.registrationId;
+    body.tripId = invitee.tripId;
+    body.reference = "";
+  }
 
   const errors = validateReview(body);
   const files = form.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
@@ -95,11 +107,15 @@ export async function POST(request: Request) {
   try {
     await saveReview(
       { name, city, tripId: String(body.tripId), rating: Number(body.rating), body: text, reference: String(body.reference ?? ""), consent: true },
-      photos
+      photos,
+      registrationId
     );
     after(() => sendReviewAlert({ name, rating: Number(body.rating), excerpt: text.slice(0, 240), photos: photos.length }));
     return json({ ok: true }, 201);
   } catch (err) {
+    if (err instanceof AlreadyReviewedError) {
+      return json({ ok: false, already: true, error: "You’ve already shared your review — thank you!" }, 409);
+    }
     if (err instanceof ReviewStorageError) {
       return json({ ok: false, error: "We couldn’t save your review just now. Your words are still here — please try again." }, 503);
     }

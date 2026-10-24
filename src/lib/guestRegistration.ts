@@ -29,7 +29,14 @@ export const GUEST_TRIP = {
   journeyId: "JOURNEY 1",
   /** Route this flow lives at. */
   path: "/guest/goa-2026",
+  /** Registration closes when the trip starts. After this the page says so and the API refuses. */
+  closesAt: "2026-10-17T00:00:00+05:30",
 } as const;
+
+/** Is the registration form still taking submissions? `now` is injectable for tests. */
+export function isRegistrationOpen(now: Date = new Date()): boolean {
+  return now.getTime() < new Date(GUEST_TRIP.closesAt).getTime();
+}
 
 /** Minimum age on the first day of the trip. Taken from the published "ages 18–30" trip rule (content/goa.ts) — only the floor is enforced, as a guest cannot give the consents below if they are a minor. */
 export const MIN_AGE_AT_TRIP = 18;

@@ -1,6 +1,7 @@
 import { NextResponse, after } from "next/server";
 import {
   ID_MAX_BYTES,
+  isRegistrationOpen,
   isUuid,
   normaliseDetails,
   sniffIdType,
@@ -39,6 +40,11 @@ const json = (body: Record<string, unknown>, status: number) =>
  * checks are UX; these are the rules.
  */
 export async function POST(request: Request) {
+  // The trip has started (or finished): no more registrations.
+  if (!isRegistrationOpen()) {
+    return json({ ok: false, closed: true, error: "Registration for this trip has closed." }, 410);
+  }
+
   if (!(request.headers.get("content-type") ?? "").toLowerCase().startsWith("multipart/form-data")) {
     return json({ ok: false, error: "Unsupported request." }, 415);
   }

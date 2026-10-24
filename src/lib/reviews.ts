@@ -97,6 +97,8 @@ export type PublicReview = {
   verified: boolean;
   featured: boolean;
   createdAt: string;
+  /** Public reply from the team, if any. */
+  reply: string | null;
 };
 
 export type ReviewStats = { count: number; average: number | null };

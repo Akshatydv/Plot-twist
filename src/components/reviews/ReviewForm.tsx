@@ -40,9 +40,13 @@ function Err({ id, msg }: { id: string; msg?: string }) {
  * object-URL previews (revoked on removal/unmount). The server decodes and
  * re-encodes every photo, so the preview is only a courtesy.
  */
-export function ReviewForm() {
+/** Present when the form is opened from a guest's personal review link. */
+export type ReviewInvite = { token: string; displayName: string; tripId: string };
+
+export function ReviewForm({ invite }: { invite?: ReviewInvite } = {}) {
   const reduce = useReducedMotion();
-  const [v, setV] = useState<ReviewInput>(EMPTY_REVIEW);
+  const initial: ReviewInput = invite ? { ...EMPTY_REVIEW, name: invite.displayName, tripId: invite.tripId } : EMPTY_REVIEW;
+  const [v, setV] = useState<ReviewInput>(initial);
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [errors, setErrors] = useState<ReviewErrors>({});
   const [hover, setHover] = useState(0);
@@ -120,7 +124,7 @@ export function ReviewForm() {
     const timer = window.setTimeout(() => ctrl.abort(), 60_000);
     try {
       const fd = new FormData();
-      fd.append("payload", JSON.stringify({ ...v, website: hp }));
+      fd.append("payload", JSON.stringify({ ...v, website: hp, ...(invite ? { token: invite.token } : {}) }));
       photos.forEach((p) => fd.append("photos", p.file));
       const res = await fetch("/api/reviews", { method: "POST", body: fd, signal: ctrl.signal, cache: "no-store" });
       let data: { ok?: boolean; error?: string; errors?: ReviewErrors } = {};
@@ -133,7 +137,7 @@ export function ReviewForm() {
         photos.forEach((p) => URL.revokeObjectURL(p.url));
         setDoneName(v.name.trim().split(" ")[0]);
         setPhotos([]);
-        setV(EMPTY_REVIEW);
+        setV(initial);
         return;
       }
       if (res.status === 422 && data.errors) {
@@ -368,6 +372,7 @@ export function ReviewForm() {
         </div>
       </div>
 
+      {!invite && (
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="rv-tripId" className="block text-[0.92rem] font-semibold">
@@ -403,6 +408,7 @@ export function ReviewForm() {
           />
         </div>
       </div>
+      )}
 
       {/* honeypot */}
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">

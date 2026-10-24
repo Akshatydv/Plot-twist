@@ -3,6 +3,17 @@ import { requireAdmin } from "@/lib/admin";
 import { consentOf, listGuests } from "@/lib/adminGuests";
 import { CONSENT_IDS, GUEST_TRIP } from "@/lib/guestRegistration";
 import { AdminHeader } from "@/components/admin/AdminHeader";
+import { ReviewLinkButtons } from "@/components/admin/ReviewLinkButtons";
+import { inviteUrl, reviewLinksEnabled } from "@/lib/reviewInvite";
+import { reviewedRegistrationIds } from "@/lib/reviewsStore";
+
+/** wa.me wants the number as digits only, country code included. */
+function whatsappHref(phone: string, firstName: string, url: string) {
+  const digits = phone.replace(/D/g, "");
+  if (digits.length < 8) return null;
+  const text = `Hey ${firstName}! Hope you’ve recovered from ${GUEST_TRIP.shortName} 🌴 We’d love to hear how it was — two minutes, your words (and a photo or two if you’ve got them): ${url}`;
+  return `https://wa.me/${digits}?text=${encodeURIComponent(text)}`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -23,7 +34,9 @@ function formatDate(iso: string) {
 export default async function GuestsPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   await requireAdmin();
   const { q = "" } = await searchParams;
-  const rows = await listGuests({ q });
+  const [rows, reviewed] = await Promise.all([listGuests({ q }), reviewedRegistrationIds().catch(() => new Set<string>())]);
+  const linksOn = reviewLinksEnabled();
+  const reviewedCount = rows.filter((r) => reviewed.has(r.id)).length;
 
   return (
     <main className="min-h-screen bg-[#150711] px-5 py-8 text-sand sm:px-8">
@@ -31,7 +44,10 @@ export default async function GuestsPage({ searchParams }: { searchParams: Promi
         <AdminHeader title={`Guest registrations — ${GUEST_TRIP.name}`} />
 
         <div className="mt-6 flex flex-wrap items-end justify-between gap-4">
-          <span className="text-lg font-semibold">{rows.length} REGISTERED{q ? " (matching)" : ""}</span>
+          <span className="text-lg font-semibold">
+            {rows.length} REGISTERED{q ? " (matching)" : ""}
+            <span className="ml-4 text-sm font-normal text-sand/60">{reviewedCount} reviewed</span>
+          </span>
           <a href="/admin/guests/export" className="border border-sand/30 px-4 py-2 text-sm hover:border-sand/60">
             Download CSV (trip operations fields)
           </a>
@@ -71,6 +87,7 @@ export default async function GuestsPage({ searchParams }: { searchParams: Promi
                 <th className="py-2 pr-4 font-normal">Status</th>
                 <th className="py-2 pr-4 font-normal">Consents</th>
                 <th className="py-2 pr-4 font-normal">ID</th>
+                <th className="py-2 pr-4 font-normal">Review</th>
               </tr>
             </thead>
             {rows.map((r) => {
@@ -128,6 +145,18 @@ export default async function GuestsPage({ searchParams }: { searchParams: Promi
                         <span className="text-[#ff8aa8]">missing</span>
                       )}
                     </td>
+                    <td className="py-2.5 pr-4">
+                      {reviewed.has(r.id) ? (
+                        <span className="text-[#7be8a6]">✓ reviewed</span>
+                      ) : linksOn ? (
+                        (() => {
+                          const url = inviteUrl(r.id)!;
+                          return <ReviewLinkButtons url={url} waHref={whatsappHref(r.phone, r.full_name.split(" ")[0], url)} />;
+                        })()
+                      ) : (
+                        <span className="text-xs text-sand/40">set REVIEW_LINK_SECRET</span>
+                      )}
+                    </td>
                   </tr>
                 </tbody>
               );
@@ -135,7 +164,7 @@ export default async function GuestsPage({ searchParams }: { searchParams: Promi
             {rows.length === 0 && (
               <tbody>
                 <tr>
-                  <td colSpan={7} className="py-10 text-center text-sand/40">
+                  <td colSpan={8} className="py-10 text-center text-sand/40">
                     No registrations {q ? "match" : "yet"}.
                   </td>
                 </tr>

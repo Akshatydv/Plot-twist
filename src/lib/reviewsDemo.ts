@@ -17,10 +17,10 @@ const P = (n: string) => `/photos/home/${n}.jpg`;
 const d = (days: number) => new Date(Date.now() - days * 86_400_000).toISOString();
 
 export function demoReviews(): PublicReview[] {
-  const base = { tripId: "goa-2026", featured: false, verified: false } as const;
+  const base = { tripId: "goa-2026", featured: false, verified: false, reply: null } as const;
   return [
     { ...base, id: "d1", featured: true, verified: true, name: "Sample · Aanya", city: "Delhi", rating: 5, createdAt: d(1), photos: [P("trip-path"), P("trip-bridge")],
-      body: "I came alone and wasn’t sure what I’d signed up for. By the second night on the yacht I had nineteen people I’d have followed anywhere. It never felt like a tour — it felt like a story we were all writing." },
+      reply: "Nineteen people you’d follow anywhere — that’s the whole idea. Thank you for writing this. (Sample reply.)", body: "I came alone and wasn’t sure what I’d signed up for. By the second night on the yacht I had nineteen people I’d have followed anywhere. It never felt like a tour — it felt like a story we were all writing." },
     { ...base, id: "d2", verified: true, name: "Sample · Kabir", city: "Mumbai", rating: 5, createdAt: d(2), photos: [P("trip-fire")],
       body: "Sunsets, a fort, one very long night and not a single awkward silence. The hosts were always one step ahead." },
     { ...base, id: "d3", name: "Sample · Mehr", city: "Bengaluru", rating: 5, createdAt: d(3), photos: [],

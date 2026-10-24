@@ -42,7 +42,7 @@ export default async function ReviewsPage() {
       )}
 
       <main>
-        <ReviewsHero count={count} average={average} shots={shots} />
+        <ReviewsHero count={count} average={average} shots={shots} googleUrl={process.env.NEXT_PUBLIC_GOOGLE_REVIEWS_URL || null} />
 
         <div className="relative z-10 -my-4 overflow-hidden py-4">
           <Ticker items={["REAL TRAVELLERS", "REAL WORDS", "REAL PHOTOS", "NO FILTERS ON THE TRUTH"]} bg="#FF4F87" fg="#FFF1DC" rotate={-1.4} />
@@ -67,9 +67,9 @@ export default async function ReviewsPage() {
               ) : (
                 <div className="mx-auto max-w-[34rem] rotate-[-1deg] rounded-[6px] border-2 border-dashed border-ink/30 bg-white/40 px-8 py-14 text-center">
                   <p className="font-serif text-[clamp(1.5rem,4.5vw,2.1rem)] leading-[1.25] text-ink/85">
-                    The first stories land right after Goa.
+                    Goa’s cast is home. Their stories land here next.
                   </p>
-                  <p className="mt-3 text-[0.95rem] text-ink/60">When the cast gets home, this wall fills up with what they actually said.</p>
+                  <p className="mt-3 text-[0.95rem] text-ink/60">Every review is read by a person before it goes up — so this wall fills up as they come in.</p>
                   <a href="#share" className="mt-7 inline-block font-hand text-[1.9rem] leading-none text-pink underline-offset-4 hover:underline">
                     been on a trip? tell us →
                   </a>
