@@ -157,6 +157,18 @@ export type JourneyConfig = {
   pageVariant?: JourneyPageVariant;
 
   /**
+   * Where travellers can join from, when that decides the price (Bir × Barot:
+   * Delhi or Chandigarh). When set, the application form shows these as a
+   * choice in place of the free-text city, stores the chosen `value` in the
+   * existing `city` column (so there is no schema change), and the server
+   * rejects anything else for this journey. `price` is shown beside the
+   * choice so a traveller sees their own price, never the other pickup's.
+   */
+  pickupOptions?: readonly { value: string; label: string; price: string }[];
+  /** One line shown under the pickup choice (e.g. that points and times are confirmed on booking). */
+  pickupNote?: string;
+
+  /**
    * RETIRED — taken off the public site without deleting it.
    *
    * A retired journey keeps its id, its slug, its storage key and its code, so

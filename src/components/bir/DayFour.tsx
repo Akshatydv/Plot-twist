@@ -137,7 +137,7 @@ function TheEnd() {
 
 /**
  * The back window. Mountains shrink and sink into the haze as the road runs
- * toward you; a small progress line runs BIR → DELHI underneath.
+ * toward you; a small progress line runs BIR → CHANDIGARH → DELHI underneath.
  */
 function RoadHome() {
   const ref = useRef<HTMLElement>(null);
@@ -150,7 +150,7 @@ function RoadHome() {
   const trip = useTransform(p, [0.05, 0.95], ["0%", "100%"]);
 
   return (
-    <section ref={ref} data-hud="day4" aria-label="The road back to Delhi" className={reduce ? "relative h-[100svh]" : "relative h-[240svh]"}>
+    <section ref={ref} data-hud="day4" aria-label="The road back, through Chandigarh to Delhi" className={reduce ? "relative h-[100svh]" : "relative h-[240svh]"}>
       <div className={`${reduce ? "relative" : "sticky top-0"} h-[100svh] overflow-hidden bg-[#F1E6D6]`}>
         <Footage slot={media.road}>
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #dfe3e2 0%, #f1e6d6 58%, #e6d4bc 100%)" }} />
@@ -177,6 +177,9 @@ function RoadHome() {
           <div className="mt-6 flex max-w-[520px] items-center gap-3 text-[10px] font-semibold tracked text-[#3b464c]">
             <span>{day4.road.from}</span>
             <span className="relative h-px flex-1 bg-[#3b464c]/30">
+              {/* the Chandigarh drop, halfway down the line */}
+              <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#3b464c]/50" aria-hidden />
+              <span className="absolute -top-5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-semibold tracked text-[#3b464c]/70">{day4.road.via}</span>
               <motion.span className="absolute left-0 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#E8B48A]" style={{ left: reduce ? "100%" : trip }} />
             </span>
             <span>{day4.road.to}</span>

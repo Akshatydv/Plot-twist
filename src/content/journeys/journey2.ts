@@ -27,6 +27,7 @@
 
 import { brand } from "@/content/site";
 import { DEFAULT_REWARD_WEIGHTS, REWARD_POOL } from "@/content/rewards";
+import { pickups } from "@/content/bir";
 import type { JourneyConfig } from "./types";
 
 export const JOURNEY_2: JourneyConfig = {
@@ -45,13 +46,16 @@ export const JOURNEY_2: JourneyConfig = {
   seo: {
     title: "Bir Billing + Barot Group Trip, Nov 2026 | Plot Twist",
     description:
-      "20–24 Nov 2026 · ₹7,999. Twenty strangers, three nights in Bir: cafés, monasteries, Barot's waterfalls, a guided trek, two party nights. Not a tour, a story.",
+      "20–24 Nov 2026, from Delhi or Chandigarh. Cafés, monasteries, Barot's waterfalls, a guided trek and two party nights in Bir. From ₹7,999.",
     startDate: "2026-11-20",
     endDate: "2026-11-24",
     destination: "Bir Billing & Barot, Himachal Pradesh, India",
   },
 
   pageVariant: "bir",
+  /** Delhi or Chandigarh, each with its own price: the one source is content/bir.ts. */
+  pickupOptions: pickups.options.map((o) => ({ value: o.city, label: o.city, price: o.summary })),
+  pickupNote: pickups.note,
   /** Its own namespace — this is what stops four hunts bleeding into each other. */
   storageKey: "plottwist.plot.j03.v1",
 

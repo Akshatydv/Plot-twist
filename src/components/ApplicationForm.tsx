@@ -76,6 +76,9 @@ export function ApplicationForm({
 } = {}) {
   const reduce = useReducedMotion();
   const journey = useJourney();
+  /** Journeys whose price depends on where you join (Bir × Barot): city becomes a Delhi / Chandigarh choice. */
+  const pickupOptions = journey.pickupOptions;
+  const pickupValues = pickupOptions?.map((o) => o.value);
   const { count, solvedGuess, reward } = usePlot();
 
   const [step, setStep] = useState(0);
@@ -154,7 +157,7 @@ export function ApplicationForm({
   };
 
   const next = () => {
-    const real = onlyReal(step === 0 ? validateBasics(values) : validateAnswers(values));
+    const real = onlyReal(step === 0 ? validateBasics(values, pickupValues) : validateAnswers(values));
     if (Object.keys(real).length > 0) {
       setErrors(real);
       const n = Object.keys(real).length;
@@ -169,7 +172,7 @@ export function ApplicationForm({
   };
 
   const submit = async () => {
-    const real = onlyReal({ ...validateBasics(values), ...validateAnswers(values) });
+    const real = onlyReal({ ...validateBasics(values, pickupValues), ...validateAnswers(values) });
     if (Object.keys(real).length > 0) {
       setErrors(real);
       // Send them back to whichever step actually has the problem.
@@ -457,6 +460,44 @@ export function ApplicationForm({
                 <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {application.fields.map((f, i) => {
                     const err = errors[f.name as keyof FieldErrors];
+                    if (f.name === "city" && pickupOptions && pickupOptions.length > 0) {
+                      const chosen = pickupOptions.find((o) => o.value === values.city);
+                      return (
+                        <div key={f.name} className="sm:col-span-2">
+                          <span id="city-label" className="flex items-baseline gap-2 text-[10px] tracked text-ink/60">
+                            <span className="font-display text-[13px] tracking-normal text-ocean">{String(i + 1).padStart(2, "0")}</span>
+                            JOINING FROM
+                          </span>
+                          <div role="radiogroup" aria-labelledby="city-label" aria-describedby={err ? "city-error" : undefined} className="mt-3 grid gap-3 sm:grid-cols-2">
+                            {pickupOptions.map((o, k) => {
+                              const on = values.city === o.value;
+                              return (
+                                <button
+                                  key={o.value}
+                                  type="button"
+                                  id={k === 0 ? "city" : undefined}
+                                  role="radio"
+                                  aria-checked={on}
+                                  onClick={() => set("city", o.value)}
+                                  className={`border-2 px-5 py-4 text-left transition-colors ${
+                                    on ? "border-ink bg-ink text-white" : err ? "border-pink text-ink" : "border-ink/25 text-ink hover:border-ink/60"
+                                  }`}
+                                >
+                                  <span className="block font-display text-[1.15rem] tracking-[0.04em]">{o.label.toUpperCase()}</span>
+                                  <span className={`mt-1 block text-[0.85rem] leading-snug ${on ? "text-white/80" : "text-ink/60"}`}>{o.price}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                          <span id="city-error">
+                            <FieldError message={err} />
+                          </span>
+                          {chosen && journey.pickupNote && (
+                            <span className="mt-2 block font-hand text-[1.05rem] text-ink/50">{journey.pickupNote}</span>
+                          )}
+                        </div>
+                      );
+                    }
                     return (
                       <div key={f.name} className={f.name === "city" ? "sm:col-span-2 sm:max-w-[50%]" : ""}>
                         <label htmlFor={f.name} className="flex items-baseline gap-2 text-[10px] tracked text-ink/60">
@@ -568,7 +609,7 @@ export function ApplicationForm({
                     ["Instagram", igPreview],
                     ["Mobile", values.mobile],
                     ["Age", values.age],
-                    ["City", values.city],
+                    [pickupOptions ? "Joining from" : "City", values.city],
                   ].map(([label, value]) => (
                     <div key={label}>
                       <dt className="text-[10px] tracked text-ink/45">{label}</dt>

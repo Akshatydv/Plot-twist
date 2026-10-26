@@ -152,7 +152,7 @@ function attributionField(value: string | null | undefined): string | null {
  * Validates one step at a time so the form can gate "Next" without
  * red-flagging fields the visitor hasn't reached yet.
  */
-export function validateBasics(input: Partial<ApplicationInput>): FieldErrors {
+export function validateBasics(input: Partial<ApplicationInput>, pickups?: readonly string[]): FieldErrors {
   const errors: FieldErrors = {};
 
   if (!input.name || input.name.trim().length < 2) {
@@ -177,7 +177,10 @@ export function validateBasics(input: Partial<ApplicationInput>): FieldErrors {
     errors.age = `Plot Twist: this one's ${AGE_MIN}–${AGE_MAX} only.`;
   }
 
-  if (!input.city || input.city.trim().length < 2) {
+  if (pickups && pickups.length > 0) {
+    // A journey with pickup points (Bir × Barot): city IS the pickup choice.
+    if (!pickups.includes(String(input.city ?? "").trim())) errors.city = `Pick where you're joining from: ${pickups.join(" or ")}.`;
+  } else if (!input.city || input.city.trim().length < 2) {
     errors.city = "Where are you flying from?";
   } else if (input.city.trim().length > CITY_MAX) {
     errors.city = "That's not a city, that's an essay.";
@@ -199,7 +202,8 @@ export function validateAnswers(input: Partial<ApplicationInput>): FieldErrors {
 }
 
 export function validateApplication(input: Partial<ApplicationInput>): FieldErrors {
-  return { ...validateBasics(input), ...validateAnswers(input) };
+  const pickups = journeyById(input.journey as string)?.pickupOptions?.map((o) => o.value);
+  return { ...validateBasics(input, pickups), ...validateAnswers(input) };
 }
 
 /**

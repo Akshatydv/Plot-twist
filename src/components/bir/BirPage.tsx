@@ -6,6 +6,7 @@ import { birIndex, cast } from "@/content/bir";
 import { FlightHero } from "./FlightHero";
 import { TheJourney } from "./TheJourney";
 import { DayOne } from "./DayOne";
+import { MemoriesWall } from "./Memories";
 import { DawnRoad } from "./DawnRoad";
 import { DayTwo } from "./DayTwo";
 import { DayThree } from "./DayThree";
@@ -53,6 +54,8 @@ export function BirPage() {
         <DayFour />
 
         <WhatsATen compact composition={cast.composition} index={birIndex("cast")} bridge={cast.bridge} tone="alpine" />
+
+        <MemoriesWall />
 
         <Recap />
         <TheDetails />

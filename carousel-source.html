@@ -60,6 +60,8 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 .card li{position:relative;padding-left:44px;font-size:33px;line-height:1.55;color:#fff}
 .total{margin-top:30px;padding-top:26px;border-top:1.5px solid rgba(255,255,255,.3);display:flex;justify-content:space-between;align-items:baseline}
 .total span{font-weight:700;font-size:26px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.total.sub2{margin-top:12px;padding-top:0;border-top:0}
+.total.sub2 b{font-size:56px}
 .total b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:76px;line-height:1;color:var(--ember)}
 .card li::before{content:"";position:absolute;left:6px;top:.72em;width:12px;height:12px;border-radius:50%;background:var(--ember)}
 .tag{position:absolute;left:50%;top:-32px;transform:translateX(-50%) rotate(-3deg);background:var(--bone);color:#1d5a52;padding:14px 34px;font-weight:700;font-size:34px;letter-spacing:-.01em;white-space:nowrap;box-shadow:0 8px 30px rgba(0,0,0,.25)}
@@ -137,7 +139,7 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
   <div class="card" style="top:220px;width:900px;padding:54px 66px 50px">
     <h3>What&rsquo;s <em>included</em></h3>
     <ul>
-      <li>Delhi &harr; Bir by Traveller</li>
+      <li>Traveller from Delhi or Chandigarh</li>
       <li>3 nights&rsquo; stay in Bir</li>
       <li>Café hopping, monasteries &amp; sunset</li>
       <li>Social Night: bonfire party + dinner</li>
@@ -147,7 +149,9 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
       <li>The Last Night: one long table, dinner</li>
       <li>Plot Twist hosts, start to finish</li>
     </ul>
-    <div class="total"><span>All of this</span><b>&#8377;7,999</b></div>
+    <div class="total"><span>From Chandigarh</span><b>&#8377;7,999</b></div>
+    <div class="total sub2"><span>Delhi · first 7</span><b>&#8377;9,999</b></div>
+    <div class="total sub2"><span>Delhi · then</span><b>&#8377;10,999</b></div>
   </div>
   <div class="swipe" style="bottom:120px">Swipe &rarr;</div>
 </section>
@@ -157,13 +161,14 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
   <div class="ph" style="background-image:url('public/photos/bir/bir-sunset-gliding.jpg');background-position:50% 0%"></div>
   <div class="sc" style="background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,.05) 30%,rgba(0,0,0,.1) 60%,rgba(0,0,0,.35) 100%)"></div>
   <div class="top"><img class="logo" src="bir-dossier-assets/logo.png" alt="Plot Twist"><div class="mid"><span class="t">TRAVEL</span><span class="d">differently</span></div><div class="date">20&ndash;24 NOV</div></div>
-  <div class="card" style="top:250px;width:720px;background:rgba(70,34,12,.26)">
+  <div class="card" style="top:196px;width:720px;background:rgba(70,34,12,.26)">
     <div class="tag">Save the date</div>
-    <div class="row" style="padding-top:60px"><div class="big">20th &ndash; 24th Nov</div><div class="sm">Delhi &rarr; Bir &rarr; Delhi</div></div>
-    <div class="row"><div class="big">&#8377;7,999</div><div class="sm">per person &middot; 3N / 4D</div></div>
+    <div class="row" style="padding-top:60px"><div class="big">20th &ndash; 24th Nov</div><div class="sm">From Delhi &amp; Chandigarh</div></div>
+    <div class="row"><div class="big">&#8377;9,999 <span style="font-size:.5em;opacity:.8">first 7, then &#8377;10,999</span></div><div class="sm">per person · from Delhi</div></div>
+    <div class="row"><div class="big">&#8377;7,999</div><div class="sm">per person · from Chandigarh</div></div>
     <div class="row"><div class="big">20 people</div><div class="sm">application only</div></div>
   </div>
-  <div class="btn" style="top:850px;font-size:28px;padding:26px 48px">COMMENT &lsquo;BIR&rsquo; TO REQUEST YOUR INVITE</div>
+  <div class="btn" style="top:962px;font-size:28px;padding:26px 48px">COMMENT &lsquo;BIR&rsquo; TO REQUEST YOUR INVITE</div>
 </section>
 
 </body>
