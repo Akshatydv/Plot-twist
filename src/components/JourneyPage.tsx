@@ -20,7 +20,7 @@ import { EdcPage } from "@/components/edc/EdcPage";
 import { ChaosPage } from "./thailand/ChaosPage";
 import { BirPage } from "@/components/bir/BirPage";
 import { SriLankaPage } from "@/components/srilanka/SriLankaPage";
-import { GoaOpenerPage } from "@/components/goaopener/GoaOpenerPage";
+import { GoaDecPage } from "@/components/goadec/GoaDecPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
@@ -96,7 +96,7 @@ export function JourneyPage({ journey }: { journey: JourneyConfig }) {
     return (
       <JourneyProvider journey={journey}>
         <PlotProvider>
-          <GoaOpenerPage />
+          <GoaDecPage />
         </PlotProvider>
       </JourneyProvider>
     );
