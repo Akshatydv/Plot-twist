@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Caveat, DM_Sans, Instrument_Serif, Permanent_Marker } from "next/font/google";
 import { GoogleAnalytics } from "@/components/GoogleAnalytics";
+import { MetaPixel } from "@/components/MetaPixel";
 import { homeMeta } from "@/content/home";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteGraph } from "@/lib/seo/schema";
@@ -107,6 +108,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* One instance, root layout only — every route (/, /journey/*, /admin/*, /privacy, /terms) mounts this exactly once. */}
         <GoogleAnalytics />
+        {/* Meta Pixel (id 2428605091279815): every route, once. */}
+        <MetaPixel />
       </head>
       <body>{children}</body>
     </html>
