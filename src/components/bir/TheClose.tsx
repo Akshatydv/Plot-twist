@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { birIndex, credits, details, finalCta, footage, media, photos, recap, scenes, trip } from "@/content/bir";
+import { birIndex, credits, details, finalCta, footage, media, photos, pickupPricing, recap, scenes, trip } from "@/content/bir";
 import { contact } from "@/content/site";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton, SectionLabel } from "../Bits";
@@ -100,8 +100,6 @@ export function Recap() {
 export function TheDetails() {
   const number = contact.whatsappNumber.replace(/[^\d]/g, "");
   const askHref = number ? `https://wa.me/${number}?text=${encodeURIComponent(details.whatsapp)}` : null;
-  const priceValue = details.price.confirmed && details.price.amount ? details.price.amount : details.price.pending;
-  const priceNote = details.price.confirmed && details.price.amount ? details.price.note : details.price.pendingNote;
 
   return (
     <section id="details" className="relative overflow-hidden bg-[var(--bir-bone)] px-5 py-16 text-[var(--bir-char)] sm:px-8 sm:py-24 lg:px-14">
@@ -119,12 +117,12 @@ export function TheDetails() {
 
         {/* the route, as a line */}
         <Reveal delay={0.1}>
-          <ol className="mt-8 flex items-center gap-2 sm:gap-4" aria-label={details.headline[1]}>
+          <ol className="mt-8 flex items-start gap-1.5 sm:items-center sm:gap-4" aria-label={details.headline[1]}>
             {trip.route.map((stop, i) => (
               <li key={`${stop}-${i}`} className="flex flex-1 items-center gap-2 last:flex-none sm:gap-4">
                 <span className="flex flex-col items-start">
                   <span className={`h-2.5 w-2.5 rounded-full ${i === 0 || i === trip.route.length - 1 ? "bg-[#101311]" : "bg-[#E8793A]"}`} />
-                  <span className="mt-2 text-[10px] font-semibold tracked sm:text-[12px]">{stop}</span>
+                  <span className="mt-2 max-w-[11ch] text-[8px] font-semibold leading-tight tracking-[0.12em] sm:max-w-none sm:text-[12px] sm:tracking-[0.22em]">{stop}</span>
                 </span>
                 {i < trip.route.length - 1 && <span aria-hidden className="mb-5 h-px flex-1 bg-[#101311]/25" />}
               </li>
@@ -151,11 +149,29 @@ export function TheDetails() {
               <span className="text-[9px] tracked text-[#2c4436]">SELECTION</span>
               <p className="mt-1 leading-[1.45] text-[#101311]/85">{details.selection}</p>
             </div>
-            <div className="border-l-2 border-[#E8793A] pl-4">
-              <span className="text-[9px] tracked text-[#A95F38]">THE DAMAGE</span>
-              <p className="mt-1 font-serif text-[1.6rem] leading-tight">{priceValue}</p>
-              {priceNote && <p className="mt-0.5 text-[0.9rem] text-[#101311]/55">{priceNote}</p>}
+          </div>
+          <div className="mt-8">
+            <span className="text-[9px] tracked text-[#A95F38]">THE PRICE · BY PICKUP CITY</span>
+            <div className="mt-3 grid gap-4 sm:grid-cols-2 sm:gap-6">
+              {pickupPricing.map((p) => (
+                <div key={p.id} className="border border-[#101311]/15 bg-white/40 p-5 sm:p-6">
+                  <p className="text-[10px] font-semibold tracked text-[#2c4436]">JOIN FROM {p.city.toUpperCase()}</p>
+                  <dl className="mt-3 space-y-2">
+                    {p.tiers.map((tier) => (
+                      <div key={tier.label} className="flex items-baseline justify-between gap-4 border-b border-[#101311]/10 pb-2 last:border-0">
+                        <dt className="text-[0.95rem] text-[#101311]/70">{tier.label}</dt>
+                        <dd className="whitespace-nowrap font-serif text-[1.7rem] leading-none">
+                          {tier.amount}
+                          <span className="ml-1 text-[0.8rem] text-[#101311]/50">/person</span>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-3 text-[0.8rem] text-[#101311]/55">{p.note}</p>
+                </div>
+              ))}
             </div>
+            <p className="mt-3 text-[0.85rem] text-[#101311]/55">Same trip, same stay, same plan. The price follows the city you board from.</p>
           </div>
         </Reveal>
 

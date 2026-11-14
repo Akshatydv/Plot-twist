@@ -8,7 +8,7 @@ import { isReviewsDemo } from "@/lib/reviewsDemo";
 import { statsOf } from "@/lib/reviews";
 import { listApprovedReviews } from "@/lib/reviewsStore";
 
-/** New approvals show up within five minutes without a redeploy. */
+/** New reviews show up straight away (the API revalidates), and at most five minutes later regardless. */
 export const revalidate = 300;
 
 const TITLE = "Reviews — what people said after the trip | Plot Twist";
@@ -69,7 +69,7 @@ export default async function ReviewsPage() {
                   <p className="font-serif text-[clamp(1.5rem,4.5vw,2.1rem)] leading-[1.25] text-ink/85">
                     Goa’s cast is home. Their stories land here next.
                   </p>
-                  <p className="mt-3 text-[0.95rem] text-ink/60">Every review is read by a person before it goes up — so this wall fills up as they come in.</p>
+                  <p className="mt-3 text-[0.95rem] text-ink/60">Every review goes up the moment it’s posted — so this wall fills up as they come in.</p>
                   <a href="#share" className="mt-7 inline-block font-hand text-[1.9rem] leading-none text-pink underline-offset-4 hover:underline">
                     been on a trip? tell us →
                   </a>
@@ -100,7 +100,7 @@ export default async function ReviewsPage() {
                 Good, great, or “honestly, the boat was too loud.” We want the real version.
               </p>
               <ul className="mt-8 space-y-3 text-[0.95rem] text-sand/75">
-                {["We read every review before it goes up.", "Photos have their location data stripped automatically.", "Ask us to take yours down any time."].map((t) => (
+                {["Every review goes up exactly as written — no screening, no cherry-picking.", "Photos have their location data stripped automatically.", "Ask us to take yours down any time."].map((t) => (
                   <li key={t} className="flex gap-3">
                     <span aria-hidden="true" className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[#FF4F87]" />
                     {t}

@@ -54,3 +54,22 @@ Shown as Sri Lanka: only the Commons clips marked 🇱🇰. Everything else is a
 Same slot, same file name: drop the new `name.mp4` + `name-poster.jpg` in
 here and nothing else changes. The shot list for real footage is in
 `docs/sri-lanka-design.md` §6.
+
+## The New Year Takeover (12 Nov 2026)
+
+Party loops and the new hero montages, encoded by `srilanka-takeover/encode-video.sh`
+(1280×720, ~2.4 Mbps, 7–8s). Each Mixkit page was checked for `copyrightNotice: "Free"`.
+These are **mood footage**: none is a Sri Lankan venue and none is labelled as one.
+
+| file | source | licence |
+| --- | --- | --- |
+| `party-dj-sunset.mp4` | [Skillful hands of a DJ mixing music outdoors](https://mixkit.co/free-stock-video/skillful-hands-of-a-dj-mixing-music-outdoors-42398/) | Mixkit Free |
+| `party-dj-stage.mp4` | [DJ playing on a stage with LED screens](https://mixkit.co/free-stock-video/dj-playing-on-a-stage-with-led-screens-4187/) | Mixkit Free |
+| `party-hands.mp4` | [Hands raised high on a nightclub dance floor](https://mixkit.co/free-stock-video/hands-raised-high-on-a-nightclub-dance-floor-341/) | Mixkit Free |
+| `party-pool.mp4` | [Friends dancing in a pool](https://mixkit.co/free-stock-video/friends-dancing-in-a-pool-40105/) | Mixkit Free |
+| `party-crowd.mp4` | [People dancing at a night club](https://mixkit.co/free-stock-video/people-dancing-at-a-night-club-4344/) | Mixkit Free |
+| `party-decks.mp4` | [DJ playing music at a nightclub](https://mixkit.co/free-stock-video/dj-playing-music-at-a-nightclub-831/) | Mixkit Free |
+| `takeover-hero.mp4`, `takeover-hero-mobile.mp4` | montage of the six clips above plus `hero`/`ocean-tall`, `surfer-dusk`, `jungle`, `road`, `palm-sunset` | CC BY-SA 4.0 (includes ShareAlike material via `hero`) |
+
+Rejected because Mixkit marks them **Restricted**: festival-crowd-jumping (14088), friends-sharing-a-toast (48636),
+concert-crowd-silhouette (48506), people-jumping-at-the-night-club (14105), aerial-nightclub-crowd (9586).

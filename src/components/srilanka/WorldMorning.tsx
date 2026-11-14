@@ -7,6 +7,7 @@ import { world4 } from "@/content/srilanka";
 import { Note } from "../Bits";
 import { Focus, Footage, MaskLines, useCalm } from "../bir/Scenery";
 import { Tag } from "./Kit";
+import { Tonight } from "./Takeover";
 
 /**
  * WORLD 04 — 1 JAN — THE MORNING AFTER.
@@ -28,6 +29,7 @@ export function WorldMorning() {
       <Slow />
       <Prints />
       <FirstSwim />
+      <Tonight id="world-04" />
     </div>
   );
 }

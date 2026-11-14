@@ -40,10 +40,10 @@ import type { JourneyConfig } from "./types";
 
 export const JOURNEY_1: JourneyConfig = {
   id: "JOURNEY 1",
-  slug: "1",
-  displayName: "Journey 1 · Goa",
+  slug: "goa-new-years",
+  displayName: "Goa · New Year's",
   /** The reveal page — Goa is stated in its own hero, so naming it costs nothing. */
-  nav: { label: "GOA", kicker: "JOURNEY 1 · NEW YEAR'S" },
+  nav: { label: "GOA · NEW YEAR'S", kicker: "30 DEC – 2 JAN" },
   campaignId: "journey00_launch",
   /**
    * Goa is stated outright — see content/goa.ts for the page this renders.
@@ -79,7 +79,7 @@ export const JOURNEY_1: JourneyConfig = {
   },
 
   hero: {
-    eyebrow: "JOURNEY 1 — 16 SEATS, AGES 18–30",
+    eyebrow: "16 SEATS, AGES 18–30",
     /** The only place the prequel framing appears. Same slot, same type, different words. */
     sideNote: { big: ["16 PEOPLE.", "THE FIRST PLOT."], invite: "COME GET CAST." },
     photo: {
@@ -150,7 +150,7 @@ export const JOURNEY_1: JourneyConfig = {
   },
 
   casting: {
-    stamp: "CASTING — JOURNEY 1",
+    stamp: "CASTING — GOA",
     photos: [
       {
         src: "/photos/goa/people.jpg",
@@ -296,7 +296,7 @@ export const JOURNEY_1: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 1. The first plot — and 15 of the seats are still open.",
+  solvedBody: "Goa. The first plot — and 15 of the seats are still open.",
 
   rewards: {
     // The same eight rewards, drawn from the same table. This is one reward
@@ -305,6 +305,6 @@ export const JOURNEY_1: JourneyConfig = {
     // and submitted with this journey's id, both of which the server checks.
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 1",
+    envelopeMark: "GOA",
   },
 };

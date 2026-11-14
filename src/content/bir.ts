@@ -296,7 +296,9 @@ export const trip = {
   name: "BIR × BAROT",
   length: "3 NIGHTS · 4 DAYS",
   region: "HIMACHAL",
-  route: ["DELHI", "BIR", "DELHI"] as const,
+  route: ["DELHI", "CHANDIGARH", "BIR × BAROT", "CHANDIGARH", "DELHI"] as const,
+  /** Two pickup and drop-off points, confirmed 26 Oct 2026. Exact pickup spots and times are confirmed on booking. */
+  pickups: ["Delhi", "Chandigarh"] as const,
   /** Where the nights are spent, and where the days go from there. */
   stay: "Bir, all 3 nights",
   dayTrips: ["Barot valley", "Billing (paragliding, optional add-on)"] as const,
@@ -307,8 +309,8 @@ export const trip = {
    * with seo.startDate / endDate in journeys/journey2.ts.
    */
   dates: "20–24 NOV 2026",
-  datesNote: "Leave Delhi Fri 20 Nov, night · in Bir Sat 21 morning · back in Delhi Tue 24, evening.",
-  departure: "Delhi · Fri 20 Nov, night",
+  datesNote: "Pickups in Delhi and Chandigarh Fri 20 Nov, night · in Bir Sat 21 morning · dropped back in Chandigarh and Delhi Tue 24. Exact pickup points and times confirmed on booking.",
+  departure: "Delhi & Chandigarh · Fri 20 Nov, night",
   group: "20 people",
   split: "10 + 10",
   ages: "18–30",
@@ -336,7 +338,7 @@ export const hud = {
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  kicker: "PLOT TWIST — JOURNEY 2",
+  kicker: "PLOT TWIST — BIR × BAROT",
   title: ["BIR", "BAROT"] as const,
   line: "ESCAPE THE ORDINARY.",
   meta: "3 NIGHTS · 4 DAYS · HIMACHAL",
@@ -375,14 +377,14 @@ export const day1 = {
   emoji: "🏔️",
   name: "THE ESCAPE",
   place: "BIR",
-  lines: ["Leave Delhi behind.", "Wake up in a mountain town that runs on chai and prayer flags."] as const,
+  lines: ["Leave the city behind.", "Wake up in a mountain town that runs on chai and prayer flags."] as const,
 
   route: {
-    kicker: "DELHI → BIR",
+    kicker: "DELHI → CHANDIGARH → BIR",
     /** The four stops the line passes through. `at` is 0–1 along the route. */
     stops: [
       { name: "DELHI", note: "traffic. noise. deadlines.", at: 0 },
-      { name: "THE HIGHWAY", note: "a comfy Traveller. windows down.", at: 0.34 },
+      { name: "CHANDIGARH", note: "pickup two. the group gets bigger.", at: 0.34 },
       { name: "THE HILLS", note: "phones lose signal.", at: 0.68 },
       { name: "BIR", note: "home for the next three nights.", at: 1 },
     ],
@@ -563,7 +565,7 @@ export const day4 = {
   moments: ["Slow morning.", "Coffee.", "Breakfast.", "Last mountain views.", "Final photographs.", "Packing up.", "The road."],
   end: ["EVERY GOOD JOURNEY", "HAS AN END."] as const,
   turn: "BUT YOU DON'T GO HOME THE SAME.",
-  road: { from: "BIR", to: "DELHI", note: "The mountains get smaller in the back window." },
+  road: { from: "BIR", to: "CHANDIGARH · DELHI", note: "The mountains get smaller in the back window." },
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -609,11 +611,34 @@ export const recap = {
 /** Same shape and same honesty as goa.price. Flip when the number exists. */
 export const price = {
   confirmed: true,
-  amount: "₹7,999",
-  note: "Per person · 3 nights, 4 days · Delhi to Delhi",
+  amount: "₹7,999 – ₹10,999",
+  note: "Per person · price depends on your pickup city: Chandigarh ₹7,999 · Delhi ₹9,999 (first 7 bookings), then ₹10,999",
   pending: "ANNOUNCED SOON",
   pendingNote: "Ask us for the number before it's public.",
 } as const;
+
+/**
+ * PRICE BY PICKUP CITY — confirmed 26 Oct 2026. Same trip, same stay, same
+ * plan; the price follows where you board. Keep the two apart: Chandigarh is a
+ * location price, not a discount on Delhi.
+ */
+export const pickupPricing = [
+  {
+    id: "delhi",
+    city: "Delhi",
+    tiers: [
+      { label: "First 7 bookings", amount: "₹9,999" },
+      { label: "After that", amount: "₹10,999" },
+    ],
+    note: "Per person · Delhi → Bir × Barot → Delhi",
+  },
+  {
+    id: "chandigarh",
+    city: "Chandigarh",
+    tiers: [{ label: "Boarding in Chandigarh", amount: "₹7,999" }],
+    note: "Per person · Chandigarh → Bir × Barot → Chandigarh",
+  },
+] as const;
 
 /**
  * Every INCLUDED line is an experience the brief itself places on the
@@ -624,7 +649,7 @@ export const price = {
 export const inclusions = {
   confirmed: true,
   included: [
-    "Delhi → Bir → Delhi in a comfortable Traveller",
+    "Delhi / Chandigarh → Bir → Chandigarh / Delhi in a comfortable Traveller",
     "3 nights' stay in Bir",
     "Bir exploration: café hopping, monasteries, sunset",
     "Plot Twist Social Night — bonfire party, music, dinner",
@@ -647,7 +672,7 @@ export const inclusions = {
 
 export const details = {
   label: "THE DETAILS",
-  headline: ["3 NIGHTS · 4 DAYS", "DELHI → BIR → DELHI"] as const,
+  headline: ["3 NIGHTS · 4 DAYS", "DELHI → CHANDIGARH → BIR × BAROT → CHANDIGARH → DELHI"] as const,
   /** Printed under the route line: where you sleep, where the days go. */
   routeNote: "Three nights in Bir. A day trip to Barot. Paragliding at Billing as an optional add-on.",
   scribble: "the boring bit. read it anyway.",
@@ -685,6 +710,6 @@ export const credits = {
 export const sticky = {
   label: "JOIN THE JOURNEY",
   href: "#apply",
-  meta: "BIR × BAROT · ₹7,999",
+  meta: "BIR × BAROT · FROM DELHI & CHANDIGARH",
   line: "twenty seats.",
 } as const;

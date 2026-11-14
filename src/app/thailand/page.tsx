@@ -6,5 +6,5 @@ import { permanentRedirect } from "next/navigation";
  * per trip, and any link shared during the preview still lands.
  */
 export default function Page() {
-  permanentRedirect("/journey/3");
+  permanentRedirect("/");
 }

@@ -8,6 +8,7 @@ import { JourneyMenu } from "../JourneyMenu";
 import { SunsetBackdrop } from "../SunsetBackdrop";
 import { Note, PlotButton } from "../Bits";
 import { MarkerUnderline } from "../Brush";
+import { GoaSwitcher } from "../goaopener/GoaEditions";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -143,6 +144,10 @@ export function GoaHero() {
             joining the line as a fifth statistic, which is what keeps it
             reading as a scrapbook aside instead of another data point.
           */}
+          <motion.div {...inFrom(0.78)}>
+            <GoaSwitcher current="newyears" />
+          </motion.div>
+
           <motion.div className="relative mt-8 max-w-[30rem]" {...inFrom(0.82)}>
             <p className="font-display text-[clamp(1.05rem,3.4vw,1.5rem)] uppercase tracking-[0.03em] text-sand">
               {goaHero.tripLine}

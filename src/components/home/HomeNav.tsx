@@ -84,7 +84,7 @@ export function HomeNav({ worlds }: { worlds: NavWorld[] }) {
             <div className="flex items-center gap-3">
               <a
                 href={nav.cta.href}
-                className="hidden touch-manipulation items-center gap-2 bg-sand px-4 py-2.5 text-[11px] font-semibold uppercase tracked text-ink shadow-[4px_4px_0_0_#FF4F87] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px] sm:inline-flex"
+                className="hidden touch-manipulation items-center gap-2 bg-pink px-5 py-3 text-[12px] font-extrabold uppercase tracked text-sand shadow-[4px_4px_0_0_#1A0D0A] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px] sm:inline-flex"
               >
                 {nav.cta.label} <span aria-hidden>↓</span>
               </a>

@@ -108,8 +108,8 @@ export function PlotButton({
     <a
       href={href}
       onClick={event ? () => track(event) : undefined}
-      className={`group relative inline-flex touch-manipulation items-center gap-3 px-7 py-4 text-[13px] font-semibold tracked uppercase transition-transform duration-200 ease-out will-change-transform hover:-translate-x-[3px] hover:-translate-y-[3px] active:translate-x-0 active:translate-y-0 ${className}`}
-      style={{ background: bg, color: fg, boxShadow: `6px 6px 0 0 ${shadow}` }}
+      className={`group relative inline-flex touch-manipulation items-center gap-3 px-8 py-5 text-[15px] font-extrabold tracked uppercase transition-transform duration-200 ease-out will-change-transform hover:-translate-x-[3px] hover:-translate-y-[3px] active:translate-x-0 active:translate-y-0 ${className}`}
+      style={{ background: bg, color: fg, boxShadow: `8px 8px 0 0 ${shadow}` }}
     >
       <span>{children}</span>
       <span className="transition-transform duration-200 group-hover:translate-x-1.5" aria-hidden>

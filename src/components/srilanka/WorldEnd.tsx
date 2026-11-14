@@ -94,9 +94,9 @@ function Close() {
       <div className="relative">
         <MaskLines lines={world7.close} className="font-serif text-[clamp(2.4rem,7.6vw,6.8rem)] leading-[0.94] tracking-[-0.02em] text-[var(--sl-bone)]" />
         <Focus delay={0.6}>
-          <div className="mt-14 flex flex-wrap items-end gap-x-6 gap-y-3">
+          <div className="mt-14 flex flex-col gap-4">
             <span className="text-[clamp(1.4rem,3.6vw,2.4rem)]"><Logo /></span>
-            <span className="font-hand text-[1.8rem] leading-none text-[var(--sl-saffron)]">{world7.signoff}</span>
+            <span className="max-w-[40ch] font-hand text-[clamp(1.35rem,3vw,1.8rem)] leading-[1.15] text-[var(--sl-saffron)]">{world7.signoff}</span>
           </div>
         </Focus>
         <Focus delay={0.9}>

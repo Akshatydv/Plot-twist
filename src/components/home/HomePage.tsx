@@ -4,7 +4,7 @@ import { WORLDS } from "@/content/homeWorlds";
 import { SHOW_MOMENTS_WALL } from "@/content/home";
 import { HomeAnalytics } from "./HomeAnalytics";
 import { HomeNav } from "./HomeNav";
-import { HomeHero } from "./HomeHero";
+import { HomeHero, type HeroTrip } from "./HomeHero";
 import { NotATour } from "./NotATour";
 import { Worlds } from "./Worlds";
 import { Principles } from "./Principles";
@@ -17,6 +17,7 @@ import { FinalScene } from "./FinalScene";
 import { ReviewsSection } from "./ReviewsSection";
 import { listApprovedReviews } from "@/lib/reviewsStore";
 import { statsOf } from "@/lib/reviews";
+import { TripWall } from "@/components/TripWall";
 
 /**
  * THE BRAND HOMEPAGE — the trailer for the whole universe.
@@ -49,7 +50,18 @@ export async function HomePage() {
 
   // The menu and the hero list a trip by what it is CALLED (THAILAND + EDC), not by its panel's big name.
   const navWorlds = WORLDS.map(({ key, label, kicker, href, journeyId }) => ({ key, name: label, kicker, href, journeyId }));
-  const heroTrips = WORLDS.map((w) => ({ key: w.key, label: w.label, href: w.href, journeyId: w.journeyId }));
+  // Editions of one destination (Goa, twice) become one hero entry with a date under it for each.
+  const heroTrips: HeroTrip[] = [];
+  for (const w of WORLDS) {
+    if (!w.group) {
+      heroTrips.push({ key: w.key, label: w.label, href: w.href, journeyId: w.journeyId });
+      continue;
+    }
+    const option = { label: w.editionLabel ?? w.label, dates: w.datesShort ?? w.dates ?? "DATES SOON", href: w.href, journeyId: w.journeyId };
+    const existing = heroTrips.find((t) => t.key === w.group);
+    if (existing) existing.options?.push(option);
+    else heroTrips.push({ key: w.group, label: w.name, href: null, journeyId: null, options: [option] });
+  }
   // The trust section's receipt: each trip's published facts, from the same data as its card.
   const ledger = WORLDS.map((w) => ({
     key: w.key,
@@ -81,6 +93,7 @@ export async function HomePage() {
         <Curation />
         {/* Hidden, not deleted: flip SHOW_MOMENTS_WALL in content/home.ts to bring the photo wall back. */}
         {SHOW_MOMENTS_WALL && <MomentsWall />}
+        <TripWall tone="dark" />
         <Trust ledger={ledger} />
         {stripReviews.length > 0 && <ReviewsSection reviews={stripReviews} count={reviewStats.count} average={reviewStats.average} />}
         <WhereNext worlds={WORLDS} />

@@ -15,6 +15,8 @@ import { WorldSaltSun } from "./WorldSaltSun";
 import { WorldLastNight } from "./WorldLastNight";
 import { Secret, WorldEnd } from "./WorldEnd";
 import { FinalCta, ForWho, Included, PhotoCredits, TheDetails } from "./TheClose";
+import { TripWall } from "@/components/TripWall";
+import { Bases, Lineup, Strangers } from "./Takeover";
 
 /**
  * THE ISLAND PAGE — Journey 4, Sri Lanka over New Year's Eve.
@@ -49,6 +51,8 @@ export function SriLankaPage() {
         <IslandHero />
         <Entry />
         <FilmIndex />
+        <Lineup />
+        <Bases />
 
         <WorldEscape />
         <WorldWild />
@@ -59,9 +63,12 @@ export function SriLankaPage() {
         <WorldEnd />
         <Secret />
 
+        <Strangers />
+
         <Included />
         <ForWho />
         <WhatsATen compact composition={cast.composition} index={slIndex("cast")} bridge={cast.bridge} tone="night" />
+        <TripWall tone="dark" />
         <TheDetails />
         <FinalCta />
         <ApplicationForm index={slIndex("application")} />

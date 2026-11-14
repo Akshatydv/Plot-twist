@@ -32,9 +32,15 @@ const nextConfig: NextConfig = {
    */
   async redirects() {
     return [
-      { source: "/journey/00", destination: "/journey/1", permanent: true },
-      { source: "/journey/03", destination: "/journey/2", permanent: true },
-      { source: "/journey/02", destination: "/journey/3", permanent: true },
+      // Journeys are named, never numbered. Every numbered URL the site has ever
+      // had lands on the named one in a single hop.
+      { source: "/journey/00", destination: "/journey/goa-new-years", permanent: true },
+      { source: "/journey/1", destination: "/journey/goa-new-years", permanent: true },
+      { source: "/journey/03", destination: "/journey/bir-barot", permanent: true },
+      { source: "/journey/2", destination: "/journey/bir-barot", permanent: true },
+      { source: "/journey/02", destination: "/journey/thailand-edc", permanent: true },
+      { source: "/journey/3", destination: "/journey/thailand-edc", permanent: true },
+      { source: "/journey/4", destination: "/journey/sri-lanka", permanent: true },
       { source: "/journey/01", destination: "/", permanent: false },
     ];
   },

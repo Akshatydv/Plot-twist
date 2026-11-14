@@ -31,10 +31,10 @@ import type { JourneyConfig } from "./types";
 
 export const JOURNEY_2: JourneyConfig = {
   id: "JOURNEY 2",
-  slug: "2",
-  displayName: "Journey 2 · Bir × Barot",
+  slug: "bir-barot",
+  displayName: "Bir × Barot",
   /** The mountain page. Bir × Barot is the headline of its own hero. */
-  nav: { label: "BIR × BAROT", kicker: "JOURNEY 2 · NOV 2026" },
+  nav: { label: "BIR × BAROT", kicker: "NOV 2026" },
   campaignId: "journey03_launch",
   /**
    * The hero states Bir, Barot and Himachal outright, so naming them here
@@ -45,13 +45,15 @@ export const JOURNEY_2: JourneyConfig = {
   seo: {
     title: "Bir Billing + Barot Group Trip, Nov 2026 | Plot Twist",
     description:
-      "20–24 Nov 2026 · ₹7,999. Twenty strangers, three nights in Bir: cafés, monasteries, Barot's waterfalls, a guided trek, two party nights. Not a tour, a story.",
+      "20–24 Nov 2026 · pickups from Delhi (from ₹9,999) and Chandigarh (₹7,999). Twenty strangers, three nights in Bir: cafés, monasteries, Barot's waterfalls, a guided trek, two party nights. Not a tour, a story.",
     startDate: "2026-11-20",
     endDate: "2026-11-24",
     destination: "Bir Billing & Barot, Himachal Pradesh, India",
   },
 
   pageVariant: "bir",
+  /** Off the public site (14 Nov 2026): Sri Lanka and Goa are the two trips now. Delete this line to bring it back. */
+  retired: true,
   /** Its own namespace — this is what stops four hunts bleeding into each other. */
   storageKey: "plottwist.plot.j03.v1",
 
@@ -62,7 +64,7 @@ export const JOURNEY_2: JourneyConfig = {
 
   /** Unused by the bir variant (its hero is FlightHero). Kept destination-free. */
   hero: {
-    eyebrow: "JOURNEY 2 — 20 SEATS, AGES 18–30",
+    eyebrow: "20 SEATS, AGES 18–30",
     sideNote: { big: ["20 PEOPLE.", "ONE SKY."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/escape.jpg",
@@ -81,7 +83,7 @@ export const JOURNEY_2: JourneyConfig = {
    * Places, not people: nobody in them is on this trip.
    */
   casting: {
-    stamp: "CASTING — JOURNEY 2",
+    stamp: "CASTING — BIR × BAROT",
     photos: [
       { src: "/photos/bir/bir-sunset-gliding.jpg", alt: "Two paragliders against an orange sunset over Bir", note: "day 02, 6pm" },
       { src: "/photos/bir/river.jpg", alt: "The Uhl river running over boulders at Barot", note: "day 01" },
@@ -175,11 +177,11 @@ export const JOURNEY_2: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 2. You're going up — and the other 19 seats are still open.",
+  solvedBody: "Bir × Barot. You're going up — and the other 19 seats are still open.",
 
   rewards: {
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 2",
+    envelopeMark: "BIR × BAROT",
   },
 };

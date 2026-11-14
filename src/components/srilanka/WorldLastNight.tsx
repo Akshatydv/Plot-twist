@@ -6,6 +6,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-
 import { world6 } from "@/content/srilanka";
 import { Focus, Footage, MaskLines, useCalm } from "../bir/Scenery";
 import { Tag, WorldCard } from "./Kit";
+import { Tonight } from "./Takeover";
 
 /**
  * WORLD 06 — 3 JAN — ONE LAST NIGHT. Mirissa → Colombo.
@@ -35,6 +36,7 @@ export function WorldLastNight() {
       />
       <Drive />
       <Supper />
+      <Tonight id="world-06" />
     </div>
   );
 }

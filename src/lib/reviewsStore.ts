@@ -8,9 +8,9 @@ import { demoReviews } from "./reviewsDemo";
 /**
  * REVIEWS STORAGE — the only file that reads or writes the reviews table.
  *
- * Public reads select DISPLAY COLUMNS of APPROVED rows only. Submission always
- * lands as PENDING. Admin moderation lives at the bottom and assumes the
- * caller has already passed requireAdmin().
+ * Public reads select DISPLAY COLUMNS only. Submission always
+ * goes live immediately. The admin helpers at the bottom (reply, remove) assume
+ * the caller has already passed requireAdmin().
  */
 
 const TABLE = "reviews";
@@ -49,7 +49,7 @@ const toPublic = (r: Row): PublicReview => ({
 });
 
 /**
- * Approved reviews, featured first then newest. Never throws: a database
+ * Every review, newest first — no pinning, no curation. Never throws: a database
  * hiccup must not take the homepage down, it just hides the section.
  *
  * DEV ONLY: with REVIEWS_DEMO=1 in a development run, clearly-labelled sample
@@ -64,7 +64,6 @@ export async function listApprovedReviews(limit = 60): Promise<PublicReview[]> {
       .from(TABLE)
       .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,reply")
       .eq("status", "APPROVED")
-      .order("featured", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(limit);
     if (error) throw error;
@@ -115,7 +114,7 @@ export class ReviewStorageError extends Error {}
 /** This guest has already left a review through their personal link. */
 export class AlreadyReviewedError extends Error {}
 
-/** Saves a review as PENDING with its (already normalised) photos. Returns the new id. */
+/** Saves a review as live, with its (already normalised) photos. Returns the new id. */
 export async function saveReview(
   input: ReviewInput & { body: string; name: string; city: string },
   photos: Buffer[],
@@ -156,6 +155,9 @@ export async function saveReview(
       photos: paths,
       verified,
       registration_id: registrationId,
+      // Reviews go live the moment they are posted. Nobody on the team chooses which ones appear.
+      status: "APPROVED",
+      approved_at: new Date().toISOString(),
       publish_consent: true,
     })
     .select("id")
@@ -175,32 +177,16 @@ export async function saveReview(
 /* admin moderation — caller must have passed requireAdmin()           */
 /* ------------------------------------------------------------------ */
 
-export type AdminReview = PublicReview & { status: "PENDING" | "APPROVED" | "REJECTED" };
+export type AdminReview = PublicReview;
 
-export async function listReviewsForAdmin(status?: string): Promise<AdminReview[]> {
-  let q = serviceRoleClient()
+export async function listReviewsForAdmin(): Promise<AdminReview[]> {
+  const { data, error } = await serviceRoleClient()
     .from(TABLE)
-    .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,reply,status")
+    .select("id,trip_id,author_name,city,rating,body,photos,verified,featured,created_at,reply")
     .order("created_at", { ascending: false })
-    .limit(200);
-  if (status && ["PENDING", "APPROVED", "REJECTED"].includes(status)) q = q.eq("status", status);
-  const { data, error } = await q;
+    .limit(300);
   if (error) throw error;
-  return ((data ?? []) as (Row & { status: AdminReview["status"] })[]).map((r) => ({ ...toPublic(r), status: r.status }));
-}
-
-export async function setReviewStatus(id: string, status: "PENDING" | "APPROVED" | "REJECTED") {
-  const { error } = await serviceRoleClient()
-    .from(TABLE)
-    .update({ status, approved_at: status === "APPROVED" ? new Date().toISOString() : null, ...(status !== "APPROVED" ? { featured: false } : {}) })
-    .eq("id", id);
-  if (error) throw error;
-}
-
-export async function setReviewFeatured(id: string, featured: boolean) {
-  // Only an approved review can be featured.
-  const { error } = await serviceRoleClient().from(TABLE).update({ featured }).eq("id", id).eq("status", "APPROVED");
-  if (error) throw error;
+  return ((data ?? []) as Row[]).map(toPublic);
 }
 
 /** Set or clear the team's public reply. */

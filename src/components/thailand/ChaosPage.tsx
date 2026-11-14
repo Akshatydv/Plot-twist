@@ -15,6 +15,7 @@ import { AtAGlance, DayLog, FestivalGuide, Payments } from "./Ops";
 import { PreRegister } from "../edc/PreRegister";
 import { Footer } from "@/components/Footer";
 import { CrossBleach, CrossBlackout, CrossCountdown, CrossDawn, CrossLightsDown } from "./Crossing";
+import { TripWall } from "@/components/TripWall";
 
 /**
  * THAILAND: THE CHAOS — the rebuilt Journey 3.
@@ -109,6 +110,7 @@ export function ChaosPage() {
             people, then the plain facts, then the ask. Quiet on purpose — by
             here the reader has been through a portal, seven worlds and a
             festival, and the job is to answer questions rather than impress. */}
+        <TripWall tone="dark" />
         <TheCast />
         <TheDetails />
         <Payments />

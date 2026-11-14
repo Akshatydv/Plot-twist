@@ -11,7 +11,7 @@ type Shot = { src: string; name: string };
 /**
  * THE REVIEWS HERO — dark, grainy, a little theatrical.
  *
- * Right-hand side is a stack of taped polaroids made from REAL approved review
+ * Right-hand side is a stack of taped polaroids made from REAL review
  * photos. When there are none yet, the same three frames appear empty and
  * dashed with a handwritten "your photo here" — the honest version of a
  * placeholder (nothing is faked; it reads as an invitation, not a gap).

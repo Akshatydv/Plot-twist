@@ -187,7 +187,7 @@ export const SHOW_MOMENTS_WALL = false;
 
 export const homeMeta = {
   title: "Plot Twist — Travel Differently.",
-  description: "Curated journeys for 20 people at a time. Goa, Bir × Barot, Thailand + EDC, Sri Lanka and whatever's next. Pick a plot.",
+  description: "Curated group trips. Sri Lanka's New Year takeover, and Goa twice: 18–21 Dec and New Year's. Pick a plot.",
 } as const;
 
 export const nav = {

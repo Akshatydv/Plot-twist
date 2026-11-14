@@ -27,10 +27,10 @@ import type { JourneyConfig } from "./types";
 
 export const JOURNEY_4: JourneyConfig = {
   id: "JOURNEY 4",
-  slug: "4",
-  displayName: "Journey 4 · Sri Lanka",
+  slug: "sri-lanka",
+  displayName: "Sri Lanka",
   /** The island page. Sri Lanka is the headline of its own hero. */
-  nav: { label: "SRI LANKA", kicker: "JOURNEY 4 · NEW YEAR 2027" },
+  nav: { label: "SRI LANKA", kicker: "NEW YEAR TAKEOVER" },
   campaignId: "journey04_launch",
   /**
    * The hero states Sri Lanka and the dates outright, so naming them here
@@ -40,13 +40,13 @@ export const JOURNEY_4: JourneyConfig = {
    * must agree with price in content/srilanka.ts.
    */
   seo: {
-    title: "Sri Lanka New Year Group Trip, 29 Dec–4 Jan | Plot Twist",
+    title: "Sri Lanka New Year Trip 2026: Group Party Trip, 29 Dec–4 Jan | Plot Twist",
     description:
-      "A slow southern Sri Lanka escape for New Year: Galle, Ahangama, Mirissa, Ella. 29 Dec–4 Jan, ₹54,999 per person, flights not included.",
+      "New Year's Eve in Sri Lanka with a group: surf in Weligama, midnight on Mirissa beach, a jungle party, then Ella. 7 days, six nights out. ₹54,999 till 20 Nov, then ₹59,999, flights excluded.",
     startDate: "2026-12-29",
     endDate: "2027-01-04",
-    destination: "Galle, Ahangama, Mirissa & Ella, Sri Lanka",
-    image: "/photos/srilanka/train-bridge.jpg",
+    destination: "Weligama, Mirissa & Ella, Sri Lanka",
+    image: "/photos/srilanka/og-takeover.jpg",
   },
 
   pageVariant: "srilanka",
@@ -60,7 +60,7 @@ export const JOURNEY_4: JourneyConfig = {
 
   /** Unused by the srilanka variant (its hero is IslandHero). Kept destination-free. */
   hero: {
-    eyebrow: "JOURNEY 4 — LIMITED SEATS, AGES 18–30",
+    eyebrow: "LIMITED SEATS, AGES 18–30",
     sideNote: { big: ["ONE ISLAND.", "ONE NEW YEAR."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/srilanka/coconut-aerial.jpg",
@@ -79,7 +79,7 @@ export const JOURNEY_4: JourneyConfig = {
    * on the page). Places, not people: nobody in them is on this trip.
    */
   casting: {
-    stamp: "CASTING — JOURNEY 4",
+    stamp: "CASTING — SRI LANKA",
     photos: [
       { src: "/photos/srilanka/train-bridge.jpg", alt: "A blue train crossing a stone-arched bridge in the jungle near Ella", note: "3 jan, ella" },
       { src: "/photos/srilanka/mirissa-aerial.jpg", alt: "The south coast from the air: palms, a bay, white surf", note: "31 dec, mirissa" },
@@ -173,11 +173,11 @@ export const JOURNEY_4: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 4. New Year's on an island — and the seats are still open.",
+  solvedBody: "Sri Lanka. New Year's on an island — and the seats are still open.",
 
   rewards: {
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 4",
+    envelopeMark: "SRI LANKA",
   },
 };

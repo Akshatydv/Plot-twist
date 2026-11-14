@@ -5,7 +5,7 @@ import { REVIEW_TRIPS, tripLabel, type PublicReview } from "@/lib/reviews";
 import { ReviewCard } from "./ReviewCard";
 
 /**
- * THE WALL — every approved review as a pinned collage, with a photo lightbox.
+ * THE WALL — every review as a pinned collage, with a photo lightbox.
  *
  * Masonry is plain CSS columns (no layout JS, no reflow jank); cards declare
  * break-inside-avoid. Trip filter chips only appear once reviews exist for more

@@ -9,7 +9,7 @@ import { soloFestivalGuide } from "@/content/guides/soloFestivalTrips";
    a different hostname than the canonical tags the moment it is not. */
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://plotwist.in";
 
-const GUIDES = [edcAloneGuide, soloFestivalGuide];
+const GUIDES: typeof edcAloneGuide[] = []; // the EDC guides are off the sitemap while Thailand is retired
 
 /**
  * One entry per journey, plus the guides.

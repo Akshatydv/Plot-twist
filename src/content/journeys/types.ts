@@ -69,7 +69,7 @@ export type LadderRung = {
  * a countdown to midnight at its centre. See components/srilanka/SriLankaPage.tsx
  * and docs/sri-lanka-design.md.
  */
-export type JourneyPageVariant = "mystery" | "reveal" | "edc" | "bir" | "srilanka";
+export type JourneyPageVariant = "mystery" | "reveal" | "edc" | "bir" | "srilanka" | "goaopener";
 
 export type JourneyConfig = {
   /** The stored id. Written to every application row and every analytics event. */

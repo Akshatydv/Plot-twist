@@ -18,8 +18,6 @@
 import "server-only";
 import { journeyById, journeyHref } from "@/content/journeys";
 import { GOA, facts as goaFacts, price as goaPrice } from "@/content/goa";
-import { TRIP, price as edcPrice } from "@/content/thailand";
-import { trip as birTrip, price as birPrice } from "@/content/bir";
 import { trip as slTrip, price as slPrice } from "@/content/srilanka";
 import { brand } from "@/content/site";
 import { MEDIA, type MediaSlot } from "@/content/home";
@@ -40,6 +38,12 @@ export type WorldTheme = {
 
 export type World = {
   key: string;
+  /**
+   * Worlds that share a destination share a group: the hero lists the group
+   * once, with each edition's dates beneath it. `editionLabel` names the edition.
+   */
+  group?: string;
+  editionLabel?: string;
   /** The registry id, for analytics. Never the destination name. */
   journeyId: string | null;
   href: string | null;
@@ -101,67 +105,12 @@ function hrefFor(id: string): string | null {
 }
 
 /**
- * Ordered by departure date (Bir, Thailand, Sri Lanka, Goa New Year's).
+ * Two trips: Sri Lanka, then Goa (18–21 Dec, then New Year's). Bir × Barot and Thailand × EDC are retired.
  * Kickers carry no journey numbers — trips are named by place only.
  */
 const noNumber = (k: string) => k.replace(/^JOURNEY\s*\d+\s*[·—-]\s*/i, "").trim();
 
 const WORLD_LIST: World[] = [
-  {
-    key: "bir",
-    // Journey 03 — built and deployed as its own page (content/bir.ts). Every
-    // fact below is read from there so this card can never disagree with it.
-    journeyId: "JOURNEY 2",
-    href: hrefFor("JOURNEY 2"),
-    followHref: brand.instagramUrl,
-    name: birTrip.name,
-    label: birTrip.name,
-    fineprint: birPrice.note,
-    kicker: journeyById("JOURNEY 2")?.nav?.kicker ?? "JOURNEY 2",
-    tagline: "Thin air. Slow mornings. Escape the ordinary.",
-    vibes: ["MOUNTAINS", "PARAGLIDING", "SLOW MORNINGS", "ADVENTURE"],
-    dates: birTrip.dates,
-    datesShort: shortDates(birTrip.dates),
-    duration: birTrip.length,
-    price: birPrice.confirmed ? rupees(birPrice.amount) : null,
-    status: { label: "APPLICATIONS OPEN", open: true },
-    media: MEDIA.BIR_VIDEO,
-    theme: {
-      bg: "#14302B",
-      fg: "#FFF1DC",
-      accent: "#FF7A3D",
-      accent2: "#BFE3D9",
-      type: "serif",
-      scrim: "linear-gradient(180deg,transparent 30%,rgba(16,38,34,0.55) 50%,rgba(14,34,30,0.85) 68%,rgba(12,30,27,0.96) 100%)",
-    },
-  },
-  {
-    key: "thailand",
-    journeyId: "JOURNEY 3",
-    href: hrefFor("JOURNEY 3"),
-    followHref: brand.instagramUrl,
-    name: "THAILAND",
-    label: "THAILAND + EDC",
-    fineprint: edcPrice.note,
-    kicker: "EDC THAILAND",
-    tagline: "Three nights of Thailand. Three nights of festival. One very loud week.",
-    vibes: ["FESTIVAL", "ISLANDS", "NIGHTLIFE", "CHAOS"],
-    dates: TRIP.dates.confirmed ? TRIP.dates.value : null,
-    datesShort: TRIP.dates.confirmed ? TRIP.dates.short : null,
-    duration: TRIP.days.confirmed ? TRIP.days.value : null,
-    price: edcPrice.confirmed ? rupees(edcPrice.amount) : null,
-    status: { label: "PRE-REGISTRATION OPEN", open: true },
-    media: MEDIA.THAILAND_VIDEO,
-    theme: {
-      bg: "#0A0414",
-      fg: "#FFF1DC",
-      accent: "#FF2E7E",
-      accent2: "#FF7FA8",
-      type: "neon",
-      scrim:
-        "radial-gradient(120% 80% at 50% 0%,rgba(139,61,255,0.35) 0%,transparent 55%),linear-gradient(180deg,rgba(10,4,20,0.45) 0%,transparent 35%,rgba(10,4,20,0.6) 62%,rgba(10,4,20,0.96) 100%)",
-    },
-  },
   {
     key: "srilanka",
     // Journey 4 — built as its own page (content/srilanka.ts, /journey/4). Dates,
@@ -197,12 +146,44 @@ const WORLD_LIST: World[] = [
     },
   },
   {
+    key: "goaopener",
+    group: "goa",
+    editionLabel: "Season Opener",
+    // Goa's second departure: 18–21 Dec 2026. See content/goaEditions.ts.
+    journeyId: "GOA-SEASON-OPENER",
+    href: hrefFor("GOA-SEASON-OPENER"),
+    followHref: brand.instagramUrl,
+    name: "GOA",
+    label: "GOA · SEASON OPENER",
+    fineprint: null,
+    kicker: "SEASON OPENER",
+    tagline: "Four days. One yacht. All the right people.",
+    vibes: ["BOLLYWOOD NIGHT", "YACHT SUNSET", "SOUTH GOA", "PEOPLE"],
+    dates: "18–21 DEC 2026",
+    datesShort: "18–21 DEC",
+    duration: "4 DAYS · 3 NIGHTS",
+    price: "ON REQUEST",
+    status: { label: "APPLICATIONS OPEN", open: true },
+    media: MEDIA.GOA_VIDEO,
+    theme: {
+      bg: "#1F1410",
+      fg: "#FFF1DC",
+      accent: "#FF7A3D",
+      accent2: "#FFE9A8",
+      type: "brush",
+      scrim:
+        "linear-gradient(180deg,rgba(31,20,16,0.5) 0%,rgba(31,20,16,0.05) 35%,rgba(31,20,16,0.4) 60%,rgba(31,20,16,0.92) 100%),linear-gradient(90deg,rgba(43,15,28,0.45) 0%,transparent 60%)",
+    },
+  },
+  {
     key: "goa",
+    group: "goa",
+    editionLabel: "New Year's",
     journeyId: "JOURNEY 1",
     href: hrefFor("JOURNEY 1"),
     followHref: brand.instagramUrl,
     name: "GOA",
-    label: "GOA",
+    label: "GOA · NEW YEAR'S",
     fineprint: goaPrice.confirmed ? goaPrice.note : goaPrice.pendingNote,
     kicker: "NEW YEAR'S EDITION",
     tagline: "One countdown. One yacht. Zero early nights.",

@@ -37,10 +37,10 @@ import type { JourneyConfig } from "./types";
 
 export const JOURNEY_3: JourneyConfig = {
   id: "JOURNEY 3",
-  slug: "3",
-  displayName: "Journey 3 · Thailand",
+  slug: "thailand-edc",
+  displayName: "Thailand × EDC",
   /** The festival page. EDC Thailand is the headline of its own hero. */
-  nav: { label: "EDC THAILAND", kicker: "JOURNEY 3 · 15–21 DEC 2026" },
+  nav: { label: "EDC THAILAND", kicker: "15–21 DEC 2026" },
   campaignId: "journey02_launch",
   /** The festival page. See components/edc/EdcPage.tsx. */
   /**
@@ -68,6 +68,8 @@ export const JOURNEY_3: JourneyConfig = {
   },
 
   pageVariant: "edc",
+  /** Off the public site (14 Nov 2026): Sri Lanka and Goa are the two trips now. Delete this line to bring it back. */
+  retired: true,
   /** Its own namespace — this is what stops three hunts bleeding into each other. */
   storageKey: "plottwist.plot.j02.v1",
 
@@ -83,7 +85,7 @@ export const JOURNEY_3: JourneyConfig = {
    * must not need a second edit.
    */
   hero: {
-    eyebrow: "JOURNEY 3 — 16 SEATS, AGES 18–30",
+    eyebrow: "16 SEATS, AGES 18–30",
     sideNote: { big: ["16 PEOPLE.", "ONE MAINSTAGE."], invite: "COME GET CAST." },
     photo: {
       src: "/photos/plot.jpg",
@@ -121,7 +123,7 @@ export const JOURNEY_3: JourneyConfig = {
    * NOBODY IN THEM IS ON THIS TRIP, and the notes are careful not to imply it.
    */
   casting: {
-    stamp: "CASTING — JOURNEY 3",
+    stamp: "CASTING — THAILAND × EDC",
     photos: [
       {
         src: "/photos/thailand/cast-01.jpg",
@@ -231,11 +233,11 @@ export const JOURNEY_3: JourneyConfig = {
     },
   ],
 
-  solvedBody: "Journey 3. That was the easy half — the other 19 seats are still open.",
+  solvedBody: "Thailand × EDC. That was the easy half — the other 19 seats are still open.",
 
   rewards: {
     pool: REWARD_POOL,
     weightsByClueProgress: DEFAULT_REWARD_WEIGHTS,
-    envelopeMark: "JOURNEY 3",
+    envelopeMark: "THAILAND × EDC",
   },
 };

@@ -6,6 +6,7 @@ import { world1 } from "@/content/srilanka";
 import { Note } from "../Bits";
 import { Footage, MaskLines, Stars, useCalm } from "../bir/Scenery";
 import { HorizontalReel, Tag, WorldCard } from "./Kit";
+import { Tonight } from "./Takeover";
 
 /**
  * WORLD 01 — 29 DEC — THE ESCAPE.
@@ -26,6 +27,7 @@ export function WorldEscape() {
       <DepartureBoard />
       <RoadTrip />
       <EllaSunset />
+      <Tonight id="world-01" />
     </div>
   );
 }

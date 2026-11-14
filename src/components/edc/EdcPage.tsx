@@ -20,6 +20,7 @@ import { TheFaq } from "./TheFaq";
 import { Room } from "./Room";
 import { SoundDesk } from "./SoundDesk";
 import { CrewRadio } from "./CrewRadio";
+import { TripWall } from "@/components/TripWall";
 
 /**
  * THE FESTIVAL PAGE — Journey 02, EDC Thailand.
@@ -264,6 +265,7 @@ export function EdcPage() {
             Answering them here is also the only reason FAQPage markup on this
             page is honest: the answers are visible.
           */}
+          <TripWall tone="dark" />
           <TheFaq />
 
           <PreRegister />

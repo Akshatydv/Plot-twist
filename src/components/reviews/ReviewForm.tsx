@@ -178,7 +178,7 @@ export function ReviewForm({ invite }: { invite?: ReviewInvite } = {}) {
             Thank you{doneName ? `, ${doneName}` : ""}.
           </h3>
           <p className="mx-auto mt-4 max-w-[34ch] font-serif text-[1.3rem] leading-[1.35] text-ink/80">
-            We read every review ourselves. Once it’s approved, your story goes up on the wall.
+            Your story is up on the wall right now, exactly as you wrote it.
           </p>
           <p className="mt-6 font-hand text-[1.6rem] leading-none text-pink">that’s the plot.</p>
         </div>
@@ -459,11 +459,11 @@ export function ReviewForm({ invite }: { invite?: ReviewInvite } = {}) {
             Sending…
           </>
         ) : (
-          <>Pin it to the wall →</>
+          <>Post my review →</>
         )}
       </button>
       <p className="mt-4 text-center text-[0.8rem] leading-relaxed text-ink/55">
-        Every review is read by a person before it goes live. We never share your details beyond what you write here.
+        Reviews go live instantly and exactly as written — we don’t pick and choose. We never share your details beyond what you write here.
       </p>
     </form>
   );

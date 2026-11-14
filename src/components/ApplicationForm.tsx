@@ -66,7 +66,15 @@ function FieldError({ message }: { message?: string }) {
  */
 export function ApplicationForm({
   index,
+  pickups,
 }: {
+  /**
+   * Optional pickup cities, each with the price that applies when boarding
+   * there (Bir × Barot: Delhi and Chandigarh). When given, the basics step asks
+   * for one and the choice travels with the application inside the city field
+   * ("Pune · pickup: Chandigarh"), so no database change is needed.
+   */
+  pickups?: readonly { id: string; city: string; price: string }[];
   /**
    * Section number beside the label. Defaults to `application.index` —
    * this section's position in JOURNEY 01's running order. The reveal page
@@ -79,6 +87,8 @@ export function ApplicationForm({
   const { count, solvedGuess, reward } = usePlot();
 
   const [step, setStep] = useState(0);
+  const [pickup, setPickup] = useState<string | null>(null);
+  const [pickupError, setPickupError] = useState<string | null>(null);
   const [values, setValues] = useState<Values>(EMPTY);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error" | "duplicate">("idle");
@@ -154,6 +164,12 @@ export function ApplicationForm({
   };
 
   const next = () => {
+    if (step === 0 && pickups?.length && !pickup) {
+      setPickupError("Pick where you'll board.");
+      setFormError("Choose your pickup city above.");
+      return;
+    }
+    setPickupError(null);
     const real = onlyReal(step === 0 ? validateBasics(values) : validateAnswers(values));
     if (Object.keys(real).length > 0) {
       setErrors(real);
@@ -188,7 +204,9 @@ export function ApplicationForm({
         instagram: values.instagram,
         mobile: values.mobile,
         age: values.age,
-        city: values.city,
+        city: pickups?.length && pickup
+          ? `${values.city.trim().slice(0, 80 - pickup.length - 11)} · pickup: ${pickup}`
+          : values.city,
         answer_1: values.answer_1,
         answer_2: values.answer_2,
         answer_3: values.answer_3,
@@ -490,6 +508,33 @@ export function ApplicationForm({
                     );
                   })}
                 </div>
+
+                {pickups?.length ? (
+                  <fieldset className="mt-9">
+                    <legend className="text-[10px] tracked text-ink/60">WHERE WILL YOU BOARD?</legend>
+                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                      {pickups.map((p) => {
+                        const on = pickup === p.city;
+                        return (
+                          <button
+                            key={p.id}
+                            type="button"
+                            aria-pressed={on}
+                            onClick={() => {
+                              setPickup(p.city);
+                              setPickupError(null);
+                            }}
+                            className={`flex items-baseline justify-between gap-4 border-2 px-4 py-3.5 text-left transition-colors ${on ? "border-pink bg-pink/10" : "border-ink/20 hover:border-ink/50"}`}
+                          >
+                            <span className="font-display text-[1.15rem] uppercase">{p.city}</span>
+                            <span className="text-[0.9rem] text-ink/65">{p.price}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <FieldError message={pickupError ?? undefined} />
+                  </fieldset>
+                ) : null}
 
                 <Note className="mt-8 block text-[clamp(1.05rem,3vw,1.3rem)] text-ink/45" rotate={-2}>
                   {application.ageNotice}

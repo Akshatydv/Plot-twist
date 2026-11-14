@@ -20,6 +20,7 @@ import { EdcPage } from "@/components/edc/EdcPage";
 import { ChaosPage } from "./thailand/ChaosPage";
 import { BirPage } from "@/components/bir/BirPage";
 import { SriLankaPage } from "@/components/srilanka/SriLankaPage";
+import { GoaOpenerPage } from "@/components/goaopener/GoaOpenerPage";
 import type { JourneyConfig } from "@/content/journeys";
 
 /**
@@ -85,6 +86,17 @@ export function JourneyPage({ journey }: { journey: JourneyConfig }) {
       <JourneyProvider journey={journey}>
         <PlotProvider>
           <SriLankaPage />
+        </PlotProvider>
+      </JourneyProvider>
+    );
+  }
+
+  /* GOA'S SECOND DEPARTURE: the Season Opener. Same wrapper contract as the others. */
+  if (journey.pageVariant === "goaopener") {
+    return (
+      <JourneyProvider journey={journey}>
+        <PlotProvider>
+          <GoaOpenerPage />
         </PlotProvider>
       </JourneyProvider>
     );

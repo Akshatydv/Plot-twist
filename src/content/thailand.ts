@@ -1456,7 +1456,7 @@ export const faq = {
 } as const;
 
 export const wristband = {
-  label: "JOURNEY 3 · EDC THAILAND",
+  label: "THAILAND × EDC",
   serial: "PT—02",
   idle: "TAP TO FASTEN",
   fastened: "ON. THAT'S PERMANENT.",

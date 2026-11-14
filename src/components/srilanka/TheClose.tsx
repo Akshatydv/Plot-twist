@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { credits, details, finalCta, footage, forWho, included, photos, slIndex, trip } from "@/content/srilanka";
+import { credits, details, finalCta, footage, forWho, included, partyFootage, partyPhotos, photos, real, realFootage, slIndex, trip } from "@/content/srilanka";
 import { contact } from "@/content/site";
 import { PLOT_EVENTS, track } from "@/lib/analytics";
 import { Note, PlotButton, SectionLabel } from "../Bits";
@@ -144,15 +144,25 @@ export function TheDetails() {
         <Reveal delay={0.16}>
           <div className="mt-12 grid gap-8 border-t border-[#07090a]/15 pt-10 sm:grid-cols-[1.2fr_1fr] sm:items-end">
             <div>
-              <span className="text-[9px] tracked text-[#c4862c]">THE DAMAGE</span>
+              <span className="text-[9px] tracked text-[#c4862c]">{details.priceLabel}</span>
               <p className="mt-2 font-display text-[clamp(3rem,9vw,6rem)] leading-[0.85]">{P.confirmed && P.amount ? P.amount : P.pending}</p>
-              <p className="mt-3 max-w-[44ch] text-[0.98rem] leading-[1.5] text-[#07090a]/60">{P.confirmed && P.amount ? P.note : P.pendingNote}</p>
+              <p className="mt-3 text-[11px] font-semibold tracked text-[#07090a]/60">{P.confirmed && P.amount ? details.priceUnit : P.pendingNote}</p>
             </div>
             <div className="border-l-2 border-[#1f4d3a] pl-4">
               <span className="text-[9px] tracked text-[#1f4d3a]">SELECTION</span>
               <p className="mt-1 leading-[1.45] text-[#07090a]/85">{details.selection}</p>
             </div>
           </div>
+
+          {/* the fine print: only what is decided is stated; the rest says when you get it */}
+          <dl className="mt-12 grid gap-x-10 border-t border-[#07090a]/15 sm:grid-cols-2">
+            {details.fineprint.map((row) => (
+              <div key={row.k} className="border-b border-[#07090a]/15 py-5">
+                <dt className="text-[10px] font-semibold tracked text-[#07090a]">{row.k}</dt>
+                <dd className="mt-1.5 max-w-[52ch] text-[0.98rem] leading-[1.5] text-[#07090a]/65">{row.v}</dd>
+              </div>
+            ))}
+          </dl>
 
           <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-5">
             <PlotButton href="#apply" bg="#07090a" fg="#F4EDE1" shadow="#F2A23A" event={PLOT_EVENTS.requestInvite}>
@@ -187,7 +197,7 @@ export function FinalCta() {
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07090a]/85 via-[#07090a]/45 to-[#07090a]/15" />
       <div className="grain pointer-events-none absolute inset-0" />
       <div className="relative">
-        <MaskLines lines={finalCta.headline} className="font-display text-[clamp(3.6rem,13vw,11.5rem)] uppercase leading-[0.84] text-[var(--sl-bone)]" />
+        <MaskLines lines={finalCta.headline} className="font-display text-[clamp(2.6rem,9.4vw,8.6rem)] uppercase leading-[0.86] text-[var(--sl-bone)]" />
         <Focus delay={0.4}>
           <p className="mt-6 max-w-[40ch] font-serif text-[clamp(1.3rem,3vw,2rem)] italic text-[var(--sl-bone)]/85">{finalCta.sub}</p>
         </Focus>
@@ -216,7 +226,7 @@ export function FinalCta() {
  * author, source and licence are named where the work is shown.
  */
 export function PhotoCredits() {
-  const all = [...Object.values(photos), ...Object.values(footage)];
+  const all = [...Object.values(photos), ...Object.values(partyPhotos), ...Object.values(real), ...Object.values(footage), ...Object.values(partyFootage), ...Object.values(realFootage)];
   return (
     <section className="bg-[#07090a] px-5 py-6 sm:px-8 lg:px-14">
       <details className="group mx-auto max-w-[1200px] text-[#F4EDE1]/45">

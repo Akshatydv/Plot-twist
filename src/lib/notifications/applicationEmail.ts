@@ -60,6 +60,7 @@ const JOURNEY_COLOURS: Record<string, { accent: string; deep: string }> = {
   "JOURNEY 2": { accent: "#7fe0d6", deep: "#1f8a7a" }, // Bir × Barot — mountain teal
   "JOURNEY 3": { accent: "#b98cff", deep: "#7a3fe0" }, // Thailand / EDC — the festival violet
   "JOURNEY 4": { accent: "#3fd0bf", deep: "#0b7f74" }, // Sri Lanka — lagoon
+  "GOA-SEASON-OPENER": { accent: "#ff7a3d", deep: "#c9561f" }, // Goa · Season Opener — sunset orange
   BALI: { accent: SUNSET_ON_DARK, deep: SUNSET },
 };
 

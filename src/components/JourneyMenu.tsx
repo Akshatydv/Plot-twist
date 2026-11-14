@@ -173,6 +173,20 @@ export function JourneyMenu({
               On its own page it is not in the list, and this row is the only
               way home, so it appears.
             */}
+            {/* Trust, one tap away from every journey page. */}
+            <Link
+              href="/reviews"
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className={`block border-t px-4 py-3 font-display text-[clamp(1.05rem,3.4vw,1.35rem)] uppercase leading-none tracking-[0.02em] transition-colors ${
+                night
+                  ? "border-sand/12 hover:bg-[var(--edc-hot)] hover:text-[#0a0414]"
+                  : "border-ink/12 hover:bg-pink hover:text-sand"
+              }`}
+            >
+              ★ What the cast said
+            </Link>
+
             {!others.some((j) => journeyHref(j) === "/") && (
               <Link
                 href="/"

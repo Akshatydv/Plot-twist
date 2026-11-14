@@ -64,7 +64,7 @@ export function FinalScene() {
         >
           <a
             href={finalScene.primary.href}
-            className="group inline-flex touch-manipulation items-center gap-3 bg-sand px-7 py-4 text-[13px] font-semibold uppercase tracked text-ink shadow-[6px_6px_0_0_#FF4F87] transition-transform duration-200 hover:-translate-x-[3px] hover:-translate-y-[3px]"
+            className="group inline-flex touch-manipulation items-center gap-3 bg-sand px-8 py-5 text-[15px] font-extrabold uppercase tracked text-ink shadow-[8px_8px_0_0_#FF4F87] transition-transform duration-200 hover:-translate-x-[3px] hover:-translate-y-[3px]"
           >
             {finalScene.primary.label} <span className="transition-transform group-hover:translate-x-1.5" aria-hidden>→</span>
           </a>

@@ -14,6 +14,8 @@ import { TheHomeBase } from "./TheHomeBase";
 import { TheFinePrint } from "./TheFinePrint";
 import { TheFacts } from "./TheFacts";
 import { FinalBeat } from "./FinalBeat";
+import { TripWall } from "@/components/TripWall";
+import { GoaStrip } from "@/components/goaopener/GoaEditions";
 
 /**
  * THE REVEAL PAGE — Journey 00, Goa.
@@ -90,6 +92,7 @@ export function GoaPage() {
           intact.
         */}
         <TheHomeBase />
+        <TripWall />
 
         <div className="relative -mt-4 overflow-hidden">
           <Ticker
@@ -114,6 +117,7 @@ export function GoaPage() {
         <TheFinePrint />
 
         <FinalBeat />
+        <GoaStrip current="newyears" />
         <ApplicationForm index={goaIndex("application")} />
         <Footer />
       </main>

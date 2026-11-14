@@ -119,69 +119,81 @@ export function IslandHero() {
               {hero.kicker}
             </motion.p>
 
-            <h1 className="mt-3 font-display uppercase leading-[0.8] tracking-[-0.01em] text-[var(--sl-bone)]">
-              <span className="sr-only">
-                {hero.title} — {hero.line}, {hero.dates}
-              </span>
-              {/* letter by letter, each rising out of its own mask */}
-              <span aria-hidden className="flex text-[clamp(5.2rem,21vw,19rem)]">
-                {hero.title.split("").map((ch, i) => (
-                  <span key={i} className="overflow-hidden">
+            <h1 className="mt-5 font-display uppercase leading-[0.86] tracking-[-0.005em] text-[var(--sl-bone)]">
+              <span className="sr-only">{hero.title.join(" ")}</span>
+              {/* line by line, each rising out of its own mask; the last line carries the accent */}
+              <span aria-hidden className="block text-[clamp(3.1rem,min(12.4vw,17.5svh),11rem)]">
+                {hero.title.map((line, i) => (
+                  <span key={line} className="block overflow-hidden pb-[0.04em]">
                     <motion.span
-                      className="block"
+                      className={`block ${i === hero.title.length - 1 ? "text-[var(--sl-saffron)]" : ""}`}
                       initial={reduce ? false : { y: "105%" }}
                       animate={{ y: "0%" }}
-                      transition={{ duration: 1.1, delay: 0.3 + i * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                      transition={{ duration: 1.1, delay: 0.3 + i * 0.14, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      {ch === " " ? " " : ch}
+                      {line}
                     </motion.span>
                   </span>
                 ))}
               </span>
             </h1>
 
-            <motion.div
-              aria-hidden
-              className="mt-4 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+            <motion.p
+              className="mt-5 max-w-[44ch] font-serif text-[clamp(1.1rem,2.5vw,1.6rem)] italic leading-[1.25] text-[var(--sl-bone)]/90"
               initial={reduce ? false : { opacity: 0, filter: "blur(8px)" }}
               animate={{ opacity: 1, filter: "blur(0px)" }}
               transition={{ duration: 1.2, delay: 0.95 }}
             >
-              <span className="font-serif text-[clamp(1.6rem,4.6vw,3.4rem)] italic leading-none text-[var(--sl-bone)]">{hero.line.toLowerCase().replace(/^\w/, (c) => c.toUpperCase())}</span>
-              <span className="font-display text-[clamp(1.1rem,2.6vw,1.8rem)] tracking-[0.04em] text-[var(--sl-saffron)]">{hero.dates}</span>
-            </motion.div>
+              {hero.line}
+            </motion.p>
 
             <motion.div
-              className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-8"
+              className="mt-7 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6"
               initial={reduce ? false : { opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 1.25 }}
             >
-              <a
-                href={hero.cta.href}
-                className="group inline-flex min-h-[48px] touch-manipulation items-center gap-3 border border-[var(--sl-bone)]/70 px-6 py-3.5 text-[12px] font-semibold tracked text-[var(--sl-bone)] transition-colors hover:bg-[var(--sl-bone)] hover:text-[#07090a]"
-              >
-                {hero.cta.label}
-                <span aria-hidden className="transition-transform group-hover:translate-y-1">
-                  ↓
-                </span>
-              </a>
-              <span className="text-[10px] tracked text-[var(--sl-bone)]/60 sm:text-[11px]">{hero.meta}</span>
-              <a
-                href={hero.secondary.href}
-                onClick={() => track(PLOT_EVENTS.requestInvite)}
-                className="text-[11px] font-semibold tracked text-[var(--sl-saffron)] underline decoration-[var(--sl-saffron)]/40 underline-offset-[6px] sm:ml-auto"
-              >
-                {hero.secondary.label} →
-              </a>
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+                <a
+                  href={hero.cta.href}
+                  onClick={() => track(PLOT_EVENTS.requestInvite)}
+                  className="group inline-flex min-h-[52px] touch-manipulation items-center justify-center gap-3 bg-[var(--sl-saffron)] px-7 py-3.5 text-[12px] font-semibold tracked text-[#07090a] shadow-[5px_5px_0_0_#F4EDE1] transition-transform hover:-translate-x-[2px] hover:-translate-y-[2px]"
+                >
+                  {hero.cta.label}
+                  <span aria-hidden className="transition-transform group-hover:translate-x-1">
+                    →
+                  </span>
+                </a>
+                <a
+                  href={hero.secondary.href}
+                  className="group inline-flex min-h-[48px] touch-manipulation items-center justify-center gap-3 border border-[var(--sl-bone)]/60 px-6 py-3 text-[12px] font-semibold tracked text-[var(--sl-bone)] transition-colors hover:bg-[var(--sl-bone)] hover:text-[#07090a]"
+                >
+                  {hero.secondary.label}
+                  <span aria-hidden className="transition-transform group-hover:translate-y-1">
+                    ↓
+                  </span>
+                </a>
+              </div>
+
+              {/* the date and the price: present, never louder than the headline */}
+              <dl className="flex items-stretch gap-5 pr-16 sm:pr-0 border-l border-[var(--sl-bone)]/30 pl-5 sm:ml-4">
+                <div>
+                  <dt className="text-[9px] tracked text-[var(--sl-bone)]/55">WHEN</dt>
+                  <dd className="mt-1 font-display text-[clamp(1rem,2vw,1.35rem)] tracking-[0.03em] text-[var(--sl-bone)]">{hero.dates}</dd>
+                </div>
+                <div>
+                  <dt className="text-[9px] tracked text-[var(--sl-bone)]/55">{hero.priceNote}</dt>
+                  <dd className="mt-1 font-display text-[clamp(1rem,2vw,1.35rem)] tracking-[0.03em] text-[var(--sl-saffron)]">{hero.price}</dd>
+                </div>
+              </dl>
             </motion.div>
           </div>
         </motion.div>
 
         {!reduce && (
-          <motion.div aria-hidden className="pointer-events-none absolute bottom-5 left-1/2 z-10 hidden -translate-x-1/2 sm:block" style={{ opacity: cueO }}>
+          <motion.div aria-hidden className="pointer-events-none absolute bottom-3 right-5 z-10 flex flex-col items-center gap-2 sm:bottom-5 sm:left-1/2 sm:right-auto sm:-translate-x-1/2" style={{ opacity: cueO }}>
             <motion.span
-              className="block h-10 w-px bg-[var(--sl-bone)]/50"
+              className="block h-8 w-px bg-[var(--sl-bone)]/60 sm:h-10"
               animate={{ scaleY: [0.3, 1, 0.3], originY: 0 }}
               transition={{ duration: 2.2, repeat: Infinity }}
             />

@@ -13,7 +13,7 @@ import { Stars } from "./Stars";
  * wall of them reads as a collage instead of a table.
  *
  * Text is rendered as text (React escapes it) — never as HTML — because it is
- * public input that an admin approved by reading, not by sanitising.
+ * public input that nobody pre-screens, so it must never be treated as markup.
  */
 
 const TONES = [

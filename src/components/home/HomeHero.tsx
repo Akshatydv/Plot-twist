@@ -16,6 +16,12 @@ export type HeroTrip = {
   href: string | null;
   /** For analytics. Never the destination name. */
   journeyId: string | null;
+  /**
+   * A destination that departs more than once (Goa) lists each departure
+   * beneath its name, with its dates, so a visitor picks the date from the
+   * first screen. When present, `href` is null: the dates are the links.
+   */
+  options?: { label: string; dates: string; href: string | null; journeyId: string | null }[];
 };
 
 /**
@@ -185,6 +191,33 @@ export function HomeHero({ trips }: { trips: HeroTrip[] }) {
                   </>
                 );
                 const cls = "group relative block touch-manipulation outline-none";
+                if (t.options) {
+                  return (
+                    <li key={t.key}>
+                      <span className="relative block">
+                        <span className="absolute inset-x-0 top-0 h-px bg-sand/30" aria-hidden />
+                        <span className="block pt-2.5 font-serif text-[clamp(1.15rem,4.6vw,1.45rem)] leading-none text-sand">{titleCase(t.label)}</span>
+                        <ul className="mt-2.5 space-y-1.5">
+                          {t.options.map((o) => (
+                            <li key={o.label}>
+                              <Link
+                                href={o.href ?? "#journeys"}
+                                className="group/o flex items-baseline gap-2 whitespace-nowrap text-[10px] font-semibold tracked text-sand/75 outline-none transition-colors hover:text-sand focus-visible:text-sand"
+                                onClick={() => track(PLOT_EVENTS.enterJourney, { journey_id: o.journeyId, from: "hero" })}
+                              >
+                                <span className="text-pink">{o.dates}</span>
+                                <span className="font-serif text-[0.85rem] font-normal normal-case italic tracking-normal">{o.label}</span>
+                                <span className="text-pink opacity-0 transition-opacity group-hover/o:opacity-100 group-focus-visible/o:opacity-100" aria-hidden>
+                                  →
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </span>
+                    </li>
+                  );
+                }
                 return (
                   <li key={t.key}>
                     {t.href ? (
@@ -210,7 +243,7 @@ export function HomeHero({ trips }: { trips: HeroTrip[] }) {
           <motion.div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4" {...intro(1.6)}>
             <a
               href={homeHero.primary.href}
-              className="group inline-flex touch-manipulation items-center gap-3 bg-sand px-7 py-4 text-[13px] font-semibold uppercase tracked text-ink shadow-[6px_6px_0_0_#FF4F87] transition-transform duration-200 hover:-translate-x-[3px] hover:-translate-y-[3px] active:translate-x-0 active:translate-y-0"
+              className="group inline-flex touch-manipulation items-center gap-3 bg-sand px-8 py-5 text-[15px] font-extrabold uppercase tracked text-ink shadow-[8px_8px_0_0_#FF4F87] transition-transform duration-200 hover:-translate-x-[3px] hover:-translate-y-[3px] active:translate-x-0 active:translate-y-0"
             >
               {homeHero.primary.label}
               <span className="transition-transform duration-200 group-hover:translate-y-1" aria-hidden>
@@ -219,7 +252,7 @@ export function HomeHero({ trips }: { trips: HeroTrip[] }) {
             </a>
             <a
               href={homeHero.secondary.href}
-              className="touch-manipulation border-b border-sand/50 pb-1 text-[12px] font-medium uppercase tracked text-sand/90 transition-colors hover:border-pink hover:text-sand"
+              className="touch-manipulation border-b-2 border-pink pb-1 text-[13px] font-bold uppercase tracked text-sand transition-colors hover:border-pink hover:text-sand"
             >
               {homeHero.secondary.label}
             </a>

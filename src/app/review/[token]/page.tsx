@@ -75,7 +75,7 @@ export default async function PersonalReviewPage({ params }: { params: Promise<{
           <span className="font-serif normal-case italic text-[#FF4F87]">told us. Thank you.</span>
         </h1>
         <p className="mt-6 max-w-[40ch] font-serif text-[1.35rem] leading-[1.35] text-sand/80">
-          Your {trip} review is with us. Once it’s approved it goes up on the wall with the rest of the cast.
+          Your {trip} review is with us. It’s on the wall with the rest of the cast.
         </p>
         <Link href="/reviews" className="mt-8 inline-flex min-h-12 items-center bg-sand px-6 py-3 text-[12px] font-semibold uppercase tracking-[0.18em] text-ink shadow-[5px_5px_0_0_#FF4F87]">
           See the wall →

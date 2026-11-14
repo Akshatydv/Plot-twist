@@ -6,6 +6,7 @@ import { world5 } from "@/content/srilanka";
 import { Note } from "../Bits";
 import { Footage, FrameStack, useCalm } from "../bir/Scenery";
 import { Tag, WorldCard } from "./Kit";
+import { Tonight } from "./Takeover";
 
 /**
  * WORLD 05 — 2 JAN — SALT & SUN. Ahangama → Mirissa.
@@ -24,7 +25,7 @@ import { Tag, WorldCard } from "./Kit";
  */
 export function WorldSaltSun() {
   return (
-    <div id={world5.id} data-world={world5.id} className="relative bg-[var(--sl-deep)]">
+    <div id={world5.id} data-world={world5.id} className="relative bg-[var(--sl-deep)]" style={{ "--sl-deep": "#0c1f18" } as React.CSSProperties}>
       <WorldCard
         n={world5.n}
         date={world5.date}
@@ -33,11 +34,12 @@ export function WorldSaltSun() {
         lines={world5.lines}
         slot={world5.slot}
         tone={world5.tone}
-        ground="#062b33"
-        tint="linear-gradient(to bottom, rgba(6,43,51,0.15) 0%, rgba(6,43,51,0.05) 45%, rgba(6,43,51,0.85) 100%)"
+        ground="#0c1f18"
+        tint="linear-gradient(to bottom, rgba(12,31,24,0.2) 0%, rgba(12,31,24,0.05) 45%, rgba(12,31,24,0.88) 100%)"
       />
       <Hops />
       <FloatingSunset />
+      <Tonight id="world-05" />
     </div>
   );
 }

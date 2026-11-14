@@ -150,7 +150,7 @@ function RoadHome() {
   const trip = useTransform(p, [0.05, 0.95], ["0%", "100%"]);
 
   return (
-    <section ref={ref} data-hud="day4" aria-label="The road back to Delhi" className={reduce ? "relative h-[100svh]" : "relative h-[240svh]"}>
+    <section ref={ref} data-hud="day4" aria-label="The road back to Chandigarh and Delhi" className={reduce ? "relative h-[100svh]" : "relative h-[240svh]"}>
       <div className={`${reduce ? "relative" : "sticky top-0"} h-[100svh] overflow-hidden bg-[#F1E6D6]`}>
         <Footage slot={media.road}>
           <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, #dfe3e2 0%, #f1e6d6 58%, #e6d4bc 100%)" }} />

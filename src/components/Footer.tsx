@@ -2,6 +2,7 @@ import Link from "next/link";
 import { brand, footer } from "@/content/site";
 import { Logo } from "./Logo";
 import { InstagramLink } from "./InstagramLink";
+import { ReviewsTrustStrip } from "./ReviewsTrustStrip";
 
 /**
  * THE TWO TONES THIS FOOTER CAN BE LIT IN.
@@ -44,6 +45,9 @@ export function Footer({ tone = "warm" }: { tone?: "warm" | "night" | "alpine" }
       <div className="grain pointer-events-none absolute inset-0" />
 
       <div className="relative">
+        {/* Trust, on every page: the real average and count, linking to every review. Absent until there are reviews. */}
+        <ReviewsTrustStrip accent={ft.signature} />
+
         <div className="flex flex-wrap items-end justify-between gap-8">
           <Logo className="text-[26px] sm:text-[40px]" />
           <div className="sm:text-right">
@@ -69,6 +73,9 @@ export function Footer({ tone = "warm" }: { tone?: "warm" | "night" | "alpine" }
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-sand/15 pt-5 text-[10px] tracked text-sand/45">
           <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span>{footer.legal}</span>
+            <Link href="/reviews" className="hover:text-sand/80">
+              Reviews
+            </Link>
             {footer.legalLinks.map((l) => (
               <Link key={l.href} href={l.href} className="hover:text-sand/80">
                 {l.label}

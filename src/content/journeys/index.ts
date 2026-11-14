@@ -10,6 +10,7 @@ import { JOURNEY_1 } from "./journey1";
 import { JOURNEY_2 } from "./journey2";
 import { JOURNEY_3 } from "./journey3";
 import { JOURNEY_4 } from "./journey4";
+import { JOURNEY_GOA_OPENER } from "./journey-goa-opener";
 import { JOURNEY_BALI } from "./journey-bali";
 import type { JourneyConfig, JourneyId } from "./types";
 
@@ -20,10 +21,10 @@ export type { JourneyConfig, JourneyId, JourneyPageVariant, LadderRung } from ".
  * validator need the full list so old applications stay readable.
  *
  * ─── THE NUMBERS ARE THE IDS NOW ────────────────────────────────────────────
- *   Journey 1 — Goa           id "JOURNEY 1"   /journey/1
- *   Journey 2 — Bir × Barot   id "JOURNEY 2"   /journey/2
- *   Journey 3 — Thailand      id "JOURNEY 3"   /journey/3
- *   Journey 4 — Sri Lanka     id "JOURNEY 4"   /journey/4
+ *   Goa · New Year's      id "JOURNEY 1"   /journey/goa-new-years
+ *   Bir × Barot            id "JOURNEY 2"   /journey/bir-barot
+ *   Thailand × EDC         id "JOURNEY 3"   /journey/thailand-edc
+ *   Sri Lanka              id "JOURNEY 4"   /journey/sri-lanka  (ids stay as stored; only names are public)
  *   Bali (retired)            id "BALI"        (no public page)
  *
  * They used to be "JOURNEY 00" / "JOURNEY 03" / "JOURNEY 02" / "JOURNEY 01",
@@ -33,7 +34,7 @@ export type { JourneyConfig, JourneyId, JourneyPageVariant, LadderRung } from ".
  *
  * Ordered as the homepage shows them.
  */
-export const JOURNEYS: JourneyConfig[] = [JOURNEY_1, JOURNEY_2, JOURNEY_3, JOURNEY_4, JOURNEY_BALI];
+export const JOURNEYS: JourneyConfig[] = [JOURNEY_1, JOURNEY_GOA_OPENER, JOURNEY_2, JOURNEY_3, JOURNEY_4, JOURNEY_BALI];
 
 /**
  * THE OLD IDS, AND WHERE THEY GO.
@@ -81,7 +82,7 @@ export const DEFAULT_JOURNEY = JOURNEY_1;
  * constant rather than a hardcoded slug, so it keeps pointing at the right
  * journey if the roster or the default ever changes again.
  */
-export const INTERNATIONAL_JOURNEY = JOURNEY_3;
+export const INTERNATIONAL_JOURNEY = JOURNEY_4;
 
 /**
  * WHERE A JOURNEY LIVES.

@@ -95,7 +95,7 @@ export function WorldCard({
           viewport={{ once: true, amount: 0.4 }}
         >
           <motion.span
-            className="block text-[clamp(3.4rem,13.5vw,12rem)]"
+            className={`block ${name.length > 22 ? "text-[clamp(2.7rem,9.6vw,8.4rem)]" : "text-[clamp(3.2rem,12vw,10.5rem)]"}`}
             variants={{ hidden: { y: "100%" }, show: { y: "0%" } }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
           >

@@ -1,4 +1,5 @@
 import { NextResponse, after } from "next/server";
+import { revalidatePath } from "next/cache";
 import {
   REVIEW_LIMITS,
   cleanBody,
@@ -22,9 +23,9 @@ const json = (body: Record<string, unknown>, status: number) =>
   NextResponse.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
 /**
- * Public, write-only. A review is saved as PENDING and is invisible until an
- * admin approves it. Photos are decoded and re-encoded server-side (EXIF/GPS
- * stripped), never stored as uploaded.
+ * Public, write-only. A review goes live the moment it is posted — nobody on the
+ * team pre-screens or selects reviews. Photos are decoded and re-encoded
+ * server-side (EXIF/GPS stripped), never stored as uploaded.
  *
  * Request: multipart/form-data — `payload` (JSON) + up to 4 `photos`.
  */
@@ -110,6 +111,9 @@ export async function POST(request: Request) {
       photos,
       registrationId
     );
+    // Live immediately: refresh the pages that show reviews so it appears right away.
+    revalidatePath("/reviews");
+    revalidatePath("/");
     after(() => sendReviewAlert({ name, rating: Number(body.rating), excerpt: text.slice(0, 240), photos: photos.length }));
     return json({ ok: true }, 201);
   } catch (err) {
