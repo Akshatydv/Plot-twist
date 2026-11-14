@@ -42,6 +42,12 @@ const nextConfig: NextConfig = {
       { source: "/journey/3", destination: "/journey/thailand-edc", permanent: true },
       { source: "/journey/4", destination: "/journey/sri-lanka", permanent: true },
       { source: "/journey/01", destination: "/", permanent: false },
+      // Thailand x EDC and Bir x Barot are off the site (their code is kept). Temporary redirects, so bringing them back is deleting these lines.
+      { source: "/going-to-edc-thailand-alone", destination: "/", permanent: false },
+      { source: "/festival-trips-for-solo-travellers", destination: "/", permanent: false },
+      { source: "/thailand", destination: "/", permanent: false },
+      { source: "/journey/thailand-edc", destination: "/", permanent: false },
+      { source: "/journey/bir-barot", destination: "/", permanent: false },
     ];
   },
 };
