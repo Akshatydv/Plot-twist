@@ -44,10 +44,30 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 
 let draft = false;
 
-/* ---------------- price ---------------- */
-const price = CREATORS ? { big: '', small: '' } : DATA.price
-  ? { big: esc(DATA.price), small: 'PER PERSON' }
-  : { big: 'Announced soon', small: 'ASK US FOR THE NUMBER BEFORE IT&rsquo;S PUBLIC' };
+/* ---------------- price ----------------
+   Where you join decides what you pay. The figures are read straight out of
+   `pickups` in src/content/bir.ts (the same object the website renders), so
+   the dossier and the site can never disagree. The old single "price" in
+   bir-dossier-data.json is no longer used. The creators edition shows no price. */
+const PICKUPS = (() => {
+  const m = BIR.match(/export const pickups = \{([\s\S]*?)\} as const;/);
+  if (!m) throw new Error('Could not read pickups from src/content/bir.ts');
+  const out = [];
+  for (const block of m[1].split(/\n\s{4}\{\n/).slice(1)) {
+    const join = block.match(/join: "([^"]+)"/)?.[1];
+    const tiers = [...block.matchAll(/\{ label: "([^"]+)", amount: "([^"]+)", note: "([^"]+)" \}/g)].map((t) => ({ label: t[1], amount: t[2], note: t[3] }));
+    if (join && tiers.length) out.push({ join, tiers });
+  }
+  if (out.length !== 2) throw new Error(`Expected 2 pickup price structures, found ${out.length}`);
+  return out;
+})();
+const tierHtml = (p) =>
+  `<div class="pk"><div class="pj">${esc(p.join)}</div>${p.tiers
+    .map((t, i) => `<div class="pt${i ? ' two' : ''}"><span class="pa">${esc(t.amount)}</span><span class="pl">${esc(t.label)} &middot; ${esc(t.note)}</span></div>`)
+    .join('')}</div>`;
+const price = CREATORS
+  ? { cover: '', details: '' }
+  : { cover: `<div class="pkrow">${PICKUPS.map(tierHtml).join('')}</div>`, details: `<div class="pkrow big">${PICKUPS.map(tierHtml).join('')}</div>` };
 
 /* ---------------- inclusions, straight from bir.ts ---------------- */
 function listFrom(name) {
@@ -156,8 +176,8 @@ const fontCss = fs.readFileSync(path.join(FONTDIR, 'fonts.css'), 'utf8')
   .replace(/url\(([\w.-]+\.woff2)\)/g, (_, f) => `url(data:font/woff2;base64,${fs.readFileSync(path.join(FONTDIR, f)).toString('base64')})`);
 let html = SOURCE
   .replace('<link href="bir-dossier-assets/fonts/fonts.css" rel="stylesheet">', `<style>${fontCss}</style>`)
-  .replaceAll('{{PRICE_BIG}}', price.big)
-  .replaceAll('{{PRICE_SMALL}}', price.small)
+  .replaceAll('{{PRICE_COVER}}', price.cover)
+  .replaceAll('{{PRICE_DETAILS}}', price.details)
   .replaceAll('{{WA}}', wa)
   .replace('{{INCLUDED}}', included)
   .replace('{{EXCLUDED}}', excluded)

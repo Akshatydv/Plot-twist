@@ -66,15 +66,7 @@ function FieldError({ message }: { message?: string }) {
  */
 export function ApplicationForm({
   index,
-  pickups,
 }: {
-  /**
-   * Optional pickup cities, each with the price that applies when boarding
-   * there (Bir × Barot: Delhi and Chandigarh). When given, the basics step asks
-   * for one and the choice travels with the application inside the city field
-   * ("Pune · pickup: Chandigarh"), so no database change is needed.
-   */
-  pickups?: readonly { id: string; city: string; price: string }[];
   /**
    * Section number beside the label. Defaults to `application.index` —
    * this section's position in JOURNEY 01's running order. The reveal page
@@ -84,11 +76,12 @@ export function ApplicationForm({
 } = {}) {
   const reduce = useReducedMotion();
   const journey = useJourney();
+  /** Journeys whose price depends on where you join (Bir × Barot): city becomes a Delhi / Chandigarh choice. */
+  const pickupOptions = journey.pickupOptions;
+  const pickupValues = pickupOptions?.map((o) => o.value);
   const { count, solvedGuess, reward } = usePlot();
 
   const [step, setStep] = useState(0);
-  const [pickup, setPickup] = useState<string | null>(null);
-  const [pickupError, setPickupError] = useState<string | null>(null);
   const [values, setValues] = useState<Values>(EMPTY);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error" | "duplicate">("idle");
@@ -164,13 +157,7 @@ export function ApplicationForm({
   };
 
   const next = () => {
-    if (step === 0 && pickups?.length && !pickup) {
-      setPickupError("Pick where you'll board.");
-      setFormError("Choose your pickup city above.");
-      return;
-    }
-    setPickupError(null);
-    const real = onlyReal(step === 0 ? validateBasics(values) : validateAnswers(values));
+    const real = onlyReal(step === 0 ? validateBasics(values, pickupValues) : validateAnswers(values));
     if (Object.keys(real).length > 0) {
       setErrors(real);
       const n = Object.keys(real).length;
@@ -185,7 +172,7 @@ export function ApplicationForm({
   };
 
   const submit = async () => {
-    const real = onlyReal({ ...validateBasics(values), ...validateAnswers(values) });
+    const real = onlyReal({ ...validateBasics(values, pickupValues), ...validateAnswers(values) });
     if (Object.keys(real).length > 0) {
       setErrors(real);
       // Send them back to whichever step actually has the problem.
@@ -204,9 +191,7 @@ export function ApplicationForm({
         instagram: values.instagram,
         mobile: values.mobile,
         age: values.age,
-        city: pickups?.length && pickup
-          ? `${values.city.trim().slice(0, 80 - pickup.length - 11)} · pickup: ${pickup}`
-          : values.city,
+        city: values.city,
         answer_1: values.answer_1,
         answer_2: values.answer_2,
         answer_3: values.answer_3,
@@ -475,6 +460,44 @@ export function ApplicationForm({
                 <div className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
                   {application.fields.map((f, i) => {
                     const err = errors[f.name as keyof FieldErrors];
+                    if (f.name === "city" && pickupOptions && pickupOptions.length > 0) {
+                      const chosen = pickupOptions.find((o) => o.value === values.city);
+                      return (
+                        <div key={f.name} className="sm:col-span-2">
+                          <span id="city-label" className="flex items-baseline gap-2 text-[10px] tracked text-ink/60">
+                            <span className="font-display text-[13px] tracking-normal text-ocean">{String(i + 1).padStart(2, "0")}</span>
+                            JOINING FROM
+                          </span>
+                          <div role="radiogroup" aria-labelledby="city-label" aria-describedby={err ? "city-error" : undefined} className="mt-3 grid gap-3 sm:grid-cols-2">
+                            {pickupOptions.map((o, k) => {
+                              const on = values.city === o.value;
+                              return (
+                                <button
+                                  key={o.value}
+                                  type="button"
+                                  id={k === 0 ? "city" : undefined}
+                                  role="radio"
+                                  aria-checked={on}
+                                  onClick={() => set("city", o.value)}
+                                  className={`border-2 px-5 py-4 text-left transition-colors ${
+                                    on ? "border-ink bg-ink text-white" : err ? "border-pink text-ink" : "border-ink/25 text-ink hover:border-ink/60"
+                                  }`}
+                                >
+                                  <span className="block font-display text-[1.15rem] tracking-[0.04em]">{o.label.toUpperCase()}</span>
+                                  <span className={`mt-1 block text-[0.85rem] leading-snug ${on ? "text-white/80" : "text-ink/60"}`}>{o.price}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                          <span id="city-error">
+                            <FieldError message={err} />
+                          </span>
+                          {chosen && journey.pickupNote && (
+                            <span className="mt-2 block font-hand text-[1.05rem] text-ink/50">{journey.pickupNote}</span>
+                          )}
+                        </div>
+                      );
+                    }
                     return (
                       <div key={f.name} className={f.name === "city" ? "sm:col-span-2 sm:max-w-[50%]" : ""}>
                         <label htmlFor={f.name} className="flex items-baseline gap-2 text-[10px] tracked text-ink/60">
@@ -508,33 +531,6 @@ export function ApplicationForm({
                     );
                   })}
                 </div>
-
-                {pickups?.length ? (
-                  <fieldset className="mt-9">
-                    <legend className="text-[10px] tracked text-ink/60">WHERE WILL YOU BOARD?</legend>
-                    <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                      {pickups.map((p) => {
-                        const on = pickup === p.city;
-                        return (
-                          <button
-                            key={p.id}
-                            type="button"
-                            aria-pressed={on}
-                            onClick={() => {
-                              setPickup(p.city);
-                              setPickupError(null);
-                            }}
-                            className={`flex items-baseline justify-between gap-4 border-2 px-4 py-3.5 text-left transition-colors ${on ? "border-pink bg-pink/10" : "border-ink/20 hover:border-ink/50"}`}
-                          >
-                            <span className="font-display text-[1.15rem] uppercase">{p.city}</span>
-                            <span className="text-[0.9rem] text-ink/65">{p.price}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <FieldError message={pickupError ?? undefined} />
-                  </fieldset>
-                ) : null}
 
                 <Note className="mt-8 block text-[clamp(1.05rem,3vw,1.3rem)] text-ink/45" rotate={-2}>
                   {application.ageNotice}
@@ -613,7 +609,7 @@ export function ApplicationForm({
                     ["Instagram", igPreview],
                     ["Mobile", values.mobile],
                     ["Age", values.age],
-                    ["City", values.city],
+                    [pickupOptions ? "Joining from" : "City", values.city],
                   ].map(([label, value]) => (
                     <div key={label}>
                       <dt className="text-[10px] tracked text-ink/45">{label}</dt>

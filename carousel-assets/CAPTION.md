@@ -8,10 +8,10 @@ Launching: Bir × Barot. 🏔️
 
 Three nights in Bir. Café hopping, monasteries and a bonfire party on night one. A day trip to Barot's waterfalls and river, then party night. A guided trek to a view you earn. And 20 people who won't be strangers for long.
 
-Traveller from Delhi, stays, the Barot trip, the trek and two party nights: all in. Paragliding at Billing is an optional add-on.
+Traveller from Delhi or Chandigarh, stays, the Barot trip, the trek and two party nights: all in. Paragliding at Billing is an optional add-on.
 
-📅 20–24 November · Delhi → Bir → Delhi
-💸 ₹7,999 per person · 3N/4D
+📅 20–24 November · from Delhi or Chandigarh
+💸 From Delhi: ₹9,999 for the first 7 bookings, then ₹10,999 · From Chandigarh: ₹7,999 · per person
 👥 20 people · application only
 
 Comment "BIR" to request your invite. 🪂

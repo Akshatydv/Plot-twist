@@ -104,8 +104,13 @@ h1,h2,h3,h4{font-weight:400}
 .cover .facts{margin-top:5.5mm;font-size:7pt;letter-spacing:.26em;font-weight:700;text-transform:uppercase;line-height:2.1;color:rgba(239,233,221,.8)}
 .cover .facts b{color:var(--bone)}
 .cover .priceRow{margin-top:5.5mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm}
-.cover .price{font-family:var(--serif);font-size:25pt;line-height:.9}
-.cover .price small{display:block;margin-top:2mm;font-family:var(--sans);font-size:6.2pt;letter-spacing:.24em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.62)}
+.pkrow{display:grid;grid-template-columns:auto auto;gap:9mm;align-items:start}
+.pk .pj{font-size:6.2pt;letter-spacing:.28em;font-weight:700;color:var(--ember);margin-bottom:1.8mm}
+.pk .pt{display:flex;flex-direction:column;margin-top:1.4mm}
+.pk .pa{font-family:var(--serif);font-size:25pt;line-height:.92}
+.pk .pt.two .pa{font-size:15pt;color:rgba(239,233,221,.72)}
+.pk .pl{margin-top:.8mm;font-size:5.4pt;letter-spacing:.18em;font-weight:700;text-transform:uppercase;color:rgba(239,233,221,.62)}
+.pkrow.big{gap:14mm;margin-top:4mm}.pkrow.big .pj{font-size:6.8pt;margin-bottom:2.4mm}.pkrow.big .pa{font-size:30pt}.pkrow.big .pt.two .pa{font-size:18pt}.pkrow.big .pl{font-size:5.8pt}
 .cta{display:inline-block;background:var(--bone);color:var(--char);padding:4mm 7mm;font-size:9pt;font-weight:700;letter-spacing:.16em;text-transform:uppercase;box-shadow:2.4mm 2.4mm 0 0 var(--fire);white-space:nowrap}
 
 /* ============ P2 · PREMISE ============ */
@@ -303,9 +308,9 @@ h1,h2,h3,h4{font-weight:400}
       <div><div class="n">DAY 03</div><div class="t">The Wild</div><div class="p">The trail</div></div>
       <div><div class="n">DAY 04</div><div class="t">The Way Home</div><div class="p">The road</div></div>
     </div>
-    <div class="facts"><b>20 PEOPLE</b> &middot; 3 NIGHTS IN BIR &middot; 4 DAYS &middot; DELHI &rarr; BIR &rarr; DELHI<br>10 GIRLS &middot; 10 GUYS &middot; 18&ndash;30 &middot; APPLICATION ONLY</div>
+    <div class="facts"><b>20 PEOPLE</b> &middot; 3 NIGHTS IN BIR &middot; 4 DAYS &middot; DELHI &rarr; CHANDIGARH &rarr; BIR &rarr; CHANDIGARH &rarr; DELHI<br>10 GIRLS &middot; 10 GUYS &middot; 18&ndash;30 &middot; APPLICATION ONLY</div>
     <div class="priceRow">
-      <div class="price">{{PRICE_BIG}}<small>{{PRICE_SMALL}}</small></div>
+      {{PRICE_COVER}}
       <a class="cta" href="{{WA}}">JOIN THE JOURNEY &rarr;</a>
     </div>
   </div>
@@ -366,10 +371,10 @@ h1,h2,h3,h4{font-weight:400}
   <div class="ticket">
     <div class="main">
       <div class="k" style="color:rgba(16,19,17,.5)">PLOT TWIST &middot; BIR &times; BAROT &middot; ONE WAY UP</div>
-      <div class="row" style="margin-top:2.4mm"><div class="city">Delhi</div><div class="arrow">&rarr;</div><div class="city">Bir</div></div>
+      <div class="row" style="margin-top:2.4mm"><div class="city">Delhi</div><div class="arrow">&rarr;</div><div class="city">Chandigarh</div><div class="arrow">&rarr;</div><div class="city">Bir</div></div>
       <div class="grid">
         <div class="kk">DEPARTS</div><div class="kk">ARRIVES</div><div class="kk">BY</div><div class="kk">SEAT</div>
-        <div class="vv">Fri 20 Nov &middot; night</div><div class="vv">Sat 21 Nov &middot; morning</div><div class="vv">Traveller</div><div class="vv">01 of 20</div>
+        <div class="vv">Delhi &middot; Fri 20 Nov, night</div><div class="vv">Sat 21 Nov &middot; morning</div><div class="vv">Traveller</div><div class="vv">01 of 20</div>
       </div>
     </div>
     <div class="stub">
@@ -382,7 +387,7 @@ h1,h2,h3,h4{font-weight:400}
   <div class="sechead" style="top:118mm"><div class="t">4 days. 3 nights. <em>1 base.</em></div><div class="k" style="color:rgba(239,233,221,.6)">UNPACK ONCE &middot; EVERYTHING ELSE IS A DAY TRIP</div></div>
   <div class="plan">
     <div class="r"><div class="img" style="background-image:url('bir-dossier-assets/route-highway.jpg')"></div><div class="rail"></div>
-      <div><div class="when">FRI 20 NOV &middot; NIGHT</div><div class="t">Delhi &rarr; Bir</div><div class="d">Overnight in a comfortable Traveller. Sleep through the plains, wake up in the hills.</div></div><div class="chip">ON THE ROAD</div></div>
+      <div><div class="when">FRI 20 NOV &middot; NIGHT</div><div class="t">Delhi &rarr; Chandigarh &rarr; Bir</div><div class="d">Overnight in a comfortable Traveller from Delhi, picking up in Chandigarh on the way. Sleep through the plains, wake up in the hills.</div></div><div class="chip">ON THE ROAD</div></div>
     <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/bir-chokling.jpg')"></div><div class="rail"></div>
       <div><div class="when">SAT 21 &middot; DAY 01 &middot; THE ESCAPE</div><div class="t">Bir, <em>on foot</em></div><div class="d">Café hopping, monasteries, a mountain sunset &mdash; then the Plot Twist Social Night: bonfire party by the fire.</div></div><div class="chip">NIGHT 1 &middot; BIR</div></div>
     <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/fb-launch-yellow.jpg')"></div><div class="rail"></div>
@@ -390,7 +395,7 @@ h1,h2,h3,h4{font-weight:400}
     <div class="r home"><div class="img" style="background-image:url('bir-dossier-assets/fb-forest-trail.jpg')"></div><div class="rail"></div>
       <div><div class="when">MON 23 &middot; DAY 03 &middot; THE WILD</div><div class="t">The trail</div><div class="d">A guided trek in Bir to a view you earn. Then the last night: one long table and a fire.</div></div><div class="chip">NIGHT 3 &middot; BIR</div></div>
     <div class="r"><div class="img" style="background-image:url('bir-dossier-assets/home-road.jpg')"></div><div class="rail"></div>
-      <div><div class="when">TUE 24 &middot; DAY 04 &middot; THE WAY HOME</div><div class="t">Bir &rarr; Delhi</div><div class="d">Slow morning, last views, the road. Back in Delhi by evening.</div></div><div class="chip">HOME BY EVENING</div></div>
+      <div><div class="when">TUE 24 &middot; DAY 04 &middot; THE WAY HOME</div><div class="t">Bir &rarr; Chandigarh &rarr; Delhi</div><div class="d">Slow morning, last views, the road, dropping in Chandigarh on the way. Back in Delhi by evening.</div></div><div class="chip">HOME BY EVENING</div></div>
   </div>
   <div class="pfoot"><span>20&ndash;24 NOV &middot; THE PLAN</span><span class="no">03</span></div>
 </section>
@@ -461,7 +466,7 @@ h1,h2,h3,h4{font-weight:400}
     <div class="row"><b>Type</b><span>Tandem, certified pilot</span></div>
     <div class="row"><b>Duration</b><span>the wind decides</span></div>
     <div class="row"><b>Screaming</b><span>allowed</span></div>
-    <div class="hand">add-on &middot; not in the &#8377;7,999.</div>
+    <div class="hand">add-on &middot; not in the trip price.</div>
   </div>
   <div class="pfoot"><span>SUN 22 NOV &middot; DAY 02 &middot; BAROT &middot; PARAGLIDING OPTIONAL</span><span class="no">05</span></div>
 </section>
@@ -513,7 +518,7 @@ h1,h2,h3,h4{font-weight:400}
   <div class="mast">
     <div class="slate" style="color:rgba(239,233,221,.78)"><span>TUE 24 NOV</span><span class="bar"></span><span>DAY 04</span></div>
     <h2 class="h shadow">The Way Home</h2>
-    <div class="place" style="color:var(--peach)">BIR &rarr; DELHI</div>
+    <div class="place" style="color:var(--peach)">BIR &rarr; CHANDIGARH &rarr; DELHI</div>
     <p class="tag shadow">Slow morning. Last views. The road. Back in Delhi by evening.</p>
   </div>
   <div class="sechead" style="top:120mm"><div class="t">The last <em>morning</em></div><div class="k" style="color:rgba(239,233,221,.6)">NO ALARMS &middot; ONE LAST LOOK</div></div>
@@ -595,13 +600,14 @@ h1,h2,h3,h4{font-weight:400}
   <div class="z" style="left:14mm;right:14mm;top:14mm;display:flex;justify-content:space-between;align-items:flex-end;gap:8mm">
     <div>
       <div class="slate" style="color:rgba(239,233,221,.78)"><span>10</span><span class="bar"></span><span>THE DETAILS</span></div>
-      <div class="h shadow" style="margin-top:4mm;font-size:44pt">{{PRICE_BIG}}</div>
-      <div class="k" style="margin-top:2.4mm;color:rgba(239,233,221,.75)">{{PRICE_SMALL}}</div>
+      <div class="h" style="margin-top:4mm;font-size:38pt">The price,<br><em style="color:var(--ember)">by where you join.</em></div>
+      {{PRICE_DETAILS}}
+      <div class="k" style="margin-top:3mm;color:rgba(239,233,221,.75)">PER PERSON &middot; PICKUP POINTS AND TIMINGS CONFIRMED ON BOOKING</div>
     </div>
     <div class="k shadow" style="text-align:right;line-height:2;color:rgba(239,233,221,.8)">BIR &times; BAROT<br><span style="color:var(--bone)">20&ndash;24 NOVEMBER 2026</span><br>3 NIGHTS IN BIR &middot; 4 DAYS</div>
   </div>
   <div class="panel">
-    <div class="route"><span>DELHI</span><i></i><span class="dot"></span><span>BIR &middot; 3 NIGHTS</span><i></i><span>BAROT</span><i></i><span>THE TRAIL</span><i></i><span>DELHI</span></div>
+    <div class="route"><span>DELHI</span><i></i><span>CHANDIGARH</span><i></i><span class="dot"></span><span>BIR &middot; 3 NIGHTS</span><i></i><span>BAROT</span><i></i><span>CHANDIGARH</span><i></i><span>DELHI</span></div>
     <div class="cols">
       <div class="in"><div class="k" style="color:var(--moss)">IN THE PLOT</div><ul>{{INCLUDED}}</ul></div>
       <div class="out"><div class="k" style="color:var(--fire)">YOU SORT</div><ul>{{EXCLUDED}}</ul></div>

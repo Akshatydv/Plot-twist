@@ -8,13 +8,19 @@
  *
  * ─── THE ONE RULE ───────────────────────────────────────────────────────────
  * NOTHING IN HERE IS INVENTED. What the brief supplied is stated flat: the
- * route (Delhi → Bir → Delhi, three nights in Bir), the length (3 nights,
- * 4 days), the dates (confirmed: leave Delhi the night of 20 Nov, in Bir the
- * morning of the 21st, back in Delhi the evening of the 24th), and every
- * experience named day by day.
+ * route (Delhi → Chandigarh → Bir × Barot → Chandigarh → Delhi, three nights
+ * in Bir), the length (3 nights, 4 days), the dates (confirmed: leave Delhi
+ * the night of 20 Nov, in Bir the morning of the 21st, back in Delhi the
+ * evening of the 24th), and every experience named day by day.
  *
- * One thing has NOT been supplied and is modelled honestly:
- *   - the PRICE → ₹7,999 per person (`price.confirmed: true`).
+ * PRICING DEPENDS ON WHERE YOU JOIN (see `pickups`):
+ *   - from Delhi: ₹9,999 for the first 7 bookings, then ₹10,999
+ *   - from Chandigarh: ₹7,999
+ * Never print one of these without the pickup it belongs to.
+ *
+ * NOT SUPPLIED, and so NOT written anywhere: Chandigarh pickup point and
+ * time, Delhi pickup point and time. The page says they are confirmed on
+ * booking; it does not guess them.
  * ────────────────────────────────────────────────────────────────────────────
  */
 
@@ -282,7 +288,7 @@ export const media: Record<
 /* ------------------------------------------------------------------ */
 
 /** Same mechanism as GOA_SECTION_ORDER — numbers are derived, never typed. */
-export const BIR_SECTION_ORDER = ["journey", "cast", "details", "application"] as const;
+export const BIR_SECTION_ORDER = ["journey", "cast", "memories", "details", "application"] as const;
 export type BirSectionKey = (typeof BIR_SECTION_ORDER)[number];
 export function birIndex(key: BirSectionKey): string {
   return String(BIR_SECTION_ORDER.indexOf(key) + 1).padStart(2, "0");
@@ -297,8 +303,6 @@ export const trip = {
   length: "3 NIGHTS · 4 DAYS",
   region: "HIMACHAL",
   route: ["DELHI", "CHANDIGARH", "BIR × BAROT", "CHANDIGARH", "DELHI"] as const,
-  /** Two pickup and drop-off points, confirmed 26 Oct 2026. Exact pickup spots and times are confirmed on booking. */
-  pickups: ["Delhi", "Chandigarh"] as const,
   /** Where the nights are spent, and where the days go from there. */
   stay: "Bir, all 3 nights",
   dayTrips: ["Barot valley", "Billing (paragliding, optional add-on)"] as const,
@@ -309,8 +313,8 @@ export const trip = {
    * with seo.startDate / endDate in journeys/journey2.ts.
    */
   dates: "20–24 NOV 2026",
-  datesNote: "Pickups in Delhi and Chandigarh Fri 20 Nov, night · in Bir Sat 21 morning · dropped back in Chandigarh and Delhi Tue 24. Exact pickup points and times confirmed on booking.",
-  departure: "Delhi & Chandigarh · Fri 20 Nov, night",
+  datesNote: "Leave Delhi Fri 20 Nov, night, with a Chandigarh pickup on the way · in Bir Sat 21 morning · back via Chandigarh to Delhi Tue 24, evening.",
+  departure: "Delhi · Fri 20 Nov, night",
   group: "20 people",
   split: "10 + 10",
   ages: "18–30",
@@ -338,10 +342,10 @@ export const hud = {
 /* ------------------------------------------------------------------ */
 
 export const hero = {
-  kicker: "PLOT TWIST — BIR × BAROT",
+  kicker: "PLOT TWIST",
   title: ["BIR", "BAROT"] as const,
-  line: "ESCAPE THE ORDINARY.",
-  meta: "3 NIGHTS · 4 DAYS · HIMACHAL",
+  line: "THE LUXURY MOUNTAIN GETAWAY.",
+  meta: "20–24 NOV · 3 NIGHTS · 4 DAYS · FROM DELHI & CHANDIGARH",
   cta: { label: "ENTER THE JOURNEY", href: "#the-journey" },
   secondary: { label: "WATCH THE JOURNEY", href: "#day-01" },
   scribble: "hold on.",
@@ -384,11 +388,11 @@ export const day1 = {
     /** The four stops the line passes through. `at` is 0–1 along the route. */
     stops: [
       { name: "DELHI", note: "traffic. noise. deadlines.", at: 0 },
-      { name: "CHANDIGARH", note: "pickup two. the group gets bigger.", at: 0.34 },
+      { name: "CHANDIGARH", note: "second pickup. windows down.", at: 0.34 },
       { name: "THE HILLS", note: "phones lose signal.", at: 0.68 },
       { name: "BIR", note: "home for the next three nights.", at: 1 },
     ],
-    caption: "Overnight in a comfortable Traveller. The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
+    caption: "Overnight in a comfortable Traveller: Delhi first, then Chandigarh. The city gets smaller. The roads get narrower. The air gets colder, and then there are prayer flags.",
   },
 
   plates: [
@@ -565,7 +569,7 @@ export const day4 = {
   moments: ["Slow morning.", "Coffee.", "Breakfast.", "Last mountain views.", "Final photographs.", "Packing up.", "The road."],
   end: ["EVERY GOOD JOURNEY", "HAS AN END."] as const,
   turn: "BUT YOU DON'T GO HOME THE SAME.",
-  road: { from: "BIR", to: "CHANDIGARH · DELHI", note: "The mountains get smaller in the back window." },
+  road: { from: "BIR", via: "CHANDIGARH", to: "DELHI", note: "The mountains get smaller in the back window." },
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -608,37 +612,46 @@ export const recap = {
 /* the details                                                         */
 /* ------------------------------------------------------------------ */
 
-/** Same shape and same honesty as goa.price. Flip when the number exists. */
+/**
+ * WHERE YOU JOIN DECIDES WHAT YOU PAY. Two pickups, two price structures,
+ * written once here and read by the details section, the application form,
+ * the homepage card and the sticky bar. The Chandigarh figure is a
+ * location-specific price for the same trip, not a lesser version of it.
+ */
+export const pickups = {
+  label: "JOIN FROM",
+  /** Pickup points and times are NOT supplied. Say so; never invent them. */
+  note: "Pickup points and timings are confirmed on booking.",
+  options: [
+    {
+      key: "delhi",
+      city: "Delhi",
+      join: "JOIN FROM DELHI",
+      tiers: [
+        { label: "EARLY BIRD", amount: "₹9,999", note: "First 7 bookings" },
+        { label: "STANDARD", amount: "₹10,999", note: "Every booking after the first 7" },
+      ],
+      summary: "Early bird ₹9,999 for the first 7 bookings, then ₹10,999 per person",
+    },
+    {
+      key: "chandigarh",
+      city: "Chandigarh",
+      join: "JOIN FROM CHANDIGARH",
+      tiers: [{ label: "PER PERSON", amount: "₹7,999", note: "Boarding in Chandigarh" }],
+      summary: "₹7,999 per person, boarding in Chandigarh",
+    },
+  ],
+} as const;
+
 export const price = {
   confirmed: true,
-  amount: "₹7,999 – ₹10,999",
-  note: "Per person · price depends on your pickup city: Chandigarh ₹7,999 · Delhi ₹9,999 (first 7 bookings), then ₹10,999",
+  /** The LOWEST figure, for the one place a single number must stand in (the
+   *  homepage's "FROM"). It is always paired with `note`, which names both. */
+  amount: "₹7,999",
+  note: "Per person · from Chandigarh ₹7,999 · from Delhi ₹9,999 early bird (first 7 bookings), then ₹10,999",
   pending: "ANNOUNCED SOON",
   pendingNote: "Ask us for the number before it's public.",
 } as const;
-
-/**
- * PRICE BY PICKUP CITY — confirmed 26 Oct 2026. Same trip, same stay, same
- * plan; the price follows where you board. Keep the two apart: Chandigarh is a
- * location price, not a discount on Delhi.
- */
-export const pickupPricing = [
-  {
-    id: "delhi",
-    city: "Delhi",
-    tiers: [
-      { label: "First 7 bookings", amount: "₹9,999" },
-      { label: "After that", amount: "₹10,999" },
-    ],
-    note: "Per person · Delhi → Bir × Barot → Delhi",
-  },
-  {
-    id: "chandigarh",
-    city: "Chandigarh",
-    tiers: [{ label: "Boarding in Chandigarh", amount: "₹7,999" }],
-    note: "Per person · Chandigarh → Bir × Barot → Chandigarh",
-  },
-] as const;
 
 /**
  * Every INCLUDED line is an experience the brief itself places on the
@@ -649,7 +662,7 @@ export const pickupPricing = [
 export const inclusions = {
   confirmed: true,
   included: [
-    "Delhi / Chandigarh → Bir → Chandigarh / Delhi in a comfortable Traveller",
+    "Traveller to Bir and back, from Delhi or Chandigarh",
     "3 nights' stay in Bir",
     "Bir exploration: café hopping, monasteries, sunset",
     "Plot Twist Social Night — bonfire party, music, dinner",
@@ -674,11 +687,12 @@ export const details = {
   label: "THE DETAILS",
   headline: ["3 NIGHTS · 4 DAYS", "DELHI → CHANDIGARH → BIR × BAROT → CHANDIGARH → DELHI"] as const,
   /** Printed under the route line: where you sleep, where the days go. */
-  routeNote: "Three nights in Bir. A day trip to Barot. Paragliding at Billing as an optional add-on.",
+  routeNote: "Join from Delhi or Chandigarh. Three nights in Bir, a day trip to Barot, and paragliding at Billing as an optional add-on.",
   scribble: "the boring bit. read it anyway.",
   basics: [
     { k: "WHEN", v: trip.dates },
     { k: "DEPARTS", v: trip.departure },
+    { k: "PICKUP", v: "Delhi or Chandigarh" },
     { k: "STAY", v: "Bir · 3 nights" },
     { k: "THE CAST", v: trip.group },
     { k: "THE SPLIT", v: "10 girls + 10 guys" },
@@ -689,6 +703,53 @@ export const details = {
   inclusions,
   ask: "ASK US ANYTHING →",
   whatsapp: "Hey Plot Twist 👀 tell me about Bir × Barot",
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* the stay                                                            */
+/* ------------------------------------------------------------------ */
+
+/**
+ * The property photographs were supplied by Plot Twist. The copy claims only
+ * what the photographs show: big windows, balconies, mountain light, a meadow
+ * beside the building. No facility, room category or service is named, and
+ * the property itself is deliberately unnamed.
+ */
+export const stay = {
+  id: "the-stay",
+  kicker: "THE STAY · BIR",
+  headline: ["Unpack once.", "Stay for the view."] as const,
+  body: "Three nights in Bir, in rooms with big windows and the mountains right outside them. Every day goes out from here and comes home to the same door, and the same sunset.",
+  photos: [
+    { src: "/photos/bir/stay/room-balcony.jpg", alt: "A bedroom with a double bed, warm lamps and tall balcony doors opening onto greenery", caption: "A room, with the balcony doors open.", focus: "50% 55%" },
+    { src: "/photos/bir/stay/window-sunset.jpg", alt: "Two wooden armchairs and a round table beside a window, with a pink and blue sunset over the hills outside", caption: "A window seat at golden hour.", focus: "50% 50%" },
+    { src: "/photos/bir/stay/exterior-meadow.jpg", alt: "The white four-storey property with balconies, a green meadow and a forested hill behind it", caption: "The property, with the meadow beside it.", focus: "40% 50%" },
+    { src: "/photos/bir/stay/room-blue.jpg", alt: "A bright room with a double bed, a blue runner and a large window looking out into the trees", caption: "Another room, trees at the window.", focus: "55% 50%" },
+    { src: "/photos/bir/stay/bir-golden-hour.jpg", alt: "Late sunlight on the snow-dusted Dhauladhar range above the Bir landing field", caption: "Golden hour over Bir.", focus: "50% 60%" },
+  ],
+} as const;
+
+/* ------------------------------------------------------------------ */
+/* inside plot twist — the memories wall                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Real photographs from previous Plot Twist trips. They are labelled as
+ * "previous trips" and never as Bir or Barot. To grow the wall, add photos
+ * here (and to /public/photos/bir/memories): the layout takes any number.
+ */
+export const memories = {
+  kicker: "INSIDE PLOT TWIST",
+  headline: ["WE DON'T JUST PLAN TRIPS.", "WE CREATE PLOT TWISTS."] as const,
+  line: "A few frames from the other side of ordinary.",
+  note: "From our previous trips.",
+  photos: [
+    { src: "/photos/bir/memories/the-whole-plot.jpg", alt: "A big group of friends posing together on a tree-lined path at dusk", caption: "the whole plot.", focus: "50% 45%" },
+    { src: "/photos/bir/memories/group-selfie.jpg", alt: "A group selfie, everyone crowded into the frame and pulling faces", caption: "nobody remembers whose idea this was.", focus: "50% 40%" },
+    { src: "/photos/bir/memories/golden-bridge.jpg", alt: "Four friends taking a selfie on a bridge held up by a giant stone hand", caption: "everyone became friends.", focus: "50% 45%" },
+    { src: "/photos/bir/memories/pool-party.jpg", alt: "A large crowd of travellers cheering together beside a pool at night", caption: "would do it again.", focus: "50% 50%" },
+    { src: "/photos/bir/memories/six-friends.jpg", alt: "Six friends standing together on a paved path under the trees", caption: "dressed for it.", focus: "50% 40%" },
+  ],
 } as const;
 
 /* ------------------------------------------------------------------ */
@@ -710,6 +771,6 @@ export const credits = {
 export const sticky = {
   label: "JOIN THE JOURNEY",
   href: "#apply",
-  meta: "BIR × BAROT · FROM DELHI & CHANDIGARH",
+  meta: "BIR × BAROT · FROM ₹7,999",
   line: "twenty seats.",
 } as const;

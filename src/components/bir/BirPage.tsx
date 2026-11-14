@@ -6,6 +6,7 @@ import { birIndex, cast } from "@/content/bir";
 import { FlightHero } from "./FlightHero";
 import { TheJourney } from "./TheJourney";
 import { DayOne } from "./DayOne";
+import { MemoriesWall } from "./Memories";
 import { DawnRoad } from "./DawnRoad";
 import { DayTwo } from "./DayTwo";
 import { DayThree } from "./DayThree";
@@ -13,7 +14,6 @@ import { DayFour } from "./DayFour";
 import { FinalCta, PhotoCredits, Recap, TheDetails } from "./TheClose";
 import { Hud, JoinCta } from "./Chrome";
 import { Calm } from "./Scenery";
-import { TripWall } from "@/components/TripWall";
 
 /**
  * THE MOUNTAIN PAGE — Journey 03, Bir × Barot.
@@ -55,17 +55,12 @@ export function BirPage() {
 
         <WhatsATen compact composition={cast.composition} index={birIndex("cast")} bridge={cast.bridge} tone="alpine" />
 
+        <MemoriesWall />
+
         <Recap />
-        <TripWall />
         <TheDetails />
         <FinalCta />
-        <ApplicationForm
-          index={birIndex("application")}
-          pickups={[
-            { id: "delhi", city: "Delhi", price: "₹9,999 first 7 · then ₹10,999" },
-            { id: "chandigarh", city: "Chandigarh", price: "₹7,999" },
-          ]}
-        />
+        <ApplicationForm index={birIndex("application")} />
         <PhotoCredits />
         <Footer tone="alpine" />
       </main>

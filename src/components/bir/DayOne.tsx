@@ -12,6 +12,7 @@ import {
 import { day1, media, sequences } from "@/content/bir";
 import { Note } from "../Bits";
 import { DayCard } from "./DayCard";
+import { TheStay } from "./Stay";
 import { Evening, SkyScene, SocialClub, Town } from "./DayTwo";
 import { Clouds, Embers, FireGlow, Flames, FogBand, Footage, FrameStack, Kicker, MaskLines, Pines, Ridge, Stars, useCalm } from "./Scenery";
 
@@ -21,7 +22,8 @@ import { Clouds, Embers, FireGlow, Flames, FogBand, Footage, FrameStack, Kicker,
  * Bir is home for all three nights, so Day 01 is the town itself:
  *
  *   the card     → prayer flags against the Dhauladhar
- *   the route    → DELHI → BIR, a full-bleed photograph per stop
+ *   the route    → DELHI → CHANDIGARH → BIR, a full-bleed photograph per stop
+ *   the stay     → where the three nights are slept (Stay.tsx)
  *   the town     → flags, cafés, monasteries, roads, travellers, colour
  *   social club  → the first afternoon
  *   the evening  → SUNSET. MUSIC. STRANGERS. NOT FOR LONG.
@@ -50,6 +52,7 @@ export function DayOne() {
         tint="linear-gradient(to bottom, rgba(36,82,125,0.35) 0%, rgba(16,19,17,0.15) 40%, rgba(16,19,17,0.7) 100%)"
       />
       <Route />
+      <TheStay />
       <Town />
       <SocialClub />
       <Evening />
@@ -77,7 +80,7 @@ export function ValleyScene({ p }: { p: MotionValue<number> }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* DELHI → BIR                                                         */
+/* DELHI → CHANDIGARH → BIR                                                         */
 /* ------------------------------------------------------------------ */
 
 /**
